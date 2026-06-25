@@ -616,7 +616,7 @@ function switchTab(tab) {
     bPanel.style.display = ''; sPanel.style.display = 'none';
     bBtn.classList.add('active'); sBtn.classList.remove('active');
   } else {
-    bPanel.style.display = 'none'; sPanel.style.display = '';
+    bPanel.style.display = 'none'; sPanel.style.display = 'block';
     sBtn.classList.add('active'); bBtn.classList.remove('active');
     loadSaleSettingsAdmin();
   }
