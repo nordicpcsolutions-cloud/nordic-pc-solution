@@ -560,6 +560,22 @@ section.sep-in::before,.cta-strip.sep-in::before{opacity:1;}
 .cookie-btn-more:hover{border-color:rgba(255,255,255,0.5);}
 @media(max-width:600px){#cookie-banner{flex-direction:column;align-items:flex-start;}.cookie-actions{width:100%;}.cookie-btn-accept,.cookie-btn-more{flex:1;justify-content:center;}}
 </style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T21RVB775S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T21RVB775S');
+
+  // Track booking form submissions as conversions
+  function trackBooking() {
+    gtag('event', 'generate_lead', {
+      'event_category': 'booking',
+      'event_label': 'Booking Form Submitted'
+    });
+  }
+</script>
 </head>
 <body>
 
@@ -1204,6 +1220,7 @@ async function handleSubmit() {
   btn.disabled = true;
   try {
     await sbInsert({ first, last, email, phone, service, message, status: 'new' });
+    trackBooking();
     btn.textContent = currentLang==='sv' ? '✓ Förfrågan skickad! Vi hör av oss snart.' : '✓ Request Sent! We\'ll be in touch soon.';
     btn.style.background = '#0a7a38';
     ['f-first','f-last','f-email','f-phone','f-service','f-message'].forEach(id => { document.getElementById(id).value = ''; });
