@@ -16,17 +16,39 @@
 html{scroll-behavior:smooth;}
 body{font-family:'Barlow',sans-serif;background:var(--dark);color:var(--white);overflow-x:hidden;}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:64px;background:rgba(8,12,24,0.9);backdrop-filter:blur(24px);border-bottom:1px solid rgba(26,79,255,0.12);gap:1rem;}
-.logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.3rem;letter-spacing:0.05em;color:var(--white);text-transform:uppercase;text-decoration:none;white-space:nowrap;}
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:64px;background:rgba(8,12,24,0.75);backdrop-filter:blur(24px);border-bottom:1px solid rgba(26,79,255,0.1);gap:1rem;transition:background 0.3s,border-color 0.3s;}
+nav.scrolled{background:rgba(8,12,24,0.97);border-bottom-color:rgba(26,79,255,0.18);}
+.logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.3rem;letter-spacing:0.05em;color:var(--white);text-transform:uppercase;text-decoration:none;white-space:nowrap;flex-shrink:0;}
 .logo .lpc{color:var(--blue);}
 .logo-abbr{display:none;}
-.nav-right{display:flex;align-items:center;gap:0.75rem;}
-.lang-toggle{display:flex;gap:0.25rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.2rem;}
-.lang-btn{background:none;border:none;color:var(--gray);font-family:'Barlow',sans-serif;font-size:0.74rem;font-weight:700;letter-spacing:0.1em;padding:0.3rem 0.6rem;border-radius:4px;cursor:pointer;transition:background 0.2s,color 0.2s;}
+.nav-center{display:flex;align-items:center;gap:2rem;flex:1;justify-content:center;}
+.nav-center a{color:var(--gray-light);text-decoration:none;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;position:relative;padding-bottom:2px;transition:color 0.2s;}
+.nav-center a::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1.5px;background:linear-gradient(90deg,var(--blue),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform 0.25s;}
+.nav-center a:hover{color:var(--white);}
+.nav-center a:hover::after{transform:scaleX(1);}
+.nav-right{display:flex;align-items:center;gap:0.75rem;flex-shrink:0;}
+.nav-cta{background:linear-gradient(135deg,#3d6fff 0%,#00d4ff 100%);color:#fff !important;padding:0.48rem 1.3rem;border-radius:4px;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:filter 0.2s,box-shadow 0.2s;box-shadow:0 0 16px rgba(26,79,255,0.3);}
+.nav-cta:hover{filter:brightness(1.15);box-shadow:0 0 28px rgba(26,79,255,0.6),0 0 10px rgba(0,212,255,0.35);}
+.lang-toggle{display:flex;border:1px solid rgba(255,255,255,0.1);border-radius:5px;overflow:hidden;flex-shrink:0;}
+.lang-btn{padding:0.38rem 0.65rem;background:transparent;color:var(--gray);border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.07em;transition:background 0.2s,color 0.2s;}
 .lang-btn.active{background:var(--blue);color:#fff;}
-.nav-back{background:var(--blue);color:#fff;text-decoration:none;padding:0.4rem 1rem;border-radius:6px;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;transition:background 0.2s;min-height:44px;display:inline-flex;align-items:center;}
-.nav-back:hover{background:var(--blue-light);}
+.hamburger-btn{display:none;flex-direction:column;justify-content:space-between;align-items:center;width:44px;height:44px;padding:8px 4px;background:none;border:none;cursor:pointer;z-index:1002;flex-shrink:0;}
+.hamburger-btn span{display:block;height:2px;width:26px;background:var(--white);border-radius:2px;transition:transform 0.3s,opacity 0.2s;}
+.hamburger-btn.open span:nth-child(1){transform:translateY(10px) rotate(45deg);}
+.hamburger-btn.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger-btn.open span:nth-child(3){transform:translateY(-10px) rotate(-45deg);}
+/* ── MOBILE MENU OVERLAY ── */
+#mobile-menu{position:fixed;inset:0;z-index:998;background:rgba(8,12,24,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);pointer-events:none;}
+#mobile-menu.open{transform:translateX(0);pointer-events:auto;}
+.mobile-menu-close{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;cursor:pointer;color:var(--white);font-size:1.5rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background 0.2s;}
+.mobile-menu-close:hover{background:rgba(255,255,255,0.08);}
+.mobile-menu-inner{display:flex;flex-direction:column;align-items:flex-start;width:100%;max-width:340px;padding:0 2rem;}
+.mobile-menu-nav{display:flex;flex-direction:column;width:100%;margin-bottom:2.5rem;}
+.mobile-menu-nav a{display:flex;align-items:center;color:rgba(255,255,255,0.7);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-size:1.7rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;min-height:56px;border-bottom:1px solid rgba(255,255,255,0.06);transition:color 0.2s,padding-left 0.2s;}
+.mobile-menu-nav a:hover,.mobile-menu-nav a:focus{color:#fff;padding-left:0.5rem;}
+.mobile-menu-cta{color:var(--cyan)!important;border-bottom:none!important;margin-top:0.3rem;}
+.mobile-menu-lang{display:flex;gap:0.5rem;margin-top:1.5rem;}
 
 /* CONTENT */
 .page-wrap{max-width:780px;margin:0 auto;padding:100px 5vw 5rem;}
@@ -43,14 +65,33 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .policy-section a:hover{text-decoration:underline;}
 .policy-highlight{background:var(--dark2);border:1px solid rgba(26,79,255,0.15);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin:1rem 0;font-size:0.88rem;color:var(--gray-light);line-height:1.7;}
 
-/* FOOTER */
-footer{background:var(--dark2);border-top:1px solid rgba(255,255,255,0.06);padding:2rem 5vw;text-align:center;font-size:0.8rem;color:var(--gray);}
-footer a{color:var(--gray);text-decoration:none;}
-footer a:hover{color:var(--white);}
+/* ── FOOTER ── */
+footer{background:var(--dark2);padding:3.5rem 5vw 2rem;position:relative;}
+footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(26,79,255,0.55) 30%,rgba(0,212,255,0.4) 70%,transparent);box-shadow:0 0 24px rgba(26,79,255,0.18);}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2.5rem;}
+.footer-brand .logo{font-size:1.1rem;display:block;margin-bottom:0.75rem;}
+.footer-brand p{font-size:0.84rem;color:var(--gray);line-height:1.68;max-width:230px;}
+.footer-col h4{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);margin-bottom:1.1rem;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.65rem;}
+.footer-col ul a{color:var(--gray-light);text-decoration:none;font-size:0.87rem;transition:color 0.2s;}
+.footer-col ul a:hover{color:var(--cyan);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:1.8rem;display:flex;justify-content:space-between;align-items:center;font-size:0.79rem;color:var(--gray);}
+.footer-social-link{display:flex;align-items:center;gap:0.45rem;}
+.footer-social-link svg{width:14px;height:14px;opacity:0.75;flex-shrink:0;transition:opacity 0.2s;}
+.footer-social-link:hover svg{opacity:1;}
 
+@media(max-width:960px){
+  .nav-center{display:none;}
+  .hamburger-btn{display:flex;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+}
 @media(max-width:600px){
   .logo-full{display:none;}
   .logo-abbr{display:inline;}
+  .nav-right>.lang-toggle,.nav-right>.nav-cta{display:none;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  .footer-brand{grid-column:1/-1;}
+  .footer-social-link{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;}
   .policy-section h2{font-size:1.1rem;}
 }
 </style>
@@ -65,16 +106,41 @@ footer a:hover{color:var(--white);}
 </head>
 <body>
 
-<nav>
+<!-- NAV -->
+<nav id="main-nav">
   <a href="index.html" class="logo"><span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span><span class="logo-abbr">N<span class="lpc">P</span>S</span></a>
+  <div class="nav-center">
+    <a href="index.html#services" data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</a>
+    <a href="index.html#pricing" data-sv="Priser" data-en="Pricing">Priser</a>
+    <a href="index.html#gallery" data-sv="Galleri" data-en="Gallery">Galleri</a>
+    <a href="index.html#testimonials" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
+  </div>
   <div class="nav-right">
     <div class="lang-toggle">
       <button class="lang-btn active" onclick="setLang('sv')" id="btn-sv">SV</button>
       <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
     </div>
-    <a href="index.html" class="nav-back" data-sv="&#8592; Tillbaka" data-en="&#8592; Back">&#8592; Tillbaka</a>
+    <a href="index.html#contact" class="nav-cta" data-sv="Boka Nu" data-en="Book Now">Boka Nu</a>
+    <button class="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Meny" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
+<!-- MOBILE MENU -->
+<div id="mobile-menu" role="dialog" aria-modal="true">
+  <button class="mobile-menu-close" onclick="toggleMobileMenu()" aria-label="St&#228;ng meny">&#x2715;</button>
+  <div class="mobile-menu-inner">
+    <nav class="mobile-menu-nav">
+      <a href="index.html#services" onclick="closeMobileMenu()" data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</a>
+      <a href="index.html#pricing" onclick="closeMobileMenu()" data-sv="Priser" data-en="Pricing">Priser</a>
+      <a href="index.html#gallery" onclick="closeMobileMenu()" data-sv="Galleri" data-en="Gallery">Galleri</a>
+      <a href="index.html#testimonials" onclick="closeMobileMenu()" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
+      <a href="index.html#contact" class="mobile-menu-cta" onclick="closeMobileMenu()" data-sv="Boka Nu" data-en="Book Now">Boka Nu</a>
+    </nav>
+    <div class="mobile-menu-lang">
+      <button class="lang-btn active" id="mobile-btn-sv" onclick="setLang('sv')">SV</button>
+      <button class="lang-btn" id="mobile-btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</div>
 
 <div class="page-wrap">
   <div class="page-title" data-sv="Integritetspolicy" data-en="Privacy Policy">Integritetspolicy</div>
@@ -126,12 +192,48 @@ footer a:hover{color:var(--white);}
   <!-- 5 -->
   <div class="policy-section">
     <h2 data-sv="5. Frakt och transport" data-en="5. Shipping and transport">5. Frakt och transport</h2>
-    <p data-sv="Nordic PC Solutions tar inget ansvar f&#246;r skador som uppst&#229;r p&#229; utrustning under frakt till eller fr&#229;n oss. Vi rekommenderar alltid kunden att transportera utrustningen personligen. Vid frakt rekommenderar vi kunden att teckna fraktf&#246;rs&#228;kring och packa utrustningen korrekt enligt v&#229;ra packningsriktlinjer tillg&#228;ngliga p&#229; FAQ-sidan." data-en="Nordic PC Solutions takes no responsibility for damage occurring to equipment during shipping to or from us. We always recommend customers transport equipment personally. When shipping we recommend customers take out shipping insurance and pack equipment correctly according to our packing guidelines available on the FAQ page.">Nordic PC Solutions tar inget ansvar f&#246;r skador som uppst&#229;r p&#229; utrustning under frakt till eller fr&#229;n oss. Vi rekommenderar alltid kunden att transportera utrustningen personligen. Vid frakt rekommenderar vi kunden att teckna fraktf&#246;rs&#228;kring och packa utrustningen korrekt enligt v&#229;ra packningsriktlinjer tillg&#228;ngliga p&#229; <a href="faq.html">FAQ-sidan</a>.</p>
+    <p data-sv="Om Nordic PC Solutions h&#228;mtar utrustningen hos kunden tar vi fullt ansvar f&#246;r utrustningen under transporten till oss. Vi behandlar din utrustning med st&#246;rsta omsorg. Om kunden sj&#228;lv skickar utrustningen via frakttj&#228;nst ansvarar Nordic PC Solutions inte f&#246;r skador som uppst&#229;r under transporten. I s&#229;dana fall rekommenderar vi kunden att teckna fraktf&#246;rs&#228;kring och packa utrustningen korrekt enligt v&#229;ra packningsriktlinjer p&#229; FAQ-sidan." data-en="If Nordic PC Solutions picks up the equipment from the customer, we take full responsibility for the equipment during transport to us. We handle your equipment with the utmost care. If the customer ships the equipment via a courier service, Nordic PC Solutions is not responsible for damage occurring during transport. In such cases we recommend the customer to take out shipping insurance and pack the equipment correctly according to our packing guidelines on the FAQ page.">Om Nordic PC Solutions h&#228;mtar utrustningen hos kunden tar vi fullt ansvar f&#246;r utrustningen under transporten till oss. Vi behandlar din utrustning med st&#246;rsta omsorg. Om kunden sj&#228;lv skickar utrustningen via frakttj&#228;nst ansvarar Nordic PC Solutions inte f&#246;r skador som uppst&#229;r under transporten. I s&#229;dana fall rekommenderar vi kunden att teckna fraktf&#246;rs&#228;kring och packa utrustningen korrekt enligt v&#229;ra packningsriktlinjer p&#229; <a href="faq.html">FAQ-sidan</a>.</p>
   </div>
 
   <!-- 6 -->
   <div class="policy-section">
-    <h2 data-sv="6. Dina r&#228;ttigheter" data-en="6. Your rights">6. Dina r&#228;ttigheter</h2>
+    <h2 data-sv="6. Betalningsvillkor" data-en="6. Payment Terms">6. Betalningsvillkor</h2>
+    <p data-sv="Betalning sker via Swish eller bank&#246;verf&#246;ring. Betalning f&#246;rfaller vid avh&#228;mtning eller leverans av utrustningen om inget annat avtalats. Nordic PC Solutions f&#246;rbeh&#229;ller sig r&#228;tten att beh&#229;lla utrustningen tills full betalning erh&#229;llits. Utf&#246;rt arbete &#229;terbetalas inte efter att tj&#228;nsten levererats och godk&#228;nts av kunden." data-en="Payment is made via Swish or bank transfer. Payment is due upon pickup or delivery of the equipment unless otherwise agreed. Nordic PC Solutions reserves the right to retain the equipment until full payment has been received. Completed work is not refunded after the service has been delivered and approved by the customer.">Betalning sker via Swish eller bank&#246;verf&#246;ring. Betalning f&#246;rfaller vid avh&#228;mtning eller leverans av utrustningen om inget annat avtalats. Nordic PC Solutions f&#246;rbeh&#229;ller sig r&#228;tten att beh&#229;lla utrustningen tills full betalning erh&#229;llits. Utf&#246;rt arbete &#229;terbetalas inte efter att tj&#228;nsten levererats och godk&#228;nts av kunden.</p>
+  </div>
+
+  <!-- 7 -->
+  <div class="policy-section">
+    <h2 data-sv="7. Ansvarsbegr&#228;nsning" data-en="7. Liability Limitation">7. Ansvarsbegr&#228;nsning</h2>
+    <p data-sv="Nordic PC Solutions ansvar &#228;r i alla fall begr&#228;nsat till det belopp kunden betalat f&#246;r den aktuella tj&#228;nsten. Vi ansvarar inte f&#246;r f&#246;rlust av data &#8211; kunden ansvarar f&#246;r att s&#228;kerhetskopiera all viktig data innan utrustningen l&#228;mnas in. Vi ansvarar inte f&#246;r f&#246;rskador som uppt&#228;cks under reparation och som inte orsakats av oss. Vi fotograferar alltid utrustningen vid inl&#228;mning f&#246;r att dokumentera befintligt skick." data-en="Nordic PC Solutions liability is in all cases limited to the amount paid by the customer for the service in question. We are not responsible for data loss &#8211; the customer is responsible for backing up all important data before handing in the equipment. We are not responsible for pre-existing damage discovered during repair that was not caused by us. We always photograph the equipment upon receipt to document its existing condition.">Nordic PC Solutions ansvar &#228;r i alla fall begr&#228;nsat till det belopp kunden betalat f&#246;r den aktuella tj&#228;nsten. Vi ansvarar inte f&#246;r f&#246;rlust av data &#8211; kunden ansvarar f&#246;r att s&#228;kerhetskopiera all viktig data innan utrustningen l&#228;mnas in. Vi ansvarar inte f&#246;r f&#246;rskador som uppt&#228;cks under reparation och som inte orsakats av oss. Vi fotograferar alltid utrustningen vid inl&#228;mning f&#246;r att dokumentera befintligt skick.</p>
+  </div>
+
+  <!-- 8 -->
+  <div class="policy-section">
+    <h2 data-sv="8. Garantivillkor" data-en="8. Warranty Terms">8. Garantivillkor</h2>
+    <p data-sv="Vi erbjuder 30 dagars garanti p&#229; utf&#246;rt arbete. Garantin g&#228;ller specifikt f&#246;r det arbete som utf&#246;rts och t&#228;cker inte orelaterade problem eller fel. Garantin upph&#246;r att g&#228;lla om kunden eller tredje part modifierar eller f&#246;rs&#246;ker reparera utrustningen efter att vi utf&#246;rt arbetet. Vid garanti&#228;renden kontaktar kunden oss p&#229; nordicpcsolutions@gmail.com." data-en="We offer a 30-day warranty on completed work. The warranty applies specifically to the work performed and does not cover unrelated issues or faults. The warranty is void if the customer or a third party modifies or attempts to repair the equipment after we have completed our work. For warranty matters contact us at nordicpcsolutions@gmail.com.">Vi erbjuder 30 dagars garanti p&#229; utf&#246;rt arbete. Garantin g&#228;ller specifikt f&#246;r det arbete som utf&#246;rts och t&#228;cker inte orelaterade problem eller fel. Garantin upph&#246;r att g&#228;lla om kunden eller tredje part modifierar eller f&#246;rs&#246;ker reparera utrustningen efter att vi utf&#246;rt arbetet. Vid garanti&#228;renden kontaktar kunden oss p&#229; <a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a>.</p>
+  </div>
+
+  <!-- 9 -->
+  <div class="policy-section">
+    <h2 data-sv="9. Personlig data vid reparation" data-en="9. Personal Data During Repair">9. Personlig data vid reparation</h2>
+    <p data-sv="Vid reparation eller service kan det vara n&#246;dv&#228;ndigt att starta och anv&#228;nda utrustningen. Nordic PC Solutions f&#246;rbinder sig att inte avsiktligt l&#228;sa, kopiera eller dela kundens personliga filer eller data. Vi rekommenderar kunden att s&#228;kerhetskopiera och om m&#246;jligt ta bort k&#228;nslig data innan inl&#228;mning." data-en="During repair or service it may be necessary to start and use the equipment. Nordic PC Solutions commits to not intentionally reading, copying or sharing the customer's personal files or data. We recommend the customer to back up and if possible remove sensitive data before handover.">Vid reparation eller service kan det vara n&#246;dv&#228;ndigt att starta och anv&#228;nda utrustningen. Nordic PC Solutions f&#246;rbinder sig att inte avsiktligt l&#228;sa, kopiera eller dela kundens personliga filer eller data. Vi rekommenderar kunden att s&#228;kerhetskopiera och om m&#246;jligt ta bort k&#228;nslig data innan inl&#228;mning.</p>
+  </div>
+
+  <!-- 10 -->
+  <div class="policy-section">
+    <h2 data-sv="10. Pris&#228;ndringar" data-en="10. Price Changes">10. Pris&#228;ndringar</h2>
+    <p data-sv="Angivna priser &#228;r riktpriser. Om ett uppdrag visar sig vara mer komplext &#228;n ber&#228;knat kontaktar vi alltid kunden innan vi forts&#228;tter arbetet och informerar om det uppdaterade priset. Kunden har r&#228;tt att avb&#246;ja det forts&#228;tta arbetet och betalar d&#229; endast f&#246;r utf&#246;rd diagnostik." data-en="Listed prices are guideline prices. If a job turns out to be more complex than estimated, we always contact the customer before continuing the work and inform them of the updated price. The customer has the right to decline the continued work and will then only pay for completed diagnostics.">Angivna priser &#228;r riktpriser. Om ett uppdrag visar sig vara mer komplext &#228;n ber&#228;knat kontaktar vi alltid kunden innan vi forts&#228;tter arbetet och informerar om det uppdaterade priset. Kunden har r&#228;tt att avb&#246;ja det forts&#228;tta arbetet och betalar d&#229; endast f&#246;r utf&#246;rd diagnostik.</p>
+  </div>
+
+  <!-- 11 -->
+  <div class="policy-section">
+    <h2 data-sv="11. Force Majeure" data-en="11. Force Majeure">11. Force Majeure</h2>
+    <p data-sv="Nordic PC Solutions ansvarar inte f&#246;r f&#246;rseningar eller utebliven leverans orsakad av omst&#228;ndigheter utanf&#246;r v&#229;r kontroll, s&#229;som komponentbrist, leveransf&#246;rseningar fr&#229;n tredje part, sjukdom eller andra of&#246;rutsedda h&#228;ndelser. Vi meddelar alltid kunden s&#229; snart m&#246;jligt vid eventuella f&#246;rseningar." data-en="Nordic PC Solutions is not responsible for delays or non-delivery caused by circumstances beyond our control, such as component shortages, third-party delivery delays, illness or other unforeseen events. We will always notify the customer as soon as possible in the event of any delays.">Nordic PC Solutions ansvarar inte f&#246;r f&#246;rseningar eller utebliven leverans orsakad av omst&#228;ndigheter utanf&#246;r v&#229;r kontroll, s&#229;som komponentbrist, leveransf&#246;rseningar fr&#229;n tredje part, sjukdom eller andra of&#246;rutsedda h&#228;ndelser. Vi meddelar alltid kunden s&#229; snart m&#246;jligt vid eventuella f&#246;rseningar.</p>
+  </div>
+
+  <!-- 12 -->
+  <div class="policy-section">
+    <h2 data-sv="12. Dina r&#228;ttigheter" data-en="12. Your rights">12. Dina r&#228;ttigheter</h2>
     <p data-sv="Enligt GDPR har du f&#246;ljande r&#228;ttigheter:" data-en="Under GDPR you have the following rights:">Enligt GDPR har du f&#246;ljande r&#228;ttigheter:</p>
     <ul>
       <li data-sv="R&#228;tt att beg&#228;ra ut en kopia av dina personuppgifter" data-en="Right to request a copy of your personal data">R&#228;tt att beg&#228;ra ut en kopia av dina personuppgifter</li>
@@ -141,25 +243,61 @@ footer a:hover{color:var(--white);}
     <p style="margin-top:0.8rem;" data-sv="F&#246;r att ut&#246;va dina r&#228;ttigheter, kontakta oss p&#229;:" data-en="To exercise your rights, contact us at:">F&#246;r att ut&#246;va dina r&#228;ttigheter, kontakta oss p&#229;: <a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a></p>
   </div>
 
-  <!-- 7 -->
+  <!-- 13 -->
   <div class="policy-section">
-    <h2 data-sv="7. Cookies" data-en="7. Cookies">7. Cookies</h2>
+    <h2 data-sv="13. Cookies" data-en="13. Cookies">13. Cookies</h2>
     <p data-sv="Vi anv&#228;nder cookies f&#246;r att f&#246;rb&#228;ttra din upplevelse p&#229; webbplatsen. Du kan n&#228;r som helst neka cookies via v&#229;r cookie-banner." data-en="We use cookies to improve your experience on the website. You can decline cookies at any time via our cookie banner.">Vi anv&#228;nder cookies f&#246;r att f&#246;rb&#228;ttra din upplevelse p&#229; webbplatsen. Du kan n&#228;r som helst neka cookies via v&#229;r cookie-banner.</p>
   </div>
 
-  <!-- 8 -->
+  <!-- 14 -->
   <div class="policy-section">
-    <h2 data-sv="8. Kontakt" data-en="8. Contact">8. Kontakt</h2>
+    <h2 data-sv="14. Kontakt" data-en="14. Contact">14. Kontakt</h2>
     <p data-sv="Vid fr&#229;gor om denna integritetspolicy, kontakta oss p&#229;:" data-en="For questions about this privacy policy, contact us at:">Vid fr&#229;gor om denna integritetspolicy, kontakta oss p&#229;: <a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a></p>
   </div>
 
 </div>
 
+<!-- FOOTER -->
 <footer>
-  <span>&#169; <span id="foot-year">2025</span> Nordic PC Solutions &nbsp;&#183;&nbsp;
-  <a href="index.html" data-sv="Hem" data-en="Home">Hem</a> &nbsp;&#183;&nbsp;
-  <a href="faq.html" data-sv="Vanliga fr&#229;gor" data-en="FAQ">Vanliga fr&#229;gor</a>
-  </span>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="logo"><span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span><span class="logo-abbr">N<span class="lpc">P</span>S</span></a>
+      <p data-sv="Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete." data-en="Professional PC builds, repairs and upgrades in Gothenburg. Honest pricing, dedicated work.">Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete.</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</h4>
+      <ul>
+        <li><a href="index.html#services" data-sv="Skr&#228;ddarsydda Byggen" data-en="Custom PC Builds">Skr&#228;ddarsydda Byggen</a></li>
+        <li><a href="index.html#services" data-sv="Uppgraderingar" data-en="Upgrades">Uppgraderingar</a></li>
+        <li><a href="index.html#services" data-sv="Reng&#246;ring &amp; Optimering" data-en="Cleaning &amp; Optimisation">Reng&#246;ring &amp; Optimering</a></li>
+        <li><a href="index.html#services" data-sv="Fels&#246;kning &amp; Reparation" data-en="Diagnostics &amp; Repair">Fels&#246;kning &amp; Reparation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="F&#246;retaget" data-en="Company">F&#246;retaget</h4>
+      <ul>
+        <li><a href="index.html#about" data-sv="Om oss" data-en="About Us">Om oss</a></li>
+        <li><a href="index.html#gallery" data-sv="Galleri" data-en="Gallery">Galleri</a></li>
+        <li><a href="index.html#testimonials" data-sv="Recensioner" data-en="Reviews">Recensioner</a></li>
+        <li><a href="index.html#pricing" data-sv="Priser" data-en="Pricing">Priser</a></li>
+        <li><a href="faq.html" data-sv="Vanliga fr&#229;gor" data-en="FAQ">Vanliga fr&#229;gor</a></li>
+        <li><a href="policy.html" data-sv="Integritetspolicy" data-en="Privacy Policy">Integritetspolicy</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Kontakt" data-en="Contact">Kontakt</h4>
+      <ul>
+        <li><a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a></li>
+        <li><a href="index.html#contact" data-sv="G&#246;teborg, Sverige" data-en="Gothenburg, Sweden">G&#246;teborg, Sverige</a></li>
+        <li><a href="https://www.instagram.com/nordicpcsolutions" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Instagram</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61584118142766&sk=about" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> Facebook</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-sv="&#169; <span id='copy-year'>2025</span> Nordic PC Solutions. Alla r&#228;ttigheter f&#246;rbeh&#229;llna." data-en="&#169; <span id='copy-year2'>2025</span> Nordic PC Solutions. All rights reserved.">&#169; <span id="copy-year">2025</span> Nordic PC Solutions. Alla r&#228;ttigheter f&#246;rbeh&#229;llna.</span>
+    <span data-sv="Tillverkad med &#10084;&#65039; i Sverige" data-en="Made with &#10084;&#65039; in Sweden">Tillverkad med &#10084;&#65039; i Sverige</span>
+  </div>
 </footer>
 
 <script>
@@ -170,13 +308,42 @@ function setLang(lang) {
   document.documentElement.lang = lang;
   document.getElementById('btn-sv').classList.toggle('active', lang==='sv');
   document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  const mbs=document.getElementById('mobile-btn-sv');if(mbs)mbs.classList.toggle('active',lang==='sv');
+  const mbe=document.getElementById('mobile-btn-en');if(mbe)mbe.classList.toggle('active',lang==='en');
   document.querySelectorAll('[data-sv]').forEach(el => {
     const val = el.getAttribute('data-'+lang);
-    if (val) el.textContent = val;
+    if (!val) return;
+    if (el.tagName==='OPTION') el.textContent = val;
+    else el.textContent = val;
   });
 }
 
-document.getElementById('foot-year').textContent = new Date().getFullYear();
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+function toggleMobileMenu(){
+  const menu=document.getElementById('mobile-menu');
+  const btn=document.querySelector('.hamburger-btn');
+  const isOpen=menu.classList.contains('open');
+  menu.classList.toggle('open');
+  if(btn){btn.classList.toggle('open');btn.setAttribute('aria-expanded',String(!isOpen));}
+  document.body.style.overflow=isOpen?'':'hidden';
+}
+function closeMobileMenu(){
+  const menu=document.getElementById('mobile-menu');
+  const btn=document.querySelector('.hamburger-btn');
+  if(!menu||!menu.classList.contains('open'))return;
+  menu.classList.remove('open');
+  if(btn){btn.classList.remove('open');btn.setAttribute('aria-expanded','false');}
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMobileMenu();});
+
+(function(){
+  const yr = new Date().getFullYear();
+  ['copy-year','copy-year2'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = yr; });
+})();
 </script>
 </body>
 </html>
