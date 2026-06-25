@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vanliga frågor – Nordic PC Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --blue:#1a4fff;--blue-light:#3d6fff;--blue-dark:#0d2fa0;
+  --cyan:#00d4ff;--dark:#080c18;--dark2:#0d1225;--dark3:#121a30;--dark4:#1a2440;
+  --gray:#7a8fb5;--gray-light:#b8cae8;--white:#eef2ff;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--dark);color:var(--white);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:64px;background:rgba(8,12,24,0.9);backdrop-filter:blur(24px);border-bottom:1px solid rgba(26,79,255,0.12);gap:1rem;}
+.logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.3rem;letter-spacing:0.05em;color:var(--white);text-transform:uppercase;text-decoration:none;white-space:nowrap;}
+.logo .lpc{color:var(--blue);}
+.logo-abbr{display:none;}
+.nav-right{display:flex;align-items:center;gap:0.75rem;}
+.lang-toggle{display:flex;gap:0.25rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.2rem;}
+.lang-btn{background:none;border:none;color:var(--gray);font-family:'Barlow',sans-serif;font-size:0.74rem;font-weight:700;letter-spacing:0.1em;padding:0.3rem 0.6rem;border-radius:4px;cursor:pointer;transition:background 0.2s,color 0.2s;}
+.lang-btn.active{background:var(--blue);color:#fff;}
+.nav-back{background:var(--blue);color:#fff;text-decoration:none;padding:0.4rem 1rem;border-radius:6px;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;transition:background 0.2s;min-height:44px;display:inline-flex;align-items:center;}
+.nav-back:hover{background:var(--blue-light);}
+
+/* MAIN CONTENT */
+.page-wrap{max-width:780px;margin:0 auto;padding:100px 5vw 5rem;}
+.page-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.2rem,6vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.5rem;}
+.page-subtitle{color:var(--gray);font-size:1rem;margin-bottom:3rem;}
+
+/* FAQ ACCORDION */
+.faq-list{display:flex;flex-direction:column;gap:1rem;}
+.faq-item{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;transition:border-color 0.2s;}
+.faq-item.open{border-color:var(--blue);}
+.faq-question{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.3rem 1.6rem;cursor:pointer;user-select:none;min-height:44px;}
+.faq-question h3{font-size:1rem;font-weight:700;color:var(--white);line-height:1.4;}
+.faq-icon{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:rgba(26,79,255,0.15);border:1px solid rgba(26,79,255,0.3);display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:1.1rem;font-weight:900;transition:transform 0.3s,background 0.2s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--blue);color:#fff;}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.3s;}
+.faq-item.open .faq-answer{max-height:600px;}
+.faq-answer-inner{padding:0 1.6rem 1.4rem;border-top:1px solid rgba(26,79,255,0.15);padding-top:1rem;}
+.faq-answer-inner p{font-size:0.92rem;color:var(--gray-light);line-height:1.75;}
+
+/* CTA */
+.faq-cta{margin-top:3.5rem;background:var(--dark2);border:1px solid rgba(26,79,255,0.2);border-radius:14px;padding:2.5rem 2rem;text-align:center;}
+.faq-cta p{color:var(--gray-light);margin-bottom:1.2rem;font-size:0.95rem;line-height:1.6;}
+.btn-primary{display:inline-flex;align-items:center;background:linear-gradient(135deg,var(--blue),var(--blue-light));color:#fff;text-decoration:none;padding:0.8rem 2rem;border-radius:8px;font-weight:700;font-size:0.9rem;letter-spacing:0.05em;text-transform:uppercase;min-height:44px;transition:opacity 0.2s;}
+.btn-primary:hover{opacity:0.88;}
+
+/* FOOTER */
+footer{background:var(--dark2);border-top:1px solid rgba(255,255,255,0.06);padding:2rem 5vw;text-align:center;font-size:0.8rem;color:var(--gray);}
+footer a{color:var(--gray);text-decoration:none;}
+footer a:hover{color:var(--white);}
+
+@media(max-width:600px){
+  .logo-full{display:none;}
+  .logo-abbr{display:inline;}
+  .faq-question{padding:1rem 1.2rem;}
+  .faq-answer-inner{padding:0 1.2rem 1.2rem;padding-top:0.8rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo"><span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span><span class="logo-abbr">N<span class="lpc">P</span>S</span></a>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('sv')" id="btn-sv">SV</button>
+      <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+    </div>
+    <a href="index.html" class="nav-back" data-sv="&#8592; Tillbaka" data-en="&#8592; Back">&#8592; Tillbaka</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-title" data-sv="Vanliga fr&#229;gor" data-en="Frequently Asked Questions">Vanliga fr&#229;gor</div>
+  <p class="page-subtitle" data-sv="Svar p&#229; de fr&#229;gor vi f&#229;r oftast." data-en="Answers to the questions we get most often.">Svar p&#229; de fr&#229;gor vi f&#229;r oftast.</p>
+
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h3 data-sv="H&#228;mtar ni datorn hemma hos mig?" data-en="Do you pick up the computer from my home?">H&#228;mtar ni datorn hemma hos mig?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p data-sv="Ja, vi erbjuder uph&#228;mtning hemma hos dig inom G&#246;teborg. Bor du l&#228;ngre bort l&#246;ser vi frakt via PostNord, men vi rekommenderar starkt att du k&#246;r datorn till oss sj&#228;lv f&#246;r att undvika skaderisker under transport." data-en="Yes, we offer pickup from your home within Gothenburg. If you live further away we can arrange shipping via PostNord, but we strongly recommend bringing the computer yourself to avoid damage risks during transport.">Ja, vi erbjuder uph&#228;mtning hemma hos dig inom G&#246;teborg. Bor du l&#228;ngre bort l&#246;ser vi frakt via PostNord, men vi rekommenderar starkt att du k&#246;r datorn till oss sj&#228;lv f&#246;r att undvika skaderisker under transport.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h3 data-sv="Hur l&#229;ng tid tar ett bygge?" data-en="How long does a build take?">Hur l&#229;ng tid tar ett bygge?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p data-sv="Det varierar beroende p&#229; datorns komplexitet. Sj&#228;lva monteringen tar vanligtvis 1&#8211;3 timmar. Ut&#246;ver det tillkommer installation av operativsystem (Windows eller Linux, du v&#228;ljer), BIOS-optimering och uppdateringar samt stresstestning. Totalt r&#228;knar vi med cirka 3 timmar f&#246;r ett komplett bygge." data-en="It varies depending on complexity. Assembly typically takes 1&#8211;3 hours. On top of that comes OS installation (Windows or Linux, your choice), BIOS optimisation and updates, and stress testing. In total we estimate around 3 hours for a complete build.">Det varierar beroende p&#229; datorns komplexitet. Sj&#228;lva monteringen tar vanligtvis 1&#8211;3 timmar. Ut&#246;ver det tillkommer installation av operativsystem (Windows eller Linux, du v&#228;ljer), BIOS-optimering och uppdateringar samt stresstestning. Totalt r&#228;knar vi med cirka 3 timmar f&#246;r ett komplett bygge.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h3 data-sv="Vad h&#228;nder om n&#229;got g&#229;r fel efter bygget?" data-en="What happens if something goes wrong after the build?">Vad h&#228;nder om n&#229;got g&#229;r fel efter bygget?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p data-sv="Vi erbjuder 30 dagars garanti p&#229; alla byggen och reparationer. Uppst&#229;r problem kontaktar du oss s&#229; l&#246;ser vi det. Om felet orsakats av oss vid bygget eller fels&#246;kningen tar vi fullt ansvar. Vid fabriksfel p&#229; en komponent hj&#228;lper vi dig med reklamation direkt till tillverkaren. Vi fotograferar alltid alla byggen och komponenter samt stresstester varje dator innan leverans. Skador orsakade av kunden efter leverans, s&#229;som fysisk skada eller skadlig mjukvara, t&#228;cks inte av v&#229;r garanti. Vid s&#229;dana fall rekommenderar vi att kontakta er hemf&#246;rs&#228;kring." data-en="We offer a 30-day warranty on all builds and repairs. If issues arise contact us and we'll resolve it. If the fault was caused by us during the build or troubleshooting we take full responsibility. For manufacturing defects we'll help you file a complaint with the manufacturer. We always photograph all builds and stress test every computer before delivery. Damage caused by the customer after delivery such as physical damage or malicious software is not covered by our warranty. In such cases we recommend contacting your home insurance.">Vi erbjuder 30 dagars garanti p&#229; alla byggen och reparationer. Uppst&#229;r problem kontaktar du oss s&#229; l&#246;ser vi det. Om felet orsakats av oss vid bygget eller fels&#246;kningen tar vi fullt ansvar. Vid fabriksfel p&#229; en komponent hj&#228;lper vi dig med reklamation direkt till tillverkaren. Vi fotograferar alltid alla byggen och komponenter samt stresstester varje dator innan leverans. Skador orsakade av kunden efter leverans, s&#229;som fysisk skada eller skadlig mjukvara, t&#228;cks inte av v&#229;r garanti. Vid s&#229;dana fall rekommenderar vi att kontakta er hemf&#246;rs&#228;kring.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h3 data-sv="Kan ni hj&#228;lpa mig &#228;ven om jag inte vet n&#229;got om datorer?" data-en="Can you help me even if I know nothing about computers?">Kan ni hj&#228;lpa mig &#228;ven om jag inte vet n&#229;got om datorer?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p data-sv="Absolut. Vi guidar dig genom hela processen, fr&#229;n komponentval utifr&#229;n dina behov och din budget, till ett f&#228;rdigt bygge. V&#228;ljer du v&#229;r tj&#228;nst Skr&#228;ddarsydd PC sk&#246;ter vi allt tillsammans med dig. Vi anv&#228;nder tredjepartsverktyget Komponentkoll (komponentkoll.se) f&#246;r att virtuellt planera din dator, och vi rekommenderar g&#228;rna att du ocks&#229; utforskar den sidan om du vill ha koll p&#229; delar sj&#228;lv." data-en="Absolutely. We guide you through the entire process, from choosing components based on your needs and budget, to a finished build. Choose our Custom PC service and we handle everything together with you. We use the third-party tool Komponentkoll (komponentkoll.se) to virtually plan your computer, and we recommend exploring that site yourself if you want to get familiar with components.">Absolut. Vi guidar dig genom hela processen, fr&#229;n komponentval utifr&#229;n dina behov och din budget, till ett f&#228;rdigt bygge. V&#228;ljer du v&#229;r tj&#228;nst Skr&#228;ddarsydd PC sk&#246;ter vi allt tillsammans med dig. Vi anv&#228;nder tredjepartsverktyget Komponentkoll (komponentkoll.se) f&#246;r att virtuellt planera din dator, och vi rekommenderar g&#228;rna att du ocks&#229; utforskar den sidan om du vill ha koll p&#229; delar sj&#228;lv.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h3 data-sv="Vad g&#228;ller vid frakt?" data-en="What applies when shipping?">Vad g&#228;ller vid frakt?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p data-sv="Vi tar emot datorer via PostNord. Viktigt: s&#228;kerhetskopiera alltid all viktig data innan du skickar in datorn. Vi rekommenderar i f&#246;rsta hand att du k&#246;r datorn till oss personligen f&#246;r att undvika skaderisker. Om frakt &#228;r n&#246;dv&#228;ndigt: ta av grafikkortet och packa det separat i originalkartongen om m&#246;jligt. Placera datorn i chassits originalkartong och l&#228;gg sedan denna i en st&#246;rre l&#229;da med rikligt med bubbelplast och skumskydd. Se denna video f&#246;r packningsguide: youtube.com/shorts/LyFP2KdPUxY. Obs: Nordic PC Solutions tar inget ansvar f&#246;r skador som uppst&#229;r under transport." data-en="We accept computers via PostNord. Important: always back up all important data before sending in your computer. We recommend bringing the computer to us in person to avoid damage risks. If shipping is necessary: remove the graphics card and pack it separately in the original box if possible. Place the computer in the chassis original box then place this inside a larger box with plenty of bubble wrap and foam padding. See this video for a packing guide: youtube.com/shorts/LyFP2KdPUxY. Note: Nordic PC Solutions takes no responsibility for damage occurring during transport.">Vi tar emot datorer via PostNord. Viktigt: s&#228;kerhetskopiera alltid all viktig data innan du skickar in datorn. Vi rekommenderar i f&#246;rsta hand att du k&#246;r datorn till oss personligen f&#246;r att undvika skaderisker. Om frakt &#228;r n&#246;dv&#228;ndigt: ta av grafikkortet och packa det separat i originalkartongen om m&#246;jligt. Placera datorn i chassits originalkartong och l&#228;gg sedan denna i en st&#246;rre l&#229;da med rikligt med bubbelplast och skumskydd. Se denna video f&#246;r packningsguide: youtube.com/shorts/LyFP2KdPUxY. Obs: Nordic PC Solutions tar inget ansvar f&#246;r skador som uppst&#229;r under transport.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h3 data-sv="Vilka betalningsmetoder accepterar ni?" data-en="What payment methods do you accept?">Vilka betalningsmetoder accepterar ni?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p data-sv="Vi accepterar f&#246;r n&#228;rvarande Swish och bank&#246;verf&#246;ring. Kortbetalning &#228;r under uppbyggnad och kommer att lanseras inom kort." data-en="We currently accept Swish and bank transfer. Card payment is being set up and will launch soon.">Vi accepterar f&#246;r n&#228;rvarande Swish och bank&#246;verf&#246;ring. Kortbetalning &#228;r under uppbyggnad och kommer att lanseras inom kort.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="faq-cta">
+    <p data-sv="Hittade du inte svar p&#229; din fr&#229;ga? Kontakta oss s&#229; hj&#228;lper vi dig." data-en="Didn't find the answer to your question? Contact us and we'll help you.">Hittade du inte svar p&#229; din fr&#229;ga? Kontakta oss s&#229; hj&#228;lper vi dig.</p>
+    <a href="index.html#contact" class="btn-primary" data-sv="Kontakta oss &#8594;" data-en="Contact us &#8594;">Kontakta oss &#8594;</a>
+  </div>
+</div>
+
+<footer>
+  <span>&#169; <span id="foot-year">2025</span> Nordic PC Solutions &nbsp;&#183;&nbsp;
+  <a href="index.html" data-sv="Hem" data-en="Home">Hem</a> &nbsp;&#183;&nbsp;
+  <a href="policy.html" data-sv="Integritetspolicy" data-en="Privacy Policy">Integritetspolicy</a>
+  </span>
+</footer>
+
+<script>
+let currentLang = 'sv';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.getElementById('btn-sv').classList.toggle('active', lang==='sv');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  document.querySelectorAll('[data-sv]').forEach(el => {
+    const val = el.getAttribute('data-'+lang);
+    if (val) el.textContent = val;
+  });
+}
+
+function toggleFaq(questionEl) {
+  const item = questionEl.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+document.getElementById('foot-year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

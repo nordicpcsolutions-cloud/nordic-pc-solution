@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integritetspolicy – Nordic PC Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --blue:#1a4fff;--blue-light:#3d6fff;
+  --dark:#080c18;--dark2:#0d1225;--dark3:#121a30;
+  --gray:#7a8fb5;--gray-light:#b8cae8;--white:#eef2ff;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--dark);color:var(--white);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:64px;background:rgba(8,12,24,0.9);backdrop-filter:blur(24px);border-bottom:1px solid rgba(26,79,255,0.12);gap:1rem;}
+.logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.3rem;letter-spacing:0.05em;color:var(--white);text-transform:uppercase;text-decoration:none;white-space:nowrap;}
+.logo .lpc{color:var(--blue);}
+.logo-abbr{display:none;}
+.nav-right{display:flex;align-items:center;gap:0.75rem;}
+.lang-toggle{display:flex;gap:0.25rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.2rem;}
+.lang-btn{background:none;border:none;color:var(--gray);font-family:'Barlow',sans-serif;font-size:0.74rem;font-weight:700;letter-spacing:0.1em;padding:0.3rem 0.6rem;border-radius:4px;cursor:pointer;transition:background 0.2s,color 0.2s;}
+.lang-btn.active{background:var(--blue);color:#fff;}
+.nav-back{background:var(--blue);color:#fff;text-decoration:none;padding:0.4rem 1rem;border-radius:6px;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;transition:background 0.2s;min-height:44px;display:inline-flex;align-items:center;}
+.nav-back:hover{background:var(--blue-light);}
+
+/* CONTENT */
+.page-wrap{max-width:780px;margin:0 auto;padding:100px 5vw 5rem;}
+.page-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.2rem,6vw,3.5rem);font-weight:900;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.4rem;}
+.page-meta{font-size:0.8rem;color:var(--gray);margin-bottom:3rem;}
+
+.policy-section{margin-bottom:2.5rem;}
+.policy-section h2{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:900;text-transform:uppercase;letter-spacing:0.04em;color:var(--white);margin-bottom:0.9rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(26,79,255,0.2);}
+.policy-section p{font-size:0.92rem;color:var(--gray-light);line-height:1.8;margin-bottom:0.75rem;}
+.policy-section ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:0.55rem;}
+.policy-section ul li{font-size:0.92rem;color:var(--gray-light);line-height:1.6;padding-left:1.4rem;position:relative;}
+.policy-section ul li::before{content:'›';position:absolute;left:0;color:var(--blue);font-weight:700;}
+.policy-section a{color:var(--blue);text-decoration:none;}
+.policy-section a:hover{text-decoration:underline;}
+.policy-highlight{background:var(--dark2);border:1px solid rgba(26,79,255,0.15);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin:1rem 0;font-size:0.88rem;color:var(--gray-light);line-height:1.7;}
+
+/* FOOTER */
+footer{background:var(--dark2);border-top:1px solid rgba(255,255,255,0.06);padding:2rem 5vw;text-align:center;font-size:0.8rem;color:var(--gray);}
+footer a{color:var(--gray);text-decoration:none;}
+footer a:hover{color:var(--white);}
+
+@media(max-width:600px){
+  .logo-full{display:none;}
+  .logo-abbr{display:inline;}
+  .policy-section h2{font-size:1.1rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo"><span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span><span class="logo-abbr">N<span class="lpc">P</span>S</span></a>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('sv')" id="btn-sv">SV</button>
+      <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+    </div>
+    <a href="index.html" class="nav-back" data-sv="&#8592; Tillbaka" data-en="&#8592; Back">&#8592; Tillbaka</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-title" data-sv="Integritetspolicy" data-en="Privacy Policy">Integritetspolicy</div>
+  <p class="page-meta" data-sv="Senast uppdaterad: Juni 2025" data-en="Last updated: June 2025">Senast uppdaterad: Juni 2025</p>
+
+  <!-- 1 -->
+  <div class="policy-section">
+    <h2 data-sv="1. Personuppgiftsansvarig" data-en="1. Data Controller">1. Personuppgiftsansvarig</h2>
+    <p data-sv="Nordic PC Solutions ansvarar f&#246;r behandlingen av dina personuppgifter." data-en="Nordic PC Solutions is responsible for the processing of your personal data.">Nordic PC Solutions ansvarar f&#246;r behandlingen av dina personuppgifter.</p>
+    <ul>
+      <li data-sv="F&#246;retag: Nordic PC Solutions" data-en="Company: Nordic PC Solutions">F&#246;retag: Nordic PC Solutions</li>
+      <li data-sv="Plats: G&#246;teborg, Sverige" data-en="Location: Gothenburg, Sweden">Plats: G&#246;teborg, Sverige</li>
+      <li><a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a></li>
+    </ul>
+  </div>
+
+  <!-- 2 -->
+  <div class="policy-section">
+    <h2 data-sv="2. Vilka uppgifter vi samlar in" data-en="2. What data we collect">2. Vilka uppgifter vi samlar in</h2>
+    <p data-sv="N&#228;r du skickar en bokningsf&#246;rfr&#229;gan samlar vi in f&#246;ljande uppgifter:" data-en="When you submit a booking request we collect the following data:">N&#228;r du skickar en bokningsf&#246;rfr&#229;gan samlar vi in f&#246;ljande uppgifter:</p>
+    <ul>
+      <li data-sv="Namn (f&#246;r- och efternamn)" data-en="Name (first and last)">Namn (f&#246;r- och efternamn)</li>
+      <li data-sv="E-postadress" data-en="Email address">E-postadress</li>
+      <li data-sv="Telefonnummer (valfritt)" data-en="Phone number (optional)">Telefonnummer (valfritt)</li>
+      <li data-sv="Meddelande / beskrivning av &#228;rendet" data-en="Message / description of the matter">Meddelande / beskrivning av &#228;rendet</li>
+    </ul>
+    <div class="policy-highlight" data-sv="Vi samlar INTE in betalningsinformation. All betalning hanteras separat via Swish eller bank&#246;verf&#246;ring." data-en="We do NOT collect payment information. All payments are handled separately via Swish or bank transfer.">Vi samlar INTE in betalningsinformation. All betalning hanteras separat via Swish eller bank&#246;verf&#246;ring.</div>
+  </div>
+
+  <!-- 3 -->
+  <div class="policy-section">
+    <h2 data-sv="3. Varf&#246;r vi samlar in uppgifterna" data-en="3. Why we collect data">3. Varf&#246;r vi samlar in uppgifterna</h2>
+    <ul>
+      <li data-sv="F&#246;r att hantera bokningsf&#246;rfr&#229;gningar" data-en="To handle booking requests">F&#246;r att hantera bokningsf&#246;rfr&#229;gningar</li>
+      <li data-sv="F&#246;r att kontakta dig ang&#229;ende din f&#246;rfr&#229;gan" data-en="To contact you about your request">F&#246;r att kontakta dig ang&#229;ende din f&#246;rfr&#229;gan</li>
+    </ul>
+    <div class="policy-highlight" data-sv="Vi s&#228;ljer eller delar INTE dina uppgifter med tredje part f&#246;r marknadsf&#246;rings&#228;ndam&#229;l." data-en="We do NOT sell or share your data with third parties for marketing purposes.">Vi s&#228;ljer eller delar INTE dina uppgifter med tredje part f&#246;r marknadsf&#246;rings&#228;ndam&#229;l.</div>
+  </div>
+
+  <!-- 4 -->
+  <div class="policy-section">
+    <h2 data-sv="4. Hur uppgifterna lagras" data-en="4. How data is stored">4. Hur uppgifterna lagras</h2>
+    <ul>
+      <li data-sv="Uppgifterna lagras s&#228;kert i Supabase (supabase.com), en GDPR-kompatibel plattform med servrar inom EU." data-en="Data is stored securely in Supabase (supabase.com), a GDPR-compliant platform with servers within the EU.">Uppgifterna lagras s&#228;kert i Supabase (supabase.com), en GDPR-kompatibel plattform med servrar inom EU.</li>
+      <li data-sv="Vi beh&#229;ller uppgifterna i max 12 m&#229;nader fr&#229;n inl&#228;mningsdatum." data-en="We retain data for a maximum of 12 months from the date of submission.">Vi beh&#229;ller uppgifterna i max 12 m&#229;nader fr&#229;n inl&#228;mningsdatum.</li>
+    </ul>
+  </div>
+
+  <!-- 5 -->
+  <div class="policy-section">
+    <h2 data-sv="5. Frakt och transport" data-en="5. Shipping and transport">5. Frakt och transport</h2>
+    <p data-sv="Nordic PC Solutions tar inget ansvar f&#246;r skador som uppst&#229;r p&#229; utrustning under frakt till eller fr&#229;n oss. Vi rekommenderar alltid kunden att transportera utrustningen personligen. Vid frakt rekommenderar vi kunden att teckna fraktf&#246;rs&#228;kring och packa utrustningen korrekt enligt v&#229;ra packningsriktlinjer tillg&#228;ngliga p&#229; FAQ-sidan." data-en="Nordic PC Solutions takes no responsibility for damage occurring to equipment during shipping to or from us. We always recommend customers transport equipment personally. When shipping we recommend customers take out shipping insurance and pack equipment correctly according to our packing guidelines available on the FAQ page.">Nordic PC Solutions tar inget ansvar f&#246;r skador som uppst&#229;r p&#229; utrustning under frakt till eller fr&#229;n oss. Vi rekommenderar alltid kunden att transportera utrustningen personligen. Vid frakt rekommenderar vi kunden att teckna fraktf&#246;rs&#228;kring och packa utrustningen korrekt enligt v&#229;ra packningsriktlinjer tillg&#228;ngliga p&#229; <a href="faq.html">FAQ-sidan</a>.</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="policy-section">
+    <h2 data-sv="6. Dina r&#228;ttigheter" data-en="6. Your rights">6. Dina r&#228;ttigheter</h2>
+    <p data-sv="Enligt GDPR har du f&#246;ljande r&#228;ttigheter:" data-en="Under GDPR you have the following rights:">Enligt GDPR har du f&#246;ljande r&#228;ttigheter:</p>
+    <ul>
+      <li data-sv="R&#228;tt att beg&#228;ra ut en kopia av dina personuppgifter" data-en="Right to request a copy of your personal data">R&#228;tt att beg&#228;ra ut en kopia av dina personuppgifter</li>
+      <li data-sv="R&#228;tt att beg&#228;ra r&#228;ttelse av felaktiga uppgifter" data-en="Right to request correction of inaccurate data">R&#228;tt att beg&#228;ra r&#228;ttelse av felaktiga uppgifter</li>
+      <li data-sv="R&#228;tt att beg&#228;ra radering av dina uppgifter" data-en="Right to request deletion of your data">R&#228;tt att beg&#228;ra radering av dina uppgifter</li>
+    </ul>
+    <p style="margin-top:0.8rem;" data-sv="F&#246;r att ut&#246;va dina r&#228;ttigheter, kontakta oss p&#229;:" data-en="To exercise your rights, contact us at:">F&#246;r att ut&#246;va dina r&#228;ttigheter, kontakta oss p&#229;: <a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a></p>
+  </div>
+
+  <!-- 7 -->
+  <div class="policy-section">
+    <h2 data-sv="7. Cookies" data-en="7. Cookies">7. Cookies</h2>
+    <p data-sv="Vi anv&#228;nder cookies f&#246;r att f&#246;rb&#228;ttra din upplevelse p&#229; webbplatsen. Du kan n&#228;r som helst neka cookies via v&#229;r cookie-banner." data-en="We use cookies to improve your experience on the website. You can decline cookies at any time via our cookie banner.">Vi anv&#228;nder cookies f&#246;r att f&#246;rb&#228;ttra din upplevelse p&#229; webbplatsen. Du kan n&#228;r som helst neka cookies via v&#229;r cookie-banner.</p>
+  </div>
+
+  <!-- 8 -->
+  <div class="policy-section">
+    <h2 data-sv="8. Kontakt" data-en="8. Contact">8. Kontakt</h2>
+    <p data-sv="Vid fr&#229;gor om denna integritetspolicy, kontakta oss p&#229;:" data-en="For questions about this privacy policy, contact us at:">Vid fr&#229;gor om denna integritetspolicy, kontakta oss p&#229;: <a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a></p>
+  </div>
+
+</div>
+
+<footer>
+  <span>&#169; <span id="foot-year">2025</span> Nordic PC Solutions &nbsp;&#183;&nbsp;
+  <a href="index.html" data-sv="Hem" data-en="Home">Hem</a> &nbsp;&#183;&nbsp;
+  <a href="faq.html" data-sv="Vanliga fr&#229;gor" data-en="FAQ">Vanliga fr&#229;gor</a>
+  </span>
+</footer>
+
+<script>
+let currentLang = 'sv';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.getElementById('btn-sv').classList.toggle('active', lang==='sv');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  document.querySelectorAll('[data-sv]').forEach(el => {
+    const val = el.getAttribute('data-'+lang);
+    if (val) el.textContent = val;
+  });
+}
+
+document.getElementById('foot-year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
