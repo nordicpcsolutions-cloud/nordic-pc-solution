@@ -1199,6 +1199,18 @@ alter table settings enable row level security;
 
 let currentLang = 'sv';
 
+(function() {
+  try {
+    const browserLang = navigator.language || navigator.userLanguage || 'sv';
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    const isSweden =
+      browserLang.toLowerCase().startsWith('sv') ||
+      timeZone.includes('Stockholm') ||
+      timeZone.includes('Europe/Stockholm');
+    if (!isSweden) { currentLang = 'en'; }
+  } catch(e) { currentLang = 'sv'; }
+})();
+
 function setLang(lang) {
   currentLang = lang;
   document.documentElement.lang = lang;
