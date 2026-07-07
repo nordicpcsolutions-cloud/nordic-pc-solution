@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0iIzBhMGYxZSIvPjx0ZXh0IHg9IjMyIiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iNDQiIGZpbGw9IiMxYTRmZmYiPlA8L3RleHQ+PC9zdmc+">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bokningar – Nordic PC Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin-shared.css">
+<style>
+.page-hd{margin-bottom:1.75rem;}
+.page-hd h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.85rem;letter-spacing:0.02em;text-transform:uppercase;}
+.booking-phone{font-size:0.82rem;color:var(--gray);white-space:nowrap;}
+/* Result count pill next to search */
+.result-count{font-size:0.78rem;color:var(--gray);font-weight:600;white-space:nowrap;margin-left:auto;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="admin-shared.js"></script>
+</head>
+<body>
+
+<div id="app" style="display:none;">
+
+  <div id="admin-nav"></div>
+
+  <main class="admin-main">
+
+    <div class="page-hd">
+      <h1>Bokningar</h1>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card c-new">
+        <div class="s-num" id="stat-new">—</div>
+        <div class="s-label">Nya</div>
+      </div>
+      <div class="stat-card c-prog">
+        <div class="s-num" id="stat-prog">—</div>
+        <div class="s-label">P&#229;g&#229;ende</div>
+      </div>
+      <div class="stat-card c-done">
+        <div class="s-num" id="stat-done">—</div>
+        <div class="s-label">Avslutade</div>
+      </div>
+      <div class="stat-card c-all">
+        <div class="s-num" id="stat-all">—</div>
+        <div class="s-label">Totalt</div>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <button class="filter-btn active" id="fb-all"      onclick="setFilter('all')">Alla</button>
+      <button class="filter-btn"        id="fb-new"      onclick="setFilter('new')">Nya</button>
+      <button class="filter-btn"        id="fb-progress" onclick="setFilter('progress')">P&#229;g&#229;ende</button>
+      <button class="filter-btn"        id="fb-finished" onclick="setFilter('finished')">Avslutade</button>
+      <input  class="filter-search" id="search-input" type="search"
+              placeholder="S&#246;k namn, e-post, tj&#228;nst&#8230;"
+              oninput="renderTable()">
+      <span class="result-count" id="result-count"></span>
+      <button class="refresh-btn" id="refresh-btn" onclick="manualRefresh()">
+        <svg class="spin-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Uppdatera
+      </button>
+    </div>
+
+    <!-- Table -->
+    <div class="bookings-wrap">
+      <table class="bookings-table">
+        <thead>
+          <tr>
+            <th>Kund</th>
+            <th class="hide-mobile">Telefon</th>
+            <th>Tj&#228;nst</th>
+            <th class="hide-mobile">Meddelande</th>
+            <th class="hide-mobile">Datum</th>
+            <th>Status</th>
+            <th>&#197;tg&#228;rder</th>
+          </tr>
+        </thead>
+        <tbody id="bookings-tbody">
+          <tr class="loading-row"><td colspan="7">Laddar&#8230;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</div><!-- /#app -->
+
+<!-- Message modal -->
+<div class="modal-overlay" id="msg-modal">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal('msg-modal')">&#10005;</button>
+    <h3 id="msg-name"></h3>
+    <div class="modal-meta" id="msg-meta"></div>
+    <div class="modal-msg" id="msg-body"></div>
+  </div>
+</div>
+
+<!-- Confirm delete modal -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="confirm-card">
+    <h3>Ta bort bokning?</h3>
+    <p>Bokningens data raderas permanent och kan inte &#229;terskapas.</p>
+    <div class="confirm-actions">
+      <button class="confirm-yes" id="confirm-yes-btn">Ta bort</button>
+      <button class="confirm-no" onclick="closeModal('confirm-modal')">Avbryt</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+let allBookings    = [];
+let currentFilter  = 'all';
+let refreshTimer   = null;
+let pendingDeleteId = null;
+
+// ── INIT ──
+(async function init() {
+  const session = await checkAuth();   // redirects to employe.html if no session
+  if (!session) return;
+
+  renderAdminNav('bookings');
+  document.getElementById('sidebar-user-email').textContent = session.user.email;
+  document.getElementById('app').style.display = 'flex';
+
+  await loadBookings();
+  refreshTimer = setInterval(loadBookings, 30000);
+})();
+
+// ── DATA ──
+async function loadBookings() {
+  const { data, error } = await supabaseClient
+    .from('bookings')
+    .select('id,first,last,email,phone,service,message,status,created_at')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    showToast('Fel vid h&#228;mtning: ' + error.message, 't-red');
+    return;
+  }
+
+  allBookings = data || [];
+  updateStats();
+  renderTable();
+}
+
+async function manualRefresh() {
+  const btn = document.getElementById('refresh-btn');
+  btn.classList.add('spinning');
+  await loadBookings();
+  btn.classList.remove('spinning');
+}
+
+// ── STATS ──
+function updateStats() {
+  const newC  = allBookings.filter(b => b.status === 'new').length;
+  const progC = allBookings.filter(b => b.status === 'progress').length;
+  const doneC = allBookings.filter(b => b.status === 'finished').length;
+
+  document.getElementById('stat-new').textContent  = newC;
+  document.getElementById('stat-prog').textContent = progC;
+  document.getElementById('stat-done').textContent = doneC;
+  document.getElementById('stat-all').textContent  = allBookings.length;
+
+  document.title = newC > 0
+    ? '(' + newC + ' nya) Bokningar – Admin'
+    : 'Bokningar – Nordic PC Admin';
+}
+
+// ── FILTER ──
+function setFilter(f) {
+  currentFilter = f;
+  ['all','new','progress','finished'].forEach(k => {
+    document.getElementById('fb-' + k).classList.toggle('active', k === f);
+  });
+  renderTable();
+}
+
+// ── RENDER ──
+const STATUS_BADGE = {
+  new:      '<span class="status-badge s-new">Ny</span>',
+  progress: '<span class="status-badge s-progress">Pågående</span>',
+  finished: '<span class="status-badge s-finished">Avslutad</span>',
+};
+
+function renderTable() {
+  const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
+
+  let list = currentFilter === 'all'
+    ? allBookings
+    : allBookings.filter(b => b.status === currentFilter);
+
+  if (q) {
+    list = list.filter(b =>
+      (b.first   || '').toLowerCase().includes(q) ||
+      (b.last    || '').toLowerCase().includes(q) ||
+      (b.email   || '').toLowerCase().includes(q) ||
+      (b.service || '').toLowerCase().includes(q) ||
+      (b.message || '').toLowerCase().includes(q)
+    );
+  }
+
+  const countEl = document.getElementById('result-count');
+  countEl.textContent = q || currentFilter !== 'all'
+    ? list.length + ' resultat'
+    : '';
+
+  const tbody = document.getElementById('bookings-tbody');
+
+  if (!list.length) {
+    const msg = q
+      ? 'Inga träffar för “' + escH(q) + '”.'
+      : 'Inga bokningar i den här kategorin.';
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">&#128491;</div><p>${msg}</p></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map(b => {
+    const name    = escH(((b.first || '') + ' ' + (b.last || '')).trim());
+    const msgText = b.message || '';
+    const preview = escH(msgText.length > 70 ? msgText.slice(0, 70) + '…' : msgText);
+    const dateStr = b.created_at
+      ? new Date(b.created_at).toLocaleDateString('sv-SE')
+      : '—';
+    const rowCls  = b.status === 'finished' ? ' class="row-done"' : '';
+    const isNew   = b.status === 'new';
+
+    return `<tr${rowCls}>
+      <td>
+        <span class="booking-name">${name}${isNew ? '<span class="new-dot"></span>' : ''}</span>
+        <span class="booking-email">${escH(b.email || '')}</span>
+      </td>
+      <td class="hide-mobile">
+        <span class="booking-phone">${escH(b.phone || '—')}</span>
+      </td>
+      <td>
+        <span class="booking-service">${escH(b.service || '—')}</span>
+      </td>
+      <td class="hide-mobile">
+        <span class="booking-msg" onclick="openMsg(${b.id})" title="Visa meddelande">${preview || '<em style="color:var(--gray);font-style:italic;font-size:0.78rem;">Inget meddelande</em>'}</span>
+      </td>
+      <td class="hide-mobile">
+        <span class="booking-date">${dateStr}</span>
+      </td>
+      <td>${STATUS_BADGE[b.status] || escH(b.status)}</td>
+      <td><div class="actions">${buildActions(b)}</div></td>
+    </tr>`;
+  }).join('');
+}
+
+function buildActions(b) {
+  let out = '';
+  if (b.status === 'new') {
+    out += `<button class="act-btn act-progress" onclick="setStatus(${b.id},'progress')">Starta</button>`;
+  } else if (b.status === 'progress') {
+    out += `<button class="act-btn act-finish"  onclick="setStatus(${b.id},'finished')">Avsluta</button>`;
+    out += `<button class="act-btn act-restore" onclick="setStatus(${b.id},'new')">&#197;ngra</button>`;
+  } else if (b.status === 'finished') {
+    out += `<button class="act-btn act-restore" onclick="setStatus(${b.id},'progress')">Återöppna</button>`;
+  }
+  out += `<button class="act-btn act-delete" onclick="confirmDelete(${b.id})">Radera</button>`;
+  return out;
+}
+
+// ── STATUS UPDATE ──
+async function setStatus(id, newStatus) {
+  const { error } = await supabaseClient
+    .from('bookings')
+    .update({ status: newStatus })
+    .eq('id', id);
+
+  if (error) { showToast('Fel: ' + error.message, 't-red'); return; }
+
+  const b = allBookings.find(x => x.id === id);
+  if (b) b.status = newStatus;
+
+  updateStats();
+  renderTable();
+
+  const labels = { new: 'Ny', progress: 'Pågående', finished: 'Avslutad' };
+  showToast('Status → ' + (labels[newStatus] || newStatus), 't-green');
+}
+
+// ── DELETE ──
+function confirmDelete(id) {
+  pendingDeleteId = id;
+  document.getElementById('confirm-modal').classList.add('open');
+  document.getElementById('confirm-yes-btn').onclick = executeDelete;
+}
+
+async function executeDelete() {
+  closeModal('confirm-modal');
+  if (pendingDeleteId === null) return;
+
+  const id = pendingDeleteId;
+  pendingDeleteId = null;
+
+  const { error } = await supabaseClient
+    .from('bookings')
+    .delete()
+    .eq('id', id);
+
+  if (error) { showToast('Raderingsfel: ' + error.message, 't-red'); return; }
+
+  allBookings = allBookings.filter(b => b.id !== id);
+  updateStats();
+  renderTable();
+  showToast('Bokning raderad.', 't-amber');
+}
+
+// ── MESSAGE MODAL ──
+function openMsg(id) {
+  const b = allBookings.find(x => x.id === id);
+  if (!b) return;
+
+  const name    = ((b.first || '') + ' ' + (b.last || '')).trim();
+  const dateStr = b.created_at
+    ? new Date(b.created_at).toLocaleDateString('sv-SE', { year:'numeric', month:'long', day:'numeric' })
+    : '—';
+
+  document.getElementById('msg-name').textContent = name || '—';
+  document.getElementById('msg-meta').innerHTML =
+    `<span>${escH(b.email  || '—')}</span>` +
+    `<span>${escH(b.phone  || '—')}</span>` +
+    `<span>${escH(b.service|| '—')}</span>` +
+    `<span>${escH(dateStr)}</span>`;
+  document.getElementById('msg-body').textContent = b.message || '(Inget meddelande)';
+  document.getElementById('msg-modal').classList.add('open');
+}
+
+// ── MODAL HELPERS ──
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open')
+      .forEach(m => m.classList.remove('open'));
+  }
+});
+
+// ── UTIL ──
+function escH(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
