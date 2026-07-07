@@ -9,34 +9,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="admin-shared.css">
 <style>
-/* Page-specific styles not covered by admin-shared.css */
-.page-hd{margin-bottom:1.75rem;}
-.page-hd h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.85rem;letter-spacing:0.02em;text-transform:uppercase;}
+.page-hd { margin-bottom: 1.75rem; }
+.page-hd h1 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:1.85rem; letter-spacing:0.02em; text-transform:uppercase; }
 
-/* Status card toggle row */
-.status-toggle-row{display:flex;align-items:center;gap:1rem;flex:1;}
-.status-toggle-label{font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);}
-.status-card-desc{color:var(--gray);font-size:0.85rem;margin-top:0.2rem;}
+/* Status card toggle area */
+.status-toggle-row  { display:flex; align-items:center; gap:1rem; flex:1; }
+.status-toggle-meta { display:flex; flex-direction:column; gap:0.2rem; }
+.status-toggle-lbl  { font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--gray); }
+.status-toggle-desc { font-size:0.83rem; color:var(--gray); }
 
-/* Prices reference card */
-.prices-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.8rem 2rem;}
-.prices-card h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.1rem;text-transform:uppercase;margin-bottom:1.2rem;color:var(--gray-light);}
-.prices-table{width:100%;border-collapse:collapse;}
-.prices-table th{background:var(--dark3);padding:0.75rem 1rem;text-align:left;font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);border-bottom:1px solid rgba(255,255,255,0.07);}
-.prices-table td{padding:0.85rem 1rem;font-size:0.9rem;color:var(--gray-light);border-bottom:1px solid rgba(255,255,255,0.04);}
-.prices-table tr:last-child td{border-bottom:none;}
-.price-original{font-weight:700;color:var(--white);}
-.price-sale{font-weight:700;color:var(--green);}
-.price-strike{text-decoration:line-through;color:var(--gray);font-weight:400;font-size:0.82rem;margin-right:0.4rem;}
-.price-applies-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:0.45rem;vertical-align:middle;}
-.save-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
-.save-status{font-size:0.8rem;color:var(--gray);opacity:0;transition:opacity 0.3s;}
-.save-status.show{opacity:1;}
+/* Prices reference table */
+.prices-card { background:var(--dark2); border:1px solid rgba(255,255,255,0.07); border-radius:12px; padding:1.8rem 2rem; }
+.prices-card h3 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:1.1rem; text-transform:uppercase; margin-bottom:1.2rem; color:var(--gray-light); }
+.prices-table { width:100%; border-collapse:collapse; }
+.prices-table th { background:var(--dark3); padding:0.75rem 1rem; text-align:left; font-size:0.7rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gray); border-bottom:1px solid rgba(255,255,255,0.07); }
+.prices-table td { padding:0.85rem 1rem; font-size:0.9rem; color:var(--gray-light); border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:middle; }
+.prices-table tr:last-child td { border-bottom:none; }
+.price-orig   { font-weight:700; color:var(--white); }
+.price-sale   { font-weight:700; color:var(--green); }
+.price-strike { text-decoration:line-through; color:var(--gray); font-weight:400; font-size:0.82rem; margin-right:0.4rem; }
+.applies-dot  { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--green); margin-right:0.45rem; vertical-align:middle; }
 
-/* Responsive form grid */
-@media(max-width:600px){
-  .sale-form-grid{grid-template-columns:1fr;}
-}
+/* Inline save confirmation */
+.save-row   { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+.save-flash { font-size:0.8rem; color:var(--green); opacity:0; transition:opacity 0.3s; }
+.save-flash.show { opacity:1; }
+
+@media(max-width:600px) { .sale-form-grid { grid-template-columns:1fr; } }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="admin-shared.js"></script>
@@ -53,16 +52,16 @@
       <h1>Rea &amp; Priser</h1>
     </div>
 
-    <!-- ── STATUS CARD ── -->
+    <!-- ── STATUS TOGGLE CARD ── -->
     <div class="sale-status-card">
       <div class="status-toggle-row">
-        <label class="toggle-switch" title="Aktivera/inaktivera rea">
+        <label class="toggle-switch" title="Aktivera / inaktivera rea">
           <input type="checkbox" id="toggle-active" onchange="saveToggle()">
           <span class="toggle-slider"></span>
         </label>
-        <div>
-          <div class="status-toggle-label">Rea-status</div>
-          <div class="status-card-desc" id="status-desc">Laddar&#8230;</div>
+        <div class="status-toggle-meta">
+          <span class="status-toggle-lbl">Rea-status</span>
+          <span class="status-toggle-desc" id="status-desc">Laddar&#8230;</span>
         </div>
       </div>
       <div class="sale-status-badge off" id="status-badge">Ingen rea aktiv</div>
@@ -75,7 +74,7 @@
       <div class="sale-form-grid">
         <div class="sale-field">
           <label for="f-percent">Rabatt (%)</label>
-          <input type="number" id="f-percent" min="1" max="99" placeholder="T.ex. 20">
+          <input type="number" id="f-percent" min="1" max="99" placeholder="T.ex. 20" oninput="renderPriceTable()">
         </div>
         <div class="sale-field">
           <label for="f-title">Reatitel</label>
@@ -87,7 +86,7 @@
         </div>
         <div class="sale-field">
           <label for="f-applies-to">G&#228;ller f&#246;r</label>
-          <select id="f-applies-to">
+          <select id="f-applies-to" onchange="renderPriceTable()">
             <option value="Alla tjänster">Alla tj&#228;nster</option>
             <option value="Grundtjänst">Grundtj&#228;nst</option>
             <option value="Pro-bygge">Pro-bygge</option>
@@ -99,35 +98,31 @@
 
       <div class="save-row">
         <button class="sale-save-btn" onclick="saveSettings()">Uppdatera</button>
-        <span class="save-status" id="save-status">&#10003; Sparat</span>
+        <span class="save-flash" id="save-flash">&#10003; Sparat</span>
       </div>
     </div>
 
     <!-- ── PRICES REFERENCE ── -->
     <div class="prices-card">
       <h3>Ordinarie priser</h3>
-      <div class="bookings-wrap" style="border:none;border-radius:8px;overflow:hidden;">
-        <table class="prices-table">
-          <thead>
-            <tr>
-              <th>Tj&#228;nst</th>
-              <th>Ordinarie pris</th>
-              <th id="sale-col-hd" style="display:none;">Reans pris</th>
-            </tr>
-          </thead>
-          <tbody id="prices-tbody"></tbody>
-        </table>
-      </div>
+      <table class="prices-table">
+        <thead>
+          <tr>
+            <th>Tj&#228;nst</th>
+            <th>Ordinarie pris</th>
+            <th id="sale-col-hd" style="display:none;">Reans pris</th>
+          </tr>
+        </thead>
+        <tbody id="prices-tbody"></tbody>
+      </table>
     </div>
 
   </main>
 </div><!-- /#app -->
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── PRICE TABLE DATA ──
 const SERVICES = [
   { name: 'Grundtjänst',     price: 250 },
   { name: 'Pro-bygge',       price: 400 },
@@ -137,15 +132,14 @@ const SERVICES = [
 
 // ── INIT ──
 (async function init() {
-  const session = await checkAuth();   // redirects to employe.html if no session
+  const session = await checkAuth();
   if (!session) return;
 
-  renderAdminNav('settings');
+  renderAdminNav('sale');
   document.getElementById('sidebar-user-email').textContent = session.user.email;
   document.getElementById('app').style.display = 'flex';
 
   await loadSettings();
-  renderPriceTable();
 })();
 
 // ── LOAD ──
@@ -157,23 +151,19 @@ async function loadSettings() {
     .single();
 
   if (error) {
-    showToast('Kunde inte ladda inställningar: ' + error.message, 't-red');
+    showToast('Kunde inte ladda inst&#228;llningar: ' + error.message, 't-red');
+    renderPriceTable(); // still render static table
     return;
   }
-  if (!data) return;
 
-  // Populate form
   document.getElementById('toggle-active').checked = !!data.sale_active;
-  document.getElementById('f-percent').value    = data.sale_percent    ?? '';
-  document.getElementById('f-title').value      = data.sale_title      ?? '';
-  document.getElementById('f-end-date').value   = data.sale_end_date   ?? '';
+  document.getElementById('f-percent').value        = data.sale_percent  ?? '';
+  document.getElementById('f-title').value          = data.sale_title    ?? '';
+  document.getElementById('f-end-date').value       = data.sale_end_date ?? '';
 
-  const appliesTo = document.getElementById('f-applies-to');
-  if (data.sale_applies_to) {
-    // Match stored value to option; fall back to first option if unrecognised
-    const match = [...appliesTo.options].find(o => o.value === data.sale_applies_to);
-    appliesTo.value = match ? data.sale_applies_to : appliesTo.options[0].value;
-  }
+  const sel   = document.getElementById('f-applies-to');
+  const match = [...sel.options].find(o => o.value === data.sale_applies_to);
+  sel.value   = match ? data.sale_applies_to : sel.options[0].value;
 
   updateStatusUI(!!data.sale_active);
   renderPriceTable();
@@ -190,8 +180,7 @@ async function saveToggle() {
 
   if (error) {
     showToast('Fel: ' + error.message, 't-red');
-    // Revert toggle if save failed
-    document.getElementById('toggle-active').checked = !active;
+    document.getElementById('toggle-active').checked = !active; // revert
     return;
   }
 
@@ -200,7 +189,7 @@ async function saveToggle() {
   showToast(active ? 'Rea aktiverad.' : 'Rea inaktiverad.', active ? 't-green' : 't-amber');
 }
 
-// ── SAVE FORM FIELDS ──
+// ── SAVE FORM ──
 async function saveSettings() {
   const percent   = parseInt(document.getElementById('f-percent').value, 10);
   const title     = document.getElementById('f-title').value.trim();
@@ -208,7 +197,7 @@ async function saveSettings() {
   const appliesTo = document.getElementById('f-applies-to').value;
 
   if (isNaN(percent) || percent < 1 || percent > 99) {
-    showToast('Ange en rabatt mellan 1 och 99 %.', 't-amber');
+    showToast('Ange en rabatt mellan 1 och 99 %.', 't-amber');
     return;
   }
 
@@ -216,8 +205,8 @@ async function saveSettings() {
     .from('settings')
     .update({
       sale_percent:    percent,
-      sale_title:      title    || null,
-      sale_end_date:   endDate  || null,
+      sale_title:      title     || null,
+      sale_end_date:   endDate   || null,
       sale_applies_to: appliesTo,
     })
     .eq('id', 'global');
@@ -227,85 +216,58 @@ async function saveSettings() {
     return;
   }
 
-  showToast('Inställningar sparade.', 't-green');
-
-  // Brief inline confirmation
-  const s = document.getElementById('save-status');
-  s.classList.add('show');
-  setTimeout(() => s.classList.remove('show'), 2500);
-
   renderPriceTable();
+  showToast('Inst&#228;llningar sparade.', 't-green');
+
+  const flash = document.getElementById('save-flash');
+  flash.classList.add('show');
+  setTimeout(() => flash.classList.remove('show'), 2500);
 }
 
-// ── UI UPDATE ──
+// ── STATUS UI ──
 function updateStatusUI(active) {
   const badge = document.getElementById('status-badge');
   const desc  = document.getElementById('status-desc');
-
   if (active) {
-    badge.className = 'sale-status-badge on';
+    badge.className   = 'sale-status-badge on';
     badge.textContent = 'REA AKTIV';
-    desc.textContent = 'Rea visas på hemsidan för kunder.';
+    desc.textContent  = 'Rea visas på hemsidan för kunder.';
   } else {
-    badge.className = 'sale-status-badge off';
+    badge.className   = 'sale-status-badge off';
     badge.textContent = 'Ingen rea aktiv';
-    desc.textContent = 'Rea är dold för kunder. Aktivera för att visa.';
+    desc.textContent  = 'Rea är dold för kunder. Aktivera för att visa.';
   }
 }
 
-// ── PRICE TABLE ──
+// ── PRICE TABLE (live) ──
 function renderPriceTable() {
   const active    = document.getElementById('toggle-active').checked;
   const percent   = parseInt(document.getElementById('f-percent').value, 10) || 0;
   const appliesTo = document.getElementById('f-applies-to').value;
   const showSale  = active && percent > 0;
 
-  // Show/hide sale price column header
   document.getElementById('sale-col-hd').style.display = showSale ? '' : 'none';
 
-  const tbody = document.getElementById('prices-tbody');
-  tbody.innerHTML = SERVICES.map(svc => {
-    const appliesToThis = showSale &&
-      (appliesTo === 'Alla tjänster' || appliesTo === svc.name);
+  document.getElementById('prices-tbody').innerHTML = SERVICES.map(svc => {
+    const affected   = showSale && (appliesTo === 'Alla tjänster' || appliesTo === svc.name);
+    const salePrice  = Math.round(svc.price * (1 - percent / 100));
 
-    const salePrice     = Math.round(svc.price * (1 - percent / 100));
-    const dot           = appliesToThis
-      ? '<span class="price-applies-dot" title="Rea gäller för denna tjänst"></span>'
+    const nameCell   = `<td>${affected ? '<span class="applies-dot"></span>' : ''}${escH(svc.name)}</td>`;
+    const origCell   = affected
+      ? `<td><span class="price-strike">${svc.price} kr</span></td>`
+      : `<td><span class="price-orig">${svc.price} kr</span></td>`;
+    const saleCell   = showSale
+      ? `<td>${affected ? `<span class="price-sale">${salePrice} kr</span>` : '<span style="color:var(--gray);font-size:0.8rem;">—</span>'}</td>`
       : '';
 
-    const originalCell  = appliesToThis
-      ? `<span class="price-strike">${svc.price} kr</span>`
-      : `<span class="price-original">${svc.price} kr</span>`;
-
-    const saleCell = showSale
-      ? `<td>${appliesToThis
-          ? `<span class="price-sale">${salePrice} kr</span>`
-          : `<span style="color:var(--gray);font-size:0.8rem;">—</span>`
-        }</td>`
-      : '';
-
-    return `<tr>
-      <td>${dot}${escH(svc.name)}</td>
-      <td>${originalCell}</td>
-      ${saleCell}
-    </tr>`;
+    return `<tr>${nameCell}${origCell}${saleCell}</tr>`;
   }).join('');
 }
 
-// ── UTIL ──
 function escH(str) {
   if (str == null) return '';
-  return String(str)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
-// Re-render price table live as form fields change
-['f-percent','f-applies-to'].forEach(id => {
-  document.getElementById(id).addEventListener('input', renderPriceTable);
-});
 </script>
 </body>
 </html>
