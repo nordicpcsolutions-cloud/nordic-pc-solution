@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0iIzBhMGYxZSIvPjx0ZXh0IHg9IjMyIiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iNDQiIGZpbGw9IiMxYTRmZmYiPlA8L3RleHQ+PC9zdmc+">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nordic PC Solutions – IT-tjänster för Företag i Göteborg</title>
+<meta name="description" content="IT-support, arbetsstationer och underhåll för företag i Göteborg. Transparenta priser, snabb respons, ingen bindningstid.">
+<meta name="keywords" content="IT-support företag Göteborg, arbetsstationer Göteborg, IT-tjänster Göteborg, datorunderhåll företag, IT-partner Göteborg">
+<meta name="author" content="Nordic PC Solutions">
+<meta name="robots" content="index, follow">
+<meta name="geo.region" content="SE-O">
+<meta name="geo.placename" content="Göteborg">
+<meta name="theme-color" content="#0b0f1a">
+<link rel="canonical" href="https://nordicpcsolutions.se/foretag.html">
+<meta property="og:title" content="Nordic PC Solutions – IT-tjänster för Företag i Göteborg">
+<meta property="og:description" content="IT-support, arbetsstationer och underhåll för företag i Göteborg. Transparenta priser, snabb respons, ingen bindningstid.">
+<meta property="og:url" content="https://nordicpcsolutions.se/foretag.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sv_SE">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:site_name" content="Nordic PC Solutions">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nordic PC Solutions – IT-tjänster för Företag i Göteborg">
+<meta name="twitter:description" content="IT-support, arbetsstationer och underhåll för företag i Göteborg.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --blue:#1a4fff;--blue-light:#3d6fff;--blue-dark:#0d2fa0;
+  --cyan:#00d4ff;--dark:#080c18;--dark2:#0d1225;--dark3:#121a30;--dark4:#1a2440;
+  --gray:#7a8fb5;--gray-light:#b8cae8;--white:#eef2ff;
+  /* Business design tokens */
+  --biz-bg:#080c18;
+  --biz-surface:#0d1120;
+  --biz-surface2:#111827;
+  --biz-border:rgba(255,255,255,0.07);
+  --biz-border-accent:rgba(26,79,255,0.22);
+  --biz-accent:#3d6fff;
+  --biz-accent-dim:rgba(61,111,255,0.12);
+  --biz-muted:#68799a;
+  --biz-text:#c2d0e8;
+  --biz-radius:3px;
+  --biz-accent-2:var(--cyan);
+  --biz-accent-2-dim:rgba(0,212,255,0.1);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--biz-bg);color:var(--white);overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:64px;background:rgba(8,12,24,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--biz-border);gap:1rem;transition:background 0.3s;}
+nav.scrolled{background:rgba(8,12,24,0.97);}
+.logo-wrap{display:flex;align-items:center;gap:0.65rem;flex-shrink:0;text-decoration:none;}
+.logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.3rem;letter-spacing:0.05em;color:var(--white);text-transform:uppercase;text-decoration:none;white-space:nowrap;}
+.logo .lpc{color:var(--blue);}
+.logo-abbr{display:none;}
+.biz-badge{font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:rgba(26,79,255,0.18);border:1px solid rgba(26,79,255,0.38);color:#7aa5ff;padding:0.2rem 0.6rem;border-radius:var(--biz-radius);white-space:nowrap;flex-shrink:0;}
+.nav-center{display:flex;align-items:center;gap:1.8rem;flex:1;justify-content:center;}
+.nav-center a{color:var(--gray-light);text-decoration:none;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;}
+.nav-center a:hover{color:var(--white);}
+.nav-center a.active-page{color:var(--white);}
+.nav-individuals{color:var(--biz-muted) !important;font-size:0.72rem !important;border-left:1px solid var(--biz-border);padding-left:1.8rem !important;margin-left:0.2rem;}
+.nav-individuals:hover{color:var(--white) !important;}
+.nav-right{display:flex;align-items:center;gap:0.75rem;flex-shrink:0;}
+.nav-cta{background:var(--biz-accent);color:#fff !important;padding:0.45rem 1.2rem;border-radius:var(--biz-radius);font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:background 0.2s;}
+.nav-cta:hover{background:var(--blue-light);}
+.lang-toggle{display:flex;border:1px solid var(--biz-border);border-radius:var(--biz-radius);overflow:hidden;flex-shrink:0;}
+.lang-btn{padding:0.38rem 0.65rem;background:transparent;color:var(--gray);border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.07em;transition:background 0.2s,color 0.2s;}
+.lang-btn.active{background:var(--blue);color:#fff;}
+.hamburger-btn{display:none;flex-direction:column;justify-content:space-between;align-items:center;width:44px;height:44px;padding:8px 4px;background:none;border:none;cursor:pointer;z-index:1002;flex-shrink:0;}
+.hamburger-btn span{display:block;height:2px;width:26px;background:var(--white);border-radius:2px;transition:transform 0.3s,opacity 0.2s;}
+.hamburger-btn.open span:nth-child(1){transform:translateY(10px) rotate(45deg);}
+.hamburger-btn.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger-btn.open span:nth-child(3){transform:translateY(-10px) rotate(-45deg);}
+#mobile-menu{position:fixed;inset:0;z-index:998;background:rgba(8,12,24,0.97);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);pointer-events:none;}
+#mobile-menu.open{transform:translateX(0);pointer-events:auto;}
+.mobile-menu-close{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;cursor:pointer;color:var(--white);font-size:1.5rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
+.mobile-menu-inner{display:flex;flex-direction:column;align-items:flex-start;width:100%;max-width:340px;padding:0 2rem;}
+.mobile-menu-nav{display:flex;flex-direction:column;width:100%;margin-bottom:2.5rem;}
+.mobile-menu-nav a{display:flex;align-items:center;color:rgba(255,255,255,0.7);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-size:1.7rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;min-height:56px;border-bottom:1px solid rgba(255,255,255,0.06);transition:color 0.2s,padding-left 0.2s;}
+.mobile-menu-nav a:hover{color:#fff;padding-left:0.5rem;}
+.mobile-menu-cta{color:var(--cyan)!important;border-bottom:none!important;margin-top:0.3rem;}
+.mobile-menu-lang{display:flex;gap:0.5rem;margin-top:1.5rem;}
+
+/* ── LAYOUT ── */
+.biz-section{padding:5rem 5vw;}
+.biz-label{font-size:0.68rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--biz-accent);margin-bottom:0.55rem;padding-left:0.7rem;border-left:2px solid var(--biz-accent);}
+.biz-heading{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(2.1rem,3.6vw,3rem);text-transform:uppercase;letter-spacing:-0.01em;line-height:1.05;margin-bottom:0.85rem;color:var(--white);}
+.biz-subtext{font-size:0.95rem;color:var(--biz-muted);line-height:1.78;max-width:520px;}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.48s ease-out,transform 0.48s ease-out;}
+.reveal.visible{opacity:1;transform:none;}
+.reveal-delay-1{transition-delay:0.07s;}.reveal-delay-2{transition-delay:0.14s;}
+.reveal-delay-3{transition-delay:0.21s;}.reveal-delay-4{transition-delay:0.28s;}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none!important;}}
+
+/* ── HERO ── */
+.biz-hero{padding:clamp(6rem,10vh,9rem) 5vw clamp(5rem,8vh,7.5rem);min-height:clamp(0px,82vh,820px);display:flex;align-items:center;background:var(--biz-surface);border-bottom:1px solid var(--biz-border);position:relative;overflow:hidden;}
+.biz-hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 85% at 0% 50%,rgba(26,79,255,0.1) 0%,transparent 60%),radial-gradient(ellipse 45% 55% at 98% 25%,rgba(0,212,255,0.05) 0%,transparent 60%);}
+.biz-hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:6rem;align-items:center;position:relative;z-index:1;max-width:1140px;margin:0 auto;width:100%;}
+.biz-hero-badge{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--biz-accent);border:1px solid rgba(0,212,255,0.22);padding:0.3rem 0.85rem;border-radius:var(--biz-radius);margin-bottom:1.85rem;}
+.biz-hero-badge::before{content:'';width:5px;height:5px;background:var(--biz-accent-2);border-radius:50%;flex-shrink:0;}
+.biz-hero h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(3.2rem,5.8vw,5.6rem);line-height:1.0;text-transform:uppercase;letter-spacing:-0.02em;margin-bottom:1.7rem;color:var(--white);}
+.biz-hero h1 .h1-line2{display:block;color:var(--biz-accent);}
+.biz-hero-sub{font-size:1.02rem;color:var(--biz-muted);line-height:1.85;max-width:520px;margin-bottom:2.7rem;}
+.biz-btn{display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(118deg,var(--biz-accent) 0%,#0e9ed8 100%);color:#fff;text-decoration:none;padding:0.8rem 1.8rem;border-radius:var(--biz-radius);font-weight:700;font-size:0.87rem;letter-spacing:0.06em;text-transform:uppercase;min-height:44px;transition:background 0.2s,box-shadow 0.2s;border:none;cursor:pointer;font-family:'Barlow',sans-serif;}
+.biz-btn:hover{background:linear-gradient(118deg,var(--blue-light) 0%,#18aae5 100%);box-shadow:0 4px 16px rgba(61,111,255,0.22);}
+.biz-hero-aside{display:flex;flex-direction:column;gap:0;border:1px solid var(--biz-border);border-top-color:rgba(61,111,255,0.35);background:linear-gradient(160deg,rgba(61,111,255,0.04) 0%,transparent 60%);}
+.biz-aside-row{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:1.2rem;padding:1.3rem 1.5rem;border-bottom:1px solid var(--biz-border);}
+.biz-aside-row:last-child{border-bottom:none;}
+.biz-aside-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--biz-accent);flex-shrink:0;}
+.biz-aside-icon svg{width:20px;height:20px;}
+.biz-aside-label{font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--biz-muted);margin-bottom:0.18rem;}
+.biz-aside-val{font-size:0.9rem;color:var(--biz-text);font-weight:600;line-height:1.3;}
+
+/* ── SERVICES ── */
+#foretag-services{background:var(--biz-bg);}
+.biz-services-header{margin-bottom:2.5rem;}
+.biz-services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--biz-border);}
+.biz-service-card{background:var(--biz-surface);cursor:pointer;transition:background 0.2s,box-shadow 0.2s;}
+.biz-service-card:hover{background:var(--biz-surface2);box-shadow:inset 0 0 0 1px rgba(61,111,255,0.18);}
+.biz-service-card:hover .biz-service-icon{color:rgba(255,255,255,0.85);}
+.biz-service-card:focus-visible{outline:2px solid var(--biz-accent);outline-offset:-2px;}
+.biz-service-card.coming-soon{opacity:0.4;cursor:default;pointer-events:none;}
+.biz-card-header{padding:2rem 1.8rem 1.4rem;}
+.biz-service-icon{width:34px;height:34px;margin-bottom:1.1rem;color:var(--biz-accent);transition:color 0.2s;}
+.biz-service-icon svg{width:34px;height:34px;}
+.biz-service-card h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.97rem;text-transform:uppercase;letter-spacing:0.09em;margin-bottom:0.5rem;color:var(--white);}
+.biz-card-summary{font-size:0.84rem;color:var(--biz-muted);line-height:1.68;margin-bottom:0.85rem;}
+.biz-card-toggle{display:flex;align-items:center;gap:0.4rem;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--biz-accent);}
+.biz-chevron{flex-shrink:0;transition:transform 0.3s ease;}
+.biz-service-card.expanded .biz-chevron{transform:rotate(180deg);}
+.biz-service-num{float:right;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;color:rgba(255,255,255,0.1);font-family:'Barlow Condensed',sans-serif;user-select:none;margin-left:0.5rem;}
+.biz-cs-tag{display:inline-block;margin-bottom:0.65rem;border:1px solid var(--biz-border);color:var(--biz-muted);font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:0.14rem 0.5rem;border-radius:var(--biz-radius);}
+/* Stagger reveal for service cards */
+.biz-services-grid .biz-service-card:nth-child(2).reveal:not(.visible){transition-delay:0.07s;}
+.biz-services-grid .biz-service-card:nth-child(3).reveal:not(.visible){transition-delay:0.14s;}
+.biz-services-grid .biz-service-card:nth-child(4).reveal:not(.visible){transition-delay:0.07s;}
+.biz-services-grid .biz-service-card:nth-child(5).reveal:not(.visible){transition-delay:0.14s;}
+/* Accordion body */
+.biz-card-body{max-height:0;overflow:hidden;transition:max-height 0.44s cubic-bezier(0.25,0.46,0.45,0.94);}
+.biz-service-card.expanded .biz-card-body{max-height:600px;}
+.biz-card-body-inner{padding:0 1.8rem 1.8rem;border-top:1px solid var(--biz-border);}
+.biz-detail-block{margin-top:1.2rem;}
+.biz-detail-label{font-size:0.63rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--biz-muted);margin-bottom:0.55rem;}
+.biz-detail-list{list-style:none;display:flex;flex-direction:column;gap:0.45rem;}
+.biz-detail-list li{font-size:0.83rem;color:var(--biz-text);line-height:1.6;padding-left:1rem;position:relative;}
+.biz-detail-list li::before{content:'—';position:absolute;left:0;color:var(--biz-accent);font-size:0.75rem;}
+.biz-detail-val{font-size:0.83rem;color:var(--biz-text);}
+
+/* ── WHO WE HELP ── */
+#who-we-help{background:var(--biz-surface);padding-top:6rem;padding-bottom:6rem;}
+.biz-wwh-header{margin-bottom:3rem;}
+.biz-wwh-bento{display:grid;grid-template-columns:repeat(3,1fr);grid-template-areas:"smf smf kon" "kons ark ark" "rev but vst";gap:1.25rem;}
+.biz-wwh-card{background:var(--biz-surface2);border:1px solid var(--biz-border);border-radius:var(--biz-radius);padding:2rem 1.75rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:border-color 0.2s;}
+.biz-wwh-card:hover{border-color:rgba(61,111,255,0.18);}
+.biz-wwh-card--wide{flex-direction:row;align-items:flex-start;justify-content:flex-start;text-align:left;padding:2.5rem;gap:1.75rem;}
+.biz-wwh-card--smf{grid-area:smf;}
+.biz-wwh-card--kon{grid-area:kon;}
+.biz-wwh-card--kons{grid-area:kons;}
+.biz-wwh-card--ark{grid-area:ark;}
+.biz-wwh-card--rev{grid-area:rev;}
+.biz-wwh-card--but{grid-area:but;}
+.biz-wwh-card--vst{grid-area:vst;}
+.biz-wwh-icon{color:var(--biz-accent);flex-shrink:0;margin-bottom:1.3rem;}
+.biz-wwh-card--wide .biz-wwh-icon{margin-bottom:0;margin-top:0.15rem;}
+.biz-wwh-icon svg{width:28px;height:28px;}
+.biz-wwh-card--wide .biz-wwh-icon svg{width:36px;height:36px;}
+.biz-wwh-body{display:flex;flex-direction:column;}
+.biz-wwh-name{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--white);margin-bottom:0.45rem;}
+.biz-wwh-card--wide .biz-wwh-name{font-size:1.15rem;}
+.biz-wwh-desc{font-size:0.8rem;color:var(--biz-muted);line-height:1.65;}
+.biz-wwh-card--wide .biz-wwh-desc{font-size:0.85rem;}
+@media(prefers-reduced-motion:reduce){.biz-wwh-card{transition:none;}}
+
+/* ── TRUST ── */
+#trust{background:var(--biz-bg);}
+.biz-trust-line{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;}
+.biz-trust-point{display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 1.6rem;font-size:0.82rem;font-weight:600;color:var(--biz-text);letter-spacing:0.01em;transition:color 0.2s;cursor:default;}
+.biz-trust-point:hover{color:var(--white);}
+.biz-trust-point:hover svg{color:rgba(255,255,255,0.7);}
+.biz-trust-point svg{width:13px;height:13px;color:var(--biz-accent);flex-shrink:0;transition:color 0.2s;}
+.biz-trust-sep{width:1px;height:0.9rem;background:var(--biz-border);flex-shrink:0;align-self:center;}
+
+/* ── PROCESS ── */
+#process{background:var(--biz-surface);}
+.biz-process-header{margin-bottom:3.5rem;display:grid;grid-template-columns:1fr 1fr;gap:0 3rem;align-items:end;}
+.biz-process-header .biz-label{grid-column:1/-1;margin-bottom:0.6rem;}
+.biz-process-header .biz-heading{margin-bottom:0;}
+.biz-process-header .biz-subtext{padding-bottom:0.1rem;}
+/* Timeline */
+.biz-timeline{display:flex;position:relative;min-height:300px;align-items:stretch;counter-reset:biz-step;}
+.biz-timeline-track{position:absolute;top:50%;left:0;right:0;height:1px;background:var(--biz-border);transform:translateY(-50%);pointer-events:none;overflow:hidden;}
+.biz-timeline-fill{height:100%;width:0;background:linear-gradient(90deg,var(--biz-accent),var(--biz-accent-2));transition:width 1.2s ease-out;}
+.biz-timeline-fill.active{width:100%;}
+.biz-tl-step{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;counter-increment:biz-step;}
+.biz-tl-text{flex:1;display:flex;flex-direction:column;padding:0 0.6rem;text-align:center;width:100%;}
+.biz-tl-node{width:32px;height:32px;border-radius:50%;background:var(--biz-surface);border:1px solid var(--biz-border-accent);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;font-weight:700;color:var(--biz-accent);flex-shrink:0;position:relative;z-index:2;transition:background 0.2s,border-color 0.2s,box-shadow 0.2s;}
+.biz-tl-spacer{flex:1;}
+.biz-tl-odd .biz-tl-text{justify-content:flex-end;padding-bottom:1.3rem;}
+.biz-tl-even .biz-tl-text{justify-content:flex-start;padding-top:1.3rem;}
+.biz-tl-step:hover .biz-tl-node{background:var(--biz-accent-dim);border-color:var(--biz-accent);box-shadow:0 0 0 4px rgba(61,111,255,0.08);}
+.biz-tl-even .biz-tl-node{border-color:rgba(0,212,255,0.3);color:var(--biz-accent-2);}
+.biz-tl-even:hover .biz-tl-node{background:var(--biz-accent-2-dim);border-color:rgba(0,212,255,0.55);box-shadow:0 0 0 4px rgba(0,212,255,0.06);}
+.biz-tl-step::before{content:counter(biz-step,decimal-leading-zero);position:absolute;font-family:'Barlow Condensed',sans-serif;font-size:5.5rem;font-weight:900;line-height:1;color:var(--white);opacity:0.04;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;user-select:none;letter-spacing:-0.05em;z-index:0;}
+.biz-tl-text h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:0.92rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:0.4rem;}
+.biz-tl-text p{font-size:0.78rem;color:var(--biz-muted);line-height:1.65;}
+@media(prefers-reduced-motion:reduce){.biz-timeline-fill{transition:none;}}
+
+/* ── COMPARISON ── */
+#comparison{background:var(--biz-bg);padding-top:6rem;padding-bottom:6rem;}
+.biz-comp-header{margin-bottom:3.5rem;position:relative;}
+.biz-comp-header::after{content:'vs';position:absolute;right:0;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-size:9rem;font-weight:900;color:var(--white);opacity:0.025;line-height:1;pointer-events:none;user-select:none;letter-spacing:-0.04em;}
+/* Comparison section gets a larger heading for prominence */
+#comparison .biz-heading{font-size:clamp(2rem,3.8vw,3.1rem);}
+.biz-comp-table{display:grid;grid-template-columns:1fr 1px 1fr;overflow:visible;}
+.biz-comp-col{padding:3rem 2.8rem;}
+.biz-comp-left{background:rgba(255,255,255,0.01);}
+.biz-comp-right{background:rgba(61,111,255,0.04);border-radius:0 var(--biz-radius) var(--biz-radius) 0;}
+.biz-comp-divider{background:var(--biz-border);}
+.biz-comp-colhead{font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:2.2rem;padding-bottom:1rem;border-bottom:1px solid var(--biz-border);display:flex;align-items:center;gap:0.6rem;}
+.biz-comp-left .biz-comp-colhead{font-size:0.62rem;color:var(--biz-muted);opacity:0.75;}
+.biz-comp-right .biz-comp-colhead{font-size:0.82rem;color:var(--biz-accent);}
+.biz-comp-list{list-style:none;display:flex;flex-direction:column;gap:1.4rem;}
+.biz-comp-list li{font-size:0.92rem;line-height:1.6;display:flex;align-items:flex-start;gap:0.75rem;padding:0.15rem 0.3rem;margin:0 -0.3rem;border-radius:2px;transition:background 0.15s;}
+.biz-comp-list li span{flex:1;}
+.biz-comp-icon{flex-shrink:0;width:15px;height:15px;margin-top:2px;}
+.biz-comp-left .biz-comp-list li{color:var(--biz-muted);}
+.biz-comp-left .biz-comp-icon{color:rgba(255,255,255,0.18);}
+.biz-comp-right .biz-comp-list li{color:var(--white);font-weight:500;}
+.biz-comp-right .biz-comp-list li:hover{background:rgba(61,111,255,0.06);}
+.biz-comp-right .biz-comp-icon{color:var(--biz-accent);stroke-width:2;}
+
+/* ── CONTACT — FLOATING LABELS ── */
+#kontakt{background:var(--biz-surface);}
+.biz-contact-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:5rem;align-items:start;max-width:1140px;margin:0 auto;}
+.biz-contact-meta{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.7rem;}
+.biz-contact-icon-wrap{width:40px;height:40px;background:var(--biz-accent-dim);border:1px solid var(--biz-border-accent);border-radius:var(--biz-radius);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.biz-contact-icon-wrap svg{width:16px;height:16px;color:var(--biz-accent);}
+.biz-contact-meta h4{font-size:0.67rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--biz-accent);margin-bottom:0.22rem;}
+.biz-contact-meta p{font-size:0.92rem;color:var(--biz-text);line-height:1.5;}
+/* Floating label form */
+.biz-form{display:flex;flex-direction:column;gap:1.5rem;}
+.biz-form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.biz-field{position:relative;}
+/* Base styles — all fields share identical height, padding, font */
+.biz-field input,
+.biz-field select,
+.biz-field textarea{
+  display:block;width:100%;
+  background:var(--biz-bg);
+  border:1px solid var(--biz-border);
+  border-radius:var(--biz-radius);
+  padding:1.55rem 1rem 0.5rem;
+  color:var(--white);
+  font-family:'Barlow',sans-serif;
+  font-size:1rem;
+  line-height:1.3;
+  outline:none;
+  appearance:none;-webkit-appearance:none;
+  transition:border-color 0.18s,box-shadow 0.18s;
+  height:3.65rem;
+  box-sizing:border-box;
+}
+.biz-field textarea{
+  height:auto;
+  min-height:145px;
+  resize:vertical;
+}
+/* Custom chevron on select — uses CSS background-image SVG so no extra markup needed */
+.biz-field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%2368799a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='2 4 6 8 10 4'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 1rem center;
+  padding-right:2.8rem;
+  cursor:pointer;
+}
+.biz-field select option{background:var(--biz-surface2);color:var(--white);}
+/* Premium focus — single clean transition, no layered glow */
+.biz-field input:focus,
+.biz-field select:focus,
+.biz-field textarea:focus{
+  border-color:var(--biz-accent);
+  box-shadow:0 0 0 3px rgba(61,111,255,0.12);
+  outline:2px solid transparent;/* visible for Windows high-contrast / forced-colors */
+}
+/* Label — sits at the vertical midpoint of the content zone */
+.biz-field label{
+  position:absolute;
+  left:1rem;
+  /* Align label with where typed text appears: top-pad (1.55rem) minus half-label-height (~0.6rem) */
+  top:1.55rem;
+  transform:translateY(-50%);
+  font-size:0.97rem;
+  font-weight:400;
+  color:var(--biz-muted);
+  pointer-events:none;
+  line-height:1;
+  white-space:nowrap;
+  transition:top 0.16s ease,transform 0.16s ease,font-size 0.16s ease,color 0.16s ease,letter-spacing 0.16s ease,font-weight 0.16s ease;
+}
+/* Textarea label — fixed to top of content area, no transform needed */
+.biz-field textarea ~ label{
+  top:1.15rem;
+  transform:none;
+}
+/* ── Floated state shared properties ── */
+.biz-field input:focus ~ label,
+.biz-field input:not(:placeholder-shown) ~ label,
+.biz-field input:-webkit-autofill ~ label{
+  top:0.45rem;
+  transform:none;
+  font-size:0.6rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--biz-accent);
+}
+.biz-field textarea:focus ~ label,
+.biz-field textarea:not(:placeholder-shown) ~ label{
+  top:0.42rem;
+  transform:none;
+  font-size:0.6rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--biz-accent);
+}
+/* Select label default — override to match input label alignment */
+.biz-field select ~ label{
+  top:1.55rem;
+  transform:translateY(-50%);
+  font-size:0.97rem;
+}
+.biz-field select:focus ~ label,
+.biz-field.has-value select ~ label{
+  top:0.45rem;
+  transform:none;
+  font-size:0.6rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--biz-accent);
+}
+.biz-char-counter{text-align:right;font-size:0.68rem;color:var(--biz-muted);margin-top:0.3rem;}
+.biz-char-counter.near-limit{color:#f5a542;}
+.biz-char-counter.at-limit{color:#f55;}
+#biz-form-error{display:none;background:rgba(220,50,50,0.08);border:1px solid rgba(220,50,50,0.25);border-radius:var(--biz-radius);padding:0.75rem 1rem;font-size:0.85rem;color:#ff8080;margin-top:-0.5rem;}
+.biz-submit{width:100%;background:linear-gradient(118deg,var(--biz-accent) 0%,#0e9ed8 100%);color:#fff;border:none;border-radius:var(--biz-radius);padding:1rem 1rem;font-family:'Barlow',sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:background 0.2s,box-shadow 0.2s;min-height:52px;}
+.biz-submit:hover{background:linear-gradient(118deg,var(--blue-light) 0%,#18aae5 100%);box-shadow:0 4px 16px rgba(61,111,255,0.18);}
+.biz-submit:focus-visible{outline:2px solid var(--biz-accent);outline-offset:3px;}
+.biz-form-note{font-size:0.72rem;color:var(--biz-muted);text-align:center;margin-top:0.6rem;line-height:1.65;}
+
+/* ── FOOTER ── */
+footer{background:var(--dark2);padding:3.5rem 5vw 2rem;position:relative;}
+footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(26,79,255,0.55) 30%,rgba(0,212,255,0.4) 70%,transparent);}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2.5rem;}
+.footer-brand p{font-size:0.84rem;color:var(--gray);line-height:1.68;max-width:230px;margin-top:0.75rem;}
+.footer-col h4{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);margin-bottom:1.1rem;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.65rem;}
+.footer-col ul a{color:var(--gray-light);text-decoration:none;font-size:0.87rem;transition:color 0.2s;}
+.footer-col ul a:hover{color:var(--cyan);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:1.8rem;display:flex;justify-content:space-between;align-items:center;font-size:0.79rem;color:var(--gray);}
+.footer-social-link{display:flex;align-items:center;gap:0.45rem;}
+.footer-social-link svg{width:14px;height:14px;opacity:0.75;flex-shrink:0;transition:opacity 0.2s;}
+.footer-social-link:hover svg{opacity:1;}
+
+/* ── COOKIE ── */
+#cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:999;background:var(--dark2);border-top:3px solid var(--blue);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+#cookie-banner p{font-size:0.84rem;color:var(--gray-light);line-height:1.5;flex:1;min-width:200px;}
+.cookie-actions{display:flex;gap:0.7rem;flex-shrink:0;flex-wrap:wrap;}
+.cookie-btn-accept{background:var(--blue);color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:var(--biz-radius);font-family:'Barlow',sans-serif;font-weight:700;font-size:0.82rem;cursor:pointer;min-height:44px;transition:background 0.2s;}
+.cookie-btn-accept:hover{background:var(--blue-light);}
+.cookie-btn-more{background:transparent;color:var(--gray-light);border:1px solid rgba(255,255,255,0.2);padding:0.6rem 1.4rem;border-radius:var(--biz-radius);font-family:'Barlow',sans-serif;font-weight:700;font-size:0.82rem;cursor:pointer;min-height:44px;text-decoration:none;display:inline-flex;align-items:center;transition:border-color 0.2s;}
+.cookie-btn-more:hover{border-color:rgba(255,255,255,0.5);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .biz-services-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:960px){
+  .nav-center{display:none;}
+  .hamburger-btn{display:flex;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  /* Hero: stack at tablet */
+  .biz-hero{min-height:unset;padding:5.5rem 5vw 4rem;}
+  .biz-hero-grid{grid-template-columns:1fr;gap:3rem;}
+  .biz-hero-aside{max-width:480px;}
+  .biz-contact-grid{grid-template-columns:1fr;gap:3rem;}
+  .biz-process-header{grid-template-columns:1fr;}
+  .biz-process-header .biz-heading{margin-bottom:0.85rem;}
+  /* Trust inline: tighten on medium screens */
+  .biz-trust-point{padding:0.5rem 1rem;}
+  /* Timeline: vertical layout on mobile */
+  .biz-timeline{flex-direction:column;min-height:unset;padding-left:2.5rem;gap:0;}
+  .biz-timeline-track{top:0;bottom:0;left:0;right:auto;width:1px;height:auto;transform:none;overflow:visible;}
+  .biz-timeline-fill{width:100%;height:0;transition:height 1.2s ease-out;}
+  .biz-timeline-fill.active{height:100%;}
+  .biz-tl-step{flex-direction:row;align-items:flex-start;min-height:unset;gap:1rem;padding:1rem 0;}
+  .biz-tl-text{flex:1;padding:0!important;text-align:left;justify-content:flex-start!important;}
+  .biz-tl-text h4{margin-bottom:0.25rem;}
+  .biz-tl-spacer{display:none;}
+  .biz-tl-odd .biz-tl-node{order:-1;flex-shrink:0;margin-top:2px;}
+  .biz-tl-even .biz-tl-node{flex-shrink:0;margin-top:2px;}
+  .biz-tl-step::before{font-size:3.2rem;opacity:0.035;top:0.8rem;left:1.25rem;transform:none;}
+  /* Comparison: stack on mobile */
+  .biz-comp-table{grid-template-columns:1fr;grid-template-rows:auto auto auto;}
+  .biz-comp-divider{height:1px;width:auto;}
+  .biz-comp-col{padding:2.2rem 1.8rem;}
+  .biz-comp-header::after{font-size:5rem;opacity:0.02;}
+  /* WWH bento → 2-col at tablet */
+  .biz-wwh-bento{grid-template-columns:1fr 1fr;grid-template-areas:none;gap:1rem;}
+  .biz-wwh-card--smf,.biz-wwh-card--kon,.biz-wwh-card--kons,.biz-wwh-card--ark,.biz-wwh-card--rev,.biz-wwh-card--but,.biz-wwh-card--vst{grid-area:auto;}
+  .biz-wwh-card:last-child{grid-column:1/-1;}
+  .biz-wwh-card--wide{flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.75rem;gap:0;}
+  .biz-wwh-card--wide .biz-wwh-icon{margin-bottom:1.3rem;margin-top:0;}
+  .biz-wwh-card--wide .biz-wwh-name,.biz-wwh-card--wide .biz-wwh-desc{font-size:inherit;}
+  #who-we-help{padding-top:5rem;padding-bottom:5rem;}
+}
+@media(max-width:600px){
+  .logo-abbr{display:inline;}
+  .logo-full{display:none;}
+  .nav-right>.lang-toggle,.nav-right>.nav-cta{display:none;}
+  .biz-section{padding:3.5rem 4vw;}
+  .biz-hero{padding:5rem 4vw 3.5rem;min-height:unset;}
+  .biz-services-grid{grid-template-columns:1fr;}
+  .biz-form-row{grid-template-columns:1fr;}
+  .biz-field input,.biz-field select,.biz-field textarea{font-size:16px;}
+  .biz-field input,.biz-field select{height:3.5rem;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  .footer-brand{grid-column:1/-1;}
+  /* Trust inline: hide separators, let points wrap */
+  .biz-trust-sep{display:none;}
+  .biz-trust-point{padding:0.35rem 0.8rem;}
+  #cookie-banner{flex-direction:column;align-items:flex-start;}
+  .cookie-actions{width:100%;}
+  .cookie-btn-accept,.cookie-btn-more{flex:1;justify-content:center;}
+  /* WWH bento → 1-col on phone */
+  .biz-wwh-bento{grid-template-columns:1fr;}
+  .biz-wwh-card:last-child{grid-column:auto;}
+  #who-we-help{padding-top:4rem;padding-bottom:4rem;}
+}
+@media(max-width:420px){
+  .biz-tl-step::before{font-size:2.4rem;}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Nordic PC Solutions",
+  "description": "IT-support, arbetsstationer och underhåll för företag i Göteborg. Transparenta priser, snabb respons, ingen bindningstid.",
+  "url": "https://nordicpcsolutions.se/foretag.html",
+  "email": "nordicpcsolutions@gmail.com",
+  "address": {"@type":"PostalAddress","addressLocality":"Göteborg","addressRegion":"Västra Götaland","addressCountry":"SE"},
+  "areaServed": {"@type":"City","name":"Göteborg"},
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "IT-tjänster för Företag",
+    "itemListElement": [
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Arbetsstationer"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Installation & Uppgraderingar"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Diagnostik & Felsökning"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Underhåll & Rengöring"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"IT-support"}}
+    ]
+  },
+  "sameAs": ["https://www.instagram.com/nordicpcsolutions","https://www.facebook.com/profile.php?id=61584118142766"]
+}
+</script>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T21RVB775S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T21RVB775S');
+  function trackBooking() {
+    gtag('event', 'generate_lead', {'event_category':'booking','event_label':'Foretag Form Submitted'});
+  }
+</script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="index.html" class="logo-wrap">
+    <span class="logo"><span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span><span class="logo-abbr">N<span class="lpc">P</span>S</span></span>
+    <span class="biz-badge" data-sv="F&#214;RETAG" data-en="BUSINESS">F&#214;RETAG</span>
+  </a>
+  <div class="nav-center">
+    <a href="index.html#services" data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</a>
+    <a href="index.html#pricing" data-sv="Priser" data-en="Pricing">Priser</a>
+    <a href="index.html#gallery" data-sv="Galleri" data-en="Gallery">Galleri</a>
+    <a href="index.html#testimonials" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
+    <a href="foretag.html" class="active-page" data-sv="F&#246;retag" data-en="Business">F&#246;retag</a>
+    <a href="index.html" class="nav-individuals" data-sv="F&#246;r privatpersoner &#8594;" data-en="For individuals &#8594;">F&#246;r privatpersoner &#8594;</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('sv')" id="btn-sv">SV</button>
+      <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+    </div>
+    <a href="#kontakt" class="nav-cta" data-sv="Boka m&#246;te" data-en="Book meeting">Boka m&#246;te</a>
+    <button class="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Meny" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu" role="dialog" aria-modal="true">
+  <button class="mobile-menu-close" onclick="toggleMobileMenu()" aria-label="St&#228;ng meny">&#x2715;</button>
+  <div class="mobile-menu-inner">
+    <nav class="mobile-menu-nav">
+      <a href="index.html#services" onclick="closeMobileMenu()" data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</a>
+      <a href="index.html#pricing" onclick="closeMobileMenu()" data-sv="Priser" data-en="Pricing">Priser</a>
+      <a href="index.html#gallery" onclick="closeMobileMenu()" data-sv="Galleri" data-en="Gallery">Galleri</a>
+      <a href="index.html#testimonials" onclick="closeMobileMenu()" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
+      <a href="foretag.html" onclick="closeMobileMenu()" data-sv="F&#246;retag" data-en="Business">F&#246;retag</a>
+      <a href="index.html" onclick="closeMobileMenu()" style="font-size:1.15rem;opacity:0.65;" data-sv="F&#246;r privatpersoner" data-en="For individuals">F&#246;r privatpersoner</a>
+      <a href="#kontakt" class="mobile-menu-cta" onclick="closeMobileMenu()" data-sv="Boka m&#246;te" data-en="Book meeting">Boka m&#246;te</a>
+    </nav>
+    <div class="mobile-menu-lang">
+      <button class="lang-btn active" id="mobile-btn-sv" onclick="setLang('sv')">SV</button>
+      <button class="lang-btn" id="mobile-btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="biz-hero">
+  <div class="biz-hero-grid">
+    <div>
+      <div class="biz-hero-badge" data-sv="IT-partner i G&#246;teborg" data-en="IT partner in Gothenburg">IT-partner i G&#246;teborg</div>
+      <h1>
+        <span data-sv="Tekniken sk&#246;ts." data-en="Technology handled.">Tekniken sk&#246;ts.</span>
+        <span class="h1-line2" data-sv="Ni driver bolaget." data-en="Business focused.">Ni driver bolaget.</span>
+      </h1>
+      <p class="biz-hero-sub" data-sv="Vi hanterar er utrustning, support och underh&#229;ll s&#229; att ni slipper oroa er f&#246;r tekniken. En lokal partner i G&#246;teborg med tydliga priser och ingen bindningstid." data-en="We manage your equipment, support and maintenance so you don&#39;t have to worry about the technology. A local partner in Gothenburg with clear pricing and no lock-in.">Vi hanterar er utrustning, support och underh&#229;ll s&#229; att ni slipper oroa er f&#246;r tekniken. En lokal partner i G&#246;teborg med tydliga priser och ingen bindningstid.</p>
+      <a href="#kontakt" class="biz-btn" data-sv="Boka ett m&#246;te &#8594;" data-en="Book a meeting &#8594;">Boka ett m&#246;te &#8594;</a>
+    </div>
+    <div class="biz-hero-aside">
+      <div class="biz-aside-row">
+        <div class="biz-aside-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><div class="biz-aside-label" data-sv="Transparent priss&#228;ttning" data-en="Transparent pricing">Transparent priss&#228;ttning</div><div class="biz-aside-val" data-sv="Offert innan arbete p&#229;b&#246;rjas" data-en="Quote before work begins">Offert innan arbete p&#229;b&#246;rjas</div></div>
+      </div>
+      <div class="biz-aside-row">
+        <div class="biz-aside-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div><div class="biz-aside-label" data-sv="Snabb responstid" data-en="Fast response time">Snabb responstid</div><div class="biz-aside-val" data-sv="Svar inom n&#229;gra timmar" data-en="Response within hours">Svar inom n&#229;gra timmar</div></div>
+      </div>
+      <div class="biz-aside-row">
+        <div class="biz-aside-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div><div class="biz-aside-label" data-sv="Plats" data-en="Location">Plats</div><div class="biz-aside-val" data-sv="Lokalt i G&#246;teborg" data-en="Local in Gothenburg">Lokalt i G&#246;teborg</div></div>
+      </div>
+      <div class="biz-aside-row">
+        <div class="biz-aside-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div><div class="biz-aside-label" data-sv="Bindningstid" data-en="Commitment">Bindningstid</div><div class="biz-aside-val" data-sv="Ingen bindningstid" data-en="No lock-in">Ingen bindningstid</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="foretag-services" class="biz-section">
+  <div class="biz-services-header reveal">
+    <div class="biz-label" data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</div>
+    <h2 class="biz-heading" data-sv="Vad vi erbjuder f&#246;retag" data-en="What We Offer Businesses">Vad vi erbjuder f&#246;retag</h2>
+    <p class="biz-subtext" data-sv="Klicka p&#229; en tj&#228;nst f&#246;r att se vad som ing&#229;r." data-en="Click a service to see what&#39;s included.">Klicka p&#229; en tj&#228;nst f&#246;r att se vad som ing&#229;r.</p>
+  </div>
+  <div class="biz-services-grid">
+
+    <!-- 01 Arbetsstationer -->
+    <div class="biz-service-card reveal" onclick="toggleCard(this)">
+      <div class="biz-card-header">
+        <div class="biz-service-icon">
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="28" height="18" rx="2"/><path d="M11 29h12M17 23v6"/></svg>
+        </div>
+        <span class="biz-service-num">01</span>
+        <h3 data-sv="Arbetsstationer" data-en="Workstations">Arbetsstationer</h3>
+        <p class="biz-card-summary" data-sv="Vi levererar inte bara en dator — vi bygger hela din arbetsstation. Fr&#229;n dator och sk&#228;rmar till kabelhantering och kringutrustning." data-en="We don't just deliver a PC — we build your complete workstation. From computer and screens to cable management and peripherals.">Vi levererar inte bara en dator — vi bygger hela din arbetsstation. Fr&#229;n dator och sk&#228;rmar till kabelhantering och kringutrustning.</p>
+        <div class="biz-card-toggle">
+          <span data-sv="Visa detaljer" data-en="Show details">Visa detaljer</span>
+          <svg class="biz-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 5 7 10 12 5"/></svg>
+        </div>
+      </div>
+      <div class="biz-card-body">
+        <div class="biz-card-body-inner">
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Vad ing&#229;r" data-en="What&#39;s included">Vad ing&#229;r</div>
+            <ul class="biz-detail-list">
+              <li data-sv="Skr&#228;ddarsydda datorer dimensionerade efter er anv&#228;ndning och budget" data-en="Custom-built PCs sized for your use and budget">Skr&#228;ddarsydda datorer dimensionerade efter er anv&#228;ndning och budget</li>
+              <li data-sv="Komplett montering av arbetsplatsen: dockningsstation, sk&#228;rmar, tangentbord och mus" data-en="Complete workstation assembly: docking station, monitors, keyboard and mouse">Komplett montering av arbetsplatsen: dockningsstation, sk&#228;rmar, tangentbord och mus</li>
+              <li data-sv="Kabelhantering och kabeldragning f&#246;r en ren och ordnad milj&#246;" data-en="Cable management and routing for a clean, tidy workspace">Kabelhantering och kabeldragning f&#246;r en ren och ordnad milj&#246;</li>
+              <li data-sv="Konfiguration av flersk&#228;rmsmilj&#246;" data-en="Multi-monitor configuration">Konfiguration av flersk&#228;rmsmilj&#246;</li>
+              <li data-sv="OS-installation, drivrutiner och n&#246;dv&#228;ndig programvara" data-en="OS installation, drivers and necessary software">OS-installation, drivrutiner och n&#246;dv&#228;ndig programvara</li>
+            </ul>
+          </div>
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Typiska anv&#228;ndningsomr&#229;den" data-en="Typical use cases">Typiska anv&#228;ndningsomr&#229;den</div>
+            <ul class="biz-detail-list">
+              <li data-sv="Nya kontorsplatser vid rekrytering — komplett fr&#229;n dag ett" data-en="New workstations when hiring — fully ready from day one">Nya kontorsplatser vid rekrytering — komplett fr&#229;n dag ett</li>
+              <li data-sv="Utbyte av f&#246;r&#229;ldrad utrustning med minimalt avbrott" data-en="Replacing outdated equipment with minimal downtime">Utbyte av f&#246;r&#229;ldrad utrustning med minimalt avbrott</li>
+            </ul>
+          </div>
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Uppskattad tid" data-en="Estimated turnaround">Uppskattad tid</div>
+            <div class="biz-detail-val" data-sv="1&#8211;3 arbetsdagar — fler enheter hanteras vid samma tillf&#228;lle" data-en="1&#8211;3 working days — multiple units handled in the same visit">1&#8211;3 arbetsdagar — fler enheter hanteras vid samma tillf&#228;lle</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 Installation & Uppgraderingar -->
+    <div class="biz-service-card reveal reveal-delay-1" onclick="toggleCard(this)">
+      <div class="biz-card-header">
+        <div class="biz-service-icon">
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M17 26V10M10 17l7-7 7 7"/><rect x="5" y="28" width="24" height="3.5" rx="1.75"/></svg>
+        </div>
+        <span class="biz-service-num">02</span>
+        <h3 data-sv="Installation &amp; Uppgraderingar" data-en="Installation &amp; Upgrades">Installation &amp; Uppgraderingar</h3>
+        <p class="biz-card-summary" data-sv="F&#246;r&#229;ldrad utrustning bromsar mer &#228;n det syns. Vi uppgraderar er befintliga utrustning eller installerar nytt med minimal drifts&#246;rning." data-en="Outdated equipment costs more than it looks. We upgrade your existing equipment or install new with minimal disruption.">F&#246;r&#229;ldrad utrustning bromsar mer &#228;n det syns. Vi uppgraderar er befintliga utrustning eller installerar nytt med minimal driftst&#246;rning.</p>
+        <div class="biz-card-toggle">
+          <span data-sv="Visa detaljer" data-en="Show details">Visa detaljer</span>
+          <svg class="biz-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 5 7 10 12 5"/></svg>
+        </div>
+      </div>
+      <div class="biz-card-body">
+        <div class="biz-card-body-inner">
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Vad ing&#229;r" data-en="What&#39;s included">Vad ing&#229;r</div>
+            <ul class="biz-detail-list">
+              <li data-sv="Identifiering av r&#228;tt uppgradering f&#246;r er utrustning" data-en="Identifying the right upgrade for your equipment">Identifiering av r&#228;tt uppgradering f&#246;r er utrustning</li>
+              <li data-sv="Byte av RAM, SSD, grafikkort eller andra komponenter" data-en="Replacing RAM, SSD, GPU or other components">Byte av RAM, SSD, grafikkort eller andra komponenter</li>
+              <li data-sv="Funktionstest och verifiering efter installation" data-en="Function test and verification after installation">Funktionstest och verifiering efter installation</li>
+            </ul>
+          </div>
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Typiska anv&#228;ndningsomr&#229;den" data-en="Typical use cases">Typiska anv&#228;ndningsomr&#229;den</div>
+            <ul class="biz-detail-list">
+              <li data-sv="Datorer som upplevs som l&#229;ngsamma men &#228;r strukturellt hela" data-en="Computers that feel slow but are structurally sound">Datorer som upplevs som l&#229;ngsamma men &#228;r strukturellt hela</li>
+              <li data-sv="F&#246;rberedelse inf&#246;r ny resurskr&#228;vande programvara" data-en="Preparing for new resource-intensive software">F&#246;rberedelse inf&#246;r ny resurskr&#228;vande programvara</li>
+            </ul>
+          </div>
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Uppskattad tid" data-en="Estimated turnaround">Uppskattad tid</div>
+            <div class="biz-detail-val" data-sv="Ofta klar samma dag eller 1&#8211;2 arbetsdagar" data-en="Often completed same day or 1&#8211;2 working days">Ofta klar samma dag eller 1&#8211;2 arbetsdagar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 Diagnostik & Felsökning -->
+    <div class="biz-service-card reveal reveal-delay-2" onclick="toggleCard(this)">
+      <div class="biz-card-header">
+        <div class="biz-service-icon">
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><circle cx="15" cy="15" r="9"/><path d="M22 22l8 8"/></svg>
+        </div>
+        <span class="biz-service-num">03</span>
+        <h3 data-sv="Diagnostik &amp; Fels&#246;kning" data-en="Diagnostics &amp; Troubleshooting">Diagnostik &amp; Fels&#246;kning</h3>
+        <p class="biz-card-summary" data-sv="Varje timme med ett tekniskt problem &#228;r en timme bort fr&#229;n verksamheten. Vi identifierar och &#229;tg&#228;rdar felet snabbt." data-en="Every hour with a technical problem is an hour away from your business. We identify and resolve the issue fast.">Varje timme med ett tekniskt problem &#228;r en timme bort fr&#229;n verksamheten. Vi identifierar och &#229;tg&#228;rdar felet snabbt.</p>
+        <div class="biz-card-toggle">
+          <span data-sv="Visa detaljer" data-en="Show details">Visa detaljer</span>
+          <svg class="biz-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 5 7 10 12 5"/></svg>
+        </div>
+      </div>
+      <div class="biz-card-body">
+        <div class="biz-card-body-inner">
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Vad ing&#229;r" data-en="What&#39;s included">Vad ing&#229;r</div>
+            <ul class="biz-detail-list">
+              <li data-sv="Systematisk genomg&#229;ng av h&#229;rdvara och operativsystem" data-en="Systematic review of hardware and operating system">Systematisk genomg&#229;ng av h&#229;rdvara och operativsystem</li>
+              <li data-sv="Identifiering och &#229;tg&#228;rd av felet" data-en="Identification and resolution of the fault">Identifiering och &#229;tg&#228;rd av felet</li>
+              <li data-sv="&#197;terkoppling om orsak och rekommenderade &#229;tg&#228;rder" data-en="Feedback on cause and recommended measures">&#197;terkoppling om orsak och rekommenderade &#229;tg&#228;rder</li>
+            </ul>
+          </div>
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Typiska anv&#228;ndningsomr&#229;den" data-en="Typical use cases">Typiska anv&#228;ndningsomr&#229;den</div>
+            <ul class="biz-detail-list">
+              <li data-sv="Datorer som kraschar, startar inte eller fryser" data-en="Computers that crash, won't start or freeze">Datorer som kraschar, startar inte eller fryser</li>
+              <li data-sv="Ovan&#228;ntat l&#229;ngsamma system eller of&#246;rklarliga felmeddelanden" data-en="Unexpectedly slow systems or unexplained error messages">Ovan&#228;ntat l&#229;ngsamma system eller of&#246;rklarliga felmeddelanden</li>
+            </ul>
+          </div>
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Uppskattad tid" data-en="Estimated turnaround">Uppskattad tid</div>
+            <div class="biz-detail-val" data-sv="1&#8211;2 arbetsdagar" data-en="1&#8211;2 working days">1&#8211;2 arbetsdagar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 Underhåll & Rengöring -->
+    <div class="biz-service-card reveal" onclick="toggleCard(this)">
+      <div class="biz-card-header">
+        <div class="biz-service-icon">
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M26 6a5 5 0 0 0-8.66 5L7 21a2.5 2.5 0 0 0 3.54 3.54L21 14.66A5 5 0 0 0 26 6z"/><path d="M9.5 21.5l5 5"/></svg>
+        </div>
+        <span class="biz-service-num">04</span>
+        <h3 data-sv="Underh&#229;ll &amp; Reng&#246;ring" data-en="Maintenance &amp; Cleaning">Underh&#229;ll &amp; Reng&#246;ring</h3>
+        <p class="biz-card-summary" data-sv="F&#246;rebyggande underh&#229;ll kostar en br&#229;kdel av ett akut haveri. Regelbunen service f&#246;rl&#228;nger utrustningens livsl&#228;ngd och ger f&#246;ruts&#228;gbara kostnader." data-en="Preventive maintenance costs a fraction of an emergency repair. Regular service extends equipment lifespan and keeps costs predictable.">F&#246;rebyggande underh&#229;ll kostar en br&#229;kdel av ett akut haveri. Regelbunen service f&#246;rl&#228;nger utrustningens livsl&#228;ngd och ger f&#246;ruts&#228;gbara kostnader.</p>
+        <div class="biz-card-toggle">
+          <span data-sv="Visa detaljer" data-en="Show details">Visa detaljer</span>
+          <svg class="biz-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 5 7 10 12 5"/></svg>
+        </div>
+      </div>
+      <div class="biz-card-body">
+        <div class="biz-card-body-inner">
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Vad ing&#229;r" data-en="What&#39;s included">Vad ing&#229;r</div>
+            <ul class="biz-detail-list">
+              <li data-sv="Reng&#246;ring av fl&#228;ktar, filter och kylsystem" data-en="Cleaning fans, filters and cooling systems">Reng&#246;ring av fl&#228;ktar, filter och kylsystem</li>
+              <li data-sv="Byte av termopasta p&#229; processor och grafikkort" data-en="Replacing thermal paste on CPU and GPU">Byte av termopasta p&#229; processor och grafikkort</li>
+              <li data-sv="Genomg&#229;ng av systeminst&#228;llningar, uppdateringar och drivrutiner" data-en="Review of system settings, updates and drivers">Genomg&#229;ng av systeminst&#228;llningar, uppdateringar och drivrutiner</li>
+            </ul>
+          </div>
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Typiska anv&#228;ndningsomr&#229;den" data-en="Typical use cases">Typiska anv&#228;ndningsomr&#229;den</div>
+            <ul class="biz-detail-list">
+              <li data-sv="F&#246;rebyggande service en till tv&#229; g&#229;nger per &#229;r" data-en="Preventive service one to two times per year">F&#246;rebyggande service en till tv&#229; g&#229;nger per &#229;r</li>
+              <li data-sv="Utrustning som k&#246;rs varmt, bullrigt eller med nedsatt prestanda" data-en="Equipment running hot, noisily or with reduced performance">Utrustning som k&#246;rs varmt, bullrigt eller med nedsatt prestanda</li>
+            </ul>
+          </div>
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Uppskattad tid" data-en="Estimated turnaround">Uppskattad tid</div>
+            <div class="biz-detail-val" data-sv="Halv dag per enhet — flera enheter kan hanteras vid samma tillf&#228;lle" data-en="Half day per unit — multiple units can be handled in one visit">Halv dag per enhet — flera enheter kan hanteras vid samma tillf&#228;lle</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 IT-support -->
+    <div class="biz-service-card reveal reveal-delay-1" onclick="toggleCard(this)">
+      <div class="biz-card-header">
+        <div class="biz-service-icon">
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18v-4a11 11 0 0 1 22 0v4"/><rect x="4" y="18" width="5" height="8" rx="2.5"/><rect x="25" y="18" width="5" height="8" rx="2.5"/><path d="M30 26v1a5 5 0 0 1-5 5h-4"/></svg>
+        </div>
+        <span class="biz-service-num">05</span>
+        <h3 data-sv="IT-support" data-en="IT Support">IT-support</h3>
+        <p class="biz-card-summary" data-sv="Tillg&#229;ng till kompetent IT-support utan att beh&#246;va anst&#228;lla en egen IT-avdelning. Vi finns d&#228;r ni beh&#246;ver oss." data-en="Access to competent IT support without needing to hire in-house. We&#39;re there when you need us.">Tillg&#229;ng till kompetent IT-support utan att beh&#246;va anst&#228;lla en egen IT-avdelning. Vi finns d&#228;r ni beh&#246;ver oss.</p>
+        <div class="biz-card-toggle">
+          <span data-sv="Visa detaljer" data-en="Show details">Visa detaljer</span>
+          <svg class="biz-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 5 7 10 12 5"/></svg>
+        </div>
+      </div>
+      <div class="biz-card-body">
+        <div class="biz-card-body-inner">
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Vad ing&#229;r" data-en="What&#39;s included">Vad ing&#229;r</div>
+            <ul class="biz-detail-list">
+              <li data-sv="Hj&#228;lp med mjukvara, inst&#228;llningar och periferienheter" data-en="Help with software, settings and peripherals">Hj&#228;lp med mjukvara, inst&#228;llningar och periferienheter</li>
+              <li data-sv="R&#229;dgivning vid inkop och teknikval" data-en="Advice on purchasing and technology choices">R&#229;dgivning vid ink&#246;p och teknikval</li>
+              <li data-sv="Prioriterad hantering vid akuta driftst&#246;rningar" data-en="Priority handling for urgent operational issues">Prioriterad hantering vid akuta driftst&#246;rningar</li>
+            </ul>
+          </div>
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Typiska anv&#228;ndningsomr&#229;den" data-en="Typical use cases">Typiska anv&#228;ndningsomr&#229;den</div>
+            <ul class="biz-detail-list">
+              <li data-sv="L&#246;pande st&#246;d f&#246;r personal utan internt supportavtal" data-en="Ongoing staff support without an internal IT agreement">L&#246;pande st&#246;d f&#246;r personal utan internt supportavtal</li>
+              <li data-sv="Eng&#229;ngs&#228;renden som ni inte hinner hantera internt" data-en="One-off issues you don&#39;t have the capacity to handle internally">Eng&#229;ngs&#228;renden som ni inte hinner hantera internt</li>
+            </ul>
+          </div>
+          <div class="biz-detail-block">
+            <div class="biz-detail-label" data-sv="Uppskattad tid" data-en="Estimated turnaround">Uppskattad tid</div>
+            <div class="biz-detail-val" data-sv="Vi str&#228;var efter &#229;terkoppling inom samma arbetsdag" data-en="We aim to respond within the same working day">Vi str&#228;var efter &#229;terkoppling inom samma arbetsdag</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 Nätverk -->
+    <div class="biz-service-card coming-soon reveal reveal-delay-2">
+      <div class="biz-card-header">
+        <div class="biz-service-icon">
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="7" r="3"/><circle cx="6" cy="27" r="3"/><circle cx="28" cy="27" r="3"/><path d="M17 10L6 24M17 10L28 24M6 27h22"/></svg>
+        </div>
+        <span class="biz-service-num">06</span>
+        <div class="biz-cs-tag" data-sv="Kommer snart" data-en="Coming soon">Kommer snart</div>
+        <h3 data-sv="N&#228;tverk" data-en="Network">N&#228;tverk</h3>
+        <p class="biz-card-summary" data-sv="Ett stabilt n&#228;tverk &#228;r grunden f&#246;r allt annat. N&#228;tverksl&#246;sningar och konfiguration f&#246;r kontor — lanseras inom kort." data-en="A stable network is the foundation for everything else. Office network solutions and configuration — launching soon.">Ett stabilt n&#228;tverk &#228;r grunden f&#246;r allt annat. N&#228;tverksl&#246;sningar och konfiguration f&#246;r kontor — lanseras inom kort.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHO WE HELP -->
+<section id="who-we-help" class="biz-section">
+  <div class="biz-wwh-header reveal">
+    <div class="biz-label" data-sv="Vilka vi passar f&#246;r" data-en="Who we&#39;re built for">Vilka vi passar f&#246;r</div>
+    <h2 class="biz-heading" data-sv="V&#228;l l&#228;mpad f&#246;r er verksamhet" data-en="Well suited for your business">V&#228;l l&#228;mpad f&#246;r er verksamhet</h2>
+    <p class="biz-subtext" data-sv="Oavsett bransch &#228;r vi v&#228;l l&#228;mpade att st&#246;tta verksamheter som &#228;r beroende av p&#229;litlig IT." data-en="Regardless of industry, we&#39;re well placed to support businesses that depend on reliable IT.">Oavsett bransch &#228;r vi v&#228;l l&#228;mpade att st&#246;tta verksamheter som &#228;r beroende av p&#229;litlig IT.</p>
+  </div>
+  <div class="biz-wwh-bento">
+
+    <!-- Småföretag — wide featured (2 cols) -->
+    <div class="biz-wwh-card biz-wwh-card--wide biz-wwh-card--smf reveal">
+      <span class="biz-wwh-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></span>
+      <div class="biz-wwh-body">
+        <h3 class="biz-wwh-name" data-sv="Sm&#229;f&#246;retag" data-en="Small Businesses">Sm&#229;f&#246;retag</h3>
+        <p class="biz-wwh-desc" data-sv="P&#229;litlig IT utan eget IT-team &#8212; vi hanterar allt fr&#229;n installation till l&#246;pande support." data-en="Reliable IT without needing your own IT department &#8212; we handle everything from setup to ongoing support.">P&#229;litlig IT utan eget IT-team &#8212; vi hanterar allt fr&#229;n installation till l&#246;pande support.</p>
+      </div>
+    </div>
+
+    <!-- Kontor -->
+    <div class="biz-wwh-card biz-wwh-card--kon reveal reveal-delay-1">
+      <span class="biz-wwh-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>
+      <div class="biz-wwh-body">
+        <h3 class="biz-wwh-name" data-sv="Kontor" data-en="Offices">Kontor</h3>
+        <p class="biz-wwh-desc" data-sv="R&#228;tt utrustning f&#246;r hela teamet, fr&#229;n receptionen till ledningen." data-en="The right equipment for your whole team, from reception to management.">R&#228;tt utrustning f&#246;r hela teamet, fr&#229;n receptionen till ledningen.</p>
+      </div>
+    </div>
+
+    <!-- Konsulter -->
+    <div class="biz-wwh-card biz-wwh-card--kons reveal">
+      <span class="biz-wwh-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+      <div class="biz-wwh-body">
+        <h3 class="biz-wwh-name" data-sv="Konsulter" data-en="Consultants">Konsulter</h3>
+        <p class="biz-wwh-desc" data-sv="P&#229;litliga arbetsstationer s&#229; ni kan fokusera p&#229; kunderna." data-en="Reliable workstations that let you focus on your clients.">P&#229;litliga arbetsstationer s&#229; ni kan fokusera p&#229; kunderna.</p>
+      </div>
+    </div>
+
+    <!-- Arkitektkontor — wide featured (2 cols) -->
+    <div class="biz-wwh-card biz-wwh-card--wide biz-wwh-card--ark reveal reveal-delay-1">
+      <span class="biz-wwh-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+      <div class="biz-wwh-body">
+        <h3 class="biz-wwh-name" data-sv="Arkitektkontor" data-en="Architecture Firms">Arkitektkontor</h3>
+        <p class="biz-wwh-desc" data-sv="Kraftfulla arbetsstationer byggda f&#246;r kr&#228;vande program som AutoCAD, Revit och Rhino." data-en="Powerful workstations built for demanding software like AutoCAD, Revit and Rhino.">Kraftfulla arbetsstationer byggda f&#246;r kr&#228;vande program som AutoCAD, Revit och Rhino.</p>
+      </div>
+    </div>
+
+    <!-- Redovisningsbyråer -->
+    <div class="biz-wwh-card biz-wwh-card--rev reveal">
+      <span class="biz-wwh-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+      <div class="biz-wwh-body">
+        <h3 class="biz-wwh-name" data-sv="Redovisningsbyr&#229;er" data-en="Accounting Firms">Redovisningsbyr&#229;er</h3>
+        <p class="biz-wwh-desc" data-sv="S&#228;ker och stabil drift f&#246;r det dagliga arbetet." data-en="Secure, dependable computers for daily operations.">S&#228;ker och stabil drift f&#246;r det dagliga arbetet.</p>
+      </div>
+    </div>
+
+    <!-- Butiker -->
+    <div class="biz-wwh-card biz-wwh-card--but reveal reveal-delay-1">
+      <span class="biz-wwh-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+      <div class="biz-wwh-body">
+        <h3 class="biz-wwh-name" data-sv="Butiker" data-en="Retail">Butiker</h3>
+        <p class="biz-wwh-desc" data-sv="P&#229;litliga system f&#246;r b&#229;de kassa och kontor." data-en="Reliable systems for front-of-house and back-office work.">P&#229;litliga system f&#246;r b&#229;de kassa och kontor.</p>
+      </div>
+    </div>
+
+    <!-- Verkstäder -->
+    <div class="biz-wwh-card biz-wwh-card--vst reveal reveal-delay-2">
+      <span class="biz-wwh-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
+      <div class="biz-wwh-body">
+        <h3 class="biz-wwh-name" data-sv="Verkst&#228;der" data-en="Workshops">Verkst&#228;der</h3>
+        <p class="biz-wwh-desc" data-sv="Robust IT f&#246;r administration och produktion." data-en="Dependable computers for administration and production.">Robust IT f&#246;r administration och produktion.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TRUST -->
+<section id="trust" class="biz-section" style="padding-top:2.5rem;padding-bottom:2.5rem;">
+  <div class="biz-trust-line">
+    <span class="biz-trust-point">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="9"/><polyline points="6 10 9 13 14 8"/></svg>
+      <span data-sv="Erfarenhet sedan 2016" data-en="Experience since 2016">Erfarenhet sedan 2016</span>
+    </span>
+    <span class="biz-trust-sep" aria-hidden="true"></span>
+    <span class="biz-trust-point">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="7" r="4"/><path d="M2 19v-1a8 8 0 0 1 16 0v1"/></svg>
+      <span data-sv="Personlig kontakt" data-en="Personal contact">Personlig kontakt</span>
+    </span>
+    <span class="biz-trust-sep" aria-hidden="true"></span>
+    <span class="biz-trust-point">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L10 14.3l-4.8 2.6.9-5.4L2.2 7.7l5.4-.8z"/></svg>
+      <span data-sv="Transparenta priser" data-en="Transparent pricing">Transparenta priser</span>
+    </span>
+    <span class="biz-trust-sep" aria-hidden="true"></span>
+    <span class="biz-trust-point">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="14" height="10" rx="2"/><path d="M7 9V6a3 3 0 1 1 6 0v3"/></svg>
+      <span data-sv="Ingen bindningstid" data-en="No lock-in period">Ingen bindningstid</span>
+    </span>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="biz-section">
+  <div class="biz-process-header reveal">
+    <div class="biz-label" data-sv="V&#229;rt arbetss&#228;tt" data-en="Our process">V&#229;rt arbetss&#228;tt</div>
+    <h2 class="biz-heading" data-sv="S&#229; arbetar vi" data-en="How We Work">S&#229; arbetar vi</h2>
+    <p class="biz-subtext" data-sv="En strukturerad process utan dolda steg eller &#246;verraskningar." data-en="A structured process with no hidden steps or surprises.">En strukturerad process utan dolda steg eller &#246;verraskningar.</p>
+  </div>
+  <div class="biz-timeline">
+    <div class="biz-timeline-track"><div class="biz-timeline-fill"></div></div>
+    <div class="biz-tl-step biz-tl-odd reveal">
+      <div class="biz-tl-text">
+        <h4 data-sv="Kontakt" data-en="Contact">Kontakt</h4>
+        <p data-sv="Du h&#246;r av dig via formul&#228;ret eller mejl." data-en="You reach out via the form or email.">Du h&#246;r av dig via formul&#228;ret eller mejl.</p>
+      </div>
+      <div class="biz-tl-node">01</div>
+      <div class="biz-tl-spacer"></div>
+    </div>
+    <div class="biz-tl-step biz-tl-even reveal reveal-delay-1">
+      <div class="biz-tl-spacer"></div>
+      <div class="biz-tl-node">02</div>
+      <div class="biz-tl-text">
+        <h4 data-sv="Analys" data-en="Analysis">Analys</h4>
+        <p data-sv="Vi g&#229;r igenom ert behov och er nuvarande utrustning." data-en="We review your needs and current equipment.">Vi g&#229;r igenom ert behov och er nuvarande utrustning.</p>
+      </div>
+    </div>
+    <div class="biz-tl-step biz-tl-odd reveal reveal-delay-2">
+      <div class="biz-tl-text">
+        <h4 data-sv="Offert" data-en="Quote">Offert</h4>
+        <p data-sv="Ni f&#229;r en tydlig offert utan dolda kostnader." data-en="You receive a clear quote with no hidden costs.">Ni f&#229;r en tydlig offert utan dolda kostnader.</p>
+      </div>
+      <div class="biz-tl-node">03</div>
+      <div class="biz-tl-spacer"></div>
+    </div>
+    <div class="biz-tl-step biz-tl-even reveal reveal-delay-3">
+      <div class="biz-tl-spacer"></div>
+      <div class="biz-tl-node">04</div>
+      <div class="biz-tl-text">
+        <h4 data-sv="Utf&#246;rande" data-en="Execution">Utf&#246;rande</h4>
+        <p data-sv="Vi utf&#246;r arbetet med minimal st&#246;rning f&#246;r er verksamhet." data-en="We carry out the work with minimal disruption to your business.">Vi utf&#246;r arbetet med minimal st&#246;rning f&#246;r er verksamhet.</p>
+      </div>
+    </div>
+    <div class="biz-tl-step biz-tl-odd reveal reveal-delay-4">
+      <div class="biz-tl-text">
+        <h4 data-sv="Support" data-en="Support">Support</h4>
+        <p data-sv="Vi finns kvar f&#246;r l&#246;pande support efter leverans." data-en="We remain available for ongoing support after delivery.">Vi finns kvar f&#246;r l&#246;pande support efter leverans.</p>
+      </div>
+      <div class="biz-tl-node">05</div>
+      <div class="biz-tl-spacer"></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section id="comparison" class="biz-section">
+  <div class="biz-comp-header reveal">
+    <div class="biz-label" data-sv="Varf&#246;r v&#228;lja oss" data-en="Why choose us">Varf&#246;r v&#228;lja oss</div>
+    <h2 class="biz-heading" data-sv="Vad du kan f&#246;rv&#228;nta dig av oss" data-en="What you can expect from us">Vad du kan f&#246;rv&#228;nta dig av oss</h2>
+    <p class="biz-subtext" data-sv="Vi tror p&#229; enkelhet, tydlighet och l&#229;ngsiktiga relationer." data-en="We believe in simplicity, clarity and long-term relationships.">Vi tror p&#229; enkelhet, tydlighet och l&#229;ngsiktiga relationer.</p>
+  </div>
+  <div class="biz-comp-table reveal">
+    <div class="biz-comp-col biz-comp-left">
+      <div class="biz-comp-colhead">
+        <svg class="biz-comp-icon" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="6.5"/><path d="M5 7.5h5"/></svg>
+        <span data-sv="Vanligt inom branschen" data-en="Common in the industry">Vanligt inom branschen</span>
+      </div>
+      <ul class="biz-comp-list">
+        <li>
+          <svg class="biz-comp-icon" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="6.5"/><path d="M5 7.5h5"/></svg>
+          <span data-sv="L&#229;nga bindningstider" data-en="Long lock-in periods">L&#229;nga bindningstider</span>
+        </li>
+        <li>
+          <svg class="biz-comp-icon" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="6.5"/><path d="M5 7.5h5"/></svg>
+          <span data-sv="Otydlig priss&#228;ttning" data-en="Unclear pricing">Otydlig priss&#228;ttning</span>
+        </li>
+        <li>
+          <svg class="biz-comp-icon" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="6.5"/><path d="M5 7.5h5"/></svg>
+          <span data-sv="Ny kontaktperson varje g&#229;ng" data-en="A new contact person each time">Ny kontaktperson varje g&#229;ng</span>
+        </li>
+        <li>
+          <svg class="biz-comp-icon" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="6.5"/><path d="M5 7.5h5"/></svg>
+          <span data-sv="L&#229;ngsam respons" data-en="Slow response">L&#229;ngsam respons</span>
+        </li>
+      </ul>
+    </div>
+    <div class="biz-comp-divider"></div>
+    <div class="biz-comp-col biz-comp-right">
+      <div class="biz-comp-colhead">
+        <svg class="biz-comp-icon" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="6.5"/><polyline points="4.5 7.5 6.5 9.5 10.5 5.5"/></svg>
+        <span data-sv="Med Nordic PC Solutions" data-en="With Nordic PC Solutions">Med Nordic PC Solutions</span>
+      </div>
+      <ul class="biz-comp-list">
+        <li>
+          <svg class="biz-comp-icon" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="6.5"/><polyline points="4.5 7.5 6.5 9.5 10.5 5.5"/></svg>
+          <span data-sv="Ingen bindningstid" data-en="No lock-in period">Ingen bindningstid</span>
+        </li>
+        <li>
+          <svg class="biz-comp-icon" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="6.5"/><polyline points="4.5 7.5 6.5 9.5 10.5 5.5"/></svg>
+          <span data-sv="Transparenta priser, offert i f&#246;rv&#228;g" data-en="Transparent pricing, quote upfront">Transparenta priser, offert i f&#246;rv&#228;g</span>
+        </li>
+        <li>
+          <svg class="biz-comp-icon" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="6.5"/><polyline points="4.5 7.5 6.5 9.5 10.5 5.5"/></svg>
+          <span data-sv="Personlig kontakt, samma tekniker" data-en="Personal contact, same technician">Personlig kontakt, samma tekniker</span>
+        </li>
+        <li>
+          <svg class="biz-comp-icon" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="6.5"/><polyline points="4.5 7.5 6.5 9.5 10.5 5.5"/></svg>
+          <span data-sv="Snabb respons, oftast samma dag" data-en="Fast response, usually same day">Snabb respons, oftast samma dag</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="kontakt" class="biz-section">
+  <div class="biz-contact-grid">
+    <div>
+      <div class="biz-label reveal" data-sv="Kontakt" data-en="Contact">Kontakt</div>
+      <h2 class="biz-heading reveal" data-sv="Boka ett m&#246;te" data-en="Book a Meeting">Boka ett m&#246;te</h2>
+      <p class="biz-subtext reveal" style="margin-bottom:2.5rem;" data-sv="Fyll i formul&#228;ret s&#229; &#229;terkommer vi inom n&#229;gra timmar. Kostnadsfritt f&#246;rsta samtal." data-en="Fill in the form and we&#39;ll get back to you within a few hours. First consultation is free.">Fyll i formul&#228;ret s&#229; &#229;terkommer vi inom n&#229;gra timmar. Kostnadsfritt f&#246;rsta samtal.</p>
+      <div class="biz-contact-meta reveal">
+        <div class="biz-contact-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div><h4 data-sv="Plats" data-en="Location">Plats</h4><p data-sv="G&#246;teborg, Sverige" data-en="Gothenburg, Sweden">G&#246;teborg, Sverige</p></div>
+      </div>
+      <div class="biz-contact-meta reveal reveal-delay-1">
+        <div class="biz-contact-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div><h4>E-post</h4><p><a href="mailto:nordicpcsolutions@gmail.com" style="color:var(--biz-accent);text-decoration:none;">nordicpcsolutions@gmail.com</a></p></div>
+      </div>
+      <div class="biz-contact-meta reveal reveal-delay-2">
+        <div class="biz-contact-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div><h4 data-sv="Svarstid" data-en="Response time">Svarstid</h4><p data-sv="Inom n&#229;gra timmar" data-en="Within a few hours">Inom n&#229;gra timmar</p></div>
+      </div>
+    </div>
+    <div class="biz-form reveal">
+      <div class="biz-field">
+        <input id="f-company" type="text" placeholder=" " autocomplete="organization">
+        <label for="f-company" data-sv="F&#246;retagsnamn" data-en="Company Name">F&#246;retagsnamn</label>
+      </div>
+      <div class="biz-form-row">
+        <div class="biz-field">
+          <input id="f-first" type="text" placeholder=" " autocomplete="given-name">
+          <label for="f-first" data-sv="F&#246;rnamn" data-en="First Name">F&#246;rnamn</label>
+        </div>
+        <div class="biz-field">
+          <input id="f-last" type="text" placeholder=" " autocomplete="family-name">
+          <label for="f-last" data-sv="Efternamn" data-en="Last Name">Efternamn</label>
+        </div>
+      </div>
+      <div class="biz-field">
+        <input id="f-email" type="email" placeholder=" " autocomplete="email">
+        <label for="f-email" data-sv="E-postadress" data-en="Email Address">E-postadress</label>
+      </div>
+      <div class="biz-field">
+        <input id="f-phone" type="tel" placeholder=" " autocomplete="tel">
+        <label for="f-phone" data-sv="Telefon (valfritt)" data-en="Phone (optional)">Telefon (valfritt)</label>
+      </div>
+      <div class="biz-field">
+        <select id="f-service">
+          <option value=""></option>
+          <option data-sv="Arbetsstationer" data-en="Workstations">Arbetsstationer</option>
+          <option data-sv="Installation &amp; Uppgradering" data-en="Installation &amp; Upgrade">Installation &amp; Uppgradering</option>
+          <option data-sv="Diagnostik &amp; Fels&#246;kning" data-en="Diagnostics &amp; Troubleshooting">Diagnostik &amp; Fels&#246;kning</option>
+          <option data-sv="Underh&#229;ll" data-en="Maintenance">Underh&#229;ll</option>
+          <option data-sv="IT-support" data-en="IT Support">IT-support</option>
+          <option data-sv="Annat" data-en="Other">Annat</option>
+        </select>
+        <label for="f-service" data-sv="&#214;nskad tj&#228;nst" data-en="Service Required">&#214;nskad tj&#228;nst</label>
+      </div>
+      <div class="biz-field">
+        <textarea id="f-message" placeholder=" " maxlength="500"></textarea>
+        <label for="f-message" data-sv="Beskriv ert behov" data-en="Describe your needs">Beskriv ert behov</label>
+        <div class="biz-char-counter" id="msg-counter">0 / 500</div>
+      </div>
+      <div id="biz-form-error"></div>
+      <button class="biz-submit" onclick="handleSubmit()" id="submit-btn" data-sv="Skicka f&#246;rfr&#229;gan &#8594;" data-en="Send Request &#8594;">Skicka f&#246;rfr&#229;gan &#8594;</button>
+      <p class="biz-form-note" data-sv="Vi svarar inom n&#229;gra timmar &#183; Kostnadsfritt f&#246;rsta samtal &#183; Inget skr&#228;ppost" data-en="We reply within hours &#183; First consultation free &#183; No spam">Vi svarar inom n&#229;gra timmar &#183; Kostnadsfritt f&#246;rsta samtal &#183; Inget skr&#228;ppost</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="logo"><span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span><span class="logo-abbr">N<span class="lpc">P</span>S</span></a>
+      <p data-sv="Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete." data-en="Professional PC builds, repairs and upgrades in Gothenburg. Honest pricing, dedicated work.">Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete.</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</h4>
+      <ul>
+        <li><a href="index.html#services" data-sv="Skr&#228;ddarsydda Byggen" data-en="Custom PC Builds">Skr&#228;ddarsydda Byggen</a></li>
+        <li><a href="index.html#services" data-sv="Uppgraderingar" data-en="Upgrades">Uppgraderingar</a></li>
+        <li><a href="index.html#services" data-sv="Reng&#246;ring &amp; Optimering" data-en="Cleaning &amp; Optimisation">Reng&#246;ring &amp; Optimering</a></li>
+        <li><a href="index.html#services" data-sv="Fels&#246;kning &amp; Reparation" data-en="Diagnostics &amp; Repair">Fels&#246;kning &amp; Reparation</a></li>
+        <li><a href="foretag.html" data-sv="IT f&#246;r F&#246;retag" data-en="IT for Business">IT f&#246;r F&#246;retag</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Om oss" data-en="Company">Om oss</h4>
+      <ul>
+        <li><a href="index.html#about" data-sv="Om oss" data-en="About Us">Om oss</a></li>
+        <li><a href="index.html#gallery" data-sv="Galleri" data-en="Gallery">Galleri</a></li>
+        <li><a href="index.html#testimonials" data-sv="Recensioner" data-en="Reviews">Recensioner</a></li>
+        <li><a href="index.html#pricing" data-sv="Priser" data-en="Pricing">Priser</a></li>
+        <li><a href="faq.html" data-sv="Vanliga fr&#229;gor" data-en="FAQ">Vanliga fr&#229;gor</a></li>
+        <li><a href="policy.html" data-sv="Integritetspolicy" data-en="Privacy Policy">Integritetspolicy</a></li>
+        <!-- TODO: update href when blog launches -->
+        <li><a href="#" data-sv="Blogg" data-en="Blog">Blogg</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Kontakt" data-en="Contact">Kontakt</h4>
+      <ul>
+        <li><a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a></li>
+        <li><a href="index.html#contact" data-sv="G&#246;teborg, Sverige" data-en="Gothenburg, Sweden">G&#246;teborg, Sverige</a></li>
+        <li><a href="index.html" data-sv="F&#246;r privatpersoner" data-en="For individuals">F&#246;r privatpersoner</a></li>
+        <li><a href="https://www.instagram.com/nordicpcsolutions" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Instagram</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61584118142766&sk=about" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> Facebook</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-sv="&#169; <span id='copy-year'>2025</span> Nordic PC Solutions. Alla r&#228;ttigheter f&#246;rbeh&#229;llna." data-en="&#169; <span id='copy-year2'>2025</span> Nordic PC Solutions. All rights reserved.">&#169; <span id="copy-year">2025</span> Nordic PC Solutions. Alla r&#228;ttigheter f&#246;rbeh&#229;llna.</span>
+    <span data-sv="Tillverkad med &#10084;&#65039; i Sverige" data-en="Made with &#10084;&#65039; in Sweden">Tillverkad med &#10084;&#65039; i Sverige</span>
+  </div>
+</footer>
+
+<script>
+let currentLang = 'sv';
+
+(function() {
+  try {
+    const browserLang = navigator.language || navigator.userLanguage || 'sv';
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    const isSweden = browserLang.toLowerCase().startsWith('sv') ||
+      timeZone.includes('Stockholm') || timeZone.includes('Europe/Stockholm');
+    if (!isSweden) currentLang = 'en';
+  } catch(e) { currentLang = 'sv'; }
+})();
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.getElementById('btn-sv').classList.toggle('active', lang==='sv');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  const mbs=document.getElementById('mobile-btn-sv');if(mbs)mbs.classList.toggle('active',lang==='sv');
+  const mbe=document.getElementById('mobile-btn-en');if(mbe)mbe.classList.toggle('active',lang==='en');
+  document.querySelectorAll('[data-sv]').forEach(el => {
+    const val = el.getAttribute('data-'+lang);
+    if (!val) return;
+    if (el.tagName==='OPTION') el.textContent = val;
+    else el.innerHTML = val;
+  });
+}
+
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+function toggleMobileMenu(){
+  const menu=document.getElementById('mobile-menu');
+  const btn=document.querySelector('.hamburger-btn');
+  const isOpen=menu.classList.contains('open');
+  menu.classList.toggle('open');
+  if(btn){btn.classList.toggle('open');btn.setAttribute('aria-expanded',String(!isOpen));}
+  document.body.style.overflow=isOpen?'':'hidden';
+}
+function closeMobileMenu(){
+  const menu=document.getElementById('mobile-menu');
+  const btn=document.querySelector('.hamburger-btn');
+  if(!menu||!menu.classList.contains('open'))return;
+  menu.classList.remove('open');
+  if(btn){btn.classList.remove('open');btn.setAttribute('aria-expanded','false');}
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMobileMenu();});
+
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// Timeline fill animation
+(function(){
+  var fill = document.querySelector('.biz-timeline-fill');
+  if (!fill) return;
+  var io = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) { fill.classList.add('active'); io.disconnect(); }
+  }, { threshold: 0.2 });
+  io.observe(fill.closest('.biz-timeline'));
+})();
+
+(function(){
+  const yr = new Date().getFullYear();
+  ['copy-year','copy-year2'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=yr; });
+})();
+
+// Accordion
+function toggleCard(card) {
+  if (card.classList.contains('coming-soon')) return;
+  const isExpanded = card.classList.contains('expanded');
+  document.querySelectorAll('.biz-service-card.expanded').forEach(c => {
+    c.classList.remove('expanded');
+    c.setAttribute('aria-expanded','false');
+  });
+  if (!isExpanded) {
+    card.classList.add('expanded');
+    card.setAttribute('aria-expanded','true');
+  }
+}
+// Keyboard support for accordion cards
+document.querySelectorAll('.biz-service-card:not(.coming-soon)').forEach(card => {
+  card.setAttribute('tabindex','0');
+  card.setAttribute('role','button');
+  card.setAttribute('aria-expanded','false');
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleCard(card); }
+  });
+});
+
+// Textarea counter
+(function() {
+  const ta=document.getElementById('f-message');
+  const ct=document.getElementById('msg-counter');
+  if(!ta||!ct)return;
+  ta.addEventListener('input',()=>{
+    const len=ta.value.length;const max=500;
+    ct.textContent=len+' / '+max;
+    ct.classList.toggle('near-limit',len>400&&len<500);
+    ct.classList.toggle('at-limit',len>=500);
+  });
+})();
+
+// Select floating label state
+function updateSelectState(sel) {
+  sel.closest('.biz-field').classList.toggle('has-value', sel.value !== '');
+}
+document.querySelectorAll('.biz-field select').forEach(sel => {
+  sel.addEventListener('change', () => updateSelectState(sel));
+  updateSelectState(sel);
+});
+
+// Supabase + EmailJS
+const SB_URL = "https://pflehgaffylcfmgltzlr.supabase.co";
+const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmbGVoZ2FmZnlsY2ZtZ2x0emxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5ODcxMjQsImV4cCI6MjA5NjU2MzEyNH0.9Hh4n-9IvsCBnwEbcKBhGan2LskY3lKhoeRcA2lxXac";
+emailjs.init("JKzprpN9r2C_FunS7");
+
+async function sbInsert(data) {
+  const res = await fetch(SB_URL + '/rest/v1/bookings', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=minimal' },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error(await res.text());
+}
+
+async function handleSubmit() {
+  const company = document.getElementById('f-company').value.trim();
+  const first   = document.getElementById('f-first').value.trim();
+  const last    = document.getElementById('f-last').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const phone   = document.getElementById('f-phone').value.trim();
+  const service = document.getElementById('f-service').value.trim();
+  const message = document.getElementById('f-message').value.trim();
+  if (!company) { showErr(currentLang==='sv' ? 'Vänligen fyll i företagsnamn.' : 'Please enter your company name.'); return; }
+  if (!first || !last) { showErr(currentLang==='sv' ? 'Vänligen fyll i ditt namn.' : 'Please enter your name.'); return; }
+  if (!email || !email.includes('@')) { showErr(currentLang==='sv' ? 'Vänligen ange en giltig e-postadress.' : 'Please enter a valid email address.'); return; }
+  if (!service) { showErr(currentLang==='sv' ? 'Vänligen välj en tjänst.' : 'Please select a service.'); return; }
+  const errEl = document.getElementById('biz-form-error');
+  errEl.style.display = 'none';
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = currentLang==='sv' ? 'Skickar…' : 'Sending…';
+  btn.disabled = true;
+  const fullMessage = 'Företag: ' + company + (message ? '\n\n' + message : '');
+  try {
+    await sbInsert({ first, last, email, phone, service: 'Företag – ' + service, message: fullMessage, status: 'new' });
+    trackBooking();
+    btn.textContent = currentLang==='sv' ? '✓ Förfrågan skickad! Vi hör av oss snart.' : '✓ Request Sent! We\'ll be in touch soon.';
+    btn.style.background = '#0a7a38';
+    ['f-company','f-first','f-last','f-email','f-phone','f-service','f-message'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.value = '';
+    });
+    document.querySelectorAll('.biz-field select').forEach(s => updateSelectState(s));
+    document.getElementById('msg-counter').textContent = '0 / 500';
+    try {
+      await emailjs.send("service_asyd1jf", "template_2u6to6n", {
+        from_name: first + ' ' + last,
+        from_email: email,
+        phone: phone || 'Ej angivet',
+        service: 'Företag – ' + service + ' (' + company + ')',
+        message: fullMessage || 'Inget meddelande',
+        reply_to: email
+      });
+    } catch(e) { console.log('Email notification failed:', e); }
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = currentLang==='sv' ? 'Skicka förfrågan →' : 'Send Request →';
+    showErr(currentLang==='sv' ? 'Något gick fel. Försök igen eller maila oss.' : 'Something went wrong. Please try again or email us.');
+  }
+}
+
+function showErr(msg) {
+  const el = document.getElementById('biz-form-error');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+// Cookie consent
+function acceptCookies() {
+  localStorage.setItem('npc_cookie_consent', 'accepted');
+  document.getElementById('cookie-banner').style.display = 'none';
+}
+(function() {
+  if (localStorage.getItem('npc_cookie_consent') === 'accepted') return;
+  setTimeout(() => { const b=document.getElementById('cookie-banner'); if(b) b.style.display='flex'; }, 1500);
+})();
+
+setLang(currentLang);
+</script>
+
+<!-- COOKIE CONSENT BANNER -->
+<div id="cookie-banner" style="display:none;" role="dialog" aria-label="Cookie-meddelande">
+  <p data-sv="Vi anv&#228;nder cookies f&#246;r att f&#246;rb&#228;ttra din upplevelse. Genom att forts&#228;tta anv&#228;nda sidan godk&#228;nner du v&#229;r anv&#228;ndning av cookies." data-en="We use cookies to improve your experience. By continuing to use the site you accept our use of cookies.">Vi anv&#228;nder cookies f&#246;r att f&#246;rb&#228;ttra din upplevelse. Genom att forts&#228;tta anv&#228;nda sidan godk&#228;nner du v&#229;r anv&#228;ndning av cookies.</p>
+  <div class="cookie-actions">
+    <button class="cookie-btn-accept" onclick="acceptCookies()" data-sv="Godk&#228;nn" data-en="Accept">Godk&#228;nn</button>
+    <a href="policy.html" class="cookie-btn-more" data-sv="L&#228;s mer" data-en="Read more">L&#228;s mer</a>
+  </div>
+</div>
+
+</body>
+</html>

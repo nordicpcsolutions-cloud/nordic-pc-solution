@@ -354,7 +354,7 @@ section{padding:5.5rem 5vw;}
 .form-group{display:flex;flex-direction:column;gap:0.4rem;}
 .form-group label{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);}
 .form-group input,.form-group select,.form-group textarea{background:rgba(13,18,37,0.8);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:0.8rem 1rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.93rem;outline:none;transition:border-color 0.2s,box-shadow 0.2s;appearance:none;}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,79,255,0.15),inset 3px 0 0 var(--cyan);}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(26,79,255,0.18);}
 .form-group select option{background:var(--dark2);}
 .form-group textarea{resize:vertical;min-height:115px;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
@@ -583,6 +583,15 @@ section.sep-in::before,.cta-strip.sep-in::before{opacity:1;}
 .sale-end-date{display:none;font-size:0.72rem;color:var(--gray);margin-top:0.3rem;}
 .pricing-disclaimer{text-align:center;font-size:0.8rem;color:var(--gray);font-style:italic;margin-top:2rem;max-width:820px;margin-left:auto;margin-right:auto;line-height:1.6;}
 
+/* ── B2B BANNER ── */
+.b2b-banner{background:linear-gradient(100deg,var(--dark3) 0%,rgba(26,79,255,0.06) 60%,var(--dark2) 100%);border-top:1px solid rgba(26,79,255,0.12);border-bottom:1px solid rgba(26,79,255,0.12);padding:2.8rem 5vw;}
+.b2b-banner-inner{display:flex;align-items:center;justify-content:space-between;gap:2rem;max-width:900px;margin:0 auto;}
+.b2b-banner-text .b2b-label{font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.4rem;}
+.b2b-banner-text p{font-size:0.94rem;color:var(--gray-light);line-height:1.6;max-width:480px;}
+.b2b-banner-btn{display:inline-flex;align-items:center;white-space:nowrap;background:transparent;border:1px solid rgba(26,79,255,0.45);color:var(--white);text-decoration:none;padding:0.65rem 1.5rem;border-radius:6px;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;transition:border-color 0.2s,background 0.2s,box-shadow 0.2s;flex-shrink:0;}
+.b2b-banner-btn:hover{border-color:var(--cyan);background:rgba(26,79,255,0.08);box-shadow:0 0 18px rgba(26,79,255,0.2);}
+@media(max-width:600px){.b2b-banner-inner{flex-direction:column;align-items:flex-start;gap:1.2rem;}.b2b-banner-btn{width:100%;justify-content:center;}}
+
 /* ── COOKIE CONSENT ── */
 #cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:999;background:var(--dark2);border-top:3px solid var(--blue);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
 #cookie-banner p{font-size:0.84rem;color:var(--gray-light);line-height:1.5;flex:1;min-width:200px;}
@@ -764,6 +773,7 @@ section.sep-in::before,.cta-strip.sep-in::before{opacity:1;}
     <a href="#pricing" data-sv="Priser" data-en="Pricing">Priser</a>
     <a href="#gallery" data-sv="Galleri" data-en="Gallery">Galleri</a>
     <a href="#testimonials" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
+    <a href="foretag.html" data-sv="F&#246;retag" data-en="Business">F&#246;retag</a>
   </div>
   <div class="nav-right">
     <div class="lang-toggle">
@@ -783,6 +793,7 @@ section.sep-in::before,.cta-strip.sep-in::before{opacity:1;}
       <a href="#pricing" onclick="closeMobileMenu()" data-sv="Priser" data-en="Pricing">Priser</a>
       <a href="#gallery" onclick="closeMobileMenu()" data-sv="Galleri" data-en="Gallery">Galleri</a>
       <a href="#testimonials" onclick="closeMobileMenu()" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
+      <a href="foretag.html" onclick="closeMobileMenu()" data-sv="F&#246;retag" data-en="Business">F&#246;retag</a>
       <a href="#contact" class="mobile-menu-cta" onclick="closeMobileMenu()" data-sv="Boka Nu" data-en="Book Now">Boka Nu</a>
     </nav>
     <div class="mobile-menu-lang">
@@ -815,7 +826,7 @@ section.sep-in::before,.cta-strip.sep-in::before{opacity:1;}
       <a href="#pricing" class="btn-secondary btn-blue-outline" data-sv="Se priser &#8594;" data-en="View Pricing &#8594;">Se priser &#8594;</a>
     </div>
     <div class="hero-stats">
-      <div><span class="stat-num" data-target="100" data-suffix="+">100+</span><span class="stat-label" data-sv="Byggen klara" data-en="Builds Completed">Byggen klara</span></div>
+      <div><span class="stat-num">100%</span><span class="stat-label" data-sv="&#196;rliga priser" data-en="Honest pricing">&#196;rliga priser</span></div>
       <div><span class="stat-num" data-target="4.8" data-suffix="&#9733;">4.8&#9733;</span><span class="stat-label" data-sv="Snittbetyg" data-en="Avg Rating">Snittbetyg</span></div>
       <div><span class="stat-num">1–4d</span><span class="stat-label" data-sv="Leveranstid" data-en="Turnaround">Leveranstid</span></div>
     </div>
@@ -877,6 +888,17 @@ section.sep-in::before,.cta-strip.sep-in::before{opacity:1;}
     </div>
   </div>
 </section>
+
+<!-- B2B BANNER -->
+<div class="b2b-banner">
+  <div class="b2b-banner-inner">
+    <div class="b2b-banner-text">
+      <div class="b2b-label" data-sv="&#196;ven f&#246;r f&#246;retag" data-en="Also for businesses">&#196;ven f&#246;r f&#246;retag</div>
+      <p data-sv="Vi hj&#228;lper &#228;ven f&#246;retag med arbetsstationer, IT-support och l&#246;pande underh&#229;ll." data-en="We also help businesses with workstations, IT support and ongoing maintenance.">Vi hj&#228;lper &#228;ven f&#246;retag med arbetsstationer, IT-support och l&#246;pande underh&#229;ll.</p>
+    </div>
+    <a href="foretag.html" class="b2b-banner-btn" data-sv="L&#228;s mer &#8594;" data-en="Learn more &#8594;">L&#228;s mer &#8594;</a>
+  </div>
+</div>
 
 <!-- HOW IT WORKS -->
 <section id="how-it-works">
@@ -1161,6 +1183,9 @@ section.sep-in::before,.cta-strip.sep-in::before{opacity:1;}
         <li><a href="#pricing" data-sv="Priser" data-en="Pricing">Priser</a></li>
         <li><a href="faq.html" data-sv="Vanliga fr&#229;gor" data-en="FAQ">Vanliga fr&#229;gor</a></li>
         <li><a href="policy.html" data-sv="Integritetspolicy" data-en="Privacy Policy">Integritetspolicy</a></li>
+        <li><a href="foretag.html" data-sv="F&#246;retag" data-en="Business">F&#246;retag</a></li>
+        <!-- TODO: update href when blog launches -->
+        <li><a href="#" data-sv="Blogg" data-en="Blog">Blogg</a></li>
       </ul>
     </div>
     <div class="footer-col">
