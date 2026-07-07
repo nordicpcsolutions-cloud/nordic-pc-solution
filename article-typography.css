@@ -1,0 +1,259 @@
+/*
+ * article-typography.css — SHARED CMS ARTICLE TYPOGRAPHY
+ *
+ * This is the SINGLE typography system for all rendered markdown content across the
+ * Nordic PC Solutions CMS: Blog, Portfolio, Case Studies, Guides, and any future
+ * content type that displays rendered article text.
+ *
+ * Usage: add class="article-content" to any element whose innerHTML contains
+ * output from renderMarkdown() (markdown-renderer.js).
+ *
+ * All rules are scoped under .article-content so this file is safe to include
+ * on pages that mix article content with admin UI — no styles leak outside the scope.
+ *
+ * To extend for a new content type: add here, not in a new file.
+ *
+ * Design system references:
+ *   --dark:#0b0f1a  --dark2:#111726  --dark3:#1a2235  --dark4:#222d45
+ *   --blue:#1a4fff  --blue-light:#3d6fff  --accent:#00d4ff
+ *   --white:#f0f4ff  --gray:#8899bb  --gray-light:#c8d4ee
+ *   Fonts: 'Barlow' (body), 'Barlow Condensed' (headings)
+ */
+
+/* ── BASE CONTAINER ── */
+.article-content {
+  color: var(--gray-light, #c8d4ee);
+  font-family: 'Barlow', sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ── HEADINGS ── */
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--white, #f0f4ff);
+  margin-top: 2.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.15;
+}
+
+/* First heading at the top of an article needs no extra top gap */
+.article-content > h1:first-child,
+.article-content > h2:first-child,
+.article-content > h3:first-child {
+  margin-top: 0;
+}
+
+.article-content h1 { font-size: 2rem; }
+.article-content h2 { font-size: 1.55rem; color: var(--accent, #00d4ff); }
+.article-content h3 { font-size: 1.2rem; color: var(--white, #f0f4ff); }
+.article-content h4 { font-size: 1rem;   font-weight: 700; text-transform: none; letter-spacing: 0; }
+.article-content h5 { font-size: 0.9rem; font-weight: 700; text-transform: none; letter-spacing: 0; color: var(--gray-light, #c8d4ee); }
+.article-content h6 { font-size: 0.82rem;font-weight: 700; text-transform: none; letter-spacing: 0; color: var(--gray, #8899bb); }
+
+/* ── PARAGRAPHS ── */
+.article-content p {
+  margin-top: 0;
+  margin-bottom: 1.2em;
+  line-height: 1.8;
+  color: var(--gray-light, #c8d4ee);
+}
+
+/* ── LINKS ── */
+.article-content a {
+  color: var(--blue-light, #3d6fff);
+  text-decoration: underline;
+  text-decoration-color: rgba(61, 111, 255, 0.4);
+  text-underline-offset: 3px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+.article-content a:hover {
+  color: var(--accent, #00d4ff);
+  text-decoration-color: var(--accent, #00d4ff);
+}
+/* Security: external links opened in new tab should declare noopener */
+.article-content a[target="_blank"]::after {
+  content: '\2197'; /* ↗ north-east arrow */
+  display: inline-block;
+  margin-left: 0.2em;
+  font-size: 0.7em;
+  opacity: 0.6;
+  vertical-align: super;
+}
+
+/* ── LISTS ── */
+.article-content ul,
+.article-content ol {
+  margin: 0 0 1.2em 0;
+  padding-left: 1.6em;
+}
+.article-content li {
+  margin-bottom: 0.45em;
+  line-height: 1.7;
+  color: var(--gray-light, #c8d4ee);
+}
+.article-content li > ul,
+.article-content li > ol {
+  margin-top: 0.35em;
+  margin-bottom: 0;
+}
+.article-content ul { list-style-type: disc; }
+.article-content ul ul { list-style-type: circle; }
+.article-content ol { list-style-type: decimal; }
+
+/* ── BLOCKQUOTE ── */
+.article-content blockquote {
+  margin: 1.6em 0;
+  padding: 0.9em 1.4em;
+  border-left: 3px solid var(--blue, #1a4fff);
+  background: var(--dark3, #1a2235);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: var(--gray-light, #c8d4ee);
+}
+.article-content blockquote p {
+  margin-bottom: 0;
+}
+.article-content blockquote p + p {
+  margin-top: 0.75em;
+}
+
+/* ── INLINE CODE ── */
+.article-content code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.875em;
+  background: var(--dark4, #222d45);
+  color: var(--accent, #00d4ff);
+  padding: 0.18em 0.45em;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  white-space: nowrap;
+}
+
+/* ── CODE BLOCKS ── */
+.article-content pre {
+  margin: 1.5em 0;
+  padding: 1.2em 1.4em;
+  background: var(--dark3, #1a2235);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.article-content pre code {
+  /* Reset inline-code styles when inside a block */
+  background: none;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.88em;
+  color: var(--gray-light, #c8d4ee);
+  white-space: pre;
+}
+
+/* ── IMAGES ── */
+.article-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 1.6em auto;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--dark3, #1a2235); /* placeholder bg while loading */
+}
+.article-content figure {
+  margin: 1.6em 0;
+}
+.article-content figure img {
+  margin: 0 auto;
+}
+.article-content figcaption {
+  font-size: 0.8rem;
+  color: var(--gray, #8899bb);
+  text-align: center;
+  margin-top: 0.55em;
+  font-style: italic;
+}
+
+/* ── HORIZONTAL RULE ── */
+.article-content hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 2.5em 0;
+}
+
+/* ── TABLE ── */
+.article-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  font-size: 0.9em;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  overflow: hidden; /* clip radius on table */
+}
+.article-content thead {
+  background: var(--dark3, #1a2235);
+}
+.article-content th {
+  padding: 0.75em 1em;
+  text-align: left;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray, #8899bb);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.article-content td {
+  padding: 0.75em 1em;
+  color: var(--gray-light, #c8d4ee);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: top;
+}
+.article-content tbody tr:last-child td {
+  border-bottom: none;
+}
+.article-content tbody tr:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+/* ── STRONG / EM ── */
+.article-content strong,
+.article-content b {
+  font-weight: 700;
+  color: var(--white, #f0f4ff);
+}
+.article-content em,
+.article-content i {
+  color: inherit;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .article-content h1 { font-size: 1.6rem; }
+  .article-content h2 { font-size: 1.3rem; }
+  .article-content h3 { font-size: 1.08rem; }
+
+  .article-content pre {
+    padding: 0.9em 1em;
+    font-size: 0.82em;
+  }
+
+  .article-content table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

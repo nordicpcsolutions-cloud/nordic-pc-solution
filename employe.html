@@ -2,26 +2,14 @@
 <html lang="sv">
 <head>
 <meta charset="UTF-8">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0iIzBhMGYxZSIvPjx0ZXh0IHg9IjMyIiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iNDQiIGZpbGw9IiMxYTRmZmYiPlA8L3RleHQ+PC9zdmc+">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0iIzBhMGYxZSIvPjx0ZXh0IHg9IjMyIiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iNDQiIGZpbGw9IiMxYTRmZmYiPlA8L3RleHQ+PC9zdmc+">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nordic PC Solutions – Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin-shared.css">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --blue:#1a4fff;--blue-light:#3d6fff;--blue-dark:#0d2fa0;
-  --dark:#0b0f1a;--dark2:#111726;--dark3:#1a2235;--dark4:#222d45;
-  --gray:#8899bb;--gray-light:#c8d4ee;--white:#f0f4ff;--accent:#00d4ff;
-  --green:#0fba68;--green-dim:rgba(15,186,104,0.15);
-  --amber:#f5a623;--amber-dim:rgba(245,166,35,0.15);
-  --red:#e84040;--red-dim:rgba(232,64,64,0.15);
-  --new:#7b5cff;--new-dim:rgba(123,92,255,0.15);
-}
-html{height:100%;}
-body{font-family:'Barlow',sans-serif;background:var(--dark);color:var(--white);min-height:100vh;}
-
-/* LOGIN */
+/* ── LOGIN SCREEN (employe.html only) ── */
 #login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0b0f1a 0%,#0e1525 60%,#0c1830 100%);position:relative;overflow:hidden;}
 #login-screen::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.022) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;}
 .login-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:3rem 2.5rem;width:100%;max-width:420px;position:relative;z-index:1;box-shadow:0 30px 80px rgba(0,0,0,0.5);}
@@ -36,216 +24,31 @@ body{font-family:'Barlow',sans-serif;background:var(--dark);color:var(--white);m
 .login-btn{width:100%;background:var(--blue);color:#fff;border:none;padding:0.9rem;border-radius:7px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.92rem;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;}
 .login-btn:hover{background:var(--blue-light);}
 
-/* APP SHELL */
-#app{display:none;flex-direction:column;min-height:100vh;}
+/* ── DASHBOARD WIDGETS ── */
+.dash-welcome{margin-bottom:2.25rem;}
+.dash-welcome h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.9rem;letter-spacing:0.02em;margin-bottom:0.35rem;}
+.dash-welcome h1 span{color:var(--blue-light);}
+.dash-welcome p{color:var(--gray);font-size:0.88rem;}
+.dash-section{margin-bottom:2.5rem;}
+.dash-section-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.dash-section-hd h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.1rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--white);}
+.dash-view-all{font-size:0.82rem;font-weight:700;color:var(--blue-light);text-decoration:none;letter-spacing:0.03em;transition:color 0.15s;}
+.dash-view-all:hover{color:var(--white);}
+/* Quick action cards */
+.dash-quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:0.9rem;}
+.dash-quick-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:1.3rem 1.25rem;text-decoration:none;color:var(--white);display:flex;flex-direction:column;gap:0.65rem;transition:border-color 0.18s,background 0.18s;}
+.dash-quick-card:hover{border-color:rgba(26,79,255,0.38);background:rgba(26,79,255,0.05);}
+.dash-quick-icon{width:36px;height:36px;background:rgba(26,79,255,0.14);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--blue-light);}
+.dash-quick-icon svg{width:18px;height:18px;}
+.dash-quick-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.05em;text-transform:uppercase;}
+.dash-quick-desc{font-size:0.74rem;color:var(--gray);line-height:1.5;}
 
-/* TOP BAR */
-.topbar{background:var(--dark2);border-bottom:1px solid rgba(255,255,255,0.07);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
-.topbar-logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.15rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--white);}
-.topbar-logo span{color:var(--blue);}
-.topbar-badge{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:rgba(26,79,255,0.2);border:1px solid rgba(26,79,255,0.4);color:#7aa5ff;padding:0.22rem 0.7rem;border-radius:4px;margin-left:0.75rem;}
-.topbar-right{display:flex;align-items:center;gap:1rem;}
-.topbar-user{font-size:0.82rem;color:var(--gray);}
-.topbar-user strong{color:var(--white);}
-.logout-btn{background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--gray-light);padding:0.35rem 0.9rem;border-radius:5px;font-family:'Barlow',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:border-color 0.2s,color 0.2s;}
-.logout-btn:hover{border-color:rgba(255,255,255,0.4);color:var(--white);}
-.site-link{background:var(--blue);color:#fff;padding:0.35rem 0.9rem;border-radius:5px;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;transition:background 0.2s;}
-.site-link:hover{background:var(--blue-light);}
-
-/* MAIN */
-.admin-main{flex:1;padding:2rem 2rem 3rem;}
-
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
-.stat-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:1.4rem 1.6rem;}
-.stat-card .s-num{font-family:'Barlow Condensed',sans-serif;font-size:2.4rem;font-weight:900;line-height:1;}
-.stat-card .s-label{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-top:0.3rem;}
-.stat-card.c-new .s-num{color:var(--new);}
-.stat-card.c-prog .s-num{color:var(--amber);}
-.stat-card.c-done .s-num{color:var(--green);}
-.stat-card.c-all .s-num{color:var(--accent);}
-
-/* FILTER BAR */
-.filter-bar{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;flex-wrap:wrap;}
-.filter-btn{background:var(--dark3);border:1px solid rgba(255,255,255,0.08);color:var(--gray-light);padding:0.42rem 1.1rem;border-radius:5px;font-family:'Barlow',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:background 0.2s,border-color 0.2s,color 0.2s;}
-.filter-btn:hover{border-color:rgba(255,255,255,0.25);color:var(--white);}
-.filter-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
-.filter-search{margin-left:auto;background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.42rem 0.9rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.88rem;outline:none;width:220px;transition:border-color 0.2s;}
-.filter-search:focus{border-color:var(--blue);}
-.filter-search::placeholder{color:var(--gray);}
-.refresh-btn{background:transparent;border:1px solid rgba(255,255,255,0.12);color:var(--gray-light);padding:0.42rem 0.9rem;border-radius:5px;font-family:'Barlow',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;transition:border-color 0.2s,color 0.2s;display:flex;align-items:center;gap:0.4rem;}
-.refresh-btn:hover{border-color:rgba(255,255,255,0.35);color:var(--white);}
-.refresh-btn.spinning .spin-icon{animation:spin 0.7s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* TABLE */
-.bookings-wrap{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;}
-.bookings-table{width:100%;border-collapse:collapse;}
-.bookings-table th{background:var(--dark3);padding:0.85rem 1.2rem;text-align:left;font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);border-bottom:1px solid rgba(255,255,255,0.07);white-space:nowrap;}
-.bookings-table td{padding:1rem 1.2rem;font-size:0.88rem;color:var(--gray-light);border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;}
-.bookings-table tr:last-child td{border-bottom:none;}
-.bookings-table tr.row-done{opacity:0.5;}
-.booking-name{font-weight:700;color:var(--white);display:block;}
-.booking-email{font-size:0.78rem;color:var(--gray);display:block;}
-.booking-date{font-size:0.78rem;color:var(--gray);white-space:nowrap;}
-.booking-service{display:inline-block;background:rgba(26,79,255,0.15);border:1px solid rgba(26,79,255,0.3);color:#7aa5ff;font-size:0.72rem;font-weight:700;letter-spacing:0.05em;padding:0.2rem 0.6rem;border-radius:4px;white-space:nowrap;}
-.booking-msg{max-width:240px;font-size:0.82rem;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;}
-.booking-msg:hover{color:var(--white);}
-
-/* STATUS */
-.status-badge{display:inline-flex;align-items:center;gap:0.35rem;font-size:0.72rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:0.28rem 0.7rem;border-radius:5px;white-space:nowrap;}
-.status-badge::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.s-new{background:var(--new-dim);color:#b3a0ff;}.s-new::before{background:var(--new);}
-.s-progress{background:var(--amber-dim);color:#ffd080;}.s-progress::before{background:var(--amber);}
-.s-finished{background:var(--green-dim);color:#6ff0b0;}.s-finished::before{background:var(--green);}
-
-/* ACTIONS */
-.actions{display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;}
-.act-btn{background:transparent;border:1px solid rgba(255,255,255,0.12);color:var(--gray-light);padding:0.32rem 0.75rem;border-radius:5px;font-family:'Barlow',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;transition:background 0.2s,border-color 0.2s,color 0.2s;white-space:nowrap;}
-.act-btn:hover{border-color:rgba(255,255,255,0.35);color:var(--white);}
-.act-progress{border-color:rgba(245,166,35,0.35);color:var(--amber);}.act-progress:hover{background:var(--amber-dim);border-color:var(--amber);}
-.act-finish{border-color:rgba(15,186,104,0.35);color:var(--green);}.act-finish:hover{background:var(--green-dim);border-color:var(--green);}
-.act-delete{border-color:rgba(232,64,64,0.3);color:#ff8080;}.act-delete:hover{background:var(--red-dim);border-color:var(--red);}
-.act-restore{border-color:rgba(26,79,255,0.35);color:#7aa5ff;}.act-restore:hover{background:rgba(26,79,255,0.15);border-color:var(--blue);}
-
-/* EMPTY / LOADING */
-.empty-state{text-align:center;padding:4rem 2rem;}
-.empty-icon{font-size:3rem;margin-bottom:1rem;opacity:0.4;}
-.empty-state p{color:var(--gray);font-size:0.95rem;}
-.loading-row td{text-align:center;padding:3rem;color:var(--gray);font-size:0.9rem;}
-
-/* MESSAGE MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(5,8,18,0.88);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:2rem;}
-.modal-overlay.open{display:flex;}
-.modal-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:2rem;width:100%;max-width:520px;position:relative;box-shadow:0 30px 80px rgba(0,0,0,0.6);}
-.modal-card h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.3rem;text-transform:uppercase;margin-bottom:0.5rem;}
-.modal-meta{font-size:0.78rem;color:var(--gray);margin-bottom:1.2rem;display:flex;flex-wrap:wrap;gap:0.5rem 1.5rem;}
-.modal-msg{font-size:0.93rem;color:var(--gray-light);line-height:1.7;background:var(--dark3);border-radius:8px;padding:1rem 1.2rem;}
-.modal-close{position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:var(--gray);font-size:1.2rem;cursor:pointer;padding:0.3rem;}
-.modal-close:hover{color:var(--white);}
-
-/* CONFIRM MODAL */
-.confirm-card{background:var(--dark2);border:1px solid rgba(232,64,64,0.3);border-radius:14px;padding:2rem;width:100%;max-width:380px;text-align:center;}
-.confirm-card h3{font-size:1.1rem;font-weight:700;margin-bottom:0.75rem;}
-.confirm-card p{font-size:0.88rem;color:var(--gray);margin-bottom:1.5rem;line-height:1.6;}
-.confirm-actions{display:flex;gap:0.75rem;justify-content:center;}
-.confirm-yes{background:var(--red);color:#fff;border:none;padding:0.65rem 1.5rem;border-radius:6px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;letter-spacing:0.05em;text-transform:uppercase;transition:background 0.2s;}
-.confirm-yes:hover{background:#c43030;}
-.confirm-no{background:transparent;color:var(--gray-light);border:1px solid rgba(255,255,255,0.15);padding:0.65rem 1.5rem;border-radius:6px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;letter-spacing:0.05em;text-transform:uppercase;transition:border-color 0.2s;}
-.confirm-no:hover{border-color:rgba(255,255,255,0.4);}
-
-/* TOAST */
-.toast{position:fixed;bottom:2rem;right:2rem;z-index:300;background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:0.9rem 1.4rem;font-size:0.88rem;font-weight:600;color:var(--white);box-shadow:0 8px 30px rgba(0,0,0,0.5);transform:translateY(120%);opacity:0;transition:transform 0.3s,opacity 0.3s;max-width:320px;display:flex;align-items:center;gap:0.6rem;}
-.toast.show{transform:translateY(0);opacity:1;}
-.toast.t-green{border-color:rgba(15,186,104,0.4);color:#6ff0b0;}
-.toast.t-amber{border-color:rgba(245,166,35,0.4);color:#ffd080;}
-.toast.t-red{border-color:rgba(232,64,64,0.4);color:#ff9090;}
-
-/* NEW BADGE on tab title */
-.new-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--new);margin-left:0.4rem;vertical-align:middle;}
-
-/* REA / SALE PANEL */
-.tab-nav{display:flex;gap:0.5rem;margin-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,0.07);padding-bottom:0.75rem;flex-wrap:wrap;}
-.tab-btn{background:var(--dark3);border:1px solid rgba(255,255,255,0.08);color:var(--gray-light);padding:0.45rem 1.1rem;border-radius:5px;font-family:'Barlow',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:background 0.2s,border-color 0.2s,color 0.2s;}
-.tab-btn:hover{border-color:rgba(255,255,255,0.25);color:var(--white);}
-.tab-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
-#sale-panel{display:none;}
-.sale-status-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.8rem 2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
-.sale-status-badge{font-size:1rem;font-weight:700;padding:0.5rem 1.2rem;border-radius:8px;letter-spacing:0.04em;}
-.sale-status-badge.on{background:rgba(15,186,104,0.2);color:#6ff0b0;border:1px solid rgba(15,186,104,0.4);}
-.sale-status-badge.off{background:var(--dark4);color:var(--gray);border:1px solid rgba(255,255,255,0.08);}
-.toggle-wrap{display:flex;align-items:center;gap:0.8rem;}
-.toggle-wrap label{font-size:0.85rem;font-weight:700;color:var(--gray-light);}
-.toggle-switch{position:relative;width:48px;height:26px;cursor:pointer;}
-.toggle-switch input{opacity:0;width:0;height:0;}
-.toggle-slider{position:absolute;inset:0;background:var(--dark4);border-radius:26px;transition:0.3s;border:1px solid rgba(255,255,255,0.1);}
-.toggle-slider::before{content:'';position:absolute;width:20px;height:20px;left:2px;bottom:2px;background:var(--gray);border-radius:50%;transition:0.3s;}
-.toggle-switch input:checked + .toggle-slider{background:var(--green);}
-.toggle-switch input:checked + .toggle-slider::before{transform:translateX(22px);background:#fff;}
-.sale-form-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.8rem 2rem;margin-bottom:1.5rem;}
-.sale-form-card h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.1rem;text-transform:uppercase;margin-bottom:1.2rem;color:var(--accent);}
-.sale-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem;}
-.sale-field{display:flex;flex-direction:column;gap:0.4rem;}
-.sale-field label{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);}
-.sale-field input,.sale-field select{background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:0.7rem 0.9rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;min-height:44px;}
-.sale-field input:focus,.sale-field select:focus{border-color:var(--blue);}
-.sale-field select option{background:var(--dark3);}
-.sale-save-btn{background:linear-gradient(135deg,var(--blue),var(--accent));color:#fff;border:none;padding:0.75rem 2rem;border-radius:7px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:opacity 0.2s;min-height:44px;}
-.sale-save-btn:hover{opacity:0.88;}
-.sale-ref-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.8rem 2rem;margin-bottom:1.5rem;}
-.sale-ref-card h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.1rem;text-transform:uppercase;margin-bottom:1rem;color:var(--gray-light);}
-.sale-ref-table{width:100%;border-collapse:collapse;}
-.sale-ref-table td{padding:0.6rem 0.8rem;font-size:0.88rem;color:var(--gray-light);border-bottom:1px solid rgba(255,255,255,0.04);}
-.sale-ref-table td:first-child{color:var(--white);font-weight:600;}
-.sale-ref-table td:last-child{color:var(--accent);font-weight:700;text-align:right;}
-.sale-preview-card{background:var(--dark2);border:1px solid rgba(26,79,255,0.2);border-radius:12px;padding:1.5rem 2rem;font-size:0.9rem;color:var(--gray-light);line-height:1.6;}
-.sale-preview-card strong{color:var(--white);}
-
-/* ── MEDIA LIBRARY ── */
-#media-panel{display:none;}
-.media-upload-zone{border:2px dashed rgba(255,255,255,0.12);border-radius:12px;padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;background:var(--dark2);margin-bottom:1.5rem;user-select:none;}
-.media-upload-zone:hover,.media-upload-zone.drag-over{border-color:var(--blue);background:rgba(26,79,255,0.05);}
-.media-upload-zone svg{width:36px;height:36px;color:var(--gray);margin:0 auto 0.75rem;display:block;}
-.media-upload-zone p{color:var(--gray-light);font-size:0.88rem;margin-bottom:0.3rem;}
-.media-upload-zone span{color:var(--gray);font-size:0.76rem;}
-.media-upload-list{margin-top:1rem;display:flex;flex-direction:column;gap:0.35rem;text-align:left;}
-.media-upload-item{display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:var(--gray-light);background:var(--dark3);border-radius:6px;padding:0.45rem 0.75rem;}
-.media-upload-item .u-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.media-upload-item .u-status{font-size:0.74rem;color:var(--gray);flex-shrink:0;}
-.media-upload-item.u-done .u-status{color:var(--green);}
-.media-upload-item.u-error .u-status{color:var(--red);}
-.media-filter-bar{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;}
-.media-count{margin-left:auto;font-size:0.8rem;color:var(--gray);font-weight:600;white-space:nowrap;}
-.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:2rem;}
-.media-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:8px;overflow:hidden;cursor:pointer;position:relative;transition:border-color 0.2s;}
-.media-card:hover{border-color:rgba(26,79,255,0.4);}
-.media-card-thumb{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:var(--dark3);}
-.media-card-body{padding:0.55rem 0.65rem;}
-.media-card-name{font-size:0.74rem;color:var(--gray-light);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:0.28rem;}
-.media-card-meta{display:flex;align-items:center;justify-content:space-between;gap:0.4rem;}
-.media-cat-badge{font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;background:rgba(26,79,255,0.18);color:#7aa5ff;padding:0.16rem 0.45rem;border-radius:3px;border:1px solid rgba(26,79,255,0.28);}
-.media-size{font-size:0.66rem;color:var(--gray);}
-.media-card-hover{position:absolute;inset:0;background:rgba(0,0,0,0.62);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.15s;}
-.media-card:hover .media-card-hover{opacity:1;}
-.media-copy-btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.22);color:var(--white);padding:0.4rem 0.85rem;border-radius:6px;font-family:'Barlow',sans-serif;font-size:0.74rem;font-weight:700;letter-spacing:0.05em;cursor:pointer;transition:background 0.15s;backdrop-filter:blur(4px);}
-.media-copy-btn:hover{background:var(--blue);border-color:var(--blue);}
-.media-empty{text-align:center;padding:3rem;color:var(--gray);font-size:0.88rem;grid-column:1/-1;}
-/* Media detail modal */
-.media-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.72);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.2s;}
-.media-modal-overlay.open{opacity:1;pointer-events:auto;}
-.media-modal-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.09);border-radius:14px;width:100%;max-width:780px;max-height:92vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 40px 100px rgba(0,0,0,0.6);}
-.media-modal-preview{background:var(--dark3);display:flex;align-items:center;justify-content:center;padding:1.5rem;border-radius:14px 0 0 14px;min-height:260px;}
-.media-modal-preview img{max-width:100%;max-height:340px;object-fit:contain;border-radius:6px;}
-.media-modal-form{padding:1.75rem;display:flex;flex-direction:column;gap:0.9rem;}
-.media-modal-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.05rem;text-transform:uppercase;color:var(--accent);margin-bottom:0.2rem;word-break:break-all;}
-.media-meta-row{font-size:0.74rem;color:var(--gray);display:flex;flex-direction:column;gap:0.18rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.06);}
-.media-field{display:flex;flex-direction:column;gap:0.32rem;}
-.media-field label{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);}
-.media-field input,.media-field textarea,.media-field select{background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.6rem 0.8rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.2s;resize:vertical;}
-.media-field input:focus,.media-field textarea:focus,.media-field select:focus{border-color:var(--blue);}
-.media-field select option{background:var(--dark3);}
-.media-modal-actions{display:flex;gap:0.55rem;flex-wrap:wrap;margin-top:auto;padding-top:0.5rem;}
-.media-save-btn{background:var(--blue);color:#fff;border:none;padding:0.58rem 1.2rem;border-radius:6px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;min-height:40px;}
-.media-save-btn:hover{background:var(--blue-light);}
-.media-url-btn{background:var(--dark3);border:1px solid rgba(255,255,255,0.14);color:var(--gray-light);padding:0.58rem 1.1rem;border-radius:6px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:border-color 0.2s,color 0.2s;min-height:40px;}
-.media-url-btn:hover{border-color:rgba(255,255,255,0.34);color:var(--white);}
-.media-del-btn{background:transparent;border:1px solid rgba(232,64,64,0.38);color:#ff9090;padding:0.58rem 1.1rem;border-radius:6px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:background 0.2s,border-color 0.2s;min-height:40px;margin-left:auto;}
-.media-del-btn:hover{background:var(--red-dim);border-color:var(--red);}
-@media(max-width:680px){
-  .media-modal-card{grid-template-columns:1fr;}
-  .media-modal-preview{border-radius:14px 14px 0 0;min-height:150px;}
-  .media-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}
-}
-
-@media(max-width:900px){
-  .stats-row{grid-template-columns:1fr 1fr;}
-  .bookings-table .hide-mobile{display:none;}
-  .admin-main{padding:1.2rem;}
-  .topbar{padding:0 1rem;}
-  .filter-search{width:100%;margin-left:0;}
+@media(max-width:540px){
+  .dash-quick-grid{grid-template-columns:1fr 1fr;}
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="admin-shared.js"></script>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T21RVB775S"></script>
 <script>
@@ -267,267 +70,139 @@ body{font-family:'Barlow',sans-serif;background:var(--dark);color:var(--white);m
       <input type="email" id="login-user" placeholder="admin@example.com" autocomplete="email">
     </div>
     <div class="login-field">
-      <label>Lösenord</label>
-      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password">
+      <label>L&#246;senord</label>
+      <input type="password" id="login-pass" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" autocomplete="current-password">
     </div>
-    <div id="login-error">Fel användarnamn eller lösenord.</div>
-    <button class="login-btn" id="login-btn" onclick="doLogin()">Logga in</button>
+    <div id="login-error">Fel e-postadress eller l&#246;senord.</div>
+    <button class="login-btn" onclick="doLogin()">Logga in</button>
   </div>
 </div>
 
-<!-- APP -->
-<div id="app">
-  <div class="topbar">
-    <div style="display:flex;align-items:center;">
-      <span class="topbar-logo">Nordic <span style="color:var(--blue)">PC</span> Solutions</span>
-      <span class="topbar-badge">Admin</span>
-    </div>
-    <div class="topbar-right">
-      <span class="topbar-user">Inloggad som <strong id="topbar-email">—</strong></span>
-      <a href="index.html" class="site-link" target="_blank">← Hemsidan</a>
-      <button class="logout-btn" onclick="doLogout()">Logga ut</button>
-    </div>
-  </div>
+<!-- APP SHELL -->
+<div id="app" style="display:none;">
 
-  <div class="admin-main">
-    <div class="tab-nav">
-      <button class="tab-btn active" id="tab-bookings-btn" onclick="switchTab('bookings')">&#128203; Bokningar</button>
-      <button class="tab-btn" id="tab-sale-btn" onclick="switchTab('sale')">&#127991;&#65039; Rea &amp; Priser</button>
-      <button class="tab-btn" id="tab-media-btn" onclick="switchTab('media')">&#128444;&#65039; Mediabibliotek</button>
+  <!-- Sidebar injected here by renderAdminNav() -->
+  <div id="admin-nav"></div>
+
+  <!-- Dashboard content -->
+  <main class="admin-main">
+
+    <div class="dash-welcome">
+      <h1>Välkommen, <span id="dash-email">—</span></h1>
+      <p>&#214;versikt f&#246;r Nordic PC Solutions Admin</p>
     </div>
 
-    <div id="bookings-panel">
+    <!-- Stat cards -->
     <div class="stats-row">
-      <div class="stat-card c-new"><div class="s-num" id="stat-new">—</div><div class="s-label">Nya förfrågningar</div></div>
-      <div class="stat-card c-prog"><div class="s-num" id="stat-prog">—</div><div class="s-label">Pågående</div></div>
-      <div class="stat-card c-done"><div class="s-num" id="stat-done">—</div><div class="s-label">Avslutade</div></div>
-      <div class="stat-card c-all"><div class="s-num" id="stat-all">—</div><div class="s-label">Totalt</div></div>
+      <div class="stat-card c-new">
+        <div class="s-num" id="dash-stat-new">—</div>
+        <div class="s-label">Nya bokningar</div>
+      </div>
+      <div class="stat-card c-prog">
+        <div class="s-num" id="dash-stat-prog">—</div>
+        <div class="s-label">P&#229;g&#229;ende</div>
+      </div>
+      <div class="stat-card c-draft">
+        <div class="s-num" id="dash-stat-draft">—</div>
+        <div class="s-label">Utkast</div>
+      </div>
+      <div class="stat-card c-pub">
+        <div class="s-num" id="dash-stat-pub">—</div>
+        <div class="s-label">Publicerade</div>
+      </div>
     </div>
 
-    <div class="filter-bar">
-      <button class="filter-btn active" onclick="setFilter('all',this)">Alla</button>
-      <button class="filter-btn" onclick="setFilter('new',this)" id="filter-new-btn">Nya</button>
-      <button class="filter-btn" onclick="setFilter('progress',this)">Pågående</button>
-      <button class="filter-btn" onclick="setFilter('finished',this)">Avslutade</button>
-      <button class="refresh-btn" onclick="loadBookings()" id="refresh-btn">
-        <span class="spin-icon">↻</span> Uppdatera
-      </button>
-      <input class="filter-search" type="text" id="search-input" placeholder="Sök namn, tjänst, e-post…" oninput="renderBookings()">
-    </div>
-
-    <div class="bookings-wrap">
-      <table class="bookings-table">
-        <thead>
-          <tr>
-            <th>Kund</th>
-            <th class="hide-mobile">Tjänst</th>
-            <th class="hide-mobile">Datum</th>
-            <th>Status</th>
-            <th class="hide-mobile">Meddelande</th>
-            <th>Åtgärder</th>
-          </tr>
-        </thead>
-        <tbody id="bookings-body">
-          <tr class="loading-row"><td colspan="6">Laddar förfrågningar…</td></tr>
-        </tbody>
-      </table>
-    </div>
-    </div><!-- /bookings-panel -->
-
-    <!-- REA PANEL -->
-    <div id="sale-panel">
-      <div style="max-width:700px;">
-
-        <!-- STATUS CARD -->
-        <div style="background:var(--dark3);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:2rem;margin-bottom:1.5rem;">
-          <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;text-transform:uppercase;margin-bottom:1rem;">Reastatus</h3>
-          <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
-            <label style="display:flex;align-items:center;gap:0.75rem;cursor:pointer;font-weight:700;">
-              <input type="checkbox" id="sale-active-toggle" style="width:20px;height:20px;cursor:pointer;" onchange="toggleSale()">
-              <span>Aktivera rea</span>
-            </label>
-            <span id="sale-status-badge" style="display:inline-block;padding:0.3rem 0.8rem;border-radius:5px;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(255,255,255,0.07);color:var(--gray);">&#9899; Ingen rea aktiv</span>
-          </div>
-        </div>
-
-        <!-- SETTINGS FORM -->
-        <div style="background:var(--dark3);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:2rem;margin-bottom:1.5rem;">
-          <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;text-transform:uppercase;margin-bottom:1.5rem;">Reainst&#228;llningar</h3>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
-            <div>
-              <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:0.4rem;">Rabatt (%)</label>
-              <input type="number" id="sale-percent" min="1" max="99" value="50" style="width:100%;background:var(--dark2);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.75rem 1rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;">
-            </div>
-            <div>
-              <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:0.4rem;">Reatitel</label>
-              <input type="text" id="sale-title" value="Sommarrea" style="width:100%;background:var(--dark2);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.75rem 1rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;">
-            </div>
-          </div>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
-            <div>
-              <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:0.4rem;">Slutdatum</label>
-              <input type="date" id="sale-end-date" value="2025-08-31" style="width:100%;background:var(--dark2);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.75rem 1rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;">
-            </div>
-            <div>
-              <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:0.4rem;">G&#228;ller f&#246;r</label>
-              <select id="sale-applies-to" style="width:100%;background:var(--dark2);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.75rem 1rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;appearance:none;">
-                <option value="all">Alla tj&#228;nster</option>
-                <option value="grundtjanst">Grundtj&#228;nst</option>
-                <option value="pro_bygge">Pro-bygge</option>
-                <option value="skraddarsydd">Skr&#228;ddarsydd PC</option>
-                <option value="djurengoring">Djupreng&#246;ring</option>
-              </select>
-            </div>
-          </div>
-
-          <button onclick="saveSaleSettings()" style="background:linear-gradient(135deg,#3d6fff,#00d4ff);color:#fff;border:none;padding:0.85rem 2rem;border-radius:6px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;">Uppdatera &#8594;</button>
-        </div>
-
-        <!-- ORIGINAL PRICES -->
-        <div style="background:var(--dark3);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:2rem;">
-          <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;text-transform:uppercase;margin-bottom:1rem;">Originalpriser</h3>
-          <table style="width:100%;border-collapse:collapse;">
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
-              <td style="padding:0.75rem 0;color:var(--gray-light);">Grundtj&#228;nst</td>
-              <td style="padding:0.75rem 0;text-align:right;font-weight:700;color:var(--accent);">250 kr</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
-              <td style="padding:0.75rem 0;color:var(--gray-light);">Pro-bygge</td>
-              <td style="padding:0.75rem 0;text-align:right;font-weight:700;color:var(--accent);">400 kr</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
-              <td style="padding:0.75rem 0;color:var(--gray-light);">Skr&#228;ddarsydd PC</td>
-              <td style="padding:0.75rem 0;text-align:right;font-weight:700;color:var(--accent);">500 kr</td>
-            </tr>
+    <!-- Recent bookings -->
+    <div class="dash-section">
+      <div class="dash-section-hd">
+        <h2>Senaste bokningarna</h2>
+        <a href="bookings-admin.html" class="dash-view-all">Visa alla &#8594;</a>
+      </div>
+      <div class="bookings-wrap">
+        <table class="bookings-table">
+          <thead>
             <tr>
-              <td style="padding:0.75rem 0;color:var(--gray-light);">Djupreng&#246;ring</td>
-              <td style="padding:0.75rem 0;text-align:right;font-weight:700;color:var(--accent);">250 kr</td>
+              <th>Kund</th>
+              <th>Tj&#228;nst</th>
+              <th class="hide-mobile">Datum</th>
+              <th>Status</th>
             </tr>
-          </table>
-        </div>
-
-      </div>
-    </div><!-- /sale-panel -->
-
-    <!-- MEDIA PANEL -->
-    <div id="media-panel">
-      <div class="media-upload-zone" id="media-upload-zone" onclick="document.getElementById('media-file-input').click()">
-        <input type="file" id="media-file-input" accept="image/*" multiple style="display:none" onchange="handleMediaFiles(this.files)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        <p>Dra filer hit eller klicka f&#246;r att ladda upp</p>
-        <span>PNG, JPG, WebP, GIF &middot; Max 10 MB per fil</span>
-        <div class="media-upload-list" id="media-upload-list"></div>
-      </div>
-      <div class="media-filter-bar">
-        <input type="text" class="filter-search" id="media-search" placeholder="S&#246;k p&#229; filnamn eller alt-text&#8230;" oninput="renderMediaGrid()" style="margin-left:0;width:220px;">
-        <select class="filter-btn" id="media-cat-filter" onchange="renderMediaGrid()" style="padding:0.42rem 0.9rem;cursor:pointer;">
-          <option value="all">Alla kategorier</option>
-          <option value="blog">Blogg</option>
-          <option value="hero">Hero</option>
-          <option value="portfolio">Portfolio</option>
-          <option value="prebuilt">Prebuilt</option>
-          <option value="team">Team</option>
-          <option value="logo">Logotyper</option>
-          <option value="marketing">Marknadsf&#246;ring</option>
-          <option value="uncategorized">Okategoriserat</option>
-        </select>
-        <span class="media-count" id="media-count">0 bilder</span>
-      </div>
-      <div class="media-grid" id="media-grid"></div>
-    </div><!-- /media-panel -->
-
-  </div>
-</div>
-
-<!-- MESSAGE MODAL -->
-<div class="modal-overlay" id="msg-modal" onclick="closeMsgModal(event)">
-  <div class="modal-card">
-    <button class="modal-close" onclick="document.getElementById('msg-modal').classList.remove('open')">✕</button>
-    <h3 id="modal-name"></h3>
-    <div class="modal-meta" id="modal-meta"></div>
-    <div class="modal-msg" id="modal-msg"></div>
-  </div>
-</div>
-
-<!-- CONFIRM DELETE -->
-<div class="modal-overlay" id="confirm-modal">
-  <div class="confirm-card">
-    <h3>Radera förfrågan?</h3>
-    <p>Detta tar bort förfrågan permanent från databasen. Används för spam. Kan inte ångras.</p>
-    <div class="confirm-actions">
-      <button class="confirm-yes" onclick="confirmDelete()">Ja, radera</button>
-      <button class="confirm-no" onclick="document.getElementById('confirm-modal').classList.remove('open')">Avbryt</button>
-    </div>
-  </div>
-</div>
-
-<!-- MEDIA CONFIRM DELETE -->
-<div class="modal-overlay" id="media-confirm-modal">
-  <div class="confirm-card">
-    <h3>Ta bort bild?</h3>
-    <p>Detta tar permanent bort bilden fr&#229;n lagring och databasen. Kan inte &#229;ngras.</p>
-    <div class="confirm-actions">
-      <button class="confirm-yes" onclick="confirmDeleteMedia()">Ja, ta bort</button>
-      <button class="confirm-no" onclick="document.getElementById('media-confirm-modal').classList.remove('open')">Avbryt</button>
-    </div>
-  </div>
-</div>
-
-<!-- MEDIA DETAIL MODAL -->
-<div class="media-modal-overlay" id="media-modal" onclick="handleMediaModalBackdrop(event)">
-  <div class="media-modal-card">
-    <div class="media-modal-preview">
-      <img id="media-modal-img" src="" alt="">
-    </div>
-    <div class="media-modal-form">
-      <div>
-        <div class="media-modal-title" id="media-modal-fname"></div>
-        <div class="media-meta-row" id="media-modal-meta"></div>
-      </div>
-      <div class="media-field">
-        <label>Alt-text</label>
-        <input type="text" id="media-modal-alt" placeholder="Beskriv bilden f&#246;r sk&#228;rml&#228;sare&#8230;">
-      </div>
-      <div class="media-field">
-        <label>Bildtext (caption)</label>
-        <textarea id="media-modal-caption" rows="2" placeholder="Valfri bildtext&#8230;"></textarea>
-      </div>
-      <div class="media-field">
-        <label>Kategori</label>
-        <select id="media-modal-cat">
-          <option value="uncategorized">Okategoriserat</option>
-          <option value="blog">Blogg</option>
-          <option value="hero">Hero</option>
-          <option value="portfolio">Portfolio</option>
-          <option value="prebuilt">Prebuilt</option>
-          <option value="team">Team</option>
-          <option value="logo">Logotyper</option>
-          <option value="marketing">Marknadsf&#246;ring</option>
-        </select>
-      </div>
-      <div class="media-modal-actions">
-        <button class="media-save-btn" onclick="saveMediaItem()">Spara &#228;ndringar</button>
-        <button class="media-url-btn" onclick="copyMediaUrl()">Kopiera URL</button>
-        <button class="media-del-btn" onclick="askDeleteMedia()">Ta bort</button>
+          </thead>
+          <tbody id="dash-recent-body">
+            <tr class="loading-row"><td colspan="4">Laddar&#8230;</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </div>
-</div>
+
+    <!-- Quick actions -->
+    <div class="dash-section">
+      <div class="dash-section-hd">
+        <h2>Snabb&#229;tg&#228;rder</h2>
+      </div>
+      <div class="dash-quick-grid">
+
+        <a href="bookings-admin.html" class="dash-quick-card">
+          <div class="dash-quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg></div>
+          <div class="dash-quick-name">Bokningar</div>
+          <div class="dash-quick-desc">Hantera inkommande f&#246;rfr&#229;gningar och uppdatera status.</div>
+        </a>
+
+        <a href="analysis-admin.html" class="dash-quick-card">
+          <div class="dash-quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+          <div class="dash-quick-name">PC-analys</div>
+          <div class="dash-quick-desc">Hantera datoranalyser och f&#246;rdjiupade rapporter.</div>
+        </a>
+
+        <a href="blog-admin.html" class="dash-quick-card">
+          <div class="dash-quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+          <div class="dash-quick-name">Blogg</div>
+          <div class="dash-quick-desc">Skriv och publicera artiklar.</div>
+        </a>
+
+        <a href="portfolio-admin.html" class="dash-quick-card">
+          <div class="dash-quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="dash-quick-name">Portfolio</div>
+          <div class="dash-quick-desc">Hantera referensprojekt och case.</div>
+        </a>
+
+        <a href="prebuilt-admin.html" class="dash-quick-card">
+          <div class="dash-quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <div class="dash-quick-name">Prebyggda PC</div>
+          <div class="dash-quick-desc">Hantera f&#228;rdiga PC-konfigurationer.</div>
+        </a>
+
+        <a href="media-admin.html" class="dash-quick-card">
+          <div class="dash-quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="dash-quick-name">Mediabibliotek</div>
+          <div class="dash-quick-desc">Ladda upp och organisera bilder.</div>
+        </a>
+
+        <a href="seo-admin.html" class="dash-quick-card">
+          <div class="dash-quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <div class="dash-quick-name">SEO</div>
+          <div class="dash-quick-desc">Metatitlar, beskrivningar och sitestruktur.</div>
+        </a>
+
+        <a href="settings.html" class="dash-quick-card">
+          <div class="dash-quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06-.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+          <div class="dash-quick-name">Inst&#228;llningar</div>
+          <div class="dash-quick-desc">Rea, priser och webbplatsinst&#228;llningar.</div>
+        </a>
+
+      </div>
+    </div>
+
+  </main>
+</div><!-- /#app -->
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── CONFIG ──
-const SB_URL = "https://pflehgaffylcfmgltzlr.supabase.co";
-const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmbGVoZ2FmZnlsY2ZtZ2x0emxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5ODcxMjQsImV4cCI6MjA5NjU2MzEyNH0.9Hh4n-9IvsCBnwEbcKBhGan2LskY3lKhoeRcA2lxXac";
-const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
-
 // ── AUTH ──
 async function doLogin() {
-  const email = document.getElementById('login-user').value;
+  const email    = document.getElementById('login-user').value;
   const password = document.getElementById('login-pass').value;
   const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
   if (error) {
@@ -535,546 +210,95 @@ async function doLogin() {
     document.getElementById('login-error').style.display = 'block';
     return;
   }
-  document.getElementById('topbar-email').textContent = data.user.email;
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
-  await loadBookings();
-  setInterval(loadBookings, 30000);
+  showDashboard(data.user.email);
 }
-['login-pass','login-user'].forEach(id => {
-  document.getElementById(id).addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
-});
 
-async function doLogout() {
-  await supabaseClient.auth.signOut();
-  allBookings = [];
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('login-user').value = '';
-  document.getElementById('login-pass').value = '';
-  document.getElementById('login-error').style.display = 'none';
-  document.getElementById('topbar-email').textContent = '—';
-}
+['login-pass', 'login-user'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+});
 
 (async function checkExistingSession() {
   const { data: { session } } = await supabaseClient.auth.getSession();
-  if (session) {
-    document.getElementById('topbar-email').textContent = session.user.email;
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
-    await loadBookings();
-    setInterval(loadBookings, 30000);
-  }
+  if (session) showDashboard(session.user.email);
 })();
 
-// ── DATA ──
-let allBookings = [];
-let currentFilter = 'all';
-let pendingDeleteId = null;
+// ── DASHBOARD INIT ──
+function showDashboard(email) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  renderAdminNav('dashboard');
+  document.getElementById('sidebar-user-email').textContent = email;
+  document.getElementById('dash-email').textContent = email;
+  loadDashboard();
+}
 
-async function loadBookings() {
-  const btn = document.getElementById('refresh-btn');
-  btn.classList.add('spinning');
+// ── DASHBOARD DATA ──
+async function loadDashboard() {
+  // Bookings stats + recent list
   try {
-    const { data, error } = await supabaseClient
+    const { data: bookings, error } = await supabaseClient
       .from('bookings')
-      .select('*')
+      .select('id,first,last,service,status,created_at')
       .order('created_at', { ascending: false });
     if (error) throw error;
-    allBookings = data;
-    renderStats();
-    renderBookings();
-    updatePageTitle();
+
+    const newCount  = bookings.filter(b => b.status === 'new').length;
+    const progCount = bookings.filter(b => b.status === 'progress').length;
+    document.getElementById('dash-stat-new').textContent  = newCount;
+    document.getElementById('dash-stat-prog').textContent = progCount;
+
+    document.title = newCount > 0
+      ? '(' + newCount + ' nya) Nordic PC Admin'
+      : 'Nordic PC Solutions – Admin';
+
+    renderRecentBookings(bookings.slice(0, 5));
   } catch(e) {
-    showToast('⚠️ Kunde inte ladda data: ' + e.message, 't-red');
-  } finally {
-    btn.classList.remove('spinning');
+    showToast('⚠️ Kunde inte ladda bokningar: ' + e.message, 't-red');
+    document.getElementById('dash-stat-new').textContent  = '!';
+    document.getElementById('dash-stat-prog').textContent = '!';
+    renderRecentBookings([]);
+  }
+
+  // Blog stats — zero-state until blog module is built; graceful 0 if table missing
+  try {
+    const { count: draftCount } = await supabaseClient
+      .from('blog_posts').select('*', { count: 'exact', head: true }).eq('status', 'draft');
+    const { count: pubCount } = await supabaseClient
+      .from('blog_posts').select('*', { count: 'exact', head: true }).eq('status', 'published');
+    document.getElementById('dash-stat-draft').textContent = draftCount ?? 0;
+    document.getElementById('dash-stat-pub').textContent   = pubCount   ?? 0;
+  } catch(e) {
+    document.getElementById('dash-stat-draft').textContent = '0';
+    document.getElementById('dash-stat-pub').textContent   = '0';
   }
 }
 
-// ── RENDER ──
-function renderStats() {
-  document.getElementById('stat-new').textContent  = allBookings.filter(b=>b.status==='new').length;
-  document.getElementById('stat-prog').textContent = allBookings.filter(b=>b.status==='progress').length;
-  document.getElementById('stat-done').textContent = allBookings.filter(b=>b.status==='finished').length;
-  document.getElementById('stat-all').textContent  = allBookings.length;
-}
-
-function updatePageTitle() {
-  const newCount = allBookings.filter(b=>b.status==='new').length;
-  document.title = newCount > 0
-    ? `(${newCount} nya) Nordic PC Admin`
-    : 'Nordic PC Solutions – Admin';
-  const btn = document.getElementById('filter-new-btn');
-  const existing = btn.querySelector('.new-dot');
-  if (newCount > 0 && !existing) {
-    btn.innerHTML = `Nya <span class="new-dot"></span>`;
-  } else if (newCount === 0 && existing) {
-    btn.textContent = 'Nya';
-  }
-}
-
-function setFilter(f, btn) {
-  currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderBookings();
-}
-
-function renderBookings() {
-  const q = document.getElementById('search-input').value.toLowerCase();
-  const filtered = allBookings.filter(b => {
-    const matchFilter = currentFilter === 'all' || b.status === currentFilter;
-    const matchSearch = !q ||
-      (b.first+' '+b.last).toLowerCase().includes(q) ||
-      (b.email||'').toLowerCase().includes(q) ||
-      (b.service||'').toLowerCase().includes(q) ||
-      (b.message||'').toLowerCase().includes(q);
-    return matchFilter && matchSearch;
-  });
-
-  const tbody = document.getElementById('bookings-body');
-  if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">📭</div><p>Inga förfrågningar hittades.</p></div></td></tr>`;
-    return;
-  }
-
+function renderRecentBookings(bookings) {
   const statusBadge = {
     new:      '<span class="status-badge s-new">Ny</span>',
     progress: '<span class="status-badge s-progress">Pågående</span>',
     finished: '<span class="status-badge s-finished">Avslutad</span>',
   };
-
-  tbody.innerHTML = filtered.map(b => {
-    const rowClass = b.status === 'finished' ? 'row-done' : '';
-    const msg = (b.message || '—').replace(/</g,'&lt;');
-    const shortMsg = msg.length > 55 ? msg.slice(0,55)+'…' : msg;
-    const dateStr = b.created_at ? new Date(b.created_at).toLocaleString('sv-SE') : '—';
-
-    let actions = '';
-    if (b.status === 'new') {
-      actions += `<button class="act-btn act-progress" onclick="setStatus(${b.id},'progress')">Pågående</button>`;
-      actions += `<button class="act-btn act-finish"   onclick="setStatus(${b.id},'finished')">Avslutad</button>`;
-    } else if (b.status === 'progress') {
-      actions += `<button class="act-btn act-finish"   onclick="setStatus(${b.id},'finished')">Avslutad</button>`;
-      actions += `<button class="act-btn act-restore"  onclick="setStatus(${b.id},'new')">↩ Ny</button>`;
-    } else if (b.status === 'finished') {
-      actions += `<button class="act-btn act-restore"  onclick="setStatus(${b.id},'progress')">↩ Pågående</button>`;
-    }
-    actions += `<button class="act-btn act-delete" onclick="askDelete(${b.id})" title="Radera">🗑</button>`;
-
-    return `<tr class="${rowClass}" id="row-${b.id}">
-      <td>
-        <span class="booking-name">${b.first} ${b.last}</span>
-        <span class="booking-email">${b.email}</span>
-        ${b.phone ? `<span class="booking-email">${b.phone}</span>` : ''}
-      </td>
-      <td class="hide-mobile"><span class="booking-service">${b.service||'—'}</span></td>
+  const tbody = document.getElementById('dash-recent-body');
+  if (!bookings.length) {
+    tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><p>Inga bokningar ännu.</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = bookings.map(b => {
+    const dateStr = b.created_at ? new Date(b.created_at).toLocaleDateString('sv-SE') : '—';
+    const cls = b.status === 'finished' ? ' class="row-done"' : '';
+    return `<tr${cls}>
+      <td><span class="booking-name">${escH(b.first + ' ' + b.last)}</span></td>
+      <td><span class="booking-service">${escH(b.service||'—')}</span></td>
       <td class="hide-mobile"><span class="booking-date">${dateStr}</span></td>
-      <td>${statusBadge[b.status]||b.status}</td>
-      <td class="hide-mobile"><div class="booking-msg" onclick="openMsg(${b.id})" title="Klicka för att läsa hela">${shortMsg}</div></td>
-      <td><div class="actions">${actions}</div></td>
+      <td>${statusBadge[b.status] || escH(b.status)}</td>
     </tr>`;
   }).join('');
 }
 
-// ── ACTIONS ──
-async function setStatus(id, status) {
-  try {
-    const { error } = await supabaseClient
-      .from('bookings')
-      .update({ status })
-      .eq('id', id);
-    if (error) throw error;
-    const i = allBookings.findIndex(b => b.id === id);
-    if (i !== -1) allBookings[i].status = status;
-    renderStats();
-    renderBookings();
-    updatePageTitle();
-    const labels = { new:'Markerad som Ny ↩', progress:'Markerad som Pågående', finished:'✓ Markerad som Avslutad' };
-    const cls    = { new:'t-amber', progress:'t-amber', finished:'t-green' };
-    showToast(labels[status]||status, cls[status]||'');
-  } catch(e) {
-    showToast('⚠️ ' + e.message, 't-red');
-  }
-}
-
-function askDelete(id) {
-  pendingDeleteId = id;
-  document.getElementById('confirm-modal').classList.add('open');
-}
-
-async function confirmDelete() {
-  if (!pendingDeleteId) return;
-  document.getElementById('confirm-modal').classList.remove('open');
-  try {
-    const { error } = await supabaseClient
-      .from('bookings')
-      .delete()
-      .eq('id', pendingDeleteId);
-    if (error) throw error;
-    allBookings = allBookings.filter(b => b.id !== pendingDeleteId);
-    pendingDeleteId = null;
-    renderStats();
-    renderBookings();
-    updatePageTitle();
-    showToast('🗑 Förfrågan raderad.', 't-red');
-  } catch(e) {
-    showToast('⚠️ Kunde inte radera: ' + e.message, 't-red');
-  }
-}
-
-// ── MESSAGE MODAL ──
-function openMsg(id) {
-  const b = allBookings.find(b => b.id === id);
-  if (!b) return;
-  const dateStr = b.created_at ? new Date(b.created_at).toLocaleString('sv-SE') : '—';
-  document.getElementById('modal-name').textContent = b.first + ' ' + b.last;
-  document.getElementById('modal-meta').innerHTML =
-    `<span>✉️ ${b.email}</span>`+
-    (b.phone?`<span>📞 ${b.phone}</span>`:'')+
-    `<span>🗓 ${dateStr}</span>`+
-    `<span>🔧 ${b.service}</span>`;
-  document.getElementById('modal-msg').textContent = b.message || '(Inget meddelande)';
-  document.getElementById('msg-modal').classList.add('open');
-}
-function closeMsgModal(e) {
-  if (e.target === document.getElementById('msg-modal'))
-    document.getElementById('msg-modal').classList.remove('open');
-}
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    ['msg-modal','confirm-modal','media-modal','media-confirm-modal'].forEach(id => {
-      document.getElementById(id).classList.remove('open');
-    });
-  }
-});
-
-// ── TOAST ──
-let toastTimer;
-function showToast(msg, cls='') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast show ' + cls;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.className = 'toast ' + cls; }, 2800);
-}
-
-// ── TAB SWITCHING ──
-function switchTab(tab) {
-  const TABS = {
-    bookings: { panel: 'bookings-panel', btn: 'tab-bookings-btn' },
-    sale:     { panel: 'sale-panel',     btn: 'tab-sale-btn'     },
-    media:    { panel: 'media-panel',    btn: 'tab-media-btn'    }
-  };
-  Object.entries(TABS).forEach(([t, { panel, btn }]) => {
-    document.getElementById(panel).style.display = t === tab ? (t === 'bookings' ? '' : 'block') : 'none';
-    document.getElementById(btn).classList.toggle('active', t === tab);
-  });
-  if (tab === 'sale') loadSaleSettingsAdmin();
-  if (tab === 'media' && !mediaLoaded) loadMediaLibrary();
-}
-
-// ── SALE MANAGEMENT ──
-async function loadSaleSettingsAdmin() {
-  try {
-    const { data, error } = await supabaseClient
-      .from('settings')
-      .select('*')
-      .eq('id', 'global')
-      .single();
-    if (error) throw error;
-    if (data) {
-      document.getElementById('sale-active-toggle').checked = data.sale_active;
-      document.getElementById('sale-percent').value = data.sale_percent;
-      document.getElementById('sale-title').value = data.sale_title;
-      document.getElementById('sale-end-date').value = data.sale_end_date;
-      document.getElementById('sale-applies-to').value = data.sale_applies_to;
-      updateSaleBadge(data.sale_active);
-    }
-  } catch(e) { showToast('Kunde inte ladda reainställningar', 't-red'); }
-}
-
-async function saveSaleSettings() {
-  const settings = {
-    sale_active: document.getElementById('sale-active-toggle').checked,
-    sale_percent: parseInt(document.getElementById('sale-percent').value),
-    sale_title: document.getElementById('sale-title').value,
-    sale_end_date: document.getElementById('sale-end-date').value,
-    sale_applies_to: document.getElementById('sale-applies-to').value
-  };
-  try {
-    const { error } = await supabaseClient
-      .from('settings')
-      .update(settings)
-      .eq('id', 'global');
-    if (error) throw error;
-    updateSaleBadge(settings.sale_active);
-    showToast('✓ Reainställningar sparade!', 't-green');
-  } catch(e) { showToast('⚠️ Kunde inte spara: ' + e.message, 't-red'); }
-}
-
-async function toggleSale() {
-  await saveSaleSettings();
-}
-
-// ── MEDIA LIBRARY ──
-let allMedia = [];
-let mediaLoaded = false;
-let activeMediaId = null;
-let pendingDeleteMediaId = null;
-
-const MEDIA_CATS = {
-  uncategorized:'Okategoriserat', blog:'Blogg', hero:'Hero',
-  portfolio:'Portfolio', prebuilt:'Prebuilt', team:'Team',
-  logo:'Logotyper', marketing:'Marknadsföring'
-};
-const MAX_MEDIA_SIZE = 10 * 1024 * 1024;
-
-// ── DATA ──
-async function loadMediaLibrary() {
-  try {
-    const { data, error } = await supabaseClient
-      .from('media_library')
-      .select('*')
-      .order('uploaded_at', { ascending: false });
-    if (error) throw error;
-    allMedia = data || [];
-    mediaLoaded = true;
-    renderMediaGrid();
-  } catch(e) {
-    showToast('⚠️ Kunde inte ladda mediabibliotek: ' + e.message, 't-red');
-  }
-}
-
-// ── FILTER (reusable — returns filtered array for grid or picker) ──
-function getFilteredMedia(search, cat) {
-  const q   = (search !== undefined ? search : (document.getElementById('media-search').value || '')).toLowerCase();
-  const cat2 = cat !== undefined ? cat : document.getElementById('media-cat-filter').value;
-  return allMedia.filter(m => {
-    const matchCat = cat2 === 'all' || m.category === cat2;
-    const matchQ   = !q || (m.file_name||'').toLowerCase().includes(q) || (m.alt_text||'').toLowerCase().includes(q);
-    return matchCat && matchQ;
-  });
-}
-
-// ── RENDER GRID (reusable — accepts optional container id for future picker use) ──
-function renderMediaGrid(containerId) {
-  const grid     = document.getElementById(containerId || 'media-grid');
-  const filtered = getFilteredMedia();
-  document.getElementById('media-count').textContent = filtered.length + ' bild' + (filtered.length !== 1 ? 'er' : '');
-  if (filtered.length === 0) {
-    grid.innerHTML = '<div class="media-empty">Inga bilder hittades.</div>';
-    return;
-  }
-  grid.innerHTML = filtered.map(m => `
-    <div class="media-card" onclick="openMediaDetail(${m.id})">
-      <img class="media-card-thumb" src="${escH(m.public_url)}" alt="${escH(m.alt_text||m.file_name)}" loading="lazy">
-      <div class="media-card-body">
-        <div class="media-card-name" title="${escH(m.file_name)}">${escH(m.file_name)}</div>
-        <div class="media-card-meta">
-          <span class="media-cat-badge">${escH(MEDIA_CATS[m.category]||m.category)}</span>
-          <span class="media-size">${fmtBytes(m.file_size)}</span>
-        </div>
-      </div>
-      <div class="media-card-hover">
-        <button class="media-copy-btn" onclick="event.stopPropagation();copyToClipboard('${escH(m.public_url)}')">Kopiera URL</button>
-      </div>
-    </div>`).join('');
-}
-
-// ── DETAIL MODAL ──
-function openMediaDetail(id) {
-  const m = allMedia.find(x => x.id === id);
-  if (!m) return;
-  activeMediaId = id;
-  document.getElementById('media-modal-img').src = m.public_url;
-  document.getElementById('media-modal-img').alt = m.alt_text || m.file_name;
-  document.getElementById('media-modal-fname').textContent = m.file_name;
-  const uploaded = m.uploaded_at ? new Date(m.uploaded_at).toLocaleString('sv-SE') : '—';
-  document.getElementById('media-modal-meta').innerHTML =
-    `<span>${fmtBytes(m.file_size)}</span>` +
-    (m.width && m.height ? `<span>${m.width} × ${m.height} px</span>` : '') +
-    `<span>Uppladdad ${uploaded}</span>`;
-  document.getElementById('media-modal-alt').value     = m.alt_text  || '';
-  document.getElementById('media-modal-caption').value = m.caption   || '';
-  document.getElementById('media-modal-cat').value     = m.category  || 'uncategorized';
-  document.getElementById('media-modal').classList.add('open');
-}
-
-function handleMediaModalBackdrop(e) {
-  if (e.target === document.getElementById('media-modal'))
-    document.getElementById('media-modal').classList.remove('open');
-}
-
-async function saveMediaItem() {
-  if (!activeMediaId) return;
-  const updates = {
-    alt_text: document.getElementById('media-modal-alt').value,
-    caption:  document.getElementById('media-modal-caption').value,
-    category: document.getElementById('media-modal-cat').value
-  };
-  try {
-    const { error } = await supabaseClient
-      .from('media_library')
-      .update(updates)
-      .eq('id', activeMediaId);
-    if (error) throw error;
-    const i = allMedia.findIndex(m => m.id === activeMediaId);
-    if (i !== -1) Object.assign(allMedia[i], updates);
-    renderMediaGrid();
-    document.getElementById('media-modal').classList.remove('open');
-    showToast('✓ Ändringar sparade', 't-green');
-  } catch(e) {
-    showToast('⚠️ Kunde inte spara: ' + e.message, 't-red');
-  }
-}
-
-function copyMediaUrl() {
-  const m = allMedia.find(x => x.id === activeMediaId);
-  if (m) copyToClipboard(m.public_url);
-}
-
-function askDeleteMedia() {
-  if (!activeMediaId) return;
-  pendingDeleteMediaId = activeMediaId;
-  document.getElementById('media-modal').classList.remove('open');
-  document.getElementById('media-confirm-modal').classList.add('open');
-}
-
-async function confirmDeleteMedia() {
-  if (!pendingDeleteMediaId) return;
-  document.getElementById('media-confirm-modal').classList.remove('open');
-  const m = allMedia.find(x => x.id === pendingDeleteMediaId);
-  if (!m) return;
-  try {
-    const { error: storageErr } = await supabaseClient.storage.from('media').remove([m.storage_path]);
-    if (storageErr) throw new Error('Lagring: ' + storageErr.message);
-    const { error: dbErr } = await supabaseClient.from('media_library').delete().eq('id', m.id);
-    if (dbErr) throw new Error('Databas: ' + dbErr.message);
-    allMedia = allMedia.filter(x => x.id !== pendingDeleteMediaId);
-    pendingDeleteMediaId = null;
-    renderMediaGrid();
-    showToast('🗑 Bild borttagen.', 't-red');
-  } catch(e) {
-    showToast('⚠️ Kunde inte ta bort: ' + e.message, 't-red');
-    pendingDeleteMediaId = null;
-  }
-}
-
-// ── UPLOAD PIPELINE ──
-function sanitizeFileName(name) {
-  return name.replace(/[^a-zA-Z0-9._-]/g, '_');
-}
-
-function getImageDimensions(file) {
-  return new Promise(resolve => {
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload  = () => { URL.revokeObjectURL(url); resolve({ width: img.naturalWidth, height: img.naturalHeight }); };
-    img.onerror = () => { URL.revokeObjectURL(url); resolve({ width: null, height: null }); };
-    img.src = url;
-  });
-}
-
-async function uploadSingleFile(file, itemEl) {
-  const setS = (txt, cls) => {
-    itemEl.querySelector('.u-status').textContent = txt;
-    itemEl.className = 'media-upload-item' + (cls ? ' ' + cls : '');
-  };
-  if (!file.type.startsWith('image/')) { setS('Ej en bildfil', 'u-error'); return; }
-  if (file.size > MAX_MEDIA_SIZE)      { setS('Överstiger 10 MB', 'u-error'); return; }
-
-  setS('Laddar upp…', '');
-  const storagePath = `${Date.now()}-${sanitizeFileName(file.name)}`;
-  const { error: upErr } = await supabaseClient.storage.from('media').upload(storagePath, file, { contentType: file.type });
-  if (upErr) { setS('Fel: ' + upErr.message, 'u-error'); return; }
-
-  const { data: urlData } = supabaseClient.storage.from('media').getPublicUrl(storagePath);
-  const { width, height } = await getImageDimensions(file);
-
-  const row = {
-    file_name:    file.name,
-    storage_path: storagePath,
-    public_url:   urlData.publicUrl,
-    alt_text:     '',
-    caption:      '',
-    category:     'uncategorized',
-    file_size:    file.size,
-    width, height,
-    mime_type:    file.type
-  };
-  const { data: inserted, error: dbErr } = await supabaseClient
-    .from('media_library').insert(row).select().single();
-  if (dbErr) { setS('Uppladdad — DB-fel: ' + dbErr.message, 'u-error'); return; }
-
-  allMedia.unshift(inserted);
-  mediaLoaded = true;
-  setS('✓ Klart', 'u-done');
-  renderMediaGrid();
-}
-
-async function handleMediaFiles(fileList) {
-  const list  = document.getElementById('media-upload-list');
-  const items = [];
-  Array.from(fileList).forEach(file => {
-    const el = document.createElement('div');
-    el.className = 'media-upload-item';
-    el.innerHTML = `<span class="u-name">${escH(file.name)}</span><span class="u-status">Väntar…</span>`;
-    list.appendChild(el);
-    items.push({ file, el });
-  });
-  for (const { file, el } of items) await uploadSingleFile(file, el);
-  setTimeout(() => {
-    list.innerHTML = '';
-    document.getElementById('media-file-input').value = '';
-  }, 4000);
-}
-
-// Drag-and-drop wiring (runs after DOM is ready since script is at bottom of body)
-(function() {
-  const zone = document.getElementById('media-upload-zone');
-  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
-  zone.addEventListener('dragleave', e => { if (!zone.contains(e.relatedTarget)) zone.classList.remove('drag-over'); });
-  zone.addEventListener('drop', e => {
-    e.preventDefault();
-    zone.classList.remove('drag-over');
-    handleMediaFiles(e.dataTransfer.files);
-  });
-  // Prevent click propagation from the hidden file input from re-triggering the zone click
-  document.getElementById('media-file-input').addEventListener('click', e => e.stopPropagation());
-})();
-
-// ── SHARED UTILITIES ──
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text)
-    .then(() => showToast('📋 URL kopierad!', 't-green'))
-    .catch(() => showToast('Kunde inte kopiera URL', 't-red'));
-}
-
-function fmtBytes(b) {
-  if (!b) return '—';
-  if (b < 1024)            return b + ' B';
-  if (b < 1024 * 1024)     return (b / 1024).toFixed(1) + ' KB';
-  return (b / (1024 * 1024)).toFixed(1) + ' MB';
-}
-
 function escH(str) {
   if (str == null) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-
-function updateSaleBadge(active) {
-  const badge = document.getElementById('sale-status-badge');
-  if (active) {
-    badge.textContent = '🟢 REA AKTIV';
-    badge.style.background = 'rgba(15,186,104,0.2)';
-    badge.style.color = '#6ff0b0';
-  } else {
-    badge.textContent = '⚫ Ingen rea aktiv';
-    badge.style.background = 'rgba(255,255,255,0.07)';
-    badge.style.color = 'var(--gray)';
-  }
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
 </body>
