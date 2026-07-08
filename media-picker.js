@@ -199,7 +199,7 @@ function _mpShowDetail(id) {
 
   // Switch to detail view
   document.getElementById('mp-grid-view').style.display   = 'none';
-  document.getElementById('mp-detail-view').style.display = '';
+  document.getElementById('mp-detail-view').style.display = 'block';
   document.getElementById('mp-back-btn').style.display    = '';
   document.getElementById('mp-title').textContent         = 'Bilddetaljer';
 }
