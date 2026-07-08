@@ -4,102 +4,91 @@
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0iIzBhMGYxZSIvPjx0ZXh0IHg9IjMyIiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iNDQiIGZpbGw9IiMxYTRmZmYiPlA8L3RleHQ+PC9zdmc+">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Artikel – Nordic PC Admin</title>
+<title>Artikel &#8211; Nordic PC Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+
+<!-- CSS load order: base theme first, then EasyMDE, then local overrides -->
 <link rel="stylesheet" href="admin-shared.css">
 <link rel="stylesheet" href="article-typography.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+
 <style>
-/* ── Layout ── */
+/* ── Editor layout ── */
 .editor-header{display:flex;align-items:center;gap:0.85rem;margin-bottom:1.5rem;flex-wrap:wrap;}
-.editor-header h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.55rem;text-transform:uppercase;letter-spacing:0.02em;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.editor-header-actions{display:flex;gap:0.5rem;flex-shrink:0;}
+.editor-header h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;text-transform:uppercase;letter-spacing:0.02em;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:none;flex-shrink:0;}
 .editor-cols{display:grid;grid-template-columns:1fr 300px;gap:1.25rem;align-items:start;}
 .editor-main{display:flex;flex-direction:column;gap:0.75rem;min-width:0;}
 .editor-sidebar{display:flex;flex-direction:column;gap:0.75rem;position:sticky;top:1rem;}
 
-/* ── Title input ── */
-.title-input{width:100%;box-sizing:border-box;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.55rem;background:var(--dark3);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:var(--white);padding:0.65rem 0.9rem;outline:none;transition:border-color 0.2s;letter-spacing:0.02em;}
+/* ── Title ── */
+.title-input{width:100%;box-sizing:border-box;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.55rem;letter-spacing:0.02em;background:var(--dark3);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:var(--white);padding:0.65rem 0.9rem;outline:none;transition:border-color 0.2s;}
 .title-input:focus{border-color:var(--blue);}
 .title-input::placeholder{color:var(--gray);font-weight:600;}
 
-/* ── Slug row ── */
+/* ── Slug ── */
 .slug-row{display:flex;align-items:center;gap:0.45rem;background:var(--dark3);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:0.38rem 0.7rem;}
-.slug-prefix{font-size:0.76rem;color:var(--gray);white-space:nowrap;font-family:monospace;}
+.slug-prefix{font-size:0.76rem;color:var(--gray);font-family:monospace;white-space:nowrap;}
 .slug-row input{flex:1;min-width:0;background:transparent;border:none;color:var(--gray-light);font-family:monospace;font-size:0.78rem;outline:none;}
 .slug-row input:focus{color:var(--white);}
-.btn-slug-auto{background:var(--dark4);border:1px solid rgba(255,255,255,0.1);color:var(--gray);border-radius:4px;padding:0.18rem 0.5rem;font-size:0.7rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:color 0.15s,border-color 0.15s;font-family:'Barlow',sans-serif;}
-.btn-slug-auto:hover{color:var(--white);border-color:rgba(255,255,255,0.3);}
+.btn-regen{background:var(--dark4);border:1px solid rgba(255,255,255,0.1);color:var(--gray);border-radius:4px;padding:0.18rem 0.5rem;font-size:0.7rem;font-weight:700;cursor:pointer;font-family:'Barlow',sans-serif;white-space:nowrap;transition:color 0.15s,border-color 0.15s;}
+.btn-regen:hover{color:var(--white);border-color:rgba(255,255,255,0.3);}
 
-/* ── Hero image area ── */
-.hero-area{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:1rem 1.1rem;}
-.hero-area-hd{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:0.75rem;}
-.hero-preview-row{display:flex;align-items:flex-start;gap:0.9rem;flex-wrap:wrap;}
-.hero-thumb{width:130px;height:82px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,0.1);display:none;flex-shrink:0;}
+/* ── Hero image ── */
+.hero-section{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:1rem 1.1rem;}
+.hero-label{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:0.75rem;}
+.hero-row{display:flex;align-items:flex-start;gap:0.9rem;flex-wrap:wrap;}
+.hero-thumb{width:130px;height:82px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;display:none;}
 .hero-placeholder{width:130px;height:82px;background:var(--dark3);border:2px dashed rgba(255,255,255,0.1);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--gray);font-size:1.6rem;flex-shrink:0;}
-.hero-btns{display:flex;flex-direction:column;gap:0.4rem;}
-.hero-url-display{font-size:0.68rem;color:var(--gray);font-family:monospace;word-break:break-all;max-width:280px;margin-top:0.3rem;line-height:1.4;}
-.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--gray);border-radius:5px;padding:0.35rem 0.7rem;font-size:0.78rem;cursor:pointer;font-family:'Barlow',sans-serif;}
+.hero-actions{display:flex;flex-direction:column;gap:0.4rem;}
+.hero-url-note{font-size:0.68rem;color:var(--gray);font-family:monospace;word-break:break-all;max-width:240px;margin-top:0.3rem;line-height:1.45;}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--gray);border-radius:5px;padding:0.35rem 0.7rem;font-size:0.78rem;cursor:pointer;font-family:'Barlow',sans-serif;transition:color 0.15s,border-color 0.15s;}
 .btn-ghost:hover{color:var(--red);border-color:var(--red);}
 
-/* ── Editor stats ── */
+/* ── Live stats ── */
 .editor-stats{font-size:0.75rem;color:var(--gray);padding:0.35rem 0;}
 
 /* ── Sidebar cards ── */
 .sidebar-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:1rem 1.1rem;}
 .sidebar-card h3{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin:0 0 0.85rem 0;}
-.coming-note{font-size:0.78rem;color:var(--gray);margin:0;font-style:italic;}
+.placeholder-note{font-size:0.78rem;color:var(--gray);margin:0;font-style:italic;}
 .field-hint{font-size:0.69rem;color:var(--gray);display:block;text-align:right;margin-top:0.15rem;}
 
 /* ── EasyMDE dark theme overrides ── */
 .EasyMDEContainer{border:1px solid rgba(255,255,255,0.1) !important;border-radius:8px !important;overflow:hidden;}
-.EasyMDEContainer .editor-toolbar{background:var(--dark2) !important;border-bottom:1px solid rgba(255,255,255,0.08) !important;border-top:none;border-radius:0;padding:4px 6px;}
-.EasyMDEContainer .editor-toolbar button{color:var(--gray-light) !important;background:transparent !important;border:none;border-radius:4px;padding:4px 6px;}
-.EasyMDEContainer .editor-toolbar button:hover,.EasyMDEContainer .editor-toolbar button.active{background:var(--dark3) !important;color:var(--white) !important;}
+.EasyMDEContainer .editor-toolbar{background:var(--dark2) !important;border-bottom:1px solid rgba(255,255,255,0.08) !important;border-top:none;padding:4px 6px;}
+.EasyMDEContainer .editor-toolbar button{color:var(--gray-light) !important;background:transparent !important;border:none;border-radius:4px;}
+.EasyMDEContainer .editor-toolbar button:hover,
+.EasyMDEContainer .editor-toolbar button.active{background:var(--dark3) !important;color:var(--white) !important;}
 .EasyMDEContainer .editor-toolbar i.separator{border-color:rgba(255,255,255,0.12) !important;}
 .EasyMDEContainer .CodeMirror{background:var(--dark3) !important;color:var(--gray-light) !important;border:none !important;font-size:0.9rem;line-height:1.72;padding:1rem 1.1rem;min-height:380px;}
 .EasyMDEContainer .CodeMirror-scroll{min-height:380px;}
 .EasyMDEContainer .CodeMirror-cursor{border-left-color:var(--white) !important;}
-.EasyMDEContainer .CodeMirror-selected,.EasyMDEContainer .CodeMirror-focused .CodeMirror-selected{background:rgba(26,79,255,0.3) !important;}
+.EasyMDEContainer .CodeMirror-selected,
+.EasyMDEContainer .CodeMirror-focused .CodeMirror-selected{background:rgba(26,79,255,0.3) !important;}
 .EasyMDEContainer .CodeMirror-line span.cm-header{color:var(--white) !important;font-weight:700;}
 .EasyMDEContainer .CodeMirror-line span.cm-strong{color:var(--white) !important;}
-.EasyMDEContainer .CodeMirror-line span.cm-link,.EasyMDEContainer .CodeMirror-line span.cm-url{color:#7aa5ff !important;}
+.EasyMDEContainer .CodeMirror-line span.cm-link,
+.EasyMDEContainer .CodeMirror-line span.cm-url{color:#7aa5ff !important;}
 .EasyMDEContainer .CodeMirror-line span.cm-quote{color:var(--gray) !important;}
 .EasyMDEContainer .CodeMirror-line span.cm-code{color:var(--accent) !important;}
-.EasyMDEContainer .editor-preview,.EasyMDEContainer .editor-preview-side{background:var(--dark2) !important;color:var(--gray-light) !important;border-left:1px solid rgba(255,255,255,0.08) !important;padding:1.25rem 1.5rem;}
+.EasyMDEContainer .editor-preview,
+.EasyMDEContainer .editor-preview-side{background:var(--dark2) !important;color:var(--gray-light) !important;border-left:1px solid rgba(255,255,255,0.08) !important;padding:1.25rem 1.5rem;}
 .EasyMDEContainer .editor-statusbar{background:var(--dark2) !important;border-top:1px solid rgba(255,255,255,0.08) !important;color:var(--gray) !important;padding:0.35rem 0.9rem;}
 
-/* ── Picker modal ── */
-.picker-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(3px);z-index:1100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;}
-.picker-overlay.open{opacity:1;pointer-events:all;}
-.picker-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.1);border-radius:14px;width:92vw;max-width:1000px;height:84vh;display:flex;flex-direction:column;padding:1.25rem 1.4rem;position:relative;overflow:hidden;}
-.picker-card-hd{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.9rem;flex-wrap:wrap;}
-.picker-card-hd h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.15rem;text-transform:uppercase;letter-spacing:0.04em;margin:0;flex:1;}
-.picker-close{background:transparent;border:none;color:var(--gray);font-size:1.15rem;cursor:pointer;padding:0.3rem;line-height:1;flex-shrink:0;}
-.picker-close:hover{color:var(--white);}
-.picker-toolbar{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.85rem;}
-.picker-toolbar .filter-search{flex:1;min-width:130px;}
-.picker-upload-btn{display:inline-flex;align-items:center;gap:0.4rem;background:var(--dark3);border:1px dashed rgba(255,255,255,0.2);color:var(--gray-light);border-radius:6px;padding:0.4rem 0.85rem;font-size:0.8rem;font-weight:600;cursor:pointer;transition:border-color 0.18s,color 0.18s;white-space:nowrap;font-family:'Barlow',sans-serif;}
-.picker-upload-btn:hover{border-color:rgba(255,255,255,0.4);color:var(--white);}
-.picker-grid-wrap{flex:1;overflow-y:auto;min-height:0;}
-.picker-grid-wrap .media-card-pick{cursor:pointer;outline:2px solid transparent;transition:outline-color 0.15s,transform 0.1s;}
-.picker-grid-wrap .media-card-pick:hover{outline-color:var(--blue);transform:translateY(-2px);}
-.picker-uploading{font-size:0.78rem;color:var(--accent);padding:0.35rem 0;display:none;}
-.picker-uploading.show{display:block;}
-
 @media(max-width:900px){.editor-cols{grid-template-columns:1fr;}.editor-sidebar{position:static;}}
-@media(max-width:540px){.picker-card{height:92vh;}.editor-header-actions{width:100%;}.editor-header-actions button,.editor-header-actions a{flex:1;}}
+@media(max-width:540px){.editor-header h1{font-size:1.25rem;}}
 </style>
 
-<!-- CDN dependencies — order matters: marked + DOMPurify before markdown-renderer.js -->
+<!-- Script load order: Supabase → marked → DOMPurify → admin-shared → markdown-renderer → EasyMDE → media-picker -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 <script src="admin-shared.js"></script>
 <script src="markdown-renderer.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script src="media-picker.js"></script>
 </head>
 <body>
 
@@ -111,64 +100,72 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
     <!-- ── PAGE HEADER ── -->
     <div class="editor-header">
       <a class="btn-secondary btn-back" href="blog-admin.html">&#8592; Artiklar</a>
-      <h1 id="editor-title">Ny artikel</h1>
-      <div class="editor-header-actions">
-        <button class="btn-secondary" onclick="savePost()">Spara</button>
+      <h1 id="page-title">Ny artikel</h1>
+      <div>
+        <button class="btn-primary" onclick="savePost()">Spara</button>
       </div>
     </div>
 
     <div class="editor-cols">
 
-      <!-- ══════════════════════════════════
-           LEFT COLUMN — main content
-      ══════════════════════════════════ -->
+      <!-- ══════════════════════════════════════
+           LEFT COLUMN — main content area
+      ══════════════════════════════════════ -->
       <div class="editor-main">
 
-        <!-- Title -->
+        <!-- Title — auto-generates slug via slugify() from admin-shared.js
+             unless the admin has manually edited the slug field -->
         <input class="title-input" id="f-title" type="text"
-               placeholder="Artikelns rubrik&#8230;" oninput="onTitleInput()">
+               placeholder="Artikelns rubrik&#8230;">
 
-        <!-- Slug -->
+        <!-- Slug — manually editable; "Auto" button regenerates from current title -->
         <div class="slug-row">
           <span class="slug-prefix">/blogg/</span>
-          <input id="f-slug" type="text" placeholder="artikel-slug"
-                 oninput="onSlugInput()">
-          <button class="btn-slug-auto" onclick="regenerateSlug()" title="Generera fr&#229;n rubrik">Auto</button>
+          <input id="f-slug" type="text" placeholder="artikel-slug">
+          <button class="btn-regen" onclick="regenSlug()"
+                  title="Generera fr&#229;n rubrik">Auto</button>
         </div>
 
-        <!-- Hero image -->
-        <div class="hero-area">
-          <div class="hero-area-hd">Hero-bild</div>
-          <div class="hero-preview-row">
-            <img   id="hero-thumb" class="hero-thumb" src="" alt="hero">
+        <!-- Hero image — "Välj bild" calls openMediaPicker() from media-picker.js.
+             No picker code lives in this file; the integration is a single function call. -->
+        <div class="hero-section">
+          <div class="hero-label">Hero-bild</div>
+          <div class="hero-row">
+            <img   id="hero-thumb"       class="hero-thumb" src="" alt="">
             <div   id="hero-placeholder" class="hero-placeholder">&#128247;</div>
             <div>
-              <div class="hero-btns">
+              <div class="hero-actions">
                 <button class="btn-secondary" style="font-size:0.82rem;"
-                        onclick="openPickerModal('hero')">V&#228;lj bild</button>
+                        onclick="pickHero()">V&#228;lj bild</button>
                 <button class="btn-ghost" id="clear-hero-btn" style="display:none;"
                         onclick="clearHero()">Ta bort</button>
               </div>
-              <div class="hero-url-display" id="hero-url-display"></div>
+              <div class="hero-url-note" id="hero-url-note"></div>
             </div>
           </div>
-          <input type="hidden" id="f-hero-url">
         </div>
 
-        <!-- EasyMDE content editor -->
+        <!-- EasyMDE — see initEditor() for full config:
+             image toolbar button → openMediaPicker(),
+             previewRender → renderMarkdown() from markdown-renderer.js,
+             autosave keyed per post,
+             dark theme via CSS overrides above -->
         <textarea id="content-editor"></textarea>
 
-        <!-- Live stats (word count / char count / reading time) -->
-        <div class="editor-stats" id="editor-stats">0 ord &middot; 0 tecken &middot; ca 1 min l&#228;sning</div>
+        <!-- Live stats — updated on every keystroke via getContentStats()
+             from markdown-renderer.js -->
+        <div class="editor-stats" id="editor-stats">
+          0 ord &middot; 0 tecken &middot; ca 1 min l&#228;sning
+        </div>
 
       </div><!-- /.editor-main -->
 
-      <!-- ══════════════════════════════════
+      <!-- ══════════════════════════════════════
            RIGHT COLUMN — sidebar
-      ══════════════════════════════════ -->
+      ══════════════════════════════════════ -->
       <aside class="editor-sidebar">
 
-        <!-- Publicering -->
+        <!-- Publication status + save button -->
         <div class="sidebar-card">
           <h3>Publicering</h3>
           <div class="admin-field">
@@ -179,8 +176,9 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
               <option value="scheduled">Schemalagd</option>
             </select>
           </div>
-          <div class="admin-field" id="publish-at-wrap" style="display:none;">
-            <label>Schemalagt datum</label>
+          <!-- Shown only when status = scheduled -->
+          <div class="admin-field" id="publish-at-row" style="display:none;">
+            <label>Schemalagt datum &amp; tid</label>
             <input type="datetime-local" id="f-publish-at">
           </div>
           <div class="admin-field">
@@ -195,7 +193,7 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
           </div>
         </div>
 
-        <!-- Ingress -->
+        <!-- Excerpt (shown in blog listing) -->
         <div class="sidebar-card">
           <h3>Ingress</h3>
           <div class="admin-field" style="margin:0;">
@@ -205,178 +203,158 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
         </div>
 
         <!--
-          TODO (next pass): Add category select (category_id FK) and tags multi-select
-          (via blog_post_tags join table) here. The save logic already preserves
-          any existing category_id on update; set it to null for new posts until
-          the UI exists.
+          ════════════════════════════════════════
+          TODO (next pass): Category & Tags
+          ════════════════════════════════════════
+          Add a <select id="f-category"> populated from:
+            supabaseClient.from('categories').select('id, name').order('sort_order')
+          And a tags multi-select widget backed by the blog_post_tags join table.
+
+          In savePost(), replace the hardcoded null below with:
+            category_id: document.getElementById('f-category').value || null
+
+          In loadPost(), restore the selection with:
+            document.getElementById('f-category').value = data.category_id || '';
         -->
         <div class="sidebar-card">
           <h3>Kategori &amp; taggar</h3>
-          <p class="coming-note">Byggs ut i n&#228;sta pass.</p>
+          <p class="placeholder-note">Byggs ut i n&#228;sta pass.</p>
         </div>
 
-        <!-- SEO -->
+        <!-- SEO metadata -->
         <div class="sidebar-card">
           <h3>SEO</h3>
           <div class="admin-field">
-            <label>SEO-titel <span style="font-weight:400;font-size:0.75em;">(valfri)</span></label>
+            <label>SEO-titel <span style="font-weight:400;font-size:0.8em;">(valfri)</span></label>
             <input type="text" id="f-seo-title" maxlength="60"
-                   placeholder="Lämna tom = artikelrubriken används"
+                   placeholder="Tom = artikelrubriken anv&#228;nds"
                    oninput="updateSeoLens()">
             <span class="field-hint" id="seo-title-len">0/60</span>
           </div>
           <div class="admin-field" style="margin-bottom:0;">
-            <label>SEO-beskrivning</label>
+            <label>Metabeskrivning</label>
             <textarea id="f-seo-desc" rows="3" maxlength="160"
-                      placeholder="Kort beskrivning för sökmotorer&#8230;"
+                      placeholder="Kort beskrivning f&#246;r s&#246;kmotorer&#8230;"
                       oninput="updateSeoLens()"></textarea>
             <span class="field-hint" id="seo-desc-len">0/160</span>
           </div>
         </div>
 
         <!--
-          TODO (next pass): Add CTA template dropdown here (cta_template_id FK to
-          cta_templates table). The save logic already preserves any existing
-          cta_template_id on update; set it to null for new posts until the UI exists.
+          ════════════════════════════════════════
+          TODO (next pass): CTA Template
+          ════════════════════════════════════════
+          Add a <select id="f-cta"> populated from:
+            supabaseClient.from('cta_templates').select('id, name').order('name')
+          with a blank "Ingen CTA" first option.
+
+          In savePost(), replace the hardcoded null below with:
+            cta_template_id: document.getElementById('f-cta').value || null
+
+          In loadPost(), restore the selection with:
+            document.getElementById('f-cta').value = data.cta_template_id || '';
         -->
         <div class="sidebar-card">
           <h3>CTA-mall</h3>
-          <p class="coming-note">Byggs ut i n&#228;sta pass.</p>
+          <p class="placeholder-note">Byggs ut i n&#228;sta pass.</p>
         </div>
 
       </aside><!-- /.editor-sidebar -->
 
     </div><!-- /.editor-cols -->
-
   </main>
 </div><!-- /#app -->
-
-
-<!-- ══════════════════════════════════════════════════════
-     MEDIA PICKER MODAL
-     Used for both hero image selection (mode='hero')
-     and EasyMDE image insertion (mode='editor').
-══════════════════════════════════════════════════════ -->
-<div class="picker-overlay" id="picker-modal">
-  <div class="picker-card">
-
-    <div class="picker-card-hd">
-      <h3 id="picker-modal-title">V&#228;lj bild</h3>
-      <button class="picker-close" onclick="closePickerModal()" aria-label="St&#228;ng">&#10005;</button>
-    </div>
-
-    <div class="picker-toolbar">
-      <!-- Upload a new image directly from within the picker -->
-      <button class="picker-upload-btn"
-              onclick="document.getElementById('picker-file-input').click()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
-          <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
-        </svg>
-        Ladda upp ny bild
-      </button>
-      <input type="file" id="picker-file-input" accept="image/*" hidden>
-
-      <select class="cat-select" id="picker-cat" onchange="applyPickerFilters()"
-              style="min-width:140px;">
-        <option value="all">Alla kategorier</option>
-        <option value="blog">Blogg</option>
-        <option value="hero">Hero</option>
-        <option value="portfolio">Portfolio</option>
-        <option value="prebuilt">Prebuilt</option>
-        <option value="team">Team</option>
-        <option value="logo">Logotyper</option>
-        <option value="marketing">Marknadsf&#246;ring</option>
-        <option value="uncategorized">Okategoriserad</option>
-      </select>
-
-      <input class="filter-search" id="picker-search" type="search"
-             placeholder="S&#246;k bilder&#8230;" oninput="applyPickerFilters()">
-    </div>
-
-    <div class="picker-uploading" id="picker-uploading"></div>
-
-    <!-- Grid rendered via shared renderMediaGridHTML() in pick mode -->
-    <div class="picker-grid-wrap">
-      <div class="media-grid" id="picker-grid">
-        <div class="media-empty">Laddar&#8230;</div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 
 <div class="toast" id="toast"></div>
 
 
 <script>
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
 // STATE
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
 
-let postId         = null;    // string id from ?id= param, or null for new posts
-let existingPost   = null;    // full row object loaded in edit mode
-let isNewPost      = true;
-let slugEdited     = false;   // true once user directly types in slug field
-let easyMDE        = null;
-let pickerMode     = 'hero';  // 'hero' | 'editor'
-let pickerAllMedia = null;    // cached media list; null = not yet loaded
+var postId       = null;   // string id from ?id=, set after create or on load
+var existingPost = null;   // full blog_posts row loaded in edit mode
+var isNew        = true;   // false once post exists in the DB
+var slugDirty    = false;  // true once admin has manually typed in the slug field
+var easyMDE      = null;   // EasyMDE instance (assigned in initEditor)
+var heroUrl      = '';     // current hero image URL, kept in sync with the preview UI
 
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
 // INIT
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
 
 (async function init() {
-  const session = await checkAuth();
+  var session = await checkAuth(); // redirects to employe.html if no session
   if (!session) return;
 
   renderAdminNav('blog');
   document.getElementById('sidebar-user-email').textContent = session.user.email;
 
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
-
-  // EasyMDE must be initialised before loadPost() so .value() can be called
-  initEasyMDE(id);
-  setupPickerUpload();
+  var id = new URLSearchParams(window.location.search).get('id');
 
   if (id) {
-    postId    = id;
-    isNewPost = false;
-    await loadPost(id);
+    postId = id;
+    isNew  = false;
+    await loadPost(id); // populates existingPost + form fields (except EasyMDE content)
   }
 
+  // Reveal page BEFORE initialising EasyMDE so CodeMirror can measure its container
   document.getElementById('app').style.display = 'flex';
+
+  initEditor(id);
+
+  // Inject post content into EasyMDE now that the editor is initialised and visible
+  if (existingPost) {
+    easyMDE.value(existingPost.content || '');
+    // Prefer the DB-saved version over any stale localStorage autosave draft
+    easyMDE.clearAutosavedValue();
+  }
+
+  // Sync any derived UI state that depends on already-populated form values
+  updateStats();
+  onStatusChange();
+  updateSeoLens();
+
+  // Wire title→slug auto-generation after page is visible (avoids early-init issues)
+  document.getElementById('f-title').addEventListener('input', onTitleInput);
+  document.getElementById('f-slug').addEventListener('input', function() { slugDirty = true; });
 })();
 
-// ════════════════════════════════════════════════════════
-// EASYMDE INITIALISATION
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
+// EASYMDE  —  full configuration
+// ════════════════════════════════════════════════════════════════════
 
-function initEasyMDE(idParam) {
-  const autosaveId = 'npc-blog-' + (idParam || 'new');
+function initEditor(idParam) {
+  // Autosave key is unique per post so new-post drafts don't clobber edit-mode sessions
+  var autosaveKey = 'npc-blog-' + (idParam || 'new');
 
   easyMDE = new EasyMDE({
-    element: document.getElementById('content-editor'),
+    element:      document.getElementById('content-editor'),
     spellChecker: false,
-    autofocus: false,
-    status: false, // we render stats ourselves in #editor-stats
+    autofocus:    false,
+    status:       false, // word/char/time stats are rendered by updateStats() below
     autosave: {
       enabled:  true,
-      uniqueId: autosaveId,
-      delay:    5000,
+      uniqueId: autosaveKey,
+      delay:    5000,    // write to localStorage every 5 s
     },
     toolbar: [
       'bold', 'italic', 'heading', '|',
       'quote', 'unordered-list', 'ordered-list', '|',
       'link',
-      // Override the built-in image button to open our media picker instead
-      // of EasyMDE's default URL-prompt dialog
+      // Image toolbar button: opens the shared media picker from media-picker.js.
+      // Choosing an image inserts ![alt](url) at the cursor.
+      // openMediaPicker() is the only integration point — no picker logic lives here.
       {
         name:      'image',
-        action:    () => openPickerModal('editor'),
+        action:    function() {
+          openMediaPicker(function(media) {
+            var alt = media.alt_text || media.file_name || 'bild';
+            easyMDE.codemirror.replaceSelection('![' + alt + '](' + media.public_url + ')');
+            easyMDE.codemirror.focus();
+          });
+        },
         className: 'fa fa-image',
         title:     'Infoga bild från mediabibliotek',
       },
@@ -384,362 +362,237 @@ function initEasyMDE(idParam) {
       'preview', 'side-by-side', 'fullscreen', '|',
       'guide',
     ],
-    // Use the shared renderMarkdown() pipeline from markdown-renderer.js so
-    // the admin preview matches exactly what the public blog page will render.
-    previewRender: (text) =>
-      `<div class="article-content">${renderMarkdown(text)}</div>`,
+    // Use the shared rendering pipeline from markdown-renderer.js so the admin
+    // preview produces identical markup to what the public blog page will render.
+    // article-typography.css scopes styles to .article-content, so the div wrapper is required.
+    previewRender: function(text) {
+      return '<div class="article-content">' + renderMarkdown(text) + '</div>';
+    },
   });
 
-  easyMDE.codemirror.on('change', updateEditorStats);
+  easyMDE.codemirror.on('change', updateStats);
 }
 
-// ════════════════════════════════════════════════════════
-// LOAD (edit mode)
-// ════════════════════════════════════════════════════════
-
-async function loadPost(id) {
-  const { data, error } = await supabaseClient
-    .from('blog_posts')
-    .select('*')
-    .eq('id', id)
-    .single();
-
-  if (error || !data) {
-    showToast('Kunde inte ladda artikeln: ' + (error?.message || 'okänt fel'), 't-red');
-    return;
-  }
-
-  existingPost = data;
-  document.getElementById('editor-title').textContent = 'Redigera artikel';
-  document.title = (data.title || 'Artikel') + ' – Nordic PC Admin';
-
-  document.getElementById('f-title').value    = data.title    || '';
-  document.getElementById('f-slug').value     = data.slug     || '';
-  document.getElementById('f-status').value   = data.status   || 'draft';
-  document.getElementById('f-language').value = data.language || 'sv';
-  document.getElementById('f-excerpt').value  = data.excerpt  || '';
-  document.getElementById('f-seo-title').value = data.seo_title        || '';
-  document.getElementById('f-seo-desc').value  = data.seo_description  || '';
-
-  if (data.publish_at) {
-    document.getElementById('f-publish-at').value = data.publish_at.slice(0, 16);
-  }
-
-  if (data.hero_image_url) {
-    setHeroPreview(data.hero_image_url);
-  }
-
-  // Set content via EasyMDE API (not textarea.value — EasyMDE wraps the element)
-  easyMDE.value(data.content || '');
-  easyMDE.clearAutosavedValue(); // discard any stale browser-stored draft
-
-  onStatusChange();
-  updateEditorStats();
-  updateSeoLens();
-}
-
-// ════════════════════════════════════════════════════════
-// TITLE / SLUG
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
+// TITLE → SLUG AUTO-GENERATION
+// slugify() is from admin-shared.js
+// ════════════════════════════════════════════════════════════════════
 
 function onTitleInput() {
-  // Auto-generate slug from title only while the post is new AND the user
-  // has not manually edited the slug field yet.
-  if (isNewPost && !slugEdited) {
-    document.getElementById('f-slug').value =
-      slugify(document.getElementById('f-title').value);
-  }
-}
-
-function onSlugInput() {
-  // Once the user types directly in the slug field, stop overwriting it
-  slugEdited = true;
-}
-
-function regenerateSlug() {
+  // Only auto-generate for brand-new posts that have not had their slug manually edited
+  if (!isNew || slugDirty) return;
   document.getElementById('f-slug').value =
     slugify(document.getElementById('f-title').value);
 }
 
-// ════════════════════════════════════════════════════════
-// STATUS / PUBLISH DATE
-// ════════════════════════════════════════════════════════
-
-function onStatusChange() {
-  const s = document.getElementById('f-status').value;
-  document.getElementById('publish-at-wrap').style.display =
-    s === 'scheduled' ? '' : 'none';
+function regenSlug() {
+  document.getElementById('f-slug').value =
+    slugify(document.getElementById('f-title').value);
 }
 
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
 // HERO IMAGE
-// ════════════════════════════════════════════════════════
+// openMediaPicker() is from media-picker.js — the entire integration is one call
+// ════════════════════════════════════════════════════════════════════
 
-function setHeroPreview(url) {
-  const thumb       = document.getElementById('hero-thumb');
-  const placeholder = document.getElementById('hero-placeholder');
-  const clearBtn    = document.getElementById('clear-hero-btn');
-  const urlDisplay  = document.getElementById('hero-url-display');
-
-  if (url) {
-    thumb.src               = url;
-    thumb.style.display     = 'block';
-    placeholder.style.display = 'none';
-    clearBtn.style.display  = '';
-    urlDisplay.textContent  = url;
-  } else {
-    thumb.style.display     = 'none';
-    placeholder.style.display = 'flex';
-    clearBtn.style.display  = 'none';
-    urlDisplay.textContent  = '';
-  }
-  document.getElementById('f-hero-url').value = url || '';
+function pickHero() {
+  openMediaPicker(function(media) {
+    setHeroPreview(media.public_url);
+    showToast('Hero-bild vald.', 't-green');
+  });
 }
 
 function clearHero() {
   setHeroPreview('');
 }
 
-// ════════════════════════════════════════════════════════
-// MEDIA PICKER MODAL
-// Serves two purposes depending on pickerMode:
-//   'hero'   — selecting a hero image for the post
-//   'editor' — inserting an image into the EasyMDE editor at cursor position
-// ════════════════════════════════════════════════════════
+function setHeroPreview(url) {
+  var thumb    = document.getElementById('hero-thumb');
+  var ph       = document.getElementById('hero-placeholder');
+  var clearBtn = document.getElementById('clear-hero-btn');
+  var note     = document.getElementById('hero-url-note');
 
-function openPickerModal(mode) {
-  pickerMode = mode;
-  document.getElementById('picker-modal-title').textContent =
-    mode === 'editor' ? 'Infoga bild i artikel' : 'Välj hero-bild';
-  document.getElementById('picker-modal').classList.add('open');
+  heroUrl = url || '';
 
-  // Lazy-load on first open; subsequent opens reuse cached list.
-  // Cache is invalidated after an upload so the new image appears.
-  if (!pickerAllMedia) {
-    loadPickerMedia();
+  if (url) {
+    thumb.src              = url;
+    thumb.style.display    = 'block';
+    ph.style.display       = 'none';
+    clearBtn.style.display = '';
+    note.textContent       = url;
   } else {
-    applyPickerFilters();
+    thumb.style.display    = 'none';
+    ph.style.display       = 'flex';
+    clearBtn.style.display = 'none';
+    note.textContent       = '';
   }
 }
 
-function closePickerModal() {
-  document.getElementById('picker-modal').classList.remove('open');
+// ════════════════════════════════════════════════════════════════════
+// STATUS / PUBLISH DATE
+// ════════════════════════════════════════════════════════════════════
+
+function onStatusChange() {
+  var s = document.getElementById('f-status').value;
+  document.getElementById('publish-at-row').style.display =
+    s === 'scheduled' ? '' : 'none';
 }
 
-async function loadPickerMedia() {
-  document.getElementById('picker-grid').innerHTML =
-    '<div class="media-empty">Laddar…</div>';
-
-  const { data, error } = await loadMediaLibrary(); // shared in admin-shared.js
-  if (error) {
-    document.getElementById('picker-grid').innerHTML =
-      '<div class="media-empty">Kunde inte ladda bilder: ' + escH(error.message) + '</div>';
-    return;
-  }
-  pickerAllMedia = data || [];
-  applyPickerFilters();
-}
-
-function applyPickerFilters() {
-  const cat = document.getElementById('picker-cat').value;
-  const q   = (document.getElementById('picker-search').value || '').toLowerCase().trim();
-
-  let list = cat === 'all'
-    ? (pickerAllMedia || [])
-    : (pickerAllMedia || []).filter(m => m.category === cat);
-
-  if (q) list = list.filter(m =>
-    (m.file_name || '').toLowerCase().includes(q) ||
-    (m.alt_text  || '').toLowerCase().includes(q)
-  );
-
-  // renderMediaGridHTML is shared from admin-shared.js
-  document.getElementById('picker-grid').innerHTML = renderMediaGridHTML(list, {
-    mode:             'pick',
-    onSelectCallback: 'onPickerSelect',
-    emptyMessage:     'Inga bilder hittades.',
-  });
-}
-
-// Called when a thumbnail is clicked in the picker grid (inline onclick from renderMediaGridHTML)
-function onPickerSelect(id) {
-  const m = (pickerAllMedia || []).find(x => x.id === id);
-  if (!m) return;
-
-  if (pickerMode === 'hero') {
-    setHeroPreview(m.public_url);
-  } else {
-    // Insert markdown image syntax at current cursor position in EasyMDE
-    const alt = m.alt_text || m.file_name || 'bild';
-    easyMDE.codemirror.replaceSelection(`![${alt}](${m.public_url})`);
-    easyMDE.codemirror.focus();
-  }
-
-  closePickerModal();
-  showToast('Bild vald.', 't-green');
-}
-
-// Sets up the "Ladda upp ny bild" file input inside the picker modal.
-// Uses uploadMediaFile() from admin-shared.js so there is no duplicate upload pipeline.
-function setupPickerUpload() {
-  const input   = document.getElementById('picker-file-input');
-  const statusEl = document.getElementById('picker-uploading');
-
-  input.addEventListener('change', async () => {
-    if (!input.files.length) return;
-    const file = input.files[0];
-    input.value = ''; // reset so same file can be re-selected
-
-    statusEl.textContent = 'Laddar upp ' + escH(file.name) + '…';
-    statusEl.classList.add('show');
-
-    const result = await uploadMediaFile(file); // shared in admin-shared.js
-    statusEl.classList.remove('show');
-
-    if (!result.success) {
-      showToast('Uppladdning misslyckades: ' + result.error, 't-red');
-      return;
-    }
-
-    showToast(file.name + ' uppladdad.', 't-green');
-
-    // Invalidate cache and reload so the new image appears immediately
-    pickerAllMedia = null;
-    await loadPickerMedia();
-
-    // Auto-select the newly uploaded image
-    if (result.data) onPickerSelect(result.data.id);
-  });
-}
-
-// ════════════════════════════════════════════════════════
-// EDITOR STATS (word count / char count / reading time)
-// Uses getContentStats() from markdown-renderer.js
-// ════════════════════════════════════════════════════════
-
-function updateEditorStats() {
-  if (!easyMDE) return;
-  const stats = getContentStats(easyMDE.value());
-  document.getElementById('editor-stats').textContent =
-    `${stats.wordCount} ord · ${stats.charCount} tecken · ca ${stats.readingTimeMinutes} min läsning`;
-}
-
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
 // SEO CHARACTER COUNTERS
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
 
 function updateSeoLens() {
-  const t = document.getElementById('f-seo-title').value.length;
-  const d = document.getElementById('f-seo-desc').value.length;
+  var t = document.getElementById('f-seo-title').value.length;
+  var d = document.getElementById('f-seo-desc').value.length;
   document.getElementById('seo-title-len').textContent = t + '/60';
   document.getElementById('seo-desc-len').textContent  = d + '/160';
 }
 
-// ════════════════════════════════════════════════════════
-// SAVE (insert for new posts, update for existing)
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
+// LIVE STATS
+// getContentStats() is from markdown-renderer.js
+// ════════════════════════════════════════════════════════════════════
+
+function updateStats() {
+  if (!easyMDE) return;
+  var s = getContentStats(easyMDE.value());
+  document.getElementById('editor-stats').textContent =
+    s.wordCount + ' ord · ' + s.charCount + ' tecken · ca ' +
+    s.readingTimeMinutes + ' min läsning';
+}
+
+// ════════════════════════════════════════════════════════════════════
+// LOAD  (edit mode)
+// Note: EasyMDE content is injected AFTER initEditor() in the init flow above,
+// not here, because easyMDE does not exist yet when loadPost() is called.
+// ════════════════════════════════════════════════════════════════════
+
+async function loadPost(id) {
+  var res = await supabaseClient
+    .from('blog_posts')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (res.error || !res.data) {
+    showToast(
+      'Kunde inte ladda artikeln: ' + (res.error ? res.error.message : 'okänt fel'),
+      't-red'
+    );
+    return;
+  }
+
+  existingPost = res.data;
+
+  document.getElementById('page-title').textContent = 'Redigera artikel';
+  document.title = (res.data.title || 'Artikel') + ' – Nordic PC Admin';
+
+  document.getElementById('f-title').value     = res.data.title    || '';
+  document.getElementById('f-slug').value      = res.data.slug     || '';
+  document.getElementById('f-status').value    = res.data.status   || 'draft';
+  document.getElementById('f-language').value  = res.data.language || 'sv';
+  document.getElementById('f-excerpt').value   = res.data.excerpt  || '';
+  document.getElementById('f-seo-title').value = res.data.seo_title        || '';
+  document.getElementById('f-seo-desc').value  = res.data.seo_description  || '';
+
+  if (res.data.publish_at) {
+    document.getElementById('f-publish-at').value = res.data.publish_at.slice(0, 16);
+  }
+
+  if (res.data.hero_image_url) {
+    setHeroPreview(res.data.hero_image_url);
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// SAVE
+// New post: INSERT then redirect to blog-editor.html?id={newId}
+// Existing: UPDATE in place, show toast
+// ════════════════════════════════════════════════════════════════════
 
 async function savePost() {
-  const title    = document.getElementById('f-title').value.trim();
-  const slug     = document.getElementById('f-slug').value.trim();
-  const content  = easyMDE.value();
-  const status   = document.getElementById('f-status').value;
-  const language = document.getElementById('f-language').value;
-  const excerpt  = document.getElementById('f-excerpt').value.trim()   || null;
-  const heroUrl  = document.getElementById('f-hero-url').value.trim()  || null;
-  const seoTitle = document.getElementById('f-seo-title').value.trim() || null;
-  const seoDesc  = document.getElementById('f-seo-desc').value.trim()  || null;
-  const publishAtRaw = document.getElementById('f-publish-at').value;
-  const publish_at   = status === 'scheduled' && publishAtRaw
+  var title    = document.getElementById('f-title').value.trim();
+  var slug     = document.getElementById('f-slug').value.trim();
+  var content  = easyMDE.value();
+  var status   = document.getElementById('f-status').value;
+  var language = document.getElementById('f-language').value;
+  var excerpt  = document.getElementById('f-excerpt').value.trim()   || null;
+  var seoTitle = document.getElementById('f-seo-title').value.trim() || null;
+  var seoDesc  = document.getElementById('f-seo-desc').value.trim()  || null;
+  var publishAtRaw = document.getElementById('f-publish-at').value;
+  var publish_at   = (status === 'scheduled' && publishAtRaw)
     ? new Date(publishAtRaw).toISOString()
     : null;
 
   if (!title) { showToast('Rubrik krävs.', 't-red'); return; }
-  if (!slug)  { showToast('Slug krävs.', 't-red'); return; }
+  if (!slug)  { showToast('Slug krävs.', 't-red');   return; }
 
-  const payload = {
-    title,
-    slug,
-    content,
-    status,
-    language,
-    excerpt,
-    hero_image_url:  heroUrl,
+  var payload = {
+    title:           title,
+    slug:            slug,
+    content:         content,
+    excerpt:         excerpt,
+    hero_image_url:  heroUrl || null,
     seo_title:       seoTitle,
     seo_description: seoDesc,
-    publish_at,
+    status:          status,
+    language:        language,
+    publish_at:      publish_at,
     updated_at:      new Date().toISOString(),
-    // TODO (next pass): set category_id when category/tag UI is built
-    category_id:     existingPost?.category_id    ?? null,
-    // TODO (next pass): add CTA template dropdown; preserve existing value until then
-    cta_template_id: existingPost?.cta_template_id ?? null,
+    // TODO (next pass): replace null with document.getElementById('f-category').value || null
+    // once the category selector is built (see sidebar TODO above)
+    category_id:     existingPost ? existingPost.category_id    : null,
+    // TODO (next pass): replace null with document.getElementById('f-cta').value || null
+    // once the CTA template selector is built (see sidebar TODO above)
+    cta_template_id: existingPost ? existingPost.cta_template_id : null,
   };
 
-  if (postId) {
+  if (!isNew) {
     // ── UPDATE existing post ──
-    const { error } = await supabaseClient
+    var upd = await supabaseClient
       .from('blog_posts')
       .update(payload)
       .eq('id', postId);
 
-    if (error) {
+    if (upd.error) {
       showToast(
-        error.message.includes('unique')
+        upd.error.message.includes('unique')
           ? 'En artikel med denna slug finns redan.'
-          : 'Sparfel: ' + error.message,
+          : 'Sparfel: ' + upd.error.message,
         't-red'
       );
       return;
     }
 
     if (existingPost) Object.assign(existingPost, payload);
-    document.getElementById('editor-title').textContent = title;
     document.title = title + ' – Nordic PC Admin';
     showToast('Artikel sparad.', 't-green');
 
   } else {
-    // ── INSERT new post ──
-    const { data, error } = await supabaseClient
+    // ── INSERT new post, then redirect to edit mode ──
+    var ins = await supabaseClient
       .from('blog_posts')
       .insert(payload)
       .select('id')
       .single();
 
-    if (error) {
+    if (ins.error) {
       showToast(
-        error.message.includes('unique')
+        ins.error.message.includes('unique')
           ? 'En artikel med denna slug finns redan.'
-          : 'Sparfel: ' + error.message,
+          : 'Sparfel: ' + ins.error.message,
         't-red'
       );
       return;
     }
 
-    // Transition from create → edit mode without a full page reload
-    postId    = data.id;
-    isNewPost = false;
-
-    const url = new URL(window.location.href);
-    url.searchParams.set('id', data.id);
-    window.history.replaceState(null, '', url.toString());
-
-    document.getElementById('editor-title').textContent = 'Redigera artikel';
-    document.title = title + ' – Nordic PC Admin';
-    showToast('Artikel skapad.', 't-green');
+    // Redirect so the page re-initialises cleanly in edit mode with the new ID.
+    // EasyMDE autosave on the returned page will use key 'npc-blog-{id}' (not 'npc-blog-new'),
+    // so the draft from create mode doesn't interfere.
+    window.location.href = 'blog-editor.html?id=' + ins.data.id;
   }
 }
-
-// ════════════════════════════════════════════════════════
-// MODAL CLOSE EVENTS
-// ════════════════════════════════════════════════════════
-
-document.getElementById('picker-modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('picker-modal')) closePickerModal();
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closePickerModal();
-});
 </script>
 </body>
 </html>
