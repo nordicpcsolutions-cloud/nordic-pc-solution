@@ -167,7 +167,7 @@ function _mpShowGridView() {
 }
 
 function _mpShowDetail(id) {
-  const m = _mpAllMedia.find(x => x.id === id);
+  const m = _mpAllMedia.find(x => String(x.id) === String(id));
   if (!m) return;
   _mpActiveItem = m;
 
@@ -708,12 +708,12 @@ function _mpBindEvents() {
   // Grid: thumbnail click via event delegation (no global callback needed)
   $('mp-grid-scroll').addEventListener('click', e => {
     const card = e.target.closest('[data-media-id]');
-    if (card) _mpShowDetail(Number(card.dataset.mediaId));
+    if (card) _mpShowDetail(card.dataset.mediaId);
   });
   $('mp-grid-scroll').addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') {
       const card = e.target.closest('[data-media-id]');
-      if (card) { e.preventDefault(); _mpShowDetail(Number(card.dataset.mediaId)); }
+      if (card) { e.preventDefault(); _mpShowDetail(card.dataset.mediaId); }
     }
   });
 
