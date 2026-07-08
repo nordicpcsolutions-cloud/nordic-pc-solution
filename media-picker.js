@@ -159,6 +159,7 @@ function _mpRenderGrid(list, searchQuery) {
 // ════════════════════════════════════════════════════════════════════════════
 
 function _mpShowGridView() {
+  console.log('_mpShowGridView called from:', new Error().stack);
   document.getElementById('mp-grid-view').style.display   = '';
   document.getElementById('mp-detail-view').style.display = 'none';
   document.getElementById('mp-back-btn').style.display    = 'none';
@@ -200,6 +201,7 @@ function _mpShowDetail(id) {
   // Switch to detail view
   document.getElementById('mp-grid-view').style.display   = 'none';
   document.getElementById('mp-detail-view').style.display = 'block';
+  console.log('detail display is now:', document.getElementById('mp-detail-view').style.display);
   document.getElementById('mp-back-btn').style.display    = '';
   document.getElementById('mp-title').textContent         = 'Bilddetaljer';
 }
