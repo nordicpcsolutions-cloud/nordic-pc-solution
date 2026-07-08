@@ -79,6 +79,32 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
 
 @media(max-width:900px){.editor-cols{grid-template-columns:1fr;}.editor-sidebar{position:static;}}
 @media(max-width:540px){.editor-header h1{font-size:1.25rem;}}
+
+/* ── Category field ── */
+.cat-row{display:flex;gap:0.4rem;align-items:center;}
+.cat-row select{flex:1;min-width:0;}
+.btn-new-cat{background:var(--dark4);border:1px solid rgba(255,255,255,0.1);color:var(--gray-light);border-radius:5px;padding:0.35rem 0.55rem;font-size:0.73rem;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Barlow',sans-serif;flex-shrink:0;transition:color 0.15s,border-color 0.15s;}
+.btn-new-cat:hover{color:var(--white);border-color:rgba(255,255,255,0.3);}
+.new-cat-row{display:none;gap:0.3rem;align-items:center;margin-top:0.45rem;}
+.new-cat-row input{flex:1;min-width:0;background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:5px;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.82rem;padding:0.35rem 0.6rem;outline:none;transition:border-color 0.2s;}
+.new-cat-row input:focus{border-color:var(--blue);}
+.btn-create-cat{background:var(--blue);border:none;color:#fff;font-family:'Barlow',sans-serif;font-size:0.73rem;font-weight:700;padding:0.35rem 0.6rem;border-radius:5px;cursor:pointer;white-space:nowrap;transition:background 0.2s;flex-shrink:0;}
+.btn-create-cat:hover{background:var(--blue-light);}
+.btn-cancel-cat{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--gray);border-radius:5px;padding:0.35rem 0.45rem;font-size:0.82rem;cursor:pointer;line-height:1;flex-shrink:0;transition:color 0.15s;}
+.btn-cancel-cat:hover{color:var(--white);}
+
+/* ── Tag chips + autocomplete ── */
+.tag-input-wrap{position:relative;}
+.tag-chips{display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.4rem;}
+.tag-chips:empty{margin-bottom:0;}
+.tag-chip{display:inline-flex;align-items:center;gap:0.22rem;background:rgba(26,79,255,0.18);border:1px solid rgba(26,79,255,0.4);border-radius:20px;padding:0.16rem 0.5rem 0.16rem 0.62rem;font-size:0.73rem;font-weight:600;color:var(--gray-light);}
+.tag-chip-remove{background:none;border:none;color:var(--gray);cursor:pointer;font-size:0.9rem;line-height:1;padding:0;margin:0;display:inline-flex;align-items:center;transition:color 0.15s;}
+.tag-chip-remove:hover{color:var(--red);}
+#tag-input{width:100%;box-sizing:border-box;}
+.tag-dropdown{position:absolute;top:calc(100% + 3px);left:0;right:0;background:var(--dark2);border:1px solid rgba(255,255,255,0.12);border-radius:7px;box-shadow:0 8px 32px rgba(0,0,0,0.5);z-index:200;max-height:180px;overflow-y:auto;}
+.tag-dd-item{padding:0.48rem 0.8rem;font-size:0.82rem;color:var(--gray-light);cursor:pointer;transition:background 0.12s;}
+.tag-dd-item:hover{background:rgba(255,255,255,0.06);color:var(--white);}
+.tag-dd-create{color:var(--accent);font-style:italic;}
 </style>
 
 <!-- Script load order: Supabase → marked → DOMPurify → admin-shared → markdown-renderer → EasyMDE → media-picker -->
@@ -202,23 +228,43 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
           </div>
         </div>
 
-        <!--
-          ════════════════════════════════════════
-          TODO (next pass): Category & Tags
-          ════════════════════════════════════════
-          Add a <select id="f-category"> populated from:
-            supabaseClient.from('categories').select('id, name').order('sort_order')
-          And a tags multi-select widget backed by the blog_post_tags join table.
-
-          In savePost(), replace the hardcoded null below with:
-            category_id: document.getElementById('f-category').value || null
-
-          In loadPost(), restore the selection with:
-            document.getElementById('f-category').value = data.category_id || '';
-        -->
         <div class="sidebar-card">
           <h3>Kategori &amp; taggar</h3>
-          <p class="placeholder-note">Byggs ut i n&#228;sta pass.</p>
+
+          <!-- Category — single select with inline create -->
+          <div class="admin-field">
+            <label>Kategori</label>
+            <div class="cat-row">
+              <select id="f-category">
+                <option value="">&#8212; V&#228;lj kategori &#8212;</option>
+              </select>
+              <button type="button" class="btn-new-cat"
+                      onclick="showNewCategoryInput()">+ Ny</button>
+            </div>
+            <div class="new-cat-row" id="new-cat-row">
+              <input type="text" id="new-cat-name"
+                     placeholder="Kategorinamn&#8230;"
+                     onkeydown="if(event.key==='Enter'){doCreateCategory();}else if(event.key==='Escape'){hideNewCategoryInput();}">
+              <button type="button" class="btn-create-cat"
+                      onclick="doCreateCategory()">Skapa</button>
+              <button type="button" class="btn-cancel-cat"
+                      onclick="hideNewCategoryInput()">&#10005;</button>
+            </div>
+          </div>
+
+          <!-- Tags — multi chip with autocomplete + inline create -->
+          <div class="admin-field" style="margin-bottom:0;">
+            <label>Taggar</label>
+            <div class="tag-input-wrap" id="tag-input-wrap">
+              <div class="tag-chips" id="tag-chips"></div>
+              <input type="text" id="tag-input" class="admin-field input"
+                     autocomplete="off"
+                     placeholder="S&#246;k eller skapa tagg&#8230;"
+                     oninput="onTagInput()"
+                     onkeydown="onTagKeydown(event)">
+              <div class="tag-dropdown" id="tag-dropdown" style="display:none;"></div>
+            </div>
+          </div>
         </div>
 
         <!-- SEO metadata -->
@@ -273,12 +319,16 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
 // STATE
 // ════════════════════════════════════════════════════════════════════
 
-var postId       = null;   // string id from ?id=, set after create or on load
-var existingPost = null;   // full blog_posts row loaded in edit mode
-var isNew        = true;   // false once post exists in the DB
-var slugDirty    = false;  // true once admin has manually typed in the slug field
-var easyMDE      = null;   // EasyMDE instance (assigned in initEditor)
-var heroUrl      = '';     // current hero image URL, kept in sync with the preview UI
+var postId        = null;   // string id from ?id=, set after create or on load
+var existingPost  = null;   // full blog_posts row loaded in edit mode
+var isNew         = true;   // false once post exists in the DB
+var slugDirty     = false;  // true once admin has manually typed in the slug field
+var easyMDE       = null;   // EasyMDE instance (assigned in initEditor)
+var heroUrl       = '';     // current hero image URL, kept in sync with the preview UI
+var allCategories = [];     // {id, name, slug, sort_order}[] loaded on init
+var allTags       = [];     // {id, name, slug}[] loaded on init, grows as new tags are created
+var selectedTags  = [];     // {id, name}[] chips currently selected for this post
+var tagDebounce   = null;   // debounce timer for tag autocomplete input
 
 // ════════════════════════════════════════════════════════════════════
 // INIT
@@ -296,7 +346,16 @@ var heroUrl      = '';     // current hero image URL, kept in sync with the prev
   if (id) {
     postId = id;
     isNew  = false;
-    await loadPost(id); // populates existingPost + form fields (except EasyMDE content)
+    // Load post data and categories/tags concurrently — both needed before page shows
+    await Promise.all([loadPost(id), loadCategoriesAndTags()]);
+    // Pre-select category: select is now populated AND category_id is now known
+    if (existingPost && existingPost.category_id) {
+      document.getElementById('f-category').value = String(existingPost.category_id);
+    }
+    // Pre-populate tag chips from the join table
+    await loadPostTags(id);
+  } else {
+    await loadCategoriesAndTags();
   }
 
   // Reveal page BEFORE initialising EasyMDE so CodeMirror can measure its container
@@ -319,6 +378,13 @@ var heroUrl      = '';     // current hero image URL, kept in sync with the prev
   // Wire title→slug auto-generation after page is visible (avoids early-init issues)
   document.getElementById('f-title').addEventListener('input', onTitleInput);
   document.getElementById('f-slug').addEventListener('input', function() { slugDirty = true; });
+
+  // Dismiss tag autocomplete dropdown on outside click
+  document.addEventListener('click', function(e) {
+    if (!document.getElementById('tag-input-wrap').contains(e.target)) {
+      hideTagDropdown();
+    }
+  });
 })();
 
 // ════════════════════════════════════════════════════════════════════
@@ -540,9 +606,7 @@ async function savePost() {
     language:        language,
     publish_at:      publish_at,
     updated_at:      new Date().toISOString(),
-    // TODO (next pass): replace null with document.getElementById('f-category').value || null
-    // once the category selector is built (see sidebar TODO above)
-    category_id:     existingPost ? existingPost.category_id    : null,
+    category_id:     document.getElementById('f-category').value || null,
     // TODO (next pass): replace null with document.getElementById('f-cta').value || null
     // once the CTA template selector is built (see sidebar TODO above)
     cta_template_id: existingPost ? existingPost.cta_template_id : null,
@@ -566,6 +630,7 @@ async function savePost() {
     }
 
     if (existingPost) Object.assign(existingPost, payload);
+    await savePostTags(postId);
     document.title = title + ' – Nordic PC Admin';
     showToast('Artikel sparad.', 't-green');
 
@@ -587,11 +652,206 @@ async function savePost() {
       return;
     }
 
+    // Save tags before navigating — can't do it after since the page redirects away
+    await savePostTags(ins.data.id);
     // Redirect so the page re-initialises cleanly in edit mode with the new ID.
     // EasyMDE autosave on the returned page will use key 'npc-blog-{id}' (not 'npc-blog-new'),
     // so the draft from create mode doesn't interfere.
     window.location.href = 'blog-editor.html?id=' + ins.data.id;
   }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// CATEGORIES
+// slugify() from admin-shared.js is used for all slug generation —
+// ensures "SSD" and "ssd" and "Ssd" all normalize to the same slug
+// and are treated as the same category rather than creating duplicates
+// ════════════════════════════════════════════════════════════════════
+
+async function loadCategoriesAndTags() {
+  var catRes = await supabaseClient.from('categories').select('*').order('sort_order');
+  if (!catRes.error) {
+    allCategories = catRes.data || [];
+    populateCategorySelect();
+  }
+  var tagRes = await supabaseClient.from('tags').select('*').order('name');
+  if (!tagRes.error) allTags = tagRes.data || [];
+}
+
+function populateCategorySelect() {
+  var sel  = document.getElementById('f-category');
+  var prev = sel.value;
+  sel.innerHTML = '<option value="">— V\xe4lj kategori —</option>';
+  allCategories.forEach(function(c) {
+    var opt = document.createElement('option');
+    opt.value       = String(c.id);
+    opt.textContent = c.name;
+    sel.appendChild(opt);
+  });
+  if (prev) sel.value = prev; // preserve any selection already made
+}
+
+function showNewCategoryInput() {
+  document.getElementById('new-cat-row').style.display = 'flex';
+  document.getElementById('new-cat-name').focus();
+}
+
+function hideNewCategoryInput() {
+  document.getElementById('new-cat-row').style.display = 'none';
+  document.getElementById('new-cat-name').value = '';
+}
+
+async function doCreateCategory() {
+  var name = document.getElementById('new-cat-name').value.trim();
+  if (!name) return;
+  var slug = slugify(name); // slugify() from admin-shared.js
+
+  // Check existing by normalized slug — prevents "SSD" and "ssd" becoming two categories
+  var existing = allCategories.find(function(c) { return c.slug === slug; });
+  if (existing) {
+    document.getElementById('f-category').value = String(existing.id);
+    hideNewCategoryInput();
+    showToast('Kategorin finns redan, väljer befintlig.', 't-amber');
+    return;
+  }
+
+  var res = await supabaseClient.from('categories').insert({ name: name, slug: slug }).select().single();
+  if (res.error) { showToast('Kunde inte skapa kategori: ' + res.error.message, 't-red'); return; }
+
+  allCategories.push(res.data);
+  populateCategorySelect();
+  document.getElementById('f-category').value = String(res.data.id);
+  hideNewCategoryInput();
+  showToast('Kategori skapad.', 't-green');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// TAGS — chips, autocomplete, inline create
+// Same slug-based duplicate prevention as categories
+// ════════════════════════════════════════════════════════════════════
+
+async function loadPostTags(id) {
+  var res = await supabaseClient
+    .from('blog_post_tags')
+    .select('tag_id, tags(id, name)')
+    .eq('post_id', id);
+  if (res.error || !res.data) return;
+  res.data.forEach(function(row) { if (row.tags) addTagChip(row.tags); });
+}
+
+function addTagChip(tag) {
+  if (selectedTags.some(function(t) { return String(t.id) === String(tag.id); })) return;
+  selectedTags.push({ id: tag.id, name: tag.name });
+  renderTagChips();
+}
+
+function removeTagChip(tagId) {
+  selectedTags = selectedTags.filter(function(t) { return String(t.id) !== String(tagId); });
+  renderTagChips();
+}
+
+function renderTagChips() {
+  document.getElementById('tag-chips').innerHTML = selectedTags.map(function(t) {
+    return '<span class="tag-chip">' +
+      escH(t.name) +
+      '<button type="button" class="tag-chip-remove" ' +
+        'onclick="removeTagChip(\'' + escAttr(String(t.id)) + '\')" ' +
+        'aria-label="Ta bort ' + escAttr(t.name) + '">×</button>' +
+      '</span>';
+  }).join('');
+}
+
+function onTagInput() {
+  clearTimeout(tagDebounce);
+  tagDebounce = setTimeout(function() {
+    var q = document.getElementById('tag-input').value.trim();
+    if (!q) { hideTagDropdown(); return; }
+    var lower   = q.toLowerCase();
+    var matches = allTags.filter(function(t) { return t.name.toLowerCase().includes(lower); });
+    showTagDropdown(matches, q);
+  }, 250);
+}
+
+function onTagKeydown(e) {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    var raw = document.getElementById('tag-input').value.replace(/,$/, '').trim();
+    if (raw) doAddTag(raw);
+  } else if (e.key === 'Escape') {
+    hideTagDropdown();
+  }
+}
+
+function showTagDropdown(matches, query) {
+  var html = matches.map(function(t) {
+    return '<div class="tag-dd-item" onclick="selectExistingTag(\'' + escAttr(String(t.id)) + '\')">' +
+           escH(t.name) + '</div>';
+  }).join('');
+
+  // Only show "create" option when no existing tag has the same normalized slug
+  var querySlug    = slugify(query);
+  var hasSlugMatch = allTags.some(function(t) { return t.slug === querySlug; });
+  if (!hasSlugMatch) {
+    html += '<div class="tag-dd-item tag-dd-create" onclick="doAddTag(' +
+            JSON.stringify(query) + ')">+ Skapa ny tagg: “' + escH(query) + '”</div>';
+  }
+
+  var dd = document.getElementById('tag-dropdown');
+  dd.innerHTML    = html;
+  dd.style.display = html ? 'block' : 'none';
+}
+
+function hideTagDropdown() {
+  var dd = document.getElementById('tag-dropdown');
+  if (dd) dd.style.display = 'none';
+}
+
+function selectExistingTag(tagId) {
+  var tag = allTags.find(function(t) { return String(t.id) === String(tagId); });
+  if (tag) addTagChip(tag);
+  document.getElementById('tag-input').value = '';
+  hideTagDropdown();
+}
+
+async function doAddTag(name) {
+  name = (name || '').trim();
+  if (!name) return;
+  var slug = slugify(name);
+
+  // Reuse existing tag with same normalized slug — prevents "ssd" creating a duplicate of "SSD"
+  var existing = allTags.find(function(t) { return t.slug === slug; });
+  if (existing) {
+    addTagChip(existing);
+    document.getElementById('tag-input').value = '';
+    hideTagDropdown();
+    return;
+  }
+
+  var res = await supabaseClient.from('tags').insert({ name: name, slug: slug }).select().single();
+  if (res.error) { showToast('Kunde inte skapa tagg: ' + res.error.message, 't-red'); return; }
+
+  allTags.push(res.data);
+  addTagChip(res.data);
+  document.getElementById('tag-input').value = '';
+  hideTagDropdown();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// SAVE TAGS — delete-and-reinsert for both create and edit modes.
+// DELETE of non-existent rows is a safe no-op, so new posts can use
+// the same function without special-casing.
+// ════════════════════════════════════════════════════════════════════
+
+async function savePostTags(savedPostId) {
+  var del = await supabaseClient.from('blog_post_tags').delete().eq('post_id', savedPostId);
+  if (del.error) {
+    showToast('Taggfel (rensa): ' + del.error.message, 't-amber');
+    return;
+  }
+  if (selectedTags.length === 0) return;
+  var rows = selectedTags.map(function(t) { return { post_id: savedPostId, tag_id: t.id }; });
+  var ins  = await supabaseClient.from('blog_post_tags').insert(rows);
+  if (ins.error) showToast('Taggfel (spara): ' + ins.error.message, 't-amber');
 }
 </script>
 </body>
