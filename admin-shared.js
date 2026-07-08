@@ -114,3 +114,213 @@ function formatDate(isoString) {
     year: 'numeric', month: 'short', day: 'numeric'
   });
 }
+
+// ══════════════════════════════════════════════════════════════════
+// SHARED MEDIA LIBRARY — used by media-admin.html AND blog-editor.html
+// ══════════════════════════════════════════════════════════════════
+
+// Category value → display label map (English keys match DB + storage values)
+const MEDIA_CAT_LABELS = {
+  blog:          'Blogg',
+  hero:          'Hero',
+  portfolio:     'Portfolio',
+  prebuilt:      'Prebuilt',
+  team:          'Team',
+  logo:          'Logotyper',
+  marketing:     'Marknadsföring',
+  uncategorized: 'Okategoriserad',
+};
+
+// Fetches all media_library rows ordered newest-first.
+// Returns the raw Supabase { data, error } object — callers handle errors.
+async function loadMediaLibrary() {
+  return supabaseClient
+    .from('media_library')
+    .select('id,file_name,storage_path,public_url,alt_text,caption,category,file_size,width,height,mime_type,uploaded_at')
+    .order('uploaded_at', { ascending: false });
+}
+
+// Returns an HTML string for a responsive thumbnail grid.
+//
+// options.mode = 'manage' (default)
+//   Full management cards: hover "Kopiera URL" button; onclick calls openModal(id)
+//   which must exist as a global on the host page.
+//
+// options.mode = 'pick'
+//   Simplified picker cards: clicking calls options.onSelectCallback(id).
+//   onSelectCallback must be a globally accessible function name (string).
+//
+// options.emptyMessage — displayed when items array is empty.
+function renderMediaGridHTML(items, options = {}) {
+  const {
+    mode             = 'manage',
+    onSelectCallback = 'pickMediaItem',
+    emptyMessage     = 'Inga bilder hittades.',
+  } = options;
+
+  if (!items.length) return `<div class="media-empty">${emptyMessage}</div>`;
+
+  return items.map(m => {
+    const label   = MEDIA_CAT_LABELS[m.category] || escH(m.category || '');
+    const sizeStr = formatBytes(m.file_size);
+    const imgSrc  = escAttr(m.public_url);
+    const imgAlt  = escAttr(m.alt_text || m.file_name);
+
+    if (mode === 'pick') {
+      return `<div class="media-card media-card-pick" onclick="${escAttr(onSelectCallback)}(${m.id})" role="button" tabindex="0">
+        <img class="media-card-thumb" src="${imgSrc}" alt="${imgAlt}" loading="lazy">
+        <div class="media-card-body">
+          <div class="media-card-name">${escH(m.file_name)}</div>
+          <div class="media-card-meta">
+            <span class="media-cat-badge">${escH(label)}</span>
+            <span class="media-size">${sizeStr}</span>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    // mode = 'manage' — full card with "Kopiera URL" hover affordance
+    return `<div class="media-card" onclick="openModal(${m.id})">
+      <img class="media-card-thumb" src="${imgSrc}" alt="${imgAlt}" loading="lazy">
+      <div class="media-card-body">
+        <div class="media-card-name">${escH(m.file_name)}</div>
+        <div class="media-card-meta">
+          <span class="media-cat-badge">${escH(label)}</span>
+          <span class="media-size">${sizeStr}</span>
+        </div>
+      </div>
+      <div class="media-card-hover">
+        <button class="media-copy-btn"
+                onclick="event.stopPropagation(); copyUrl('${escAttr(m.public_url)}')">
+          Kopiera URL
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Uploads a single image File to Supabase Storage, then inserts a media_library row.
+// Returns { success, data?, error?, partial? }
+// partial=true means storage succeeded but the DB insert failed — file exists, row missing.
+const MEDIA_MAX_BYTES = 10 * 1024 * 1024; // 10 MB
+
+// category defaults to 'uncategorized'; pass a value from MEDIA_CAT_LABELS keys to override.
+async function uploadMediaFile(file, category = 'uncategorized') {
+  if (!file.type.startsWith('image/')) return { success: false, error: 'Ej en bildfil' };
+  if (file.size > MEDIA_MAX_BYTES)     return { success: false, error: 'Överstiger 10 MB' };
+
+  const storagePath = Date.now() + '-' + sanitizePath(file.name);
+
+  const { error: storageErr } = await supabaseClient.storage
+    .from('media')
+    .upload(storagePath, file, { contentType: file.type });
+
+  if (storageErr) return { success: false, error: 'Lagring: ' + storageErr.message };
+
+  const { data: urlData } = supabaseClient.storage.from('media').getPublicUrl(storagePath);
+  const { width, height } = await getImageDimensions(file);
+
+  const { data, error: dbErr } = await supabaseClient
+    .from('media_library')
+    .insert({
+      file_name:    file.name,
+      storage_path: storagePath,
+      public_url:   urlData.publicUrl,
+      alt_text:     '',
+      caption:      '',
+      category:     category,
+      file_size:    file.size,
+      width, height,
+      mime_type:    file.type,
+    })
+    .select()
+    .single();
+
+  if (dbErr) return { success: false, partial: true, error: dbErr.message, storagePath };
+  return { success: true, data };
+}
+
+// Updates fields on an existing media_library row. Typically used for
+// alt_text / caption / category, but accepts any valid column map.
+// Returns { success: boolean, data?: updatedRow, error?: Error }
+async function updateMediaMetadata(id, updates) {
+  const { data, error } = await supabaseClient
+    .from('media_library')
+    .update(updates)
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) return { success: false, error };
+  return { success: true, data };
+}
+
+// Deletes the Storage object and the media_library DB row for the given item.
+// Returns { success: boolean, step?: 'storage'|'db', error?: Error }
+// On storage failure the DB row is NOT touched (keeps data consistent).
+// On DB failure after storage deletion, the file is gone but the row lingers —
+// callers should surface this distinction so the admin knows to clean up manually.
+async function deleteMediaItem(id, storagePath) {
+  const { error: storageErr } = await supabaseClient.storage
+    .from('media')
+    .remove([storagePath]);
+
+  if (storageErr) return { success: false, step: 'storage', error: storageErr };
+
+  const { error: dbErr } = await supabaseClient
+    .from('media_library')
+    .delete()
+    .eq('id', id);
+
+  if (dbErr) return { success: false, step: 'db', error: dbErr };
+  return { success: true };
+}
+
+// ── SHARED UTILITIES ──────────────────────────────────────────────
+
+// Reads natural pixel dimensions from a File via a temporary object URL.
+function getImageDimensions(file) {
+  return new Promise(resolve => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload  = () => { URL.revokeObjectURL(url); resolve({ width: img.naturalWidth, height: img.naturalHeight }); };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve({ width: 0, height: 0 }); };
+    img.src = url;
+  });
+}
+
+// Returns a lowercase, hyphenated filename safe for Supabase Storage paths.
+function sanitizePath(name) {
+  return name
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9.\-_]/g, '')
+    .replace(/-+/g, '-');
+}
+
+// Human-readable file size (B / KB / MB).
+function formatBytes(n) {
+  if (!n) return '—';
+  if (n < 1024)         return n + ' B';
+  if (n < 1024 * 1024)  return (n / 1024).toFixed(1) + ' KB';
+  return (n / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+// Copies url to clipboard and shows a toast.
+function copyUrl(url) {
+  navigator.clipboard.writeText(url)
+    .then(() => showToast('URL kopierad!', 't-green'))
+    .catch(() => showToast('Kunde inte kopiera.', 't-amber'));
+}
+
+// HTML-escapes a string for safe use in text content.
+function escH(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// HTML-escapes a string for safe use inside attribute values.
+function escAttr(s) {
+  if (s == null) return '';
+  return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}

@@ -186,20 +186,9 @@
 // ─────────────────────────────────────────
 // CONSTANTS
 // ─────────────────────────────────────────
-
-const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // 10 MB
-
-// Map stored category values → display labels (used in grid + modal)
-const CAT_LABELS = {
-  blog:          'Blogg',
-  hero:          'Hero',
-  portfolio:     'Portfolio',
-  prebuilt:      'Prebuilt',
-  team:          'Team',
-  logo:          'Logotyper',
-  marketing:     'Marknadsföring',
-  uncategorized: 'Okategoriserad',
-};
+// MEDIA_MAX_BYTES, MEDIA_CAT_LABELS, and all utility functions
+// (formatBytes, copyUrl, getImageDimensions, sanitizePath, escH, escAttr)
+// are now provided by admin-shared.js.
 
 // ─────────────────────────────────────────
 // STATE
@@ -229,11 +218,7 @@ let activeModalId = null; // id of the row currently open in the modal
 // ─────────────────────────────────────────
 
 async function loadMedia() {
-  const { data, error } = await supabaseClient
-    .from('media_library')
-    .select('id,file_name,storage_path,public_url,alt_text,caption,category,file_size,width,height,mime_type,uploaded_at')
-    .order('uploaded_at', { ascending: false });
-
+  const { data, error } = await loadMediaLibrary(); // shared in admin-shared.js
   if (error) {
     showToast('Fel vid hämtning: ' + error.message, 't-red');
     renderGrid([]);
@@ -268,40 +253,14 @@ function applyFilters() {
 // ─────────────────────────────────────────
 
 function renderGrid(list) {
-  const grid = document.getElementById('media-grid');
-
-  if (!list.length) {
-    const q = (document.getElementById('search-input').value || '').trim();
-    grid.innerHTML = `<div class="media-empty">${
-      q ? 'Inga träffar för &#8220;' + escH(q) + '&#8221;.'
-        : 'Inga bilder ännu &#8212; ladda upp något!'
-    }</div>`;
-    return;
-  }
-
-  grid.innerHTML = list.map(m => {
-    const label   = CAT_LABELS[m.category] || escH(m.category || '');
-    const sizeStr = formatBytes(m.file_size);
-    return `<div class="media-card" onclick="openModal(${m.id})">
-      <img class="media-card-thumb"
-           src="${escAttr(m.public_url)}"
-           alt="${escAttr(m.alt_text || m.file_name)}"
-           loading="lazy">
-      <div class="media-card-body">
-        <div class="media-card-name">${escH(m.file_name)}</div>
-        <div class="media-card-meta">
-          <span class="media-cat-badge">${label}</span>
-          <span class="media-size">${sizeStr}</span>
-        </div>
-      </div>
-      <div class="media-card-hover">
-        <button class="media-copy-btn"
-                onclick="event.stopPropagation(); copyUrl('${escAttr(m.public_url)}')">
-          Kopiera URL
-        </button>
-      </div>
-    </div>`;
-  }).join('');
+  const q = (document.getElementById('search-input').value || '').trim();
+  // renderMediaGridHTML is shared from admin-shared.js
+  document.getElementById('media-grid').innerHTML = renderMediaGridHTML(list, {
+    mode: 'manage',
+    emptyMessage: q
+      ? `Inga träffar för “${escH(q)}”.`
+      : 'Inga bilder ännu — ladda upp något!',
+  });
 }
 
 // ─────────────────────────────────────────
@@ -370,54 +329,19 @@ async function uploadOne(file, rowEl) {
     rowEl.className = 'media-upload-item' + (cls ? ' ' + cls : '');
   };
 
-  // Validate
-  if (!file.type.startsWith('image/')) { setStatus('Ej en bildfil', 'u-error'); return; }
-  if (file.size > MAX_UPLOAD_BYTES)    { setStatus('Överstiger 10 MB', 'u-error'); return; }
-
   setStatus('Laddar upp…', '');
 
-  // 1. Upload file to Storage
-  const storagePath = Date.now() + '-' + sanitizePath(file.name);
-  const { error: storageErr } = await supabaseClient.storage
-    .from('media')
-    .upload(storagePath, file, { contentType: file.type });
+  // uploadMediaFile handles validation, storage upload, dimension read, and DB insert
+  const result = await uploadMediaFile(file); // shared in admin-shared.js
 
-  if (storageErr) {
-    setStatus('Lagring: ' + storageErr.message, 'u-error');
-    showToast(file.name + ': ' + storageErr.message, 't-red');
-    return;
-  }
-
-  // 2. Get public URL (synchronous in v2)
-  const { data: urlData } = supabaseClient.storage
-    .from('media')
-    .getPublicUrl(storagePath);
-
-  // 3. Read image dimensions client-side
-  const { width, height } = await getImageDimensions(file);
-
-  // 4. Insert metadata row into media_library
-  const row = {
-    file_name:    file.name,
-    storage_path: storagePath,
-    public_url:   urlData.publicUrl,
-    alt_text:     '',
-    caption:      '',
-    category:     'uncategorized',
-    file_size:    file.size,
-    width,
-    height,
-    mime_type:    file.type,
-  };
-
-  const { error: dbErr } = await supabaseClient
-    .from('media_library')
-    .insert(row);
-
-  if (dbErr) {
-    // Storage file exists but row missing — log both outcomes clearly
-    setStatus('Uppladdad — DB-fel: ' + dbErr.message, 'u-error');
-    showToast(file.name + ': fil uppladdad men DB-rad saknas.', 't-amber');
+  if (!result.success) {
+    setStatus(result.error, 'u-error');
+    showToast(
+      result.partial
+        ? file.name + ': fil uppladdad men DB-rad saknas.'
+        : file.name + ': ' + result.error,
+      result.partial ? 't-amber' : 't-red'
+    );
     return;
   }
 
@@ -479,12 +403,14 @@ async function saveModalMeta() {
   const caption  = document.getElementById('mm-caption').value.trim();
   const category = document.getElementById('mm-category').value;
 
-  const { error } = await supabaseClient
-    .from('media_library')
-    .update({ alt_text: alt, caption: caption || null, category })
-    .eq('id', activeModalId);
+  // updateMediaMetadata is shared in admin-shared.js
+  const result = await updateMediaMetadata(activeModalId, {
+    alt_text: alt,
+    caption:  caption || null,
+    category,
+  });
 
-  if (error) { showToast('Sparningsfel: ' + error.message, 't-red'); return; }
+  if (!result.success) { showToast('Sparningsfel: ' + result.error.message, 't-red'); return; }
 
   // Sync local state so grid reflects changes immediately without a DB round-trip
   const m = allMedia.find(x => x.id === activeModalId);
@@ -523,32 +449,23 @@ async function confirmDelete() {
   const m = allMedia.find(x => x.id === activeModalId);
   if (!m) { closeModal(); return; }
 
-  // 1. Remove Storage object
-  const { error: storageErr } = await supabaseClient.storage
-    .from('media')
-    .remove([m.storage_path]);
+  // deleteMediaItem is shared in admin-shared.js
+  const result = await deleteMediaItem(m.id, m.storage_path);
 
-  if (storageErr) {
-    // File still exists — abort entirely so the DB row is not orphaned
-    showToast('Lagring: ' + storageErr.message, 't-red');
+  if (!result.success && result.step === 'storage') {
+    // Abort — file still exists, DB row intentionally untouched
+    showToast('Lagring: ' + result.error.message, 't-red');
     cancelDelete();
     return;
   }
 
-  // 2. Remove DB row (storage already gone)
-  const { error: dbErr } = await supabaseClient
-    .from('media_library')
-    .delete()
-    .eq('id', m.id);
-
-  if (dbErr) {
-    // File is gone but the row lingers — flag explicitly
-    showToast('Filen är borttagen men posten kvarstår i databasen: ' + dbErr.message, 't-amber');
+  if (!result.success && result.step === 'db') {
+    // File is gone but the row lingers — surface the distinction
+    showToast('Filen är borttagen men posten kvarstår i databasen: ' + result.error.message, 't-amber');
   } else {
     showToast('Bilden raderad.', 't-amber');
   }
 
-  // Remove from local state regardless (file is gone either way)
   allMedia = allMedia.filter(x => x.id !== m.id);
   closeModal();
   applyFilters();
@@ -557,49 +474,8 @@ async function confirmDelete() {
 // ─────────────────────────────────────────
 // HELPERS
 // ─────────────────────────────────────────
-
-// Reads natural dimensions from a File using a temporary object URL
-function getImageDimensions(file) {
-  return new Promise(resolve => {
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload  = () => { URL.revokeObjectURL(url); resolve({ width: img.naturalWidth,  height: img.naturalHeight }); };
-    img.onerror = () => { URL.revokeObjectURL(url); resolve({ width: 0, height: 0 }); };
-    img.src = url;
-  });
-}
-
-// Returns a lowercase, space-free filename safe for use in storage paths
-function sanitizePath(name) {
-  return name
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9.\-_]/g, '')
-    .replace(/-+/g, '-');
-}
-
-function formatBytes(n) {
-  if (!n) return '—';
-  if (n < 1024)           return n + ' B';
-  if (n < 1024 * 1024)    return (n / 1024).toFixed(1) + ' KB';
-  return (n / (1024 * 1024)).toFixed(1) + ' MB';
-}
-
-function copyUrl(url) {
-  navigator.clipboard.writeText(url)
-    .then(() => showToast('URL kopierad!', 't-green'))
-    .catch(() => showToast('Kunde inte kopiera.', 't-amber'));
-}
-
-function escH(s) {
-  if (s == null) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function escAttr(s) {
-  if (s == null) return '';
-  return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
+// getImageDimensions, sanitizePath, formatBytes, copyUrl, escH, escAttr
+// are all provided by admin-shared.js — no local copies needed.
 
 // ─────────────────────────────────────────
 // MODAL CLOSE EVENTS
