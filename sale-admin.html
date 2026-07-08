@@ -35,6 +35,31 @@
 .save-flash { font-size:0.8rem; color:var(--green); opacity:0; transition:opacity 0.3s; }
 .save-flash.show { opacity:1; }
 
+/* Checkbox group for "Gäller för" — spans full grid width */
+.applies-group {
+  grid-column: 1 / -1;
+  display: flex; flex-direction: column; gap: 0.38rem;
+}
+.applies-group > label:first-child {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--gray);
+}
+.cb-list {
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem;
+  background: var(--dark3); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 7px; padding: 0.75rem 0.9rem;
+}
+.cb-item {
+  display: flex; align-items: center; gap: 0.45rem;
+  font-size: 0.88rem; color: var(--gray-light); cursor: pointer;
+  user-select: none;
+}
+.cb-item input[type="checkbox"] {
+  width: 16px; height: 16px; accent-color: var(--blue); cursor: pointer; flex-shrink: 0;
+}
+.cb-item.cb-all-item { color: var(--white); font-weight: 700; }
+.cb-item.disabled    { opacity: 0.4; pointer-events: none; }
+
 @media(max-width:600px) { .sale-form-grid { grid-template-columns:1fr; } }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -84,15 +109,30 @@
           <label for="f-end-date">Slutdatum</label>
           <input type="date" id="f-end-date">
         </div>
-        <div class="sale-field">
-          <label for="f-applies-to">G&#228;ller f&#246;r</label>
-          <select id="f-applies-to" onchange="renderPriceTable()">
-            <option value="Alla tjänster">Alla tj&#228;nster</option>
-            <option value="Grundtjänst">Grundtj&#228;nst</option>
-            <option value="Pro-bygge">Pro-bygge</option>
-            <option value="Skräddarsydd PC">Skr&#228;ddarsydd PC</option>
-            <option value="Djuprengöring">Djuprenг&#246;ring</option>
-          </select>
+        <div class="applies-group">
+          <label>G&#228;ller f&#246;r</label>
+          <div class="cb-list">
+            <label class="cb-item cb-all-item">
+              <input type="checkbox" id="cb-all" value="all" onchange="onAllaChange()">
+              Alla tj&#228;nster
+            </label>
+            <label class="cb-item">
+              <input type="checkbox" class="cb-service" value="grundtjanst" onchange="onServiceChange()">
+              Grundtj&#228;nst
+            </label>
+            <label class="cb-item">
+              <input type="checkbox" class="cb-service" value="pro_bygge" onchange="onServiceChange()">
+              Pro-bygge
+            </label>
+            <label class="cb-item">
+              <input type="checkbox" class="cb-service" value="skraddarsydd" onchange="onServiceChange()">
+              Skr&#228;ddarsydd PC
+            </label>
+            <label class="cb-item">
+              <input type="checkbox" class="cb-service" value="djuprenoring" onchange="onServiceChange()">
+              Djuprenг&#246;ring
+            </label>
+          </div>
         </div>
       </div>
 
@@ -124,10 +164,10 @@
 
 <script>
 const SERVICES = [
-  { name: 'Grundtjänst',     price: 250 },
-  { name: 'Pro-bygge',       price: 400 },
-  { name: 'Skräddarsydd PC', price: 500 },
-  { name: 'Djuprengöring',   price: 250 },
+  { name: 'Grundtjänst',     price: 250, value: 'grundtjanst'  },
+  { name: 'Pro-bygge',       price: 400, value: 'pro_bygge'     },
+  { name: 'Skräddarsydd PC', price: 500, value: 'skraddarsydd'  },
+  { name: 'Djuprengöring',   price: 250, value: 'djuprenoring'  },
 ];
 
 // ── INIT ──
@@ -137,9 +177,8 @@ const SERVICES = [
 
   renderAdminNav('sale');
   document.getElementById('sidebar-user-email').textContent = session.user.email;
+  await loadSettings();                                  // populate form BEFORE revealing UI
   document.getElementById('app').style.display = 'flex';
-
-  await loadSettings();
 })();
 
 // ── LOAD ──
@@ -156,16 +195,23 @@ async function loadSettings() {
     return;
   }
 
-  document.getElementById('toggle-active').checked = !!data.sale_active;
+  if (!data) {
+    showToast('Inga inställningar hittades (id=global saknas).', 't-amber');
+    renderPriceTable();
+    return;
+  }
+
+  const active = !!data.sale_active;
+  document.getElementById('toggle-active').checked = active;
   document.getElementById('f-percent').value        = data.sale_percent  ?? '';
   document.getElementById('f-title').value          = data.sale_title    ?? '';
   document.getElementById('f-end-date').value       = data.sale_end_date ?? '';
 
-  const sel   = document.getElementById('f-applies-to');
-  const match = [...sel.options].find(o => o.value === data.sale_applies_to);
-  sel.value   = match ? data.sale_applies_to : sel.options[0].value;
+  // sale_applies_to is now text[] — Supabase JS returns it as a JS array
+  const appliesArr = Array.isArray(data.sale_applies_to) ? data.sale_applies_to : [];
+  populateAppliesTo(appliesArr);
 
-  updateStatusUI(!!data.sale_active);
+  updateStatusUI(active);
   renderPriceTable();
 }
 
@@ -194,8 +240,12 @@ async function saveSettings() {
   const percent   = parseInt(document.getElementById('f-percent').value, 10);
   const title     = document.getElementById('f-title').value.trim();
   const endDate   = document.getElementById('f-end-date').value;
-  const appliesTo = document.getElementById('f-applies-to').value;
+  const appliesTo = getAppliesTo(); // genuine JS array → Postgres text[] via Supabase JS
 
+  if (!appliesTo.length) {
+    showToast('Välj minst en tjänst under "Gäller för".', 't-amber');
+    return;
+  }
   if (isNaN(percent) || percent < 1 || percent > 99) {
     showToast('Ange en rabatt mellan 1 och 99 %.', 't-amber');
     return;
@@ -243,13 +293,13 @@ function updateStatusUI(active) {
 function renderPriceTable() {
   const active    = document.getElementById('toggle-active').checked;
   const percent   = parseInt(document.getElementById('f-percent').value, 10) || 0;
-  const appliesTo = document.getElementById('f-applies-to').value;
+  const appliesTo = getAppliesTo(); // array of selected service values
   const showSale  = active && percent > 0;
 
   document.getElementById('sale-col-hd').style.display = showSale ? '' : 'none';
 
   document.getElementById('prices-tbody').innerHTML = SERVICES.map(svc => {
-    const affected   = showSale && (appliesTo === 'Alla tjänster' || appliesTo === svc.name);
+    const affected   = showSale && (appliesTo.includes('all') || appliesTo.includes(svc.value));
     const salePrice  = Math.round(svc.price * (1 - percent / 100));
 
     const nameCell   = `<td>${affected ? '<span class="applies-dot"></span>' : ''}${escH(svc.name)}</td>`;
@@ -262,6 +312,56 @@ function renderPriceTable() {
 
     return `<tr>${nameCell}${origCell}${saleCell}</tr>`;
   }).join('');
+}
+
+// ── CHECKBOX HELPERS ──
+
+// Returns the current applies-to selection as a JS array of value strings.
+// Used by both saveSettings() and renderPriceTable().
+function getAppliesTo() {
+  if (document.getElementById('cb-all').checked) return ['all'];
+  return Array.from(document.querySelectorAll('.cb-service:checked')).map(cb => cb.value);
+}
+
+// Populates checkboxes from a stored text[] array (called on page load).
+function populateAppliesTo(arr) {
+  const allCb     = document.getElementById('cb-all');
+  const serviceCbs = document.querySelectorAll('.cb-service');
+
+  if (!arr.length || arr.includes('all')) {
+    // "Alla tjänster" — check the all box, disable individual ones
+    allCb.checked = true;
+    serviceCbs.forEach(cb => { cb.checked = false; cb.disabled = true;
+      cb.closest('.cb-item').classList.add('disabled'); });
+  } else {
+    allCb.checked = false;
+    serviceCbs.forEach(cb => {
+      cb.checked  = arr.includes(cb.value);
+      cb.disabled = false;
+      cb.closest('.cb-item').classList.remove('disabled');
+    });
+  }
+}
+
+// Called when "Alla tjänster" checkbox changes.
+function onAllaChange() {
+  const allCb     = document.getElementById('cb-all');
+  const serviceCbs = document.querySelectorAll('.cb-service');
+  if (allCb.checked) {
+    serviceCbs.forEach(cb => { cb.checked = false; cb.disabled = true;
+      cb.closest('.cb-item').classList.add('disabled'); });
+  } else {
+    serviceCbs.forEach(cb => { cb.disabled = false;
+      cb.closest('.cb-item').classList.remove('disabled'); });
+  }
+  renderPriceTable();
+}
+
+// Called when any individual service checkbox changes.
+function onServiceChange() {
+  // Deselect "Alla" automatically if any individual service is picked
+  document.getElementById('cb-all').checked = false;
+  renderPriceTable();
 }
 
 function escH(str) {
