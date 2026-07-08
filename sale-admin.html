@@ -130,7 +130,7 @@
             </label>
             <label class="cb-item">
               <input type="checkbox" class="cb-service" value="djuprenoring" onchange="onServiceChange()">
-              Djuprenг&#246;ring
+              Djupreng&#246;ring
             </label>
           </div>
         </div>
@@ -190,13 +190,17 @@ async function loadSettings() {
     .single();
 
   if (error) {
+    updateStatusUI(false);
+    document.getElementById('status-desc').textContent = 'Fel vid laddning: ' + error.message;
     showToast('Kunde inte ladda inst&#228;llningar: ' + error.message, 't-red');
-    renderPriceTable(); // still render static table
+    renderPriceTable();
     return;
   }
 
   if (!data) {
-    showToast('Inga inställningar hittades (id=global saknas).', 't-amber');
+    updateStatusUI(false);
+    document.getElementById('status-desc').textContent = 'Ingen inst&#228;llningsrad hittades (id=global).';
+    showToast('Inga inst&#228;llningar hittades — rad med id=global saknas i settings.', 't-amber');
     renderPriceTable();
     return;
   }
@@ -219,13 +223,19 @@ async function loadSettings() {
 async function saveToggle() {
   const active = document.getElementById('toggle-active').checked;
 
-  const { error } = await supabaseClient
+  const { data: rows, error } = await supabaseClient
     .from('settings')
     .update({ sale_active: active })
-    .eq('id', 'global');
+    .eq('id', 'global')
+    .select('id');
 
   if (error) {
     showToast('Fel: ' + error.message, 't-red');
+    document.getElementById('toggle-active').checked = !active; // revert
+    return;
+  }
+  if (!rows || rows.length === 0) {
+    showToast('Inget sparades — raden id=global saknas i settings-tabellen.', 't-red');
     document.getElementById('toggle-active').checked = !active; // revert
     return;
   }
@@ -251,7 +261,7 @@ async function saveSettings() {
     return;
   }
 
-  const { error } = await supabaseClient
+  const { data: rows, error } = await supabaseClient
     .from('settings')
     .update({
       sale_percent:    percent,
@@ -259,10 +269,15 @@ async function saveSettings() {
       sale_end_date:   endDate   || null,
       sale_applies_to: appliesTo,
     })
-    .eq('id', 'global');
+    .eq('id', 'global')
+    .select('id');
 
   if (error) {
     showToast('Fel vid sparning: ' + error.message, 't-red');
+    return;
+  }
+  if (!rows || rows.length === 0) {
+    showToast('Inget sparades — raden id=global saknas. Skapa den i Supabase Table Editor.', 't-red');
     return;
   }
 

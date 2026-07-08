@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0iIzBhMGYxZSIvPjx0ZXh0IHg9IjMyIiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iNDQiIGZpbGw9IiMxYTRmZmYiPlA8L3RleHQ+PC9zdmc+">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artikel – Nordic PC Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin-shared.css">
+<style>
+/* ── Editor header row ── */
+.editor-hd{display:flex;align-items:center;gap:0.85rem;margin-bottom:1.75rem;flex-wrap:wrap;}
+.editor-hd h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;letter-spacing:0.02em;text-transform:uppercase;margin-right:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:40ch;}
+.editor-hd-actions{display:flex;gap:0.5rem;flex-shrink:0;flex-wrap:wrap;}
+
+/* ── Inline title field ── */
+.f-title-input{width:100%;box-sizing:border-box;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;background:transparent;border:none;border-bottom:2px solid rgba(255,255,255,0.1);color:var(--white);outline:none;padding:0.3rem 0;letter-spacing:0.02em;transition:border-color 0.2s;}
+.f-title-input:focus{border-bottom-color:var(--blue);}
+.f-title-input::placeholder{color:var(--gray);font-weight:600;}
+
+/* ── Slug row ── */
+.slug-row{display:flex;gap:0.5rem;align-items:stretch;}
+.slug-row input{flex:1;min-width:0;}
+.btn-sm{padding:0.38rem 0.75rem;font-size:0.78rem;white-space:nowrap;min-height:auto;}
+
+/* ── Content placeholder ── */
+.content-placeholder{background:var(--dark3);border:2px dashed rgba(255,255,255,0.09);border-radius:8px;padding:2.8rem 1.5rem;text-align:center;color:var(--gray);}
+.content-placeholder strong{display:block;margin-bottom:0.3rem;color:var(--gray-light);font-size:0.9rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;}
+
+/* ── Settings grid ── */
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.full-col{grid-column:1/-1;}
+
+/* ── Publish-at row (toggled) ── */
+.publish-at-row{display:none;}
+
+/* ── Editor card ── */
+.editor-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:1.25rem 1.4rem;margin-bottom:1rem;}
+.editor-card h2{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin:0 0 1.1rem 0;font-weight:700;}
+
+/* ── "Coming next" section ── */
+.coming-next{border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:1rem 1.25rem;margin-top:1.5rem;}
+.coming-next h3{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin:0 0 0.75rem 0;font-weight:700;}
+.coming-chips{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.coming-chip{font-size:0.75rem;padding:0.22rem 0.65rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;color:var(--gray);}
+
+/* ── Back link styled as secondary btn ── */
+a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:none;flex-shrink:0;}
+
+@media(max-width:600px){
+  .settings-grid{grid-template-columns:1fr;}
+  .full-col{grid-column:1;}
+  .editor-hd h1{font-size:1.2rem;}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="admin-shared.js"></script>
+</head>
+<body>
+
+<div id="app" style="display:none;">
+  <div id="admin-nav"></div>
+
+  <main class="admin-main">
+
+    <!-- Header -->
+    <div class="editor-hd">
+      <a class="btn-secondary btn-back" href="blog-admin.html">&#8592; Artiklar</a>
+      <h1 id="editor-page-title">Ny artikel</h1>
+      <div class="editor-hd-actions">
+        <button class="btn-secondary" onclick="savePost('draft')">Spara utkast</button>
+        <button class="btn-primary"   id="publish-btn" onclick="savePost('published')">Publicera</button>
+      </div>
+    </div>
+
+    <!-- Rubrik + slug -->
+    <div class="editor-card">
+      <h2>Grundinformation</h2>
+      <div class="admin-field" style="margin-bottom:1.1rem;">
+        <input class="f-title-input" id="f-title" type="text"
+               placeholder="Artikelns rubrik&#8230;" oninput="onTitleInput()">
+      </div>
+      <div class="admin-field">
+        <label>Slug</label>
+        <div class="slug-row">
+          <input id="f-slug" type="text" placeholder="artikel-slug">
+          <button class="btn-secondary btn-sm" onclick="autoSlug()" title="Generera från rubrik">Auto</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content placeholder — full EasyMDE coming next pass -->
+    <div class="editor-card">
+      <h2>Inneh&#229;ll</h2>
+      <div class="content-placeholder">
+        <strong>EasyMDE markdown-editor</strong>
+        Byggs in n&#228;sta pass &#8212; se &ldquo;Byggs ut&rdquo; nedan.
+      </div>
+    </div>
+
+    <!-- Settings grid -->
+    <div class="editor-card">
+      <h2>Inst&#228;llningar</h2>
+      <div class="settings-grid">
+
+        <div class="admin-field">
+          <label>Status</label>
+          <select id="f-status" onchange="onStatusChange()">
+            <option value="draft">Utkast</option>
+            <option value="published">Publicerad</option>
+            <option value="scheduled">Schemalagd</option>
+          </select>
+        </div>
+
+        <div class="admin-field publish-at-row" id="publish-at-row">
+          <label>Schemalagt datum</label>
+          <input type="datetime-local" id="f-publish-at">
+        </div>
+
+        <div class="admin-field">
+          <label>Spr&#229;k</label>
+          <select id="f-language">
+            <option value="sv">Svenska</option>
+            <option value="en">Engelska</option>
+          </select>
+        </div>
+
+        <div class="admin-field">
+          <label>Kategori</label>
+          <select id="f-category">
+            <option value="">&#8212; ingen kategori &#8212;</option>
+          </select>
+        </div>
+
+        <div class="admin-field full-col">
+          <label>Hero-bild URL</label>
+          <input type="url" id="f-hero-image" placeholder="https://&#8230;">
+        </div>
+
+        <div class="admin-field full-col">
+          <label>Ingress / Excerpt</label>
+          <textarea id="f-excerpt" rows="3"
+                    placeholder="Kort sammanfattning som visas i blogglistan&#8230;"></textarea>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Coming next pass -->
+    <div class="coming-next">
+      <h3>Byggs ut i n&#228;sta pass</h3>
+      <div class="coming-chips">
+        <span class="coming-chip">EasyMDE markdown-editor</span>
+        <span class="coming-chip">SEO-f&#228;lt (titel &amp; beskrivning)</span>
+        <span class="coming-chip">Taggar (multi-select)</span>
+        <span class="coming-chip">CTA-mallar</span>
+        <span class="coming-chip">Hero-bildv&#228;ljare (media library picker)</span>
+        <span class="coming-chip">&#214;vers&#228;ttningsl&#228;nkning</span>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════
+
+let postId    = null;
+let isNewPost = true;
+
+// ════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════
+
+(async function init() {
+  const session = await checkAuth();
+  if (!session) return;
+  renderAdminNav('blog');
+  document.getElementById('sidebar-user-email').textContent = session.user.email;
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+
+  await loadCategories();
+
+  if (id) {
+    postId    = id;
+    isNewPost = false;
+    await loadPost(id);
+  } else {
+    // Defaults for new post
+    document.getElementById('f-status').value   = 'draft';
+    document.getElementById('f-language').value = 'sv';
+  }
+
+  document.getElementById('app').style.display = 'flex';
+})();
+
+// ════════════════════════════════════════════════
+// LOAD
+// ════════════════════════════════════════════════
+
+async function loadCategories() {
+  const { data } = await supabaseClient
+    .from('categories')
+    .select('id,name')
+    .order('sort_order');
+
+  const sel = document.getElementById('f-category');
+  (data || []).forEach(c => {
+    sel.appendChild(Object.assign(document.createElement('option'), {
+      value: String(c.id),
+      textContent: c.name,
+    }));
+  });
+}
+
+async function loadPost(id) {
+  const { data, error } = await supabaseClient
+    .from('blog_posts')
+    .select('id,title,slug,language,status,publish_at,category_id,excerpt,hero_image_url')
+    .eq('id', id)
+    .single();
+
+  if (error || !data) {
+    showToast('Kunde inte ladda artikeln.', 't-red');
+    return;
+  }
+
+  document.getElementById('editor-page-title').textContent = data.title || 'Redigera artikel';
+  document.title = (data.title || 'Artikel') + ' – Nordic PC Admin';
+
+  document.getElementById('f-title').value       = data.title          || '';
+  document.getElementById('f-slug').value        = data.slug           || '';
+  document.getElementById('f-status').value      = data.status         || 'draft';
+  document.getElementById('f-language').value    = data.language       || 'sv';
+  document.getElementById('f-category').value    = String(data.category_id ?? '');
+  document.getElementById('f-excerpt').value     = data.excerpt        || '';
+  document.getElementById('f-hero-image').value  = data.hero_image_url || '';
+
+  if (data.publish_at) {
+    // datetime-local expects YYYY-MM-DDTHH:MM
+    document.getElementById('f-publish-at').value = data.publish_at.slice(0, 16);
+  }
+
+  onStatusChange(); // show/hide publish_at row + update publish button label
+}
+
+// ════════════════════════════════════════════════
+// FIELD EVENT HANDLERS
+// ════════════════════════════════════════════════
+
+function onTitleInput() {
+  // Auto-generate slug only while the post has never been saved (no DB id yet)
+  if (isNewPost) {
+    document.getElementById('f-slug').value = slugify(document.getElementById('f-title').value);
+  }
+}
+
+function autoSlug() {
+  document.getElementById('f-slug').value = slugify(document.getElementById('f-title').value);
+}
+
+function onStatusChange() {
+  const s = document.getElementById('f-status').value;
+  document.getElementById('publish-at-row').style.display = s === 'scheduled' ? '' : 'none';
+  document.getElementById('publish-btn').textContent =
+    s === 'published' ? 'Uppdatera' : 'Publicera';
+}
+
+// ════════════════════════════════════════════════
+// SAVE (insert for new, update for existing)
+// ════════════════════════════════════════════════
+
+async function savePost(targetStatus) {
+  const title          = document.getElementById('f-title').value.trim();
+  const slug           = document.getElementById('f-slug').value.trim();
+  const language       = document.getElementById('f-language').value;
+  const status         = targetStatus || document.getElementById('f-status').value;
+  const catRaw         = document.getElementById('f-category').value;
+  const category_id    = catRaw === '' ? null : catRaw;
+  const excerpt        = document.getElementById('f-excerpt').value.trim()       || null;
+  const hero_image_url = document.getElementById('f-hero-image').value.trim()    || null;
+  const publishAtRaw   = document.getElementById('f-publish-at').value;
+  const publish_at     = status === 'scheduled' && publishAtRaw
+    ? new Date(publishAtRaw).toISOString()
+    : null;
+
+  if (!title) { showToast('Rubrik kr&#228;vs.', 't-red'); return; }
+  if (!slug)  { showToast('Slug kr&#228;vs.', 't-red'); return; }
+
+  const payload = {
+    title, slug, language, status,
+    category_id, excerpt, hero_image_url, publish_at,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (isNewPost) {
+    const { data, error } = await supabaseClient
+      .from('blog_posts')
+      .insert(payload)
+      .select('id')
+      .single();
+
+    if (error) { showToast('Fel: ' + error.message, 't-red'); return; }
+
+    // Transition to edit mode without a full reload
+    postId    = data.id;
+    isNewPost = false;
+    const url = new URL(window.location.href);
+    url.searchParams.set('id', data.id);
+    window.history.replaceState(null, '', url.toString());
+
+    document.getElementById('editor-page-title').textContent = title;
+    document.title = title + ' – Nordic PC Admin';
+    showToast('Artikel skapad.', 't-green');
+
+  } else {
+    const { error } = await supabaseClient
+      .from('blog_posts')
+      .update(payload)
+      .eq('id', postId);
+
+    if (error) { showToast('Fel: ' + error.message, 't-red'); return; }
+
+    document.getElementById('editor-page-title').textContent = title;
+    document.title = title + ' – Nordic PC Admin';
+    showToast('Artikel sparad.', 't-green');
+  }
+
+  // Keep status select in sync with what was actually saved
+  document.getElementById('f-status').value = status;
+  onStatusChange();
+}
+</script>
+</body>
+</html>

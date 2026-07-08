@@ -9,37 +9,48 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="admin-shared.css">
 <style>
-.page-hd{margin-bottom:1.75rem;}
-.page-hd h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.85rem;letter-spacing:0.02em;text-transform:uppercase;}
+/* ── Page header ── */
+.page-hd { margin-bottom: 1.75rem; }
+.page-hd h1 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:1.85rem; letter-spacing:0.02em; text-transform:uppercase; }
 
-/* Category filter row above grid */
-.cat-filter-bar{display:flex;align-items:center;gap:0.6rem;margin-bottom:0.85rem;flex-wrap:wrap;}
-.cat-btn{background:var(--dark3);border:1px solid rgba(255,255,255,0.08);color:var(--gray-light);padding:0.35rem 0.9rem;border-radius:5px;font-family:'Barlow',sans-serif;font-size:0.76rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:background 0.18s,border-color 0.18s,color 0.18s;white-space:nowrap;}
-.cat-btn:hover{border-color:rgba(255,255,255,0.25);color:var(--white);}
-.cat-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+/* ── Filter/search toolbar ── */
+.media-toolbar {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1.25rem; flex-wrap: wrap;
+}
+.media-toolbar .filter-search { width: 210px; }
+.cat-select {
+  background: var(--dark3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
+  padding: 0.42rem 0.85rem; color: var(--white); font-family:'Barlow',sans-serif;
+  font-size: 0.84rem; outline: none; cursor: pointer; min-height: 38px;
+  transition: border-color 0.2s;
+}
+.cat-select:focus { border-color: var(--blue); }
+.cat-select option { background: var(--dark3); }
 
-/* Modal positioning */
-.media-modal-card{position:relative;}
-.media-modal-close{position:absolute;top:0.75rem;right:0.75rem;background:transparent;border:none;color:var(--gray);font-size:1.15rem;cursor:pointer;line-height:1;padding:0.25rem;z-index:1;}
-.media-modal-close:hover{color:var(--white);}
+/* ── Modal positioning & close btn ── */
+.media-modal-card  { position: relative; }
+.mm-close {
+  position: absolute; top: 0.75rem; right: 0.75rem; z-index: 2;
+  background: transparent; border: none; color: var(--gray);
+  font-size: 1.15rem; cursor: pointer; line-height: 1; padding: 0.25rem;
+}
+.mm-close:hover { color: var(--white); }
 
-/* Inline delete confirm inside modal */
-.delete-confirm-row{display:none;align-items:center;gap:0.65rem;flex-wrap:wrap;padding:0.7rem 0.9rem;background:var(--red-dim);border:1px solid rgba(232,64,64,0.3);border-radius:7px;}
-.delete-confirm-row.show{display:flex;}
-.delete-confirm-row span{font-size:0.82rem;color:#ffaaaa;font-weight:600;flex:1;}
+/* ── Inline delete confirm (inside modal form) ── */
+.del-confirm {
+  display: none; gap: 0.6rem; align-items: center; flex-wrap: wrap;
+  background: var(--red-dim); border: 1px solid rgba(232,64,64,0.3);
+  border-radius: 7px; padding: 0.65rem 0.85rem;
+}
+.del-confirm.show  { display: flex; }
+.del-confirm span  { font-size: 0.82rem; color: #ffaaaa; font-weight: 600; flex: 1; }
 
-/* Upload list appears right below the zone */
-.media-upload-list{margin-bottom:1.5rem;}
+/* ── Upload list below zone ── */
+.upload-list-wrap { margin-bottom: 1.5rem; }
 
-/* Count + search on same row as categories */
-.media-toolbar{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;}
-.media-toolbar .filter-search{width:200px;}
-.media-toolbar .media-count{margin-left:auto;}
-
-@media(max-width:540px){
-  .media-toolbar .filter-search{width:100%;}
-  .cat-filter-bar{gap:0.4rem;}
-  .cat-btn{font-size:0.7rem;padding:0.3rem 0.65rem;}
+@media (max-width: 540px) {
+  .media-toolbar .filter-search { width: 100%; }
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -53,38 +64,46 @@
 
   <main class="admin-main">
 
-    <div class="page-hd">
-      <h1>Mediabibliotek</h1>
-    </div>
+    <div class="page-hd"><h1>Mediabibliotek</h1></div>
 
-    <!-- Upload zone -->
-    <div class="media-upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+    <!-- ── UPLOAD ZONE ── -->
+    <div class="media-upload-zone" id="upload-zone"
+         onclick="document.getElementById('file-input').click()">
       <input type="file" id="file-input" accept="image/*" multiple hidden>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="16 16 12 12 8 16"/>
+        <line x1="12" y1="12" x2="12" y2="21"/>
         <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
       </svg>
       <p>Dra &amp; sl&#228;pp bilder hit, eller klicka f&#246;r att v&#228;lja</p>
       <span>PNG, JPG, GIF, WebP &middot; max 10 MB per fil</span>
     </div>
 
-    <!-- Per-file upload progress (shown during upload) -->
-    <div class="media-upload-list" id="upload-list" style="display:none;"></div>
-
-    <!-- Category filter chips -->
-    <div class="cat-filter-bar" id="cat-filter-bar">
-      <!-- Populated by renderCategoryFilters() -->
+    <!-- Upload progress rows (hidden until upload starts) -->
+    <div class="upload-list-wrap">
+      <div class="media-upload-list" id="upload-list" style="display:none;"></div>
     </div>
 
-    <!-- Search + count toolbar -->
+    <!-- ── FILTER / SEARCH TOOLBAR ── -->
     <div class="media-toolbar">
+      <select class="cat-select" id="cat-select" onchange="applyFilters()">
+        <option value="all">Alla kategorier</option>
+        <option value="blog">Blogg</option>
+        <option value="hero">Hero</option>
+        <option value="portfolio">Portfolio</option>
+        <option value="prebuilt">Prebuilt</option>
+        <option value="team">Team</option>
+        <option value="logo">Logotyper</option>
+        <option value="marketing">Marknadsf&#246;ring</option>
+        <option value="uncategorized">Okategoriserad</option>
+      </select>
       <input class="filter-search" id="search-input" type="search"
-             placeholder="S&#246;k filnamn, alt-text&#8230;"
-             oninput="applyFilters()">
+             placeholder="S&#246;k filnamn, alt-text&#8230;" oninput="applyFilters()">
       <span class="media-count" id="media-count"></span>
     </div>
 
-    <!-- Thumbnail grid -->
+    <!-- ── THUMBNAIL GRID ── -->
     <div class="media-grid" id="media-grid">
       <div class="media-empty">Laddar&#8230;</div>
     </div>
@@ -92,129 +111,144 @@
   </main>
 </div><!-- /#app -->
 
-<!-- Detail / edit modal -->
+
+<!-- ═══════════════════════════════════════
+     DETAIL MODAL
+════════════════════════════════════════ -->
 <div class="media-modal-overlay" id="media-modal">
   <div class="media-modal-card">
-    <button class="media-modal-close" onclick="closeMediaModal()" aria-label="St&#228;ng">&#10005;</button>
 
+    <button class="mm-close" onclick="closeModal()" aria-label="St&#228;ng">&#10005;</button>
+
+    <!-- Left: image preview -->
     <div class="media-modal-preview">
-      <img id="modal-preview-img" src="" alt="">
+      <img id="mm-img" src="" alt="">
     </div>
 
+    <!-- Right: editable fields + actions -->
     <div class="media-modal-form">
-      <div class="media-modal-title" id="modal-filename"></div>
 
-      <div class="media-meta-row" id="modal-meta"></div>
+      <div class="media-modal-title" id="mm-filename"></div>
+
+      <div class="media-meta-row" id="mm-meta"></div>
 
       <div class="media-field">
-        <label for="modal-alt">Alt-text</label>
-        <input type="text" id="modal-alt" placeholder="Beskriv bilden f&#246;r sk&#228;rml&#228;sare &amp; SEO" maxlength="200">
+        <label for="mm-alt">Alt-text</label>
+        <input type="text" id="mm-alt"
+               placeholder="Beskriv bilden (SEO &amp; tillg&#228;nglighet)" maxlength="200">
       </div>
 
       <div class="media-field">
-        <label for="modal-caption">Bildtext (valfri)</label>
-        <textarea id="modal-caption" rows="2" placeholder="Visas under bilden i artiklar" maxlength="300"></textarea>
+        <label for="mm-caption">Bildtext</label>
+        <textarea id="mm-caption" rows="2"
+                  placeholder="Visas under bilden i artiklar (valfri)" maxlength="300"></textarea>
       </div>
 
       <div class="media-field">
-        <label for="modal-category">Kategori</label>
-        <select id="modal-category">
-          <!-- Options populated from CATEGORIES constant -->
+        <label for="mm-category">Kategori</label>
+        <select id="mm-category">
+          <option value="uncategorized">Okategoriserad</option>
+          <option value="blog">Blogg</option>
+          <option value="hero">Hero</option>
+          <option value="portfolio">Portfolio</option>
+          <option value="prebuilt">Prebuilt</option>
+          <option value="team">Team</option>
+          <option value="logo">Logotyper</option>
+          <option value="marketing">Marknadsf&#246;ring</option>
         </select>
       </div>
 
-      <!-- Inline delete confirm row (hidden until delete is clicked) -->
-      <div class="delete-confirm-row" id="delete-confirm-row">
+      <!-- Inline delete confirmation (hidden until "Ta bort" clicked) -->
+      <div class="del-confirm" id="del-confirm">
         <span>Radera bilden permanent?</span>
-        <button class="confirm-yes" onclick="executeMediaDelete()">Ja, radera</button>
-        <button class="confirm-no" onclick="cancelDeleteConfirm()">Avbryt</button>
+        <button class="confirm-yes" onclick="confirmDelete()">Ja, radera</button>
+        <button class="confirm-no"  onclick="cancelDelete()">Avbryt</button>
       </div>
 
       <div class="media-modal-actions">
-        <button class="media-save-btn" onclick="saveMediaMeta()">Spara</button>
-        <button class="media-url-btn" onclick="copyMediaUrl()">Kopiera URL</button>
-        <button class="media-del-btn" id="modal-delete-btn" onclick="showDeleteConfirm()">Radera</button>
+        <button class="media-save-btn" onclick="saveModalMeta()">Spara &#228;ndringar</button>
+        <button class="media-url-btn"  onclick="copyModalUrl()">Kopiera URL</button>
+        <button class="media-del-btn"  id="mm-del-btn" onclick="startDelete()">Ta bort</button>
       </div>
-    </div>
 
+    </div>
   </div>
 </div>
 
-<!-- Toast -->
+
 <div class="toast" id="toast"></div>
 
+
+<!-- ═══════════════════════════════════════
+     SCRIPT
+════════════════════════════════════════ -->
 <script>
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
 // CONSTANTS
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
 
-const MAX_MEDIA_SIZE = 10 * 1024 * 1024; // 10 MB
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // 10 MB
 
-// id = value stored in DB; label = display name
-const CATEGORIES = [
-  { id: 'uncategorized', label: 'Okategoriserad' },
-  { id: 'blogg',         label: 'Blogg'          },
-  { id: 'hero',          label: 'Hero'           },
-  { id: 'portfolio',     label: 'Portfolio'      },
-  { id: 'prebuilt',      label: 'Prebuilt'       },
-  { id: 'team',          label: 'Team'           },
-  { id: 'logotyper',     label: 'Logotyper'      },
-  { id: 'marknadsforing',label: 'Marknadsf&#246;ring' },
-];
+// Map stored category values → display labels (used in grid + modal)
+const CAT_LABELS = {
+  blog:          'Blogg',
+  hero:          'Hero',
+  portfolio:     'Portfolio',
+  prebuilt:      'Prebuilt',
+  team:          'Team',
+  logo:          'Logotyper',
+  marketing:     'Marknadsföring',
+  uncategorized: 'Okategoriserad',
+};
 
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
 // STATE
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
 
-let allMedia       = [];     // full unfiltered list from DB
-let currentCat     = 'all';  // active category filter
-let currentModalId = null;   // media_library row id open in modal
+let allMedia      = [];   // full unfiltered list from DB
+let activeModalId = null; // id of the row currently open in the modal
 
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
 // INIT
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
 
 (async function init() {
-  const session = await checkAuth();
+  const session = await checkAuth(); // redirects to employe.html if no session
   if (!session) return;
 
   renderAdminNav('media');
   document.getElementById('sidebar-user-email').textContent = session.user.email;
   document.getElementById('app').style.display = 'flex';
 
-  buildCategoryFilters();
-  buildModalCategoryOptions();
   setupUploadZone();
-  await loadMediaLibrary();
+  await loadMedia();
 })();
 
-// ═══════════════════════════════════════════
-// DATA — load & filter
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
+// DATA  ─  load & filter
+// ─────────────────────────────────────────
 
-async function loadMediaLibrary() {
+async function loadMedia() {
   const { data, error } = await supabaseClient
     .from('media_library')
     .select('id,file_name,storage_path,public_url,alt_text,caption,category,file_size,width,height,mime_type,uploaded_at')
     .order('uploaded_at', { ascending: false });
 
   if (error) {
-    showToast('Fel vid h&#228;mtning: ' + error.message, 't-red');
+    showToast('Fel vid hämtning: ' + error.message, 't-red');
+    renderGrid([]);
     return;
   }
-
   allMedia = data || [];
   applyFilters();
 }
 
-// Central filter + search + render — call whenever state changes
+// Single source of truth for what's shown in the grid
 function applyFilters() {
-  const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
+  const cat = document.getElementById('cat-select').value;
+  const q   = (document.getElementById('search-input').value || '').toLowerCase().trim();
 
-  let list = currentCat === 'all'
-    ? allMedia
-    : allMedia.filter(m => m.category === currentCat);
-
+  let list = cat === 'all' ? allMedia : allMedia.filter(m => m.category === cat);
   if (q) {
     list = list.filter(m =>
       (m.file_name || '').toLowerCase().includes(q) ||
@@ -222,90 +256,67 @@ function applyFilters() {
     );
   }
 
-  const countEl = document.getElementById('media-count');
-  countEl.textContent = list.length + ' ' + (list.length === 1 ? 'bild' : 'bilder');
+  const n = list.length;
+  document.getElementById('media-count').textContent =
+    n + (n === 1 ? ' bild' : ' bilder');
 
-  renderMediaGrid(list);
+  renderGrid(list);
 }
 
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
 // GRID RENDERER
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
 
-function renderMediaGrid(list) {
+function renderGrid(list) {
   const grid = document.getElementById('media-grid');
 
   if (!list.length) {
     const q = (document.getElementById('search-input').value || '').trim();
     grid.innerHTML = `<div class="media-empty">${
-      q ? 'Inga tr&#228;ffar f&#246;r &#8220;' + escH(q) + '&#8221;.' : 'Inga bilder &#228;nnu &#8212; ladda upp n&#229;got!'
+      q ? 'Inga träffar för &#8220;' + escH(q) + '&#8221;.'
+        : 'Inga bilder ännu &#8212; ladda upp något!'
     }</div>`;
     return;
   }
 
   grid.innerHTML = list.map(m => {
-    const catLabel = (CATEGORIES.find(c => c.id === m.category) || {}).label || escH(m.category || '');
-    const sizeStr  = formatFileSize(m.file_size);
-
-    return `<div class="media-card" onclick="openMediaModal(${m.id})">
-      <img class="media-card-thumb" src="${escAttr(m.public_url)}" alt="${escAttr(m.alt_text || m.file_name)}" loading="lazy">
+    const label   = CAT_LABELS[m.category] || escH(m.category || '');
+    const sizeStr = formatBytes(m.file_size);
+    return `<div class="media-card" onclick="openModal(${m.id})">
+      <img class="media-card-thumb"
+           src="${escAttr(m.public_url)}"
+           alt="${escAttr(m.alt_text || m.file_name)}"
+           loading="lazy">
       <div class="media-card-body">
         <div class="media-card-name">${escH(m.file_name)}</div>
         <div class="media-card-meta">
-          <span class="media-cat-badge">${catLabel}</span>
+          <span class="media-cat-badge">${label}</span>
           <span class="media-size">${sizeStr}</span>
         </div>
       </div>
       <div class="media-card-hover">
-        <button class="media-copy-btn" onclick="event.stopPropagation();copyUrl('${escAttr(m.public_url)}')">Kopiera URL</button>
+        <button class="media-copy-btn"
+                onclick="event.stopPropagation(); copyUrl('${escAttr(m.public_url)}')">
+          Kopiera URL
+        </button>
       </div>
     </div>`;
   }).join('');
 }
 
-// ═══════════════════════════════════════════
-// CATEGORY UI
-// ═══════════════════════════════════════════
-
-function buildCategoryFilters() {
-  const bar = document.getElementById('cat-filter-bar');
-  bar.innerHTML =
-    `<button class="cat-btn active" data-cat="all" onclick="setCat('all')">Alla</button>` +
-    CATEGORIES.map(c =>
-      `<button class="cat-btn" data-cat="${c.id}" onclick="setCat('${c.id}')">${c.label}</button>`
-    ).join('');
-}
-
-function buildModalCategoryOptions() {
-  const sel = document.getElementById('modal-category');
-  sel.innerHTML = CATEGORIES.map(c =>
-    `<option value="${c.id}">${c.label}</option>`
-  ).join('');
-}
-
-function setCat(cat) {
-  currentCat = cat;
-  document.querySelectorAll('.cat-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.cat === cat);
-  });
-  applyFilters();
-}
-
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
 // UPLOAD ZONE SETUP
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
 
 function setupUploadZone() {
   const zone  = document.getElementById('upload-zone');
   const input = document.getElementById('file-input');
 
-  // File input change
   input.addEventListener('change', () => {
-    if (input.files.length) handleFiles(Array.from(input.files));
-    input.value = ''; // reset so the same file can be re-selected
+    if (input.files.length) handleUpload(Array.from(input.files));
+    input.value = ''; // reset so same file can be re-selected
   });
 
-  // Drag events
   zone.addEventListener('dragover', e => {
     e.preventDefault();
     zone.classList.add('drag-over');
@@ -317,75 +328,75 @@ function setupUploadZone() {
     e.preventDefault();
     zone.classList.remove('drag-over');
     const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-    if (files.length) handleFiles(files);
+    if (files.length) handleUpload(files);
     else showToast('Endast bildfiler accepteras.', 't-amber');
   });
 }
 
-// ═══════════════════════════════════════════
-// UPLOAD PIPELINE
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
+// UPLOAD HANDLER  ─  orchestrates per-file pipeline
+// ─────────────────────────────────────────
 
-async function handleFiles(files) {
-  const list = document.getElementById('upload-list');
-  list.style.display = 'flex';
+async function handleUpload(files) {
+  const listEl = document.getElementById('upload-list');
+  listEl.style.display = 'flex';
 
-  // Create a progress item per file, then upload in parallel (cap at 3 concurrent)
-  const items = files.map(file => {
-    const el = document.createElement('div');
-    el.className = 'media-upload-item';
-    el.innerHTML = `<span class="u-name">${escH(file.name)}</span>
-                    <span class="u-status">V&#228;ntar&#8230;</span>`;
-    list.appendChild(el);
-    return { file, el };
+  // Create a progress row per file, then upload up to 3 concurrently
+  const queue = files.map(file => {
+    const row = document.createElement('div');
+    row.className = 'media-upload-item';
+    row.innerHTML = `<span class="u-name">${escH(file.name)}</span>
+                     <span class="u-status">Väntar…</span>`;
+    listEl.appendChild(row);
+    return { file, row };
   });
 
-  // Upload concurrently in batches of 3
-  for (let i = 0; i < items.length; i += 3) {
-    await Promise.all(items.slice(i, i + 3).map(({ file, el }) => uploadSingleFile(file, el)));
+  for (let i = 0; i < queue.length; i += 3) {
+    await Promise.all(
+      queue.slice(i, i + 3).map(({ file, row }) => uploadOne(file, row))
+    );
   }
 
-  await loadMediaLibrary(); // refresh grid with new uploads
+  await loadMedia(); // refresh grid with all newly uploaded images
 }
 
-async function uploadSingleFile(file, itemEl) {
+// ─────────────────────────────────────────
+// UPLOAD PIPELINE  ─  single file
+// ─────────────────────────────────────────
+
+async function uploadOne(file, rowEl) {
   const setStatus = (text, cls) => {
-    const s = itemEl.querySelector('.u-status');
-    s.textContent = text;
-    itemEl.className = 'media-upload-item' + (cls ? ' ' + cls : '');
+    rowEl.querySelector('.u-status').textContent = text;
+    rowEl.className = 'media-upload-item' + (cls ? ' ' + cls : '');
   };
 
-  if (!file.type.startsWith('image/')) {
-    setStatus('Ej en bildfil', 'u-error');
-    return;
-  }
-  if (file.size > MAX_MEDIA_SIZE) {
-    setStatus('&#214;verstiger 10 MB', 'u-error');
-    return;
-  }
+  // Validate
+  if (!file.type.startsWith('image/')) { setStatus('Ej en bildfil', 'u-error'); return; }
+  if (file.size > MAX_UPLOAD_BYTES)    { setStatus('Överstiger 10 MB', 'u-error'); return; }
 
-  setStatus('Laddar upp&#8230;', '');
+  setStatus('Laddar upp…', '');
 
-  // 1. Upload to Storage
-  const storagePath = Date.now() + '-' + sanitizeFileName(file.name);
+  // 1. Upload file to Storage
+  const storagePath = Date.now() + '-' + sanitizePath(file.name);
   const { error: storageErr } = await supabaseClient.storage
     .from('media')
     .upload(storagePath, file, { contentType: file.type });
 
   if (storageErr) {
     setStatus('Lagring: ' + storageErr.message, 'u-error');
+    showToast(file.name + ': ' + storageErr.message, 't-red');
     return;
   }
 
-  // 2. Get public URL
+  // 2. Get public URL (synchronous in v2)
   const { data: urlData } = supabaseClient.storage
     .from('media')
     .getPublicUrl(storagePath);
 
-  // 3. Get image dimensions
+  // 3. Read image dimensions client-side
   const { width, height } = await getImageDimensions(file);
 
-  // 4. Insert metadata row
+  // 4. Insert metadata row into media_library
   const row = {
     file_name:    file.name,
     storage_path: storagePath,
@@ -404,156 +415,162 @@ async function uploadSingleFile(file, itemEl) {
     .insert(row);
 
   if (dbErr) {
-    // Storage succeeded but DB failed — report both outcomes clearly
-    setStatus('Uppladdad &#8212; DB-fel: ' + dbErr.message, 'u-error');
-    showToast('Lagring OK men raden saknas: ' + dbErr.message, 't-amber');
+    // Storage file exists but row missing — log both outcomes clearly
+    setStatus('Uppladdad — DB-fel: ' + dbErr.message, 'u-error');
+    showToast(file.name + ': fil uppladdad men DB-rad saknas.', 't-amber');
     return;
   }
 
-  setStatus('&#10003; Klart', 'u-done');
+  setStatus('✓ Klart', 'u-done');
+  showToast(file.name + ' uppladdad.', 't-green');
 }
 
-// ═══════════════════════════════════════════
-// DETAIL MODAL — open / close / save
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
+// DETAIL MODAL  ─  open / close
+// ─────────────────────────────────────────
 
-function openMediaModal(id) {
+function openModal(id) {
   const m = allMedia.find(x => x.id === id);
   if (!m) return;
+  activeModalId = id;
 
-  currentModalId = id;
-
-  // Preview
-  const img = document.getElementById('modal-preview-img');
+  // Populate preview
+  const img = document.getElementById('mm-img');
   img.src = m.public_url;
   img.alt = m.alt_text || m.file_name;
 
   // Header
-  document.getElementById('modal-filename').textContent = m.file_name;
+  document.getElementById('mm-filename').textContent = m.file_name;
 
-  // Meta strip
+  // Read-only meta strip
   const dateStr = m.uploaded_at
     ? new Date(m.uploaded_at).toLocaleDateString('sv-SE', { year:'numeric', month:'short', day:'numeric' })
     : '—';
-  document.getElementById('modal-meta').innerHTML =
-    `<span>${formatFileSize(m.file_size)}</span>` +
-    (m.width ? `<span>${m.width} &times; ${m.height} px</span>` : '') +
+  document.getElementById('mm-meta').innerHTML =
+    `<span>${formatBytes(m.file_size)}</span>` +
+    (m.width ? `<span>${m.width} × ${m.height} px</span>` : '') +
     `<span>${escH(m.mime_type || '')}</span>` +
-    `<span>${dateStr}</span>`;
+    `<span>Uppladdad ${dateStr}</span>`;
 
   // Editable fields
-  document.getElementById('modal-alt').value     = m.alt_text  || '';
-  document.getElementById('modal-caption').value = m.caption   || '';
-  document.getElementById('modal-category').value = m.category || 'uncategorized';
+  document.getElementById('mm-alt').value      = m.alt_text  || '';
+  document.getElementById('mm-caption').value  = m.caption   || '';
+  document.getElementById('mm-category').value = m.category  || 'uncategorized';
 
   // Reset delete confirm state
-  cancelDeleteConfirm();
+  cancelDelete();
 
   document.getElementById('media-modal').classList.add('open');
 }
 
-function closeMediaModal() {
+function closeModal() {
   document.getElementById('media-modal').classList.remove('open');
-  currentModalId = null;
+  activeModalId = null;
 }
 
-async function saveMediaMeta() {
-  if (currentModalId === null) return;
+// ─────────────────────────────────────────
+// DETAIL MODAL  ─  save metadata
+// ─────────────────────────────────────────
 
-  const alt      = document.getElementById('modal-alt').value.trim();
-  const caption  = document.getElementById('modal-caption').value.trim();
-  const category = document.getElementById('modal-category').value;
+async function saveModalMeta() {
+  if (activeModalId === null) return;
+
+  const alt      = document.getElementById('mm-alt').value.trim();
+  const caption  = document.getElementById('mm-caption').value.trim();
+  const category = document.getElementById('mm-category').value;
 
   const { error } = await supabaseClient
     .from('media_library')
     .update({ alt_text: alt, caption: caption || null, category })
-    .eq('id', currentModalId);
+    .eq('id', activeModalId);
 
-  if (error) {
-    showToast('Sparningsfel: ' + error.message, 't-red');
-    return;
-  }
+  if (error) { showToast('Sparningsfel: ' + error.message, 't-red'); return; }
 
-  // Update local state so the grid reflects the change immediately
-  const m = allMedia.find(x => x.id === currentModalId);
+  // Sync local state so grid reflects changes immediately without a DB round-trip
+  const m = allMedia.find(x => x.id === activeModalId);
   if (m) { m.alt_text = alt; m.caption = caption || null; m.category = category; }
 
   applyFilters();
   showToast('Metadata sparad.', 't-green');
 }
 
-function copyMediaUrl() {
-  const m = allMedia.find(x => x.id === currentModalId);
-  if (!m) return;
-  copyUrl(m.public_url);
+// ─────────────────────────────────────────
+// DETAIL MODAL  ─  copy URL
+// ─────────────────────────────────────────
+
+function copyModalUrl() {
+  const m = allMedia.find(x => x.id === activeModalId);
+  if (m) copyUrl(m.public_url);
 }
 
-// ═══════════════════════════════════════════
-// DELETE — two-step confirm inside modal
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
+// DELETE  ─  two-step confirm inside modal
+// ─────────────────────────────────────────
 
-function showDeleteConfirm() {
-  document.getElementById('delete-confirm-row').classList.add('show');
-  document.getElementById('modal-delete-btn').style.display = 'none';
+function startDelete() {
+  document.getElementById('del-confirm').classList.add('show');
+  document.getElementById('mm-del-btn').style.display = 'none';
 }
 
-function cancelDeleteConfirm() {
-  document.getElementById('delete-confirm-row').classList.remove('show');
-  document.getElementById('modal-delete-btn').style.display = '';
+function cancelDelete() {
+  document.getElementById('del-confirm').classList.remove('show');
+  document.getElementById('mm-del-btn').style.display = '';
 }
 
-async function executeMediaDelete() {
-  if (currentModalId === null) return;
+async function confirmDelete() {
+  if (activeModalId === null) return;
 
-  const m = allMedia.find(x => x.id === currentModalId);
-  if (!m) { closeMediaModal(); return; }
+  const m = allMedia.find(x => x.id === activeModalId);
+  if (!m) { closeModal(); return; }
 
-  // 1. Remove from Storage
+  // 1. Remove Storage object
   const { error: storageErr } = await supabaseClient.storage
     .from('media')
     .remove([m.storage_path]);
 
   if (storageErr) {
+    // File still exists — abort entirely so the DB row is not orphaned
     showToast('Lagring: ' + storageErr.message, 't-red');
-    cancelDeleteConfirm();
+    cancelDelete();
     return;
   }
 
-  // 2. Remove DB row
+  // 2. Remove DB row (storage already gone)
   const { error: dbErr } = await supabaseClient
     .from('media_library')
     .delete()
     .eq('id', m.id);
 
   if (dbErr) {
-    // Storage file is gone but row lingers — report clearly
-    showToast('Databas: ' + dbErr.message + ' (filen &#228;r borttagen fr&#229;n lagring)', 't-amber');
+    // File is gone but the row lingers — flag explicitly
+    showToast('Filen är borttagen men posten kvarstår i databasen: ' + dbErr.message, 't-amber');
   } else {
     showToast('Bilden raderad.', 't-amber');
   }
 
+  // Remove from local state regardless (file is gone either way)
   allMedia = allMedia.filter(x => x.id !== m.id);
-  closeMediaModal();
+  closeModal();
   applyFilters();
 }
 
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
 // HELPERS
-// ═══════════════════════════════════════════
+// ─────────────────────────────────────────
 
-// Reads dimensions from a File object via a temporary Image element
+// Reads natural dimensions from a File using a temporary object URL
 function getImageDimensions(file) {
   return new Promise(resolve => {
     const url = URL.createObjectURL(file);
     const img = new Image();
-    img.onload  = () => { URL.revokeObjectURL(url); resolve({ width: img.naturalWidth, height: img.naturalHeight }); };
+    img.onload  = () => { URL.revokeObjectURL(url); resolve({ width: img.naturalWidth,  height: img.naturalHeight }); };
     img.onerror = () => { URL.revokeObjectURL(url); resolve({ width: 0, height: 0 }); };
     img.src = url;
   });
 }
 
-// Returns a storage-safe filename (no spaces, no special chars)
-function sanitizeFileName(name) {
+// Returns a lowercase, space-free filename safe for use in storage paths
+function sanitizePath(name) {
   return name
     .toLowerCase()
     .replace(/\s+/g, '-')
@@ -561,11 +578,11 @@ function sanitizeFileName(name) {
     .replace(/-+/g, '-');
 }
 
-function formatFileSize(bytes) {
-  if (!bytes) return '—';
-  if (bytes < 1024)        return bytes + ' B';
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+function formatBytes(n) {
+  if (!n) return '—';
+  if (n < 1024)           return n + ' B';
+  if (n < 1024 * 1024)    return (n / 1024).toFixed(1) + ' KB';
+  return (n / (1024 * 1024)).toFixed(1) + ' MB';
 }
 
 function copyUrl(url) {
@@ -574,25 +591,24 @@ function copyUrl(url) {
     .catch(() => showToast('Kunde inte kopiera.', 't-amber'));
 }
 
-function escH(str) {
-  if (str == null) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function escH(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-function escAttr(str) {
-  if (str == null) return '';
-  return String(str).replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+function escAttr(s) {
+  if (s == null) return '';
+  return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
-// Close modal on overlay click
+// ─────────────────────────────────────────
+// MODAL CLOSE EVENTS
+// ─────────────────────────────────────────
+
 document.getElementById('media-modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('media-modal')) closeMediaModal();
+  if (e.target === document.getElementById('media-modal')) closeModal();
 });
-
-// Close on Escape
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeMediaModal();
-});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
 </body>
 </html>

@@ -8,393 +8,358 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="admin-shared.css">
-<link rel="stylesheet" href="article-typography.css">
-<!-- markdown-renderer.js dependencies (must precede the renderer) -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="admin-shared.js"></script>
-<script src="markdown-renderer.js"></script>
 <style>
-/* ── PAGE HEADER ── */
+/* ── Page header ── */
 .page-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;flex-wrap:wrap;gap:1rem;}
 .page-hd h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.85rem;letter-spacing:0.02em;text-transform:uppercase;}
+a.btn-primary{display:inline-block;text-decoration:none;}
 
-/* ── BLOG LIST: post-title + excerpt cell ── */
-.post-title{font-weight:700;color:var(--white);display:block;margin-bottom:0.2rem;}
-.post-excerpt{font-size:0.78rem;color:var(--gray);display:block;max-width:320px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.post-cat-badge{display:inline-block;background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.22);color:var(--accent);font-size:0.68rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:0.18rem 0.5rem;border-radius:3px;}
+/* ── Blog status badges (extends admin-shared .status-badge) ── */
+.s-draft    {background:rgba(136,153,187,0.14);color:var(--gray-light);}
+.s-draft::before{background:var(--gray);}
+.s-published{background:var(--green-dim);color:#6ff0b0;}
+.s-published::before{background:var(--green);}
+.s-scheduled{background:var(--amber-dim);color:#ffd080;}
+.s-scheduled::before{background:var(--amber);}
 
-/* Blog-specific status badges (supplements admin-shared.css status-badge) */
-.s-draft{background:rgba(136,153,187,0.14);color:var(--gray-light);}.s-draft::before{background:var(--gray);}
-.s-published{background:var(--green-dim);color:#6ff0b0;}.s-published::before{background:var(--green);}
+/* ── Language chip ── */
+.lang-badge{display:inline-block;font-size:0.6rem;font-weight:700;letter-spacing:0.08em;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);color:var(--accent);padding:0.1rem 0.38rem;border-radius:3px;margin-left:0.4rem;vertical-align:middle;}
 
-/* ── EDITOR VIEW ── */
-#blog-editor-view{display:none;}
+/* ── Category select in filter bar ── */
+.cat-select{background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.42rem 0.85rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.84rem;outline:none;cursor:pointer;min-height:38px;transition:border-color 0.2s;}
+.cat-select:focus{border-color:var(--blue);}
+.cat-select option{background:var(--dark3);}
+.result-count{font-size:0.78rem;color:var(--gray);font-weight:600;margin-left:auto;white-space:nowrap;}
 
-.editor-topbar{
-  display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;
-  margin-bottom:1.5rem;padding-bottom:1.25rem;
-  border-bottom:1px solid rgba(255,255,255,0.07);
-}
-.editor-back-btn{
-  background:transparent;border:1px solid rgba(255,255,255,0.14);color:var(--gray-light);
-  padding:0.48rem 0.9rem;border-radius:6px;font-family:'Barlow',sans-serif;
-  font-size:0.8rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;
-  cursor:pointer;transition:border-color 0.2s,color 0.2s;display:flex;align-items:center;gap:0.4rem;
-}
-.editor-back-btn:hover{border-color:rgba(255,255,255,0.35);color:var(--white);}
-.editor-title-input{
-  flex:1;min-width:200px;background:transparent;border:none;border-bottom:2px solid rgba(255,255,255,0.1);
-  color:var(--white);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.45rem;
-  letter-spacing:0.02em;text-transform:uppercase;padding:0.3rem 0;outline:none;
-  transition:border-color 0.2s;
-}
-.editor-title-input::placeholder{color:rgba(255,255,255,0.2);}
-.editor-title-input:focus{border-color:var(--blue);}
-.editor-actions{display:flex;align-items:center;gap:0.5rem;flex-shrink:0;flex-wrap:wrap;}
-.editor-stat{font-size:0.74rem;color:var(--gray);white-space:nowrap;}
+/* ── Bulk action bar ── */
+.bulk-bar{display:none;align-items:center;gap:0.75rem;background:rgba(26,79,255,0.1);border:1px solid rgba(26,79,255,0.25);border-radius:8px;padding:0.6rem 1rem;margin-bottom:0.9rem;flex-wrap:wrap;}
+.bulk-bar.show{display:flex;}
+.bulk-count{font-size:0.82rem;font-weight:700;color:#7aa5ff;white-space:nowrap;}
+.bulk-sep{width:1px;height:18px;background:rgba(255,255,255,0.12);flex-shrink:0;}
+.bulk-sel{background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:5px;padding:0.38rem 0.75rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.8rem;outline:none;cursor:pointer;min-height:34px;}
+.bulk-sel option{background:var(--dark3);}
 
-/* Metadata row beneath topbar */
-.editor-meta-row{
-  display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.85rem;margin-bottom:1.25rem;
-}
-.editor-meta-field{display:flex;flex-direction:column;gap:0.32rem;}
-.editor-meta-field label{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);}
-.editor-meta-field input,
-.editor-meta-field select{
-  background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:6px;
-  padding:0.55rem 0.8rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.88rem;
-  outline:none;transition:border-color 0.2s;min-height:40px;
-}
-.editor-meta-field input:focus,
-.editor-meta-field select:focus{border-color:var(--blue);}
-.editor-meta-field select option{background:var(--dark3);}
+/* ── Table tweaks ── */
+.cb-col{width:38px;padding-right:0 !important;}
+.row-cb{width:15px;height:15px;accent-color:var(--blue);cursor:pointer;vertical-align:middle;}
+.post-title-link{color:var(--white);text-decoration:none;font-weight:700;transition:color 0.15s;display:block;}
+.post-title-link:hover{color:var(--accent);}
+.post-excerpt-row{font-size:0.75rem;color:var(--gray);display:block;margin-top:0.18rem;max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
-.editor-excerpt-field{display:flex;flex-direction:column;gap:0.32rem;margin-bottom:1.1rem;}
-.editor-excerpt-field label{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);}
-.editor-excerpt-field textarea{
-  background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:6px;
-  padding:0.6rem 0.85rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.88rem;
-  outline:none;transition:border-color 0.2s;resize:vertical;min-height:62px;
-}
-.editor-excerpt-field textarea:focus{border-color:var(--blue);}
+/* ── Quick-edit pencil button ── */
+.qe-btn{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--gray);cursor:pointer;padding:0.3rem 0.5rem;border-radius:5px;transition:color 0.15s,border-color 0.15s,background 0.15s;display:inline-flex;align-items:center;}
+.qe-btn:hover{color:var(--white);border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.05);}
 
-/* Split pane */
-.editor-split{
-  display:grid;grid-template-columns:1fr 1fr;gap:1rem;
-  height:calc(100vh - 340px);min-height:380px;
-}
-.editor-pane,
-.preview-pane{
-  display:flex;flex-direction:column;border-radius:10px;overflow:hidden;
-  border:1px solid rgba(255,255,255,0.07);
-}
-.pane-label{
-  font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-  color:var(--gray);padding:0.55rem 1rem;background:var(--dark3);
-  border-bottom:1px solid rgba(255,255,255,0.06);flex-shrink:0;
-}
-.editor-textarea{
-  flex:1;background:var(--dark2);border:none;color:var(--gray-light);
-  font-family:'Courier New',Courier,monospace;font-size:0.88rem;line-height:1.7;
-  padding:1rem 1.1rem;resize:none;outline:none;overflow-y:auto;
-}
-.editor-textarea::placeholder{color:rgba(136,153,187,0.4);}
-.preview-scroll{
-  flex:1;overflow-y:auto;background:var(--dark2);padding:1.1rem 1.3rem;
-}
-/* Empty preview hint */
-.preview-hint{color:rgba(136,153,187,0.35);font-size:0.85rem;font-style:italic;margin-top:1rem;}
+/* ── Quick-edit modal ── */
+.qe-card{max-width:370px;}
+.qe-subtitle{font-size:0.82rem;color:var(--gray);margin-bottom:1.1rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.qe-fields{display:flex;flex-direction:column;gap:0.85rem;margin-bottom:1.2rem;}
+.qe-row{display:flex;gap:0.5rem;justify-content:flex-end;flex-wrap:wrap;}
 
-/* Featured image preview strip */
-.feat-img-preview{
-  display:none;width:100%;max-height:80px;object-fit:cover;border-radius:6px;
-  margin-top:0.5rem;border:1px solid rgba(255,255,255,0.07);
-}
+/* ── Pagination ── */
+.pagination{display:flex;align-items:center;justify-content:center;gap:0.4rem;margin-top:1.5rem;flex-wrap:wrap;}
+.page-btn{background:var(--dark3);border:1px solid rgba(255,255,255,0.1);color:var(--gray-light);padding:0.4rem 0.85rem;border-radius:5px;font-family:'Barlow',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;transition:border-color 0.18s,color 0.18s;min-height:34px;}
+.page-btn:hover:not(:disabled){border-color:rgba(255,255,255,0.3);color:var(--white);}
+.page-btn:disabled{opacity:0.3;cursor:not-allowed;}
+.page-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;cursor:default;}
+.page-ellipsis{font-size:0.82rem;color:var(--gray);padding:0 0.2rem;}
 
-/* Slug field read-hint */
-.slug-hint{font-size:0.66rem;color:var(--gray);margin-top:0.22rem;}
-
-/* Mobile editor: stack panes */
-@media(max-width:900px){
-  .editor-meta-row{grid-template-columns:1fr 1fr;}
-  .editor-split{grid-template-columns:1fr;height:auto;}
-  .editor-pane{height:300px;}
-  .preview-pane{height:320px;}
-}
-@media(max-width:600px){
-  .editor-meta-row{grid-template-columns:1fr;}
+@media(max-width:540px){
   .page-hd{flex-direction:column;align-items:flex-start;}
+  .result-count{margin-left:0;}
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="admin-shared.js"></script>
 </head>
 <body>
 
 <div id="app" style="display:none;">
-
   <div id="admin-nav"></div>
 
   <main class="admin-main">
 
-    <!-- ═══════════════════════════════════════
-         LIST VIEW
-    ════════════════════════════════════════ -->
-    <div id="blog-list-view">
+    <div class="page-hd">
+      <h1>Blogg</h1>
+      <a href="blog-editor.html" class="btn-primary">+ Ny artikel</a>
+    </div>
 
-      <div class="page-hd">
-        <h1>Blogg</h1>
-        <button class="btn-primary" onclick="openEditor(null)">+ Ny artikel</button>
-      </div>
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card c-all">  <div class="s-num" id="stat-total">—</div><div class="s-label">Totalt</div></div>
+      <div class="stat-card c-draft"><div class="s-num" id="stat-draft">—</div><div class="s-label">Utkast</div></div>
+      <div class="stat-card c-pub">  <div class="s-num" id="stat-pub">—</div>  <div class="s-label">Publicerade</div></div>
+      <div class="stat-card c-prog"> <div class="s-num" id="stat-sched">—</div><div class="s-label">Schemalagda</div></div>
+    </div>
 
-      <!-- Stats -->
-      <div class="stats-row">
-        <div class="stat-card c-all"><div class="s-num" id="stat-total">—</div><div class="s-label">Totalt</div></div>
-        <div class="stat-card c-draft"><div class="s-num" id="stat-draft">—</div><div class="s-label">Utkast</div></div>
-        <div class="stat-card c-pub"><div class="s-num" id="stat-pub">—</div><div class="s-label">Publicerade</div></div>
-      </div>
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <button class="filter-btn active" id="fb-all"       onclick="setStatusFilter('all')">Alla</button>
+      <button class="filter-btn"        id="fb-draft"     onclick="setStatusFilter('draft')">Utkast</button>
+      <button class="filter-btn"        id="fb-published" onclick="setStatusFilter('published')">Publicerade</button>
+      <button class="filter-btn"        id="fb-scheduled" onclick="setStatusFilter('scheduled')">Schemalagda</button>
+      <select class="cat-select" id="cat-filter" onchange="onCatChange()">
+        <option value="all">Alla kategorier</option>
+      </select>
+      <input class="filter-search" id="search-input" type="search"
+             placeholder="S&#246;k titel&#8230;" oninput="onSearchInput()">
+      <span class="result-count" id="result-count"></span>
+    </div>
 
-      <!-- Filter bar -->
-      <div class="filter-bar">
-        <button class="filter-btn active" id="fb-all"       onclick="setFilter('all')">Alla</button>
-        <button class="filter-btn"        id="fb-draft"     onclick="setFilter('draft')">Utkast</button>
-        <button class="filter-btn"        id="fb-published" onclick="setFilter('published')">Publicerade</button>
-        <input class="filter-search" id="search-input" type="search"
-               placeholder="Sök titel, kategori&#8230;" oninput="renderList()">
-      </div>
+    <!-- Bulk action bar (hidden until rows selected) -->
+    <div class="bulk-bar" id="bulk-bar">
+      <span class="bulk-count" id="bulk-count"></span>
+      <div class="bulk-sep"></div>
+      <button class="act-btn act-delete" onclick="bulkDelete()">Radera valda</button>
+      <select class="bulk-sel" id="bulk-status-sel"
+              onchange="bulkChangeStatus(this.value)">
+        <option value="">&#196;ndra status&#8230;</option>
+        <option value="draft">&#8594; Utkast</option>
+        <option value="published">&#8594; Publicerad</option>
+        <option value="scheduled">&#8594; Schemalagd</option>
+      </select>
+    </div>
 
-      <!-- Posts table -->
-      <div class="bookings-wrap">
-        <table class="bookings-table">
-          <thead>
-            <tr>
-              <th>Artikel</th>
-              <th class="hide-mobile">Kategori</th>
-              <th class="hide-mobile">Datum</th>
-              <th>Status</th>
-              <th>&#197;tg&#228;rder</th>
-            </tr>
-          </thead>
-          <tbody id="posts-tbody">
-            <tr class="loading-row"><td colspan="5">Laddar&#8230;</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <!-- Article table -->
+    <div class="bookings-wrap">
+      <table class="bookings-table">
+        <thead>
+          <tr>
+            <th class="cb-col">
+              <input type="checkbox" class="row-cb" id="select-all"
+                     onchange="toggleSelectAll(this.checked)">
+            </th>
+            <th>Artikel</th>
+            <th class="hide-mobile">Kategori</th>
+            <th>Status</th>
+            <th class="hide-mobile">Uppdaterad</th>
+            <th>&#197;tg&#228;rder</th>
+          </tr>
+        </thead>
+        <tbody id="posts-tbody">
+          <tr class="loading-row"><td colspan="6">Laddar&#8230;</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-    </div><!-- /#blog-list-view -->
-
-
-    <!-- ═══════════════════════════════════════
-         EDITOR VIEW
-    ════════════════════════════════════════ -->
-    <div id="blog-editor-view">
-
-      <!-- Top bar: back + title + actions -->
-      <div class="editor-topbar">
-        <button class="editor-back-btn" onclick="closeEditor()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          Tillbaka
-        </button>
-
-        <input type="text" class="editor-title-input" id="editor-title"
-               placeholder="Artikeltitel&#8230;" oninput="autoSlug()">
-
-        <span class="editor-stat" id="editor-stat"></span>
-
-        <div class="editor-actions">
-          <button class="btn-secondary" onclick="savePost('draft')" id="btn-draft">Spara utkast</button>
-          <button class="btn-primary"   onclick="savePost('published')" id="btn-publish">Publicera</button>
-        </div>
-      </div>
-
-      <!-- Meta fields: slug, category, featured image -->
-      <div class="editor-meta-row">
-        <div class="editor-meta-field">
-          <label for="editor-slug">Slug (URL)</label>
-          <input type="text" id="editor-slug" placeholder="min-artikel-titel" maxlength="120">
-          <div class="slug-hint" id="slug-hint"></div>
-        </div>
-        <div class="editor-meta-field">
-          <label for="editor-category">Kategori</label>
-          <select id="editor-category">
-            <option value="tips">Tips</option>
-            <option value="guide">Guide</option>
-            <option value="nyheter">Nyheter</option>
-            <option value="gaming">Gaming</option>
-            <option value="foretag">F&#246;retag</option>
-            <option value="ovrigt">&#214;vrigt</option>
-          </select>
-        </div>
-        <div class="editor-meta-field">
-          <label for="editor-feat-img">Omslagsbild (URL)</label>
-          <input type="url" id="editor-feat-img" placeholder="https://&#8230;"
-                 oninput="updateFeatImgPreview()">
-          <img id="feat-img-preview" class="feat-img-preview" alt="Förhandsvisning av omslagsbild">
-        </div>
-      </div>
-
-      <!-- Excerpt -->
-      <div class="editor-excerpt-field">
-        <label for="editor-excerpt">Ingress / sammanfattning</label>
-        <textarea id="editor-excerpt" placeholder="Kort sammanfattning som visas i artikellistan&#8230;" maxlength="300"></textarea>
-      </div>
-
-      <!-- Split: markdown input | live preview -->
-      <div class="editor-split">
-        <div class="editor-pane">
-          <div class="pane-label">Markdown</div>
-          <textarea class="editor-textarea" id="editor-content"
-                    placeholder="Skriv din artikel i Markdown&#8230;&#10;&#10;## Rubrik&#10;&#10;Text med **fetstil** och *kursiv*.&#10;&#10;- Punkt ett&#10;- Punkt tv&#229;"
-                    oninput="onContentInput()"></textarea>
-        </div>
-        <div class="preview-pane">
-          <div class="pane-label">F&#246;rhandsvisning</div>
-          <div class="preview-scroll">
-            <div class="article-content" id="preview-output">
-              <p class="preview-hint">F&#246;rhandsvisningen visas h&#228;r n&#228;r du b&#246;rjar skriva.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /#blog-editor-view -->
+    <!-- Pagination -->
+    <div class="pagination" id="pagination"></div>
 
   </main>
 </div><!-- /#app -->
 
 
-<!-- Delete confirm modal -->
+<!-- ── Confirm delete modal (single + bulk) ── -->
 <div class="modal-overlay" id="confirm-modal">
   <div class="confirm-card">
-    <h3>Ta bort artikel?</h3>
-    <p>Artikeln och all dess data raderas permanent.</p>
+    <h3 id="confirm-title">Radera artikel?</h3>
+    <p  id="confirm-msg">Artikeln raderas permanent.</p>
     <div class="confirm-actions">
       <button class="confirm-yes" id="confirm-yes-btn">Ta bort</button>
-      <button class="confirm-no" onclick="closeModal('confirm-modal')">Avbryt</button>
+      <button class="confirm-no"  onclick="closeModal('confirm-modal')">Avbryt</button>
     </div>
   </div>
 </div>
 
-<!-- Toast -->
+<!-- ── Quick-edit modal ── -->
+<div class="modal-overlay" id="qe-modal">
+  <div class="modal-card qe-card">
+    <button class="modal-close" onclick="closeModal('qe-modal')">&#10005;</button>
+    <h3>Snabbredigera</h3>
+    <div class="qe-subtitle" id="qe-subtitle"></div>
+    <div class="qe-fields">
+      <div class="admin-field">
+        <label>Status</label>
+        <select id="qe-status" class="admin-field input">
+          <option value="draft">Utkast</option>
+          <option value="published">Publicerad</option>
+          <option value="scheduled">Schemalagd</option>
+        </select>
+      </div>
+      <div class="admin-field">
+        <label>Kategori</label>
+        <select id="qe-category" class="admin-field input">
+          <option value="">— ingen kategori —</option>
+        </select>
+      </div>
+    </div>
+    <div class="qe-row">
+      <button class="btn-secondary" onclick="closeModal('qe-modal')">Avbryt</button>
+      <button class="btn-primary"   onclick="saveQuickEdit()">Spara</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 
 <script>
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════════════
 // STATE
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════════════
 
 let allPosts      = [];
-let currentFilter = 'all';
-let currentPostId = null;   // null = new post, number = editing existing
-let pendingDeleteId = null;
-let previewTimer  = null;   // debounce handle for live preview
+let allCategories = [];
+let currentStatus = 'all';
+let currentCatId  = 'all';
+let searchQuery   = '';
+let currentPage   = 1;
+const PAGE_SIZE   = 20;
+const selectedIds = new Set();
+let pendingDelId  = null;
+let qePostId      = null;
 
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════════════
 // INIT
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════════════
 
 (async function init() {
   const session = await checkAuth();
   if (!session) return;
-
   renderAdminNav('blog');
   document.getElementById('sidebar-user-email').textContent = session.user.email;
+  // Load categories + posts in parallel; show app only when both are ready
+  await Promise.all([loadCategories(), loadPosts()]);
   document.getElementById('app').style.display = 'flex';
-
-  await loadPosts();
 })();
 
-// ═══════════════════════════════════════════
-// DATA
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════════════
+// LOAD
+// ════════════════════════════════════════════════
+
+async function loadCategories() {
+  const { data, error } = await supabaseClient
+    .from('categories')
+    .select('id,name')
+    .order('sort_order');
+
+  if (error) { showToast('Kategorier: ' + error.message, 't-red'); return; }
+  allCategories = data || [];
+
+  const catFilter = document.getElementById('cat-filter');
+  const qeCat     = document.getElementById('qe-category');
+
+  allCategories.forEach(c => {
+    const mkOpt = () => Object.assign(document.createElement('option'), { value: c.id, textContent: c.name });
+    catFilter.appendChild(mkOpt());
+    qeCat.appendChild(mkOpt());
+  });
+}
 
 async function loadPosts() {
+  // Supabase FK join: categories(name) pulls the related category name via category_id foreign key
   const { data, error } = await supabaseClient
     .from('blog_posts')
-    .select('id,title,slug,excerpt,status,category,featured_image_url,published_at,created_at,updated_at')
-    .order('created_at', { ascending: false });
+    .select('id, slug, title, excerpt, status, publish_at, updated_at, language, category_id, categories(name)')
+    .order('updated_at', { ascending: false });
 
-  if (error) { showToast('Fel: ' + error.message, 't-red'); return; }
-
+  if (error) { showToast('Artiklar: ' + error.message, 't-red'); return; }
   allPosts = data || [];
   updateStats();
-  renderList();
+  applyFilters();
 }
+
+// ════════════════════════════════════════════════
+// STATS
+// ════════════════════════════════════════════════
 
 function updateStats() {
   document.getElementById('stat-total').textContent = allPosts.length;
   document.getElementById('stat-draft').textContent = allPosts.filter(p => p.status === 'draft').length;
   document.getElementById('stat-pub').textContent   = allPosts.filter(p => p.status === 'published').length;
+  document.getElementById('stat-sched').textContent = allPosts.filter(p => p.status === 'scheduled').length;
 }
 
-// ═══════════════════════════════════════════
-// LIST VIEW
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════════════
+// FILTER / SEARCH / PAGINATION
+// ════════════════════════════════════════════════
 
-function setFilter(f) {
-  currentFilter = f;
-  ['all','draft','published'].forEach(k =>
-    document.getElementById('fb-' + k).classList.toggle('active', k === f)
-  );
-  renderList();
+function applyFilters() {
+  currentPage = 1;
+  selectedIds.clear();
+  updateBulkBar();
+  renderPage();
 }
 
-function renderList() {
-  const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
-
-  let list = currentFilter === 'all' ? allPosts : allPosts.filter(p => p.status === currentFilter);
-  if (q) {
-    list = list.filter(p =>
-      (p.title    || '').toLowerCase().includes(q) ||
-      (p.category || '').toLowerCase().includes(q) ||
-      (p.excerpt  || '').toLowerCase().includes(q)
-    );
+function getFilteredList() {
+  let list = allPosts;
+  if (currentStatus !== 'all') list = list.filter(p => p.status === currentStatus);
+  if (currentCatId  !== 'all') list = list.filter(p => String(p.category_id) === String(currentCatId));
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    list = list.filter(p => (p.title || '').toLowerCase().includes(q));
   }
+  return list;
+}
 
-  const STATUS_BADGE = {
-    draft:     '<span class="status-badge s-draft">Utkast</span>',
-    published: '<span class="status-badge s-published">Publicerad</span>',
-  };
+function renderPage() {
+  const filtered  = getFilteredList();
+  const total     = filtered.length;
+  const start     = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = filtered.slice(start, start + PAGE_SIZE);
 
-  const CAT_LABELS = {
-    tips:'Tips', guide:'Guide', nyheter:'Nyheter',
-    gaming:'Gaming', foretag:'Företag', ovrigt:'Övrigt',
-  };
+  document.getElementById('result-count').textContent =
+    total + (total === 1 ? ' artikel' : ' artiklar');
 
+  renderTable(pageItems);
+  renderPagination(total);
+
+  const sa = document.getElementById('select-all');
+  if (sa) sa.checked = false;
+}
+
+// ════════════════════════════════════════════════
+// TABLE RENDERER
+// ════════════════════════════════════════════════
+
+const STATUS_BADGE = {
+  draft:     '<span class="status-badge s-draft">Utkast</span>',
+  published: '<span class="status-badge s-published">Publicerad</span>',
+  scheduled: '<span class="status-badge s-scheduled">Schemalagd</span>',
+};
+
+function renderTable(items) {
   const tbody = document.getElementById('posts-tbody');
-  if (!list.length) {
-    const msg = q ? 'Inga träffar för "' + escH(q) + '".' : 'Inga artiklar ännu.';
-    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">&#128203;</div><p>${msg}</p></div></td></tr>`;
+
+  if (!items.length) {
+    const hasFilters = currentStatus !== 'all' || currentCatId !== 'all' || searchQuery;
+    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state">
+      <div class="empty-icon">&#128203;</div>
+      <p>${hasFilters ? 'Inga artiklar matchar filtret.' : 'Inga artiklar &#228;nnu &#8212; skapa din f&#246;rsta!'}</p>
+    </div></td></tr>`;
     return;
   }
 
-  tbody.innerHTML = list.map(p => {
-    const dateStr = (p.published_at || p.created_at)
-      ? new Date(p.published_at || p.created_at).toLocaleDateString('sv-SE')
-      : '—';
-    const catLabel = CAT_LABELS[p.category] || escH(p.category || '—');
-    const isDraft  = p.status === 'draft';
+  tbody.innerHTML = items.map(p => {
+    const catName  = p.categories ? escH(p.categories.name) : '<span style="color:var(--gray)">—</span>';
+    const badge    = STATUS_BADGE[p.status] || escH(p.status || '');
+    const dateStr  = p.updated_at ? formatDate(p.updated_at) : '—';
+    const checked  = selectedIds.has(p.id) ? ' checked' : '';
+    const langBadge = p.language ? `<span class="lang-badge">${escH(p.language.toUpperCase())}</span>` : '';
 
-    return `<tr${isDraft ? '' : ''}>
+    return `<tr id="row-${p.id}">
+      <td class="cb-col">
+        <input type="checkbox" class="row-cb"${checked}
+               onchange="toggleSelect(${p.id}, this.checked)">
+      </td>
       <td>
-        <span class="post-title">${escH(p.title || '(Utan titel)')}</span>
-        ${p.excerpt ? `<span class="post-excerpt">${escH(p.excerpt)}</span>` : ''}
+        <a class="post-title-link" href="blog-editor.html?id=${p.id}">${escH(p.title || '(Utan titel)')}</a>${langBadge}
+        ${p.excerpt ? `<span class="post-excerpt-row">${escH(p.excerpt.slice(0, 90))}${p.excerpt.length > 90 ? '…' : ''}</span>` : ''}
       </td>
-      <td class="hide-mobile">
-        ${p.category ? `<span class="post-cat-badge">${catLabel}</span>` : '<span style="color:var(--gray)">—</span>'}
-      </td>
-      <td class="hide-mobile">
-        <span class="booking-date">${dateStr}</span>
-      </td>
-      <td>${STATUS_BADGE[p.status] || escH(p.status)}</td>
+      <td class="hide-mobile">${catName}</td>
+      <td>${badge}</td>
+      <td class="hide-mobile"><span class="booking-date">${dateStr}</span></td>
       <td>
         <div class="actions">
-          <button class="act-btn" onclick="openEditor(${p.id})">Redigera</button>
-          ${isDraft
-            ? `<button class="act-btn act-finish" onclick="togglePublish(${p.id},'published')">Publicera</button>`
-            : `<button class="act-btn act-restore" onclick="togglePublish(${p.id},'draft')">Avpublicera</button>`
-          }
+          <button class="qe-btn" onclick="openQuickEdit(${p.id})"
+                  title="Snabbredigera status/kategori">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </button>
+          <a class="act-btn" href="blog-editor.html?id=${p.id}" style="text-decoration:none;">Redigera</a>
           <button class="act-btn act-delete" onclick="confirmDelete(${p.id})">Radera</button>
         </div>
       </td>
@@ -402,271 +367,261 @@ function renderList() {
   }).join('');
 }
 
-async function togglePublish(id, newStatus) {
-  const update = { status: newStatus };
-  if (newStatus === 'published') update.published_at = new Date().toISOString();
+// ════════════════════════════════════════════════
+// PAGINATION
+// ════════════════════════════════════════════════
+
+function renderPagination(total) {
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  const el = document.getElementById('pagination');
+  if (totalPages <= 1) { el.innerHTML = ''; return; }
+
+  const MAX_VISIBLE = 7;
+  let nums = [];
+  if (totalPages <= MAX_VISIBLE) {
+    nums = Array.from({ length: totalPages }, (_, i) => i + 1);
+  } else {
+    const w = 2;
+    const s = Math.max(2, currentPage - w);
+    const e = Math.min(totalPages - 1, currentPage + w);
+    nums = [1];
+    if (s > 2)             nums.push(null); // ellipsis
+    for (let i = s; i <= e; i++) nums.push(i);
+    if (e < totalPages - 1) nums.push(null);
+    nums.push(totalPages);
+  }
+
+  el.innerHTML =
+    `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''}
+             onclick="goToPage(${currentPage - 1})">&#8592;</button>` +
+    nums.map(n => n === null
+      ? `<span class="page-ellipsis">&#8230;</span>`
+      : `<button class="page-btn${n === currentPage ? ' active' : ''}"
+                 onclick="goToPage(${n})">${n}</button>`
+    ).join('') +
+    `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''}
+             onclick="goToPage(${currentPage + 1})">&#8594;</button>`;
+}
+
+function goToPage(n) {
+  const max = Math.ceil(getFilteredList().length / PAGE_SIZE);
+  if (n < 1 || n > max) return;
+  currentPage = n;
+  renderPage();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ════════════════════════════════════════════════
+// FILTER CONTROLS
+// ════════════════════════════════════════════════
+
+function setStatusFilter(s) {
+  currentStatus = s;
+  ['all','draft','published','scheduled'].forEach(k =>
+    document.getElementById('fb-' + k).classList.toggle('active', k === s)
+  );
+  applyFilters();
+}
+
+function onCatChange() {
+  currentCatId = document.getElementById('cat-filter').value;
+  applyFilters();
+}
+
+function onSearchInput() {
+  searchQuery = document.getElementById('search-input').value.trim();
+  applyFilters();
+}
+
+// ════════════════════════════════════════════════
+// SELECTION + BULK BAR
+// ════════════════════════════════════════════════
+
+function toggleSelectAll(checked) {
+  const filtered  = getFilteredList();
+  const start     = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = filtered.slice(start, start + PAGE_SIZE);
+  pageItems.forEach(p => {
+    if (checked) selectedIds.add(p.id);
+    else         selectedIds.delete(p.id);
+    const cb = document.querySelector(`#row-${p.id} .row-cb`);
+    if (cb) cb.checked = checked;
+  });
+  updateBulkBar();
+}
+
+function toggleSelect(id, checked) {
+  if (checked) selectedIds.add(id);
+  else         selectedIds.delete(id);
+  updateBulkBar();
+}
+
+function updateBulkBar() {
+  const n = selectedIds.size;
+  document.getElementById('bulk-bar').classList.toggle('show', n > 0);
+  document.getElementById('bulk-count').textContent = n + (n === 1 ? ' vald' : ' valda');
+  document.getElementById('bulk-status-sel').value = '';
+}
+
+// ════════════════════════════════════════════════
+// BULK STATUS CHANGE
+// ════════════════════════════════════════════════
+
+async function bulkChangeStatus(status) {
+  if (!status || !selectedIds.size) return;
+  const ids = [...selectedIds];
 
   const { error } = await supabaseClient
-    .from('blog_posts').update(update).eq('id', id);
+    .from('blog_posts')
+    .update({ status })
+    .in('id', ids);
 
   if (error) { showToast('Fel: ' + error.message, 't-red'); return; }
 
+  ids.forEach(id => { const p = allPosts.find(x => x.id === id); if (p) p.status = status; });
+  selectedIds.clear();
+  updateStats();
+  applyFilters();
+
+  const lbl = { draft:'Utkast', published:'Publicerad', scheduled:'Schemalagd' };
+  showToast(`${ids.length} artiklar → ${lbl[status] || status}.`, 't-green');
+}
+
+// ════════════════════════════════════════════════
+// BULK DELETE
+// ════════════════════════════════════════════════
+
+function bulkDelete() {
+  if (!selectedIds.size) return;
+  const n = selectedIds.size;
+  document.getElementById('confirm-title').textContent = `Radera ${n} artikel${n > 1 ? 'ar' : ''}?`;
+  document.getElementById('confirm-msg').textContent   =
+    'Artiklarna och deras taggar raderas permanent (cascade på blog_post_tags).';
+  document.getElementById('confirm-yes-btn').onclick = executeBulkDelete;
+  document.getElementById('confirm-modal').classList.add('open');
+}
+
+async function executeBulkDelete() {
+  closeModal('confirm-modal');
+  const ids = [...selectedIds];
+
+  const { error } = await supabaseClient
+    .from('blog_posts')
+    .delete()
+    .in('id', ids);
+
+  if (error) { showToast('Raderingsfel: ' + error.message, 't-red'); return; }
+
+  allPosts = allPosts.filter(p => !ids.includes(p.id));
+  selectedIds.clear();
+  updateStats();
+  applyFilters();
+  showToast(`${ids.length} artikel${ids.length > 1 ? 'ar' : ''} raderad${ids.length > 1 ? 'e' : ''}.`, 't-amber');
+}
+
+// ════════════════════════════════════════════════
+// QUICK EDIT
+// ════════════════════════════════════════════════
+
+function openQuickEdit(id) {
   const p = allPosts.find(x => x.id === id);
-  if (p) { p.status = newStatus; if (update.published_at) p.published_at = update.published_at; }
+  if (!p) return;
+  qePostId = id;
+  document.getElementById('qe-subtitle').textContent  = p.title || '(Utan titel)';
+  document.getElementById('qe-status').value          = p.status || 'draft';
+  document.getElementById('qe-category').value        = String(p.category_id ?? '');
+  document.getElementById('qe-modal').classList.add('open');
+}
 
+async function saveQuickEdit() {
+  if (qePostId === null) return;
+  const status      = document.getElementById('qe-status').value;
+  const rawCat      = document.getElementById('qe-category').value;
+  const category_id = rawCat === '' ? null : rawCat;
+
+  const { error } = await supabaseClient
+    .from('blog_posts')
+    .update({ status, category_id, updated_at: new Date().toISOString() })
+    .eq('id', qePostId);
+
+  if (error) { showToast('Fel: ' + error.message, 't-red'); return; }
+
+  const p = allPosts.find(x => x.id === qePostId);
+  if (p) {
+    p.status      = status;
+    p.category_id = category_id;
+    p.updated_at  = new Date().toISOString();
+    const cat = allCategories.find(c => String(c.id) === String(category_id));
+    p.categories  = cat ? { name: cat.name } : null;
+  }
+
+  closeModal('qe-modal');
   updateStats();
-  renderList();
-  showToast(newStatus === 'published' ? 'Artikel publicerad.' : 'Artikel avpublicerad.', 't-green');
+  renderPage();
+  showToast('Artikel uppdaterad.', 't-green');
 }
 
-// ═══════════════════════════════════════════
-// EDITOR — open / close
-// ═══════════════════════════════════════════
-
-async function openEditor(id) {
-  currentPostId = id;
-
-  // Reset all fields
-  document.getElementById('editor-title').value    = '';
-  document.getElementById('editor-slug').value     = '';
-  document.getElementById('editor-category').value = 'tips';
-  document.getElementById('editor-feat-img').value = '';
-  document.getElementById('editor-excerpt').value  = '';
-  document.getElementById('editor-content').value  = '';
-  document.getElementById('preview-output').innerHTML = '<p class="preview-hint">Förhandsvisningen visas här när du börjar skriva.</p>';
-  document.getElementById('editor-stat').textContent  = '';
-  document.getElementById('slug-hint').textContent    = '';
-  document.getElementById('feat-img-preview').style.display = 'none';
-  document.getElementById('btn-publish').textContent  = 'Publicera';
-
-  if (id !== null) {
-    // Fetch full content (content not loaded in list query)
-    const { data, error } = await supabaseClient
-      .from('blog_posts')
-      .select('*')
-      .eq('id', id)
-      .single();
-
-    if (error) { showToast('Kunde inte ladda artikel: ' + error.message, 't-red'); return; }
-
-    document.getElementById('editor-title').value    = data.title           || '';
-    document.getElementById('editor-slug').value     = data.slug            || '';
-    document.getElementById('editor-category').value = data.category        || 'tips';
-    document.getElementById('editor-feat-img').value = data.featured_image_url || '';
-    document.getElementById('editor-excerpt').value  = data.excerpt         || '';
-    document.getElementById('editor-content').value  = data.content         || '';
-
-    if (data.featured_image_url) updateFeatImgPreview();
-    if (data.content) refreshPreview();
-    updateEditorStat(data.content || '');
-
-    document.getElementById('btn-publish').textContent =
-      data.status === 'published' ? 'Opublicera' : 'Publicera';
-  }
-
-  document.getElementById('blog-list-view').style.display  = 'none';
-  document.getElementById('blog-editor-view').style.display = 'block';
-}
-
-function closeEditor() {
-  document.getElementById('blog-editor-view').style.display = 'none';
-  document.getElementById('blog-list-view').style.display   = 'block';
-  currentPostId = null;
-}
-
-// ═══════════════════════════════════════════
-// EDITOR — save
-// ═══════════════════════════════════════════
-
-async function savePost(targetStatus) {
-  const title    = document.getElementById('editor-title').value.trim();
-  const slug     = document.getElementById('editor-slug').value.trim();
-  const category = document.getElementById('editor-category').value;
-  const featImg  = document.getElementById('editor-feat-img').value.trim();
-  const excerpt  = document.getElementById('editor-excerpt').value.trim();
-  const content  = document.getElementById('editor-content').value;
-
-  if (!title) { showToast('Titel krävs.', 't-amber'); return; }
-  if (!slug)  { showToast('Slug krävs.', 't-amber'); return; }
-
-  // Determine final status
-  let status = targetStatus;
-  if (currentPostId !== null) {
-    const existing = allPosts.find(p => p.id === currentPostId);
-    if (targetStatus === 'published' && existing && existing.status === 'published') {
-      // Button shows "Opublicera" — treat as unpublish
-      status = 'draft';
-    }
-  }
-
-  const payload = {
-    title,
-    slug,
-    category,
-    featured_image_url: featImg || null,
-    excerpt:  excerpt  || null,
-    content:  content  || null,
-    status,
-    updated_at: new Date().toISOString(),
-  };
-
-  if (status === 'published') {
-    const existing = allPosts.find(p => p.id === currentPostId);
-    // Only set published_at on first publish
-    if (!existing || !existing.published_at) {
-      payload.published_at = new Date().toISOString();
-    }
-  }
-
-  let savedId = currentPostId;
-
-  if (currentPostId === null) {
-    // INSERT
-    const { data, error } = await supabaseClient
-      .from('blog_posts')
-      .insert(payload)
-      .select()
-      .single();
-
-    if (error) { showToast('Fel: ' + error.message, 't-red'); return; }
-    savedId = data.id;
-    currentPostId = savedId;
-    allPosts.unshift(data);
-  } else {
-    // UPDATE
-    const { error } = await supabaseClient
-      .from('blog_posts')
-      .update(payload)
-      .eq('id', currentPostId);
-
-    if (error) { showToast('Fel: ' + error.message, 't-red'); return; }
-
-    const idx = allPosts.findIndex(p => p.id === currentPostId);
-    if (idx !== -1) allPosts[idx] = { ...allPosts[idx], ...payload };
-  }
-
-  updateStats();
-  renderList();
-
-  document.getElementById('btn-publish').textContent =
-    status === 'published' ? 'Opublicera' : 'Publicera';
-
-  const label = status === 'published' ? 'Publicerad.' : status === 'draft' ? 'Sparat som utkast.' : 'Avpublicerad.';
-  showToast(label, 't-green');
-}
-
-// ═══════════════════════════════════════════
-// EDITOR — slug auto-generation
-// ═══════════════════════════════════════════
-
-function autoSlug() {
-  // Only auto-generate for new posts (don't overwrite existing slugs)
-  if (currentPostId !== null) return;
-  const title = document.getElementById('editor-title').value;
-  const s = slugify(title); // from admin-shared.js
-  document.getElementById('editor-slug').value = s;
-  document.getElementById('slug-hint').textContent = s ? '/blogg/' + s : '';
-}
-
-// Also update hint when slug is edited manually
-document.getElementById('editor-slug').addEventListener('input', function() {
-  document.getElementById('slug-hint').textContent = this.value ? '/blogg/' + this.value : '';
-});
-
-// ═══════════════════════════════════════════
-// EDITOR — live preview (debounced)
-// ═══════════════════════════════════════════
-
-function onContentInput() {
-  const content = document.getElementById('editor-content').value;
-  updateEditorStat(content);
-  clearTimeout(previewTimer);
-  previewTimer = setTimeout(refreshPreview, 200); // 200 ms debounce
-}
-
-function refreshPreview() {
-  const content = document.getElementById('editor-content').value;
-  const out = document.getElementById('preview-output');
-  if (!content.trim()) {
-    out.innerHTML = '<p class="preview-hint">Förhandsvisningen visas här när du börjar skriva.</p>';
-    return;
-  }
-  out.innerHTML = renderMarkdown(content); // from markdown-renderer.js
-}
-
-function updateEditorStat(content) {
-  const { wordCount, readingTimeMinutes } = getContentStats(content); // from markdown-renderer.js
-  document.getElementById('editor-stat').textContent =
-    wordCount ? wordCount + ' ord · ca ' + readingTimeMinutes + ' min läsning' : '';
-}
-
-// ═══════════════════════════════════════════
-// FEATURED IMAGE PREVIEW
-// ═══════════════════════════════════════════
-
-function updateFeatImgPreview() {
-  const url = document.getElementById('editor-feat-img').value.trim();
-  const preview = document.getElementById('feat-img-preview');
-  if (url) {
-    preview.src = url;
-    preview.style.display = 'block';
-    preview.onerror = () => { preview.style.display = 'none'; };
-  } else {
-    preview.style.display = 'none';
-  }
-}
-
-// ═══════════════════════════════════════════
-// DELETE
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════════════
+// SINGLE DELETE
+// ════════════════════════════════════════════════
 
 function confirmDelete(id) {
-  pendingDeleteId = id;
-  document.getElementById('confirm-modal').classList.add('open');
+  pendingDelId = id;
+  document.getElementById('confirm-title').textContent = 'Radera artikel?';
+  document.getElementById('confirm-msg').textContent   =
+    'Artikeln raderas permanent. Taggar raderas automatiskt via cascade.';
   document.getElementById('confirm-yes-btn').onclick = executeDelete;
+  document.getElementById('confirm-modal').classList.add('open');
 }
 
 async function executeDelete() {
   closeModal('confirm-modal');
-  if (pendingDeleteId === null) return;
-
-  const id = pendingDeleteId;
-  pendingDeleteId = null;
+  if (pendingDelId === null) return;
+  const id = pendingDelId;
+  pendingDelId = null;
 
   const { error } = await supabaseClient
-    .from('blog_posts').delete().eq('id', id);
+    .from('blog_posts')
+    .delete()
+    .eq('id', id);
 
   if (error) { showToast('Raderingsfel: ' + error.message, 't-red'); return; }
 
   allPosts = allPosts.filter(p => p.id !== id);
+  selectedIds.delete(id);
   updateStats();
-  renderList();
+  applyFilters();
   showToast('Artikel raderad.', 't-amber');
 }
 
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════════════
 // MODAL HELPERS
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════════════
 
 function closeModal(id) {
   document.getElementById(id).classList.remove('open');
 }
 
-document.getElementById('confirm-modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('confirm-modal')) closeModal('confirm-modal');
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
 });
-
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal('confirm-modal');
+  if (e.key === 'Escape')
+    document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
 });
 
-// ═══════════════════════════════════════════
-// UTIL
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════════════
 
-function escH(str) {
-  if (str == null) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function formatDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('sv-SE', { year:'numeric', month:'short', day:'numeric' });
+}
+
+function escH(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
 </body>
