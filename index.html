@@ -1014,7 +1014,7 @@ section.sep-in::before,.cta-strip.sep-in::before{opacity:1;}
       </ul>
       <a href="#contact" class="btn-primary" style="display:inline-flex;font-size:0.83rem;padding:0.7rem 1.4rem;" data-sv="Boka &#8594;" data-en="Book &#8594;">Boka &#8594;</a>
     </div>
-    <div class="pricing-card reveal reveal-delay-3" data-service="djurengoring">
+    <div class="pricing-card reveal reveal-delay-3" data-service="djuprengoring">
       <div class="pricing-name" data-sv="Djupreng&#246;ring" data-en="Deep Clean">Djupreng&#246;ring</div>
       <div class="sale-badge"></div>
       <div class="price-display"><span class="price-normal">kr 250</span></div>
@@ -1345,7 +1345,7 @@ const BASE_PRICES = {
   grundtjanst: 250,
   pro_bygge: 400,
   skraddarsydd: 500,
-  djurengoring: 250
+  djuprengoring: 250
 };
 
 emailjs.init("JKzprpN9r2C_FunS7");
@@ -1370,12 +1370,13 @@ function applySale(settings) {
     grundtjanst: document.querySelector('[data-service="grundtjanst"]'),
     pro_bygge: document.querySelector('[data-service="pro_bygge"]'),
     skraddarsydd: document.querySelector('[data-service="skraddarsydd"]'),
-    djurengoring: document.querySelector('[data-service="djurengoring"]')
+    djuprengoring: document.querySelector('[data-service="djuprengoring"]')
   };
   Object.entries(BASE_PRICES).forEach(([key, basePrice]) => {
     const card = cards[key];
     if (!card) return;
-    const applies = sale_applies_to === 'all' || sale_applies_to === key;
+    const appliesArr = Array.isArray(sale_applies_to) ? sale_applies_to : [];
+    const applies = appliesArr.includes('all') || appliesArr.includes(key);
     const priceEl = card.querySelector('.price-display');
     const badgeEl = card.querySelector('.sale-badge');
     const endDateEl = card.querySelector('.sale-end-date');
