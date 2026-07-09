@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0iIzBhMGYxZSIvPjx0ZXh0IHg9IjMyIiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iNDQiIGZpbGw9IiMxYTRmZmYiPlA8L3RleHQ+PC9zdmc+">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kategorier &amp; Taggar &#8211; Nordic PC Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin-shared.css">
+
+<style>
+/* ── Page header ── */
+.tax-page-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.tax-page-header h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;text-transform:uppercase;letter-spacing:0.02em;margin:0;flex:1;}
+
+/* ── Tabs ── */
+.tab-bar{display:flex;gap:0.3rem;background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:9px;padding:0.3rem;margin-bottom:1.5rem;width:fit-content;}
+.tab-btn{background:transparent;border:none;color:var(--gray);font-family:'Barlow',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.48rem 1.25rem;border-radius:6px;cursor:pointer;transition:background 0.18s,color 0.18s;white-space:nowrap;}
+.tab-btn:hover{color:var(--gray-light);}
+.tab-btn.active{background:var(--dark3);color:var(--white);}
+
+/* ── Panel ── */
+.panel-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:10px;overflow:hidden;}
+.panel-toolbar{display:flex;align-items:center;justify-content:space-between;padding:0.9rem 1rem 0.75rem;border-bottom:1px solid rgba(255,255,255,0.06);gap:0.5rem;flex-wrap:wrap;}
+.panel-toolbar h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1rem;text-transform:uppercase;letter-spacing:0.04em;margin:0;color:var(--gray-light);}
+.panel-loading{font-size:0.78rem;color:var(--gray);font-style:italic;}
+
+/* ── Table ── */
+.tax-table{width:100%;border-collapse:collapse;}
+.tax-table th{text-align:left;font-size:0.67rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);padding:0.55rem 1rem;border-bottom:1px solid rgba(255,255,255,0.06);white-space:nowrap;}
+.tax-table td{padding:0.6rem 1rem;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;font-size:0.85rem;color:var(--gray-light);}
+.tax-table tr:last-child td{border-bottom:none;}
+.tax-table tbody tr:hover td{background:rgba(255,255,255,0.018);}
+.col-name{color:var(--white);font-weight:600;}
+.col-slug{font-family:monospace;font-size:0.74rem;color:var(--gray);}
+.col-count{font-size:0.82rem;color:var(--gray);white-space:nowrap;}
+.col-count.used{color:var(--accent);font-weight:700;}
+.col-actions{text-align:right;white-space:nowrap;}
+
+/* ── Order buttons (categories only) ── */
+.order-btns{display:inline-flex;flex-direction:column;gap:1px;vertical-align:middle;margin-right:0.25rem;}
+.btn-order{background:var(--dark4);border:1px solid rgba(255,255,255,0.09);color:var(--gray);border-radius:3px;width:20px;height:16px;font-size:0.6rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color 0.15s,border-color 0.15s;padding:0;}
+.btn-order:hover:not(:disabled){color:var(--white);border-color:rgba(255,255,255,0.28);}
+.btn-order:disabled{opacity:0.25;cursor:not-allowed;}
+
+/* ── Inline name edit ── */
+.name-edit-input{background:var(--dark3);border:1px solid var(--blue);border-radius:5px;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.85rem;font-weight:600;padding:0.28rem 0.55rem;outline:none;width:100%;max-width:220px;box-sizing:border-box;}
+
+/* ── Small action buttons ── */
+.ax{font-family:'Barlow',sans-serif;font-size:0.74rem;font-weight:700;padding:0.26rem 0.62rem;border-radius:5px;cursor:pointer;white-space:nowrap;transition:background 0.15s,border-color 0.15s,color 0.15s;}
+.ax-default{background:transparent;border:1px solid rgba(255,255,255,0.12);color:var(--gray-light);}
+.ax-default:hover{border-color:rgba(255,255,255,0.3);color:var(--white);}
+.ax-primary{background:var(--blue);border:none;color:#fff;}
+.ax-primary:hover{background:var(--blue-light);}
+.ax-amber{background:transparent;border:1px solid rgba(245,166,35,0.3);color:var(--amber);}
+.ax-amber:hover{background:rgba(245,166,35,0.08);border-color:var(--amber);}
+.ax-danger{background:transparent;border:1px solid rgba(232,64,64,0.3);color:#ff8080;}
+.ax-danger:hover{background:var(--red-dim);border-color:var(--red);}
+.ax-danger:disabled{opacity:0.28;cursor:not-allowed;}
+.ax + .ax{margin-left:0.28rem;}
+
+/* ── Delete confirm inline ── */
+.del-confirm-note{font-size:0.74rem;color:var(--gray);margin-right:0.35rem;font-style:italic;}
+
+/* ── Add-new row at bottom of table ── */
+.add-form-row{display:none;align-items:center;gap:0.45rem;padding:0.65rem 1rem;border-top:1px solid rgba(255,255,255,0.06);}
+.add-form-row.visible{display:flex;}
+.add-form-row input{flex:1;min-width:0;background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.85rem;padding:0.38rem 0.7rem;outline:none;transition:border-color 0.2s;}
+.add-form-row input:focus{border-color:var(--blue);}
+.add-btn-wrap{padding:0.75rem 1rem 0;}
+
+/* ── Merge modal ── */
+.merge-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.74);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:600;display:none;align-items:center;justify-content:center;padding:1rem;}
+.merge-overlay.open{display:flex;}
+.merge-box{background:var(--dark2);border:1px solid rgba(255,255,255,0.1);border-radius:13px;padding:1.75rem 2rem;width:100%;max-width:440px;box-shadow:0 30px 80px rgba(0,0,0,0.6);}
+.merge-box h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.1rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--white);margin:0 0 0.55rem 0;}
+.merge-box p{font-size:0.83rem;color:var(--gray-light);line-height:1.6;margin:0 0 1rem 0;}
+.merge-box .admin-field{margin-bottom:1.1rem;}
+.merge-footer{display:flex;gap:0.5rem;justify-content:flex-end;}
+
+/* ── Empty state ── */
+.empty-row td{text-align:center;padding:2.5rem;color:var(--gray);font-size:0.85rem;font-style:italic;}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="admin-shared.js"></script>
+</head>
+<body>
+
+<div id="app" style="display:none;">
+  <div id="admin-nav"></div>
+
+  <main class="admin-main">
+
+    <div class="tax-page-header">
+      <a class="btn-secondary" href="blog-admin.html"
+         style="font-size:0.8rem;padding:0.45rem 0.9rem;min-height:unset;text-decoration:none;">
+        &#8592; Artiklar
+      </a>
+      <h1>Kategorier &amp; Taggar</h1>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tab-btn-cat" onclick="showTab('cat')">
+        Kategorier
+      </button>
+      <button class="tab-btn" id="tab-btn-tag" onclick="showTab('tag')">
+        Taggar
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         CATEGORIES PANEL
+    ══════════════════════════════════════ -->
+    <div id="panel-cat">
+      <div class="panel-card">
+        <div class="panel-toolbar">
+          <h2>Kategorier</h2>
+          <span class="panel-loading" id="cat-loading">Laddar&#8230;</span>
+        </div>
+        <table class="tax-table" id="cat-table">
+          <thead>
+            <tr>
+              <th style="width:2.5rem;">Ord.</th>
+              <th>Namn</th>
+              <th>Slug</th>
+              <th>Artiklar</th>
+              <th class="col-actions">&#197;tg&#228;rder</th>
+            </tr>
+          </thead>
+          <tbody id="cat-tbody">
+            <tr class="empty-row"><td colspan="5">Laddar&#8230;</td></tr>
+          </tbody>
+        </table>
+
+        <!-- Add new category form (shown on demand) -->
+        <div class="add-form-row" id="cat-add-form">
+          <input type="text" id="cat-new-name" placeholder="Ny kategorinamn&#8230;"
+                 onkeydown="if(event.key==='Enter')submitAddCategory();else if(event.key==='Escape')hideAddCategory();">
+          <button class="ax ax-primary" onclick="submitAddCategory()">L&#228;gg till</button>
+          <button class="ax ax-default" onclick="hideAddCategory()">Avbryt</button>
+        </div>
+      </div>
+      <div class="add-btn-wrap">
+        <button class="btn-secondary" id="cat-add-btn"
+                style="font-size:0.82rem;min-height:unset;padding:0.48rem 1rem;"
+                onclick="showAddCategory()">+ Ny kategori</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         TAGS PANEL
+    ══════════════════════════════════════ -->
+    <div id="panel-tag" style="display:none;">
+      <div class="panel-card">
+        <div class="panel-toolbar">
+          <h2>Taggar</h2>
+          <span class="panel-loading" id="tag-loading">Laddar&#8230;</span>
+        </div>
+        <table class="tax-table" id="tag-table">
+          <thead>
+            <tr>
+              <th>Namn</th>
+              <th>Slug</th>
+              <th>Artiklar</th>
+              <th class="col-actions">&#197;tg&#228;rder</th>
+            </tr>
+          </thead>
+          <tbody id="tag-tbody">
+            <tr class="empty-row"><td colspan="4">Laddar&#8230;</td></tr>
+          </tbody>
+        </table>
+
+        <!-- Add new tag form -->
+        <div class="add-form-row" id="tag-add-form">
+          <input type="text" id="tag-new-name" placeholder="Ny taggnamn&#8230;"
+                 onkeydown="if(event.key==='Enter')submitAddTag();else if(event.key==='Escape')hideAddTag();">
+          <button class="ax ax-primary" onclick="submitAddTag()">L&#228;gg till</button>
+          <button class="ax ax-default" onclick="hideAddTag()">Avbryt</button>
+        </div>
+      </div>
+      <div class="add-btn-wrap">
+        <button class="btn-secondary" id="tag-add-btn"
+                style="font-size:0.82rem;min-height:unset;padding:0.48rem 1rem;"
+                onclick="showAddTag()">+ Ny tagg</button>
+      </div>
+    </div>
+
+  </main>
+</div><!-- /#app -->
+
+<!-- ══════════════════════════════════════
+     MERGE MODAL (shared for both types)
+══════════════════════════════════════ -->
+<div class="merge-overlay" id="merge-overlay" onclick="if(event.target===this)closeMergeModal()">
+  <div class="merge-box">
+    <h3 id="merge-title">Sl&#229; ihop</h3>
+    <p id="merge-desc"></p>
+    <div class="admin-field">
+      <label id="merge-select-label">Sl&#229; ihop med</label>
+      <select id="merge-select"></select>
+    </div>
+    <div class="merge-footer">
+      <button class="btn-secondary"
+              style="font-size:0.82rem;min-height:unset;padding:0.48rem 1rem;"
+              onclick="closeMergeModal()">Avbryt</button>
+      <button class="ax ax-amber" onclick="confirmMerge()" style="font-size:0.82rem;padding:0.48rem 1.1rem;">
+        Sl&#229; ihop &#8594;
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+// ════════════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════════════
+
+var allCategories = [];  // full rows: {id, name, slug, sort_order}
+var catUsage      = {};  // {String(id): count} — post count per category
+
+var allTags  = [];       // full rows: {id, name, slug}
+var tagUsage = {};       // {String(id): count} — post count per tag (via blog_post_tags)
+
+// Per-entity UI state — only one row can be in edit/delete-confirm mode at a time
+var editingCatId   = null;
+var deletingCatId  = null;
+var editingTagId   = null;
+var deletingTagId  = null;
+
+// Merge modal state
+var mergeEntityType = '';   // 'cat' | 'tag'
+var mergeSourceId   = null; // String id of the item being merged away
+
+// ════════════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════════════
+
+(async function init() {
+  var session = await checkAuth(); // admin-shared.js — redirects to employe.html if no session
+  if (!session) return;
+
+  renderAdminNav('blog'); // admin-shared.js
+  document.getElementById('sidebar-user-email').textContent = session.user.email;
+  document.getElementById('app').style.display = 'flex';
+
+  // Load both datasets concurrently
+  await Promise.all([loadCategories(), loadTags()]);
+})();
+
+// ════════════════════════════════════════════════════════════════════
+// TABS
+// ════════════════════════════════════════════════════════════════════
+
+function showTab(which) {
+  document.getElementById('panel-cat').style.display = which === 'cat' ? '' : 'none';
+  document.getElementById('panel-tag').style.display = which === 'tag' ? '' : 'none';
+  document.getElementById('tab-btn-cat').classList.toggle('active', which === 'cat');
+  document.getElementById('tab-btn-tag').classList.toggle('active', which === 'tag');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// DATA — LOAD
+// ════════════════════════════════════════════════════════════════════
+
+async function loadCategories() {
+  var catRes  = await supabaseClient.from('categories').select('*').order('sort_order');
+  // Fetch all category_ids in one call and aggregate counts client-side —
+  // avoids N+1 per-category count queries
+  var postRes = await supabaseClient.from('blog_posts').select('category_id');
+
+  document.getElementById('cat-loading').style.display = 'none';
+
+  if (catRes.error) {
+    showToast('Kategorier: ' + catRes.error.message, 't-red');
+    return;
+  }
+
+  allCategories = catRes.data || [];
+
+  catUsage = {};
+  if (!postRes.error) {
+    (postRes.data || []).forEach(function(p) {
+      if (p.category_id != null) {
+        var k = String(p.category_id);
+        catUsage[k] = (catUsage[k] || 0) + 1;
+      }
+    });
+  }
+
+  renderCategories();
+}
+
+async function loadTags() {
+  var tagRes = await supabaseClient.from('tags').select('*').order('name');
+  // Same single-query + client-side aggregation approach as categories
+  var ptRes  = await supabaseClient.from('blog_post_tags').select('tag_id');
+
+  document.getElementById('tag-loading').style.display = 'none';
+
+  if (tagRes.error) {
+    showToast('Taggar: ' + tagRes.error.message, 't-red');
+    return;
+  }
+
+  allTags = tagRes.data || [];
+
+  tagUsage = {};
+  if (!ptRes.error) {
+    (ptRes.data || []).forEach(function(r) {
+      if (r.tag_id != null) {
+        var k = String(r.tag_id);
+        tagUsage[k] = (tagUsage[k] || 0) + 1;
+      }
+    });
+  }
+
+  renderTags();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// RENDER — CATEGORIES
+// ════════════════════════════════════════════════════════════════════
+
+function renderCategories() {
+  var tbody = document.getElementById('cat-tbody');
+
+  if (!allCategories.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Inga kategorier &#228;n.</td></tr>';
+    return;
+  }
+
+  var last = allCategories.length - 1;
+
+  tbody.innerHTML = allCategories.map(function(c, idx) {
+    var id    = String(c.id);
+    var count = catUsage[id] || 0;
+    var isEditing  = editingCatId  === id;
+    var isDeleting = deletingCatId === id;
+    var canDelete  = count === 0;
+
+    // ── Name cell ──
+    var nameCell = isEditing
+      ? '<input class="name-edit-input" id="cat-inp-' + id + '" value="' + escAttr(c.name) + '" ' +
+          'onkeydown="if(event.key===\'Enter\')saveCatName(\'' + id + '\');' +
+                     'else if(event.key===\'Escape\')cancelCatEdit();">'
+      : '<span class="col-name">' + escH(c.name) + '</span>';
+
+    // ── Actions cell ──
+    var actions;
+    if (isEditing) {
+      actions =
+        '<button class="ax ax-primary" onclick="saveCatName(\'' + id + '\')">Spara</button>' +
+        '<button class="ax ax-default" onclick="cancelCatEdit()">Avbryt</button>';
+    } else if (isDeleting) {
+      actions =
+        '<span class="del-confirm-note">S&#228;ker?</span>' +
+        '<button class="ax ax-danger" onclick="doDeleteCat(\'' + id + '\')">Ja, ta bort</button>' +
+        '<button class="ax ax-default" onclick="cancelCatDelete()">Avbryt</button>';
+    } else {
+      var mergeBtn = allCategories.length > 1
+        ? '<button class="ax ax-amber" onclick="openMergeModal(\'cat\',\'' + id + '\')">Sl&#229; ihop</button>'
+        : '';
+      var deleteBtn = canDelete
+        ? '<button class="ax ax-danger" onclick="startCatDelete(\'' + id + '\')">Ta bort</button>'
+        : '<button class="ax ax-danger" disabled ' +
+            'title="Anv&#228;nds av ' + count + ' artikel' + (count !== 1 ? 'ar' : '') + ' &#8212; sl&#229; ihop eller omtilldela f&#246;rst">Ta bort</button>';
+      actions =
+        '<button class="ax ax-default" onclick="startCatEdit(\'' + id + '\')">Byt namn</button>' +
+        mergeBtn + deleteBtn;
+    }
+
+    return '<tr>' +
+      '<td>' +
+        '<div class="order-btns">' +
+          '<button class="btn-order" onclick="moveCat(\'' + id + '\',-1)"' + (idx === 0    ? ' disabled' : '') + ' title="Flytta upp">&#9650;</button>' +
+          '<button class="btn-order" onclick="moveCat(\'' + id + '\',1)"'  + (idx === last ? ' disabled' : '') + ' title="Flytta ned">&#9660;</button>' +
+        '</div>' +
+      '</td>' +
+      '<td>' + nameCell + '</td>' +
+      '<td class="col-slug">' + escH(c.slug || '') + '</td>' +
+      '<td class="col-count' + (count > 0 ? ' used' : '') + '">' +
+        count + '&nbsp;artikel' + (count !== 1 ? 'ar' : '') +
+      '</td>' +
+      '<td class="col-actions">' + actions + '</td>' +
+      '</tr>';
+  }).join('');
+
+  // Focus the inline edit input immediately after render
+  if (editingCatId) {
+    var inp = document.getElementById('cat-inp-' + editingCatId);
+    if (inp) { inp.focus(); inp.select(); }
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// RENDER — TAGS
+// ════════════════════════════════════════════════════════════════════
+
+function renderTags() {
+  var tbody = document.getElementById('tag-tbody');
+
+  if (!allTags.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="4">Inga taggar &#228;n.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = allTags.map(function(t) {
+    var id    = String(t.id);
+    var count = tagUsage[id] || 0;
+    var isEditing  = editingTagId  === id;
+    var isDeleting = deletingTagId === id;
+
+    var nameCell = isEditing
+      ? '<input class="name-edit-input" id="tag-inp-' + id + '" value="' + escAttr(t.name) + '" ' +
+          'onkeydown="if(event.key===\'Enter\')saveTagName(\'' + id + '\');' +
+                     'else if(event.key===\'Escape\')cancelTagEdit();">'
+      : '<span class="col-name">' + escH(t.name) + '</span>';
+
+    var actions;
+    if (isEditing) {
+      actions =
+        '<button class="ax ax-primary" onclick="saveTagName(\'' + id + '\')">Spara</button>' +
+        '<button class="ax ax-default" onclick="cancelTagEdit()">Avbryt</button>';
+    } else if (isDeleting) {
+      var warnNote = count > 0
+        ? '<span class="del-confirm-note">Tas bort fr&#229;n ' + count + ' artikel' + (count !== 1 ? 'ar' : '') + '. S&#228;ker?</span>'
+        : '<span class="del-confirm-note">S&#228;ker?</span>';
+      actions =
+        warnNote +
+        '<button class="ax ax-danger" onclick="doDeleteTag(\'' + id + '\')">Ja, ta bort</button>' +
+        '<button class="ax ax-default" onclick="cancelTagDelete()">Avbryt</button>';
+    } else {
+      var mergeBtn = allTags.length > 1
+        ? '<button class="ax ax-amber" onclick="openMergeModal(\'tag\',\'' + id + '\')">Sl&#229; ihop</button>'
+        : '';
+      // Tags can always be deleted (unlike categories) — if in use, a warning is shown in the confirm step
+      actions =
+        '<button class="ax ax-default" onclick="startTagEdit(\'' + id + '\')">Byt namn</button>' +
+        mergeBtn +
+        '<button class="ax ax-danger" onclick="startTagDelete(\'' + id + '\')">Ta bort</button>';
+    }
+
+    return '<tr>' +
+      '<td>' + nameCell + '</td>' +
+      '<td class="col-slug">' + escH(t.slug || '') + '</td>' +
+      '<td class="col-count' + (count > 0 ? ' used' : '') + '">' +
+        count + '&nbsp;artikel' + (count !== 1 ? 'ar' : '') +
+      '</td>' +
+      '<td class="col-actions">' + actions + '</td>' +
+      '</tr>';
+  }).join('');
+
+  if (editingTagId) {
+    var inp = document.getElementById('tag-inp-' + editingTagId);
+    if (inp) { inp.focus(); inp.select(); }
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// CATEGORIES — RENAME
+//
+// The slug is intentionally NOT regenerated when renaming a category.
+// Slugs are used as the stable, normalized key for duplicate prevention
+// (e.g. "SSD" and "ssd" share slug "ssd" and are treated as the same
+// category). Regenerating the slug on rename would silently change this
+// key and break the de-duplication invariant. Posts reference category_id
+// (a numeric FK), never the slug directly, so the display name can change
+// freely without affecting any data relationships.
+// ════════════════════════════════════════════════════════════════════
+
+function startCatEdit(id) {
+  editingCatId  = id;
+  deletingCatId = null;
+  renderCategories();
+}
+
+function cancelCatEdit() {
+  editingCatId = null;
+  renderCategories();
+}
+
+async function saveCatName(id) {
+  var inp = document.getElementById('cat-inp-' + id);
+  if (!inp) return;
+  var newName = inp.value.trim();
+  if (!newName) { showToast('Namn f&#229;r inte vara tomt.', 't-red'); return; }
+
+  var res = await supabaseClient.from('categories').update({ name: newName }).eq('id', id);
+  if (res.error) { showToast('Kunde inte spara: ' + res.error.message, 't-red'); return; }
+
+  var cat = allCategories.find(function(c) { return String(c.id) === id; });
+  if (cat) cat.name = newName;
+  editingCatId = null;
+  renderCategories();
+  showToast('Kategori omd&#246;pt.', 't-green');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// CATEGORIES — REORDER
+// Swaps sort_order values of adjacent items. Both DB updates run in
+// parallel; on failure the local swap is reverted.
+// ════════════════════════════════════════════════════════════════════
+
+async function moveCat(id, direction) {
+  var idx  = allCategories.findIndex(function(c) { return String(c.id) === id; });
+  var swapIdx = idx + direction;
+  if (swapIdx < 0 || swapIdx >= allCategories.length) return;
+
+  var a = allCategories[idx];
+  var b = allCategories[swapIdx];
+
+  // Optimistic local swap
+  var tmp      = a.sort_order;
+  a.sort_order = b.sort_order;
+  b.sort_order = tmp;
+  allCategories.sort(function(x, y) {
+    return (x.sort_order || 0) - (y.sort_order || 0);
+  });
+  renderCategories();
+
+  var results = await Promise.all([
+    supabaseClient.from('categories').update({ sort_order: a.sort_order }).eq('id', a.id),
+    supabaseClient.from('categories').update({ sort_order: b.sort_order }).eq('id', b.id),
+  ]);
+
+  if (results[0].error || results[1].error) {
+    // Revert optimistic swap
+    var revert  = a.sort_order;
+    a.sort_order = b.sort_order;
+    b.sort_order = revert;
+    allCategories.sort(function(x, y) { return (x.sort_order || 0) - (y.sort_order || 0); });
+    renderCategories();
+    showToast('Kunde inte &#228;ndra ordning.', 't-red');
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// CATEGORIES — DELETE (only when usage count is 0)
+// ════════════════════════════════════════════════════════════════════
+
+function startCatDelete(id) {
+  deletingCatId = id;
+  editingCatId  = null;
+  renderCategories();
+}
+
+function cancelCatDelete() {
+  deletingCatId = null;
+  renderCategories();
+}
+
+async function doDeleteCat(id) {
+  if ((catUsage[id] || 0) > 0) {
+    showToast('Kategorin anv&#228;nds av artiklar.', 't-red');
+    return;
+  }
+  var res = await supabaseClient.from('categories').delete().eq('id', id);
+  if (res.error) { showToast('Kunde inte ta bort: ' + res.error.message, 't-red'); return; }
+
+  allCategories = allCategories.filter(function(c) { return String(c.id) !== id; });
+  delete catUsage[id];
+  deletingCatId = null;
+  renderCategories();
+  showToast('Kategori borttagen.', 't-amber');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// CATEGORIES — ADD NEW
+// slugify() from admin-shared.js; slug-based duplicate check before insert
+// ════════════════════════════════════════════════════════════════════
+
+function showAddCategory() {
+  document.getElementById('cat-add-form').classList.add('visible');
+  document.getElementById('cat-add-btn').style.display = 'none';
+  document.getElementById('cat-new-name').focus();
+}
+
+function hideAddCategory() {
+  document.getElementById('cat-add-form').classList.remove('visible');
+  document.getElementById('cat-add-btn').style.display = '';
+  document.getElementById('cat-new-name').value = '';
+}
+
+async function submitAddCategory() {
+  var name = document.getElementById('cat-new-name').value.trim();
+  if (!name) return;
+  var slug = slugify(name); // admin-shared.js
+
+  var existing = allCategories.find(function(c) { return c.slug === slug; });
+  if (existing) {
+    showToast('Kategorin "' + existing.name + '" finns redan (slug: ' + slug + ').', 't-amber');
+    return;
+  }
+
+  var maxOrder = allCategories.reduce(function(m, c) {
+    return Math.max(m, c.sort_order || 0);
+  }, 0);
+
+  var res = await supabaseClient
+    .from('categories')
+    .insert({ name: name, slug: slug, sort_order: maxOrder + 1 })
+    .select()
+    .single();
+
+  if (res.error) { showToast('Kunde inte skapa: ' + res.error.message, 't-red'); return; }
+
+  allCategories.push(res.data);
+  hideAddCategory();
+  renderCategories();
+  showToast('Kategori skapad.', 't-green');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// TAGS — RENAME
+// Slug is intentionally NOT regenerated on rename — same reasoning as
+// categories above: the slug is a stable de-duplication key, not a URL
+// segment, and tag references are by tag_id (via blog_post_tags), not slug.
+// ════════════════════════════════════════════════════════════════════
+
+function startTagEdit(id) {
+  editingTagId  = id;
+  deletingTagId = null;
+  renderTags();
+}
+
+function cancelTagEdit() {
+  editingTagId = null;
+  renderTags();
+}
+
+async function saveTagName(id) {
+  var inp = document.getElementById('tag-inp-' + id);
+  if (!inp) return;
+  var newName = inp.value.trim();
+  if (!newName) { showToast('Namn f&#229;r inte vara tomt.', 't-red'); return; }
+
+  var res = await supabaseClient.from('tags').update({ name: newName }).eq('id', id);
+  if (res.error) { showToast('Kunde inte spara: ' + res.error.message, 't-red'); return; }
+
+  var tag = allTags.find(function(t) { return String(t.id) === id; });
+  if (tag) tag.name = newName;
+  editingTagId = null;
+  renderTags();
+  showToast('Tagg omd&#246;pt.', 't-green');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// TAGS — DELETE (only when usage count is 0)
+// ════════════════════════════════════════════════════════════════════
+
+function startTagDelete(id) {
+  deletingTagId = id;
+  editingTagId  = null;
+  renderTags();
+}
+
+function cancelTagDelete() {
+  deletingTagId = null;
+  renderTags();
+}
+
+async function doDeleteTag(id) {
+  // Explicitly delete all blog_post_tags rows for this tag before deleting the tag row.
+  // Cannot rely on ON DELETE CASCADE since the original schema may not define it on tag_id FK.
+  var cleanup = await supabaseClient.from('blog_post_tags').delete().eq('tag_id', id);
+  if (cleanup.error) { showToast('Kunde inte rensa artikelkopplingar: ' + cleanup.error.message, 't-red'); return; }
+
+  var res = await supabaseClient.from('tags').delete().eq('id', id);
+  if (res.error) { showToast('Kunde inte ta bort: ' + res.error.message, 't-red'); return; }
+
+  allTags = allTags.filter(function(t) { return String(t.id) !== id; });
+  delete tagUsage[id];
+  deletingTagId = null;
+  renderTags();
+  showToast('Tagg borttagen.', 't-amber');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// TAGS — ADD NEW
+// ════════════════════════════════════════════════════════════════════
+
+function showAddTag() {
+  document.getElementById('tag-add-form').classList.add('visible');
+  document.getElementById('tag-add-btn').style.display = 'none';
+  document.getElementById('tag-new-name').focus();
+}
+
+function hideAddTag() {
+  document.getElementById('tag-add-form').classList.remove('visible');
+  document.getElementById('tag-add-btn').style.display = '';
+  document.getElementById('tag-new-name').value = '';
+}
+
+async function submitAddTag() {
+  var name = document.getElementById('tag-new-name').value.trim();
+  if (!name) return;
+  var slug = slugify(name); // admin-shared.js
+
+  var existing = allTags.find(function(t) { return t.slug === slug; });
+  if (existing) {
+    showToast('Taggen "' + existing.name + '" finns redan (slug: ' + slug + ').', 't-amber');
+    return;
+  }
+
+  var res = await supabaseClient
+    .from('tags')
+    .insert({ name: name, slug: slug })
+    .select()
+    .single();
+
+  if (res.error) { showToast('Kunde inte skapa: ' + res.error.message, 't-red'); return; }
+
+  allTags.push(res.data);
+  allTags.sort(function(a, b) { return a.name.localeCompare(b.name, 'sv'); });
+  hideAddTag();
+  renderTags();
+  showToast('Tagg skapad.', 't-green');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// MERGE MODAL
+// ════════════════════════════════════════════════════════════════════
+
+function openMergeModal(type, sourceId) {
+  mergeEntityType = type;
+  mergeSourceId   = sourceId;
+
+  var source = type === 'cat'
+    ? allCategories.find(function(c) { return String(c.id) === sourceId; })
+    : allTags.find(function(t)       { return String(t.id) === sourceId; });
+  if (!source) return;
+
+  var others = type === 'cat'
+    ? allCategories.filter(function(c) { return String(c.id) !== sourceId; })
+    : allTags.filter(function(t)       { return String(t.id) !== sourceId; });
+
+  var noun = type === 'cat' ? 'kategori' : 'tagg';
+
+  document.getElementById('merge-title').textContent =
+    'Slå ihop ' + noun;
+
+  document.getElementById('merge-desc').textContent =
+    '“' + source.name + '” slås ihop med den valda. ' +
+    'Alla artiklar som använder “' + source.name + '” får den valda i stället. ' +
+    '“' + source.name + '” tas sedan bort permanent.';
+
+  document.getElementById('merge-select-label').textContent =
+    'Slå ihop “' + source.name + '” med';
+
+  var usageMap = type === 'cat' ? catUsage : tagUsage;
+  document.getElementById('merge-select').innerHTML = others.map(function(item) {
+    var cnt = usageMap[String(item.id)] || 0;
+    return '<option value="' + escAttr(String(item.id)) + '">' +
+           escH(item.name) + ' (' + cnt + ' art.)</option>';
+  }).join('');
+
+  document.getElementById('merge-overlay').classList.add('open');
+}
+
+function closeMergeModal() {
+  document.getElementById('merge-overlay').classList.remove('open');
+  mergeEntityType = '';
+  mergeSourceId   = null;
+}
+
+async function confirmMerge() {
+  var targetId = document.getElementById('merge-select').value;
+  if (!targetId || !mergeSourceId) return;
+
+  if (mergeEntityType === 'cat') {
+    await doMergeCategories(mergeSourceId, targetId);
+  } else {
+    await doMergeTags(mergeSourceId, targetId);
+  }
+
+  closeMergeModal();
+}
+
+// ── Category merge ──
+// Update all blog_posts that reference sourceId to reference targetId instead,
+// then delete the source category row.
+async function doMergeCategories(sourceId, targetId) {
+  var upd = await supabaseClient
+    .from('blog_posts')
+    .update({ category_id: targetId })
+    .eq('category_id', sourceId);
+
+  if (upd.error) { showToast('Merge misslyckades: ' + upd.error.message, 't-red'); return; }
+
+  // Transfer local usage count
+  var moved = catUsage[sourceId] || 0;
+  catUsage[targetId] = (catUsage[targetId] || 0) + moved;
+  delete catUsage[sourceId];
+
+  var del = await supabaseClient.from('categories').delete().eq('id', sourceId);
+  if (del.error) {
+    showToast('Artiklar uppdaterade, men källkategorin kunde inte tas bort: ' + del.error.message, 't-amber');
+  } else {
+    showToast('Kategorier sammanslagna.', 't-green');
+  }
+
+  allCategories = allCategories.filter(function(c) { return String(c.id) !== sourceId; });
+  renderCategories();
+}
+
+// ── Tag merge ──
+// Cannot simply UPDATE blog_post_tags.tag_id because a post might already
+// have both the source and target tag, which would cause a unique constraint
+// violation. Instead:
+//   1. Find which posts have source-tag but NOT target-tag → insert target-tag rows
+//   2. Delete all source-tag rows (now safe since target-tag covers them all)
+//   3. Delete the source tag row itself
+async function doMergeTags(sourceId, targetId) {
+  // Step 1: get all post_ids that use the source tag
+  var srcRes = await supabaseClient
+    .from('blog_post_tags')
+    .select('post_id')
+    .eq('tag_id', sourceId);
+
+  if (srcRes.error) { showToast('Merge misslyckades: ' + srcRes.error.message, 't-red'); return; }
+
+  var srcPostIds = (srcRes.data || []).map(function(r) { return r.post_id; });
+
+  if (srcPostIds.length > 0) {
+    // Step 2: find which of those posts already have the target tag
+    var existRes = await supabaseClient
+      .from('blog_post_tags')
+      .select('post_id')
+      .eq('tag_id', targetId)
+      .in('post_id', srcPostIds);
+
+    var alreadyLinked = new Set(
+      (existRes.data || []).map(function(r) { return String(r.post_id); })
+    );
+
+    // Step 3: insert target-tag rows only for posts that don't already have it
+    var toInsert = srcPostIds
+      .filter(function(pid) { return !alreadyLinked.has(String(pid)); })
+      .map(function(pid)    { return { post_id: pid, tag_id: targetId }; });
+
+    if (toInsert.length > 0) {
+      var ins = await supabaseClient.from('blog_post_tags').insert(toInsert);
+      if (ins.error) { showToast('Merge misslyckades (länkning): ' + ins.error.message, 't-red'); return; }
+    }
+  }
+
+  // Step 4: delete all source-tag rows (safe — target-tag now covers all posts)
+  await supabaseClient.from('blog_post_tags').delete().eq('tag_id', sourceId);
+
+  // Transfer local usage count
+  var moved = tagUsage[sourceId] || 0;
+  tagUsage[targetId] = (tagUsage[targetId] || 0) + moved;
+  delete tagUsage[sourceId];
+
+  // Step 5: delete the source tag row itself
+  var del = await supabaseClient.from('tags').delete().eq('id', sourceId);
+  if (del.error) {
+    showToast('Artiklar uppdaterade, men källtaggen kunde inte tas bort: ' + del.error.message, 't-amber');
+  } else {
+    showToast('Taggar sammanslagna.', 't-green');
+  }
+
+  allTags = allTags.filter(function(t) { return String(t.id) !== sourceId; });
+  renderTags();
+}
+</script>
+</body>
+</html>
