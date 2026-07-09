@@ -105,6 +105,21 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
 .tag-dd-item{padding:0.48rem 0.8rem;font-size:0.82rem;color:var(--gray-light);cursor:pointer;transition:background 0.12s;}
 .tag-dd-item:hover{background:rgba(255,255,255,0.06);color:var(--white);}
 .tag-dd-create{color:var(--accent);font-style:italic;}
+
+/* ── Related articles picker ── */
+.related-chips{display:flex;flex-direction:column;gap:0.3rem;margin-bottom:0.45rem;}
+.related-chips:empty{margin-bottom:0;}
+.related-chip{display:flex;align-items:center;gap:0.22rem;background:var(--dark3);border:1px solid rgba(255,255,255,0.09);border-radius:6px;padding:0.28rem 0.35rem 0.28rem 0.6rem;font-size:0.79rem;color:var(--gray-light);}
+.related-chip-title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.related-chip-move{background:none;border:1px solid rgba(255,255,255,0.1);color:var(--gray);border-radius:3px;cursor:pointer;font-size:0.6rem;line-height:1;padding:0.1rem 0.2rem;flex-shrink:0;transition:color 0.12s,border-color 0.12s;}
+.related-chip-move:hover:not(:disabled){color:var(--white);border-color:rgba(255,255,255,0.3);}
+.related-chip-move:disabled{opacity:0.28;cursor:default;}
+.related-chip-remove{background:none;border:none;color:var(--gray);cursor:pointer;font-size:0.9rem;line-height:1;padding:0;margin-left:0.12rem;display:inline-flex;align-items:center;flex-shrink:0;transition:color 0.15s;}
+.related-chip-remove:hover{color:var(--red);}
+.related-input-wrap{position:relative;}
+.related-dropdown{position:absolute;top:calc(100% + 3px);left:0;right:0;background:var(--dark2);border:1px solid rgba(255,255,255,0.12);border-radius:7px;box-shadow:0 8px 32px rgba(0,0,0,0.5);z-index:200;max-height:200px;overflow-y:auto;}
+.related-dd-item{padding:0.48rem 0.8rem;font-size:0.82rem;color:var(--gray-light);cursor:pointer;transition:background 0.12s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.related-dd-item:hover{background:rgba(255,255,255,0.06);color:var(--white);}
 </style>
 
 <!-- Script load order: Supabase → marked → DOMPurify → admin-shared → markdown-renderer → EasyMDE → media-picker -->
@@ -200,6 +215,7 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
               <option value="draft">Utkast</option>
               <option value="published">Publicerad</option>
               <option value="scheduled">Schemalagd</option>
+              <option value="archived">Arkiverad</option>
             </select>
           </div>
           <!-- Shown only when status = scheduled -->
@@ -213,6 +229,18 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
               <option value="sv">Svenska</option>
               <option value="en">Engelska</option>
             </select>
+          </div>
+          <!-- is_pinned column exists in schema for future 'pinned article' functionality —
+               not yet exposed in this editor UI; add a checkbox here when that feature is built. -->
+          <div style="display:flex;flex-direction:column;gap:0.55rem;margin-top:0.6rem;margin-bottom:0.1rem;">
+            <label style="display:flex;align-items:center;gap:0.55rem;cursor:pointer;font-size:0.84rem;color:var(--gray-light);user-select:none;">
+              <input type="checkbox" id="f-featured" style="width:16px;height:16px;accent-color:var(--blue);cursor:pointer;flex-shrink:0;min-height:unset;">
+              Utvald artikel
+            </label>
+            <label style="display:flex;align-items:center;gap:0.55rem;cursor:pointer;font-size:0.84rem;color:var(--gray-light);user-select:none;">
+              <input type="checkbox" id="f-editors-pick" style="width:16px;height:16px;accent-color:var(--blue);cursor:pointer;flex-shrink:0;min-height:unset;">
+              Redaktionens val
+            </label>
           </div>
           <div style="margin-top:0.85rem;">
             <button class="btn-primary" style="width:100%;" onclick="savePost()">Spara</button>
@@ -303,6 +331,32 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
           </div>
         </div>
 
+        <!-- Related articles override -->
+        <div class="sidebar-card">
+          <h3>Relaterade artiklar</h3>
+          <div style="display:flex;gap:1rem;margin-bottom:0.85rem;">
+            <label style="display:flex;align-items:center;gap:0.45rem;cursor:pointer;font-size:0.83rem;color:var(--gray-light);user-select:none;">
+              <input type="radio" name="related-mode" value="auto" id="f-related-auto" onchange="onRelatedModeChange()" checked style="accent-color:var(--blue);cursor:pointer;min-height:unset;">
+              Automatisk
+            </label>
+            <label style="display:flex;align-items:center;gap:0.45rem;cursor:pointer;font-size:0.83rem;color:var(--gray-light);user-select:none;">
+              <input type="radio" name="related-mode" value="manual" id="f-related-manual" onchange="onRelatedModeChange()" style="accent-color:var(--blue);cursor:pointer;min-height:unset;">
+              Manuellt vald
+            </label>
+          </div>
+          <div id="related-manual-panel" style="display:none;">
+            <div class="related-chips" id="related-chips"></div>
+            <div class="related-input-wrap" id="related-search-wrap">
+              <input type="text" id="related-search"
+                     placeholder="S&#246;k artikel&#8230;"
+                     oninput="onRelatedSearch(this.value)"
+                     style="width:100%;box-sizing:border-box;">
+              <div class="related-dropdown" id="related-dropdown" style="display:none;"></div>
+            </div>
+            <span style="font-size:0.69rem;color:var(--gray);display:block;margin-top:0.35rem;">Max 4 artiklar &middot; ordning spelar roll</span>
+          </div>
+        </div>
+
       </aside><!-- /.editor-sidebar -->
 
     </div><!-- /.editor-cols -->
@@ -327,7 +381,10 @@ var allCategories    = [];  // {id, name, slug, sort_order}[] loaded on init
 var allTags          = [];  // {id, name, slug}[] loaded on init, grows as new tags are created
 var selectedTags     = [];  // {id, name}[] chips currently selected for this post
 var tagDebounce      = null; // debounce timer for tag autocomplete input
-var allCtaTemplates  = [];  // {id, name, title, description, button_text, button_link}[] loaded on init
+var allCtaTemplates      = [];  // {id, name, title, description, button_text, button_link}[] loaded on init
+var allPublishedTitles   = [];  // {id, title}[] of published posts, for the manual related-articles picker
+var manualRelatedIds     = [];  // ordered array of selected post IDs (strings), mirrors manual_related_ids column
+var relatedDebounce      = null;
 
 // ════════════════════════════════════════════════════════════════════
 // INIT
@@ -345,8 +402,8 @@ var allCtaTemplates  = [];  // {id, name, title, description, button_text, butto
   if (id) {
     postId = id;
     isNew  = false;
-    // Load post data and categories/tags concurrently — both needed before page shows
-    await Promise.all([loadPost(id), loadCategoriesAndTags()]);
+    // Load post data, categories/tags, and published titles concurrently
+    await Promise.all([loadPost(id), loadCategoriesAndTags(), loadPublishedTitles()]);
     // Pre-select category: select is now populated AND category_id is now known
     if (existingPost && existingPost.category_id) {
       document.getElementById('f-category').value = String(existingPost.category_id);
@@ -358,8 +415,19 @@ var allCtaTemplates  = [];  // {id, name, title, description, button_text, butto
     }
     // Pre-populate tag chips from the join table
     await loadPostTags(id);
+    // Restore related articles mode and manual picks
+    if (existingPost) {
+      var relMode = existingPost.related_articles_mode || 'auto';
+      if (relMode === 'manual') {
+        document.getElementById('f-related-manual').checked = true;
+        document.getElementById('f-related-auto').checked   = false;
+        document.getElementById('related-manual-panel').style.display = '';
+        manualRelatedIds = (existingPost.manual_related_ids || []).map(String);
+        renderRelatedChips();
+      }
+    }
   } else {
-    await loadCategoriesAndTags();
+    await Promise.all([loadCategoriesAndTags(), loadPublishedTitles()]);
   }
 
   // Reveal page BEFORE initialising EasyMDE so CodeMirror can measure its container
@@ -383,10 +451,14 @@ var allCtaTemplates  = [];  // {id, name, title, description, button_text, butto
   document.getElementById('f-title').addEventListener('input', onTitleInput);
   document.getElementById('f-slug').addEventListener('input', function() { slugDirty = true; });
 
-  // Dismiss tag autocomplete dropdown on outside click
+  // Dismiss autocomplete dropdowns on outside click
   document.addEventListener('click', function(e) {
     if (!document.getElementById('tag-input-wrap').contains(e.target)) {
       hideTagDropdown();
+    }
+    var relWrap = document.getElementById('related-search-wrap');
+    if (relWrap && !relWrap.contains(e.target)) {
+      hideRelatedDropdown();
     }
   });
 })();
@@ -560,8 +632,10 @@ async function loadPost(id) {
 
   document.getElementById('f-title').value     = res.data.title    || '';
   document.getElementById('f-slug').value      = res.data.slug     || '';
-  document.getElementById('f-status').value    = res.data.status   || 'draft';
-  document.getElementById('f-language').value  = res.data.language || 'sv';
+  document.getElementById('f-status').value              = res.data.status         || 'draft';
+  document.getElementById('f-language').value            = res.data.language       || 'sv';
+  document.getElementById('f-featured').checked          = !!res.data.is_featured;
+  document.getElementById('f-editors-pick').checked      = !!res.data.is_editors_pick;
   document.getElementById('f-excerpt').value   = res.data.excerpt  || '';
   document.getElementById('f-seo-title').value = res.data.seo_title        || '';
   document.getElementById('f-seo-desc').value  = res.data.seo_description  || '';
@@ -598,6 +672,27 @@ async function savePost() {
   if (!title) { showToast('Rubrik krävs.', 't-red'); return; }
   if (!slug)  { showToast('Slug krävs.', 't-red');   return; }
 
+  var isFeatured     = document.getElementById('f-featured').checked;
+  var isEditorsPick  = document.getElementById('f-editors-pick').checked;
+
+  // Auto-unfeature: ensure no other post keeps is_featured = true when this one is being featured.
+  // Must run BEFORE the insert/update so this post ends up as the sole featured post.
+  if (isFeatured) {
+    var unfeatureQuery = supabaseClient
+      .from('blog_posts')
+      .update({ is_featured: false })
+      .eq('is_featured', true);
+    // In edit mode, exclude the current post's own row (it already has is_featured = true
+    // and we're about to set it again — excluding it avoids a no-op extra update on itself).
+    // In create mode there is no current post id yet, so no exclusion needed.
+    if (!isNew) unfeatureQuery = unfeatureQuery.neq('id', postId);
+    var unfeatRes = await unfeatureQuery;
+    if (unfeatRes.error) {
+      showToast('Kunde inte nollst&#228;lla befintlig utvald artikel: ' + unfeatRes.error.message, 't-red');
+      return;
+    }
+  }
+
   var payload = {
     title:           title,
     slug:            slug,
@@ -612,6 +707,10 @@ async function savePost() {
     updated_at:      new Date().toISOString(),
     category_id:     document.getElementById('f-category').value || null,
     cta_template_id: document.getElementById('f-cta').value || null,
+    is_featured:          isFeatured,
+    is_editors_pick:      isEditorsPick,
+    related_articles_mode: document.querySelector('input[name="related-mode"]:checked').value,
+    manual_related_ids:    manualRelatedIds.map(function(id) { return parseInt(id, 10); }),
   };
 
   if (!isNew) {
@@ -868,6 +967,109 @@ async function doAddTag(name) {
   addTagChip(res.data);
   document.getElementById('tag-input').value = '';
   hideTagDropdown();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// RELATED ARTICLES — manual picker
+// ════════════════════════════════════════════════════════════════════
+
+async function loadPublishedTitles() {
+  var query = supabaseClient
+    .from('blog_posts')
+    .select('id, title')
+    .eq('status', 'published')
+    .order('created_at', { ascending: false });
+  // Exclude current post in edit mode so it doesn't appear as its own related pick
+  if (postId) query = query.neq('id', postId);
+  var res = await query;
+  if (!res.error) allPublishedTitles = res.data || [];
+}
+
+function onRelatedModeChange() {
+  var mode = document.querySelector('input[name="related-mode"]:checked').value;
+  document.getElementById('related-manual-panel').style.display = mode === 'manual' ? '' : 'none';
+}
+
+function onRelatedSearch(val) {
+  clearTimeout(relatedDebounce);
+  var q = val.trim();
+  if (!q) { hideRelatedDropdown(); return; }
+  relatedDebounce = setTimeout(function() { showRelatedDropdown(q); }, 160);
+}
+
+function showRelatedDropdown(q) {
+  if (manualRelatedIds.length >= 4) { hideRelatedDropdown(); return; }
+  var lq = q.toLowerCase();
+  var selectedSet = new Set(manualRelatedIds.map(String));
+  var matches = allPublishedTitles
+    .filter(function(p) {
+      return !selectedSet.has(String(p.id)) && (p.title || '').toLowerCase().includes(lq);
+    })
+    .slice(0, 8);
+  var dd = document.getElementById('related-dropdown');
+  if (!matches.length) { dd.style.display = 'none'; return; }
+  dd.innerHTML = matches.map(function(p) {
+    return '<div class="related-dd-item" onclick="addRelatedArticle(\'' + escH(String(p.id)) + '\', ' + JSON.stringify(p.title || '') + ')">' + escH(p.title || '') + '</div>';
+  }).join('');
+  dd.style.display = 'block';
+}
+
+function hideRelatedDropdown() {
+  var dd = document.getElementById('related-dropdown');
+  if (dd) dd.style.display = 'none';
+}
+
+function addRelatedArticle(id, title) {
+  if (manualRelatedIds.length >= 4) return;
+  if (manualRelatedIds.indexOf(String(id)) !== -1) return;
+  manualRelatedIds.push(String(id));
+  // Ensure title is available in allPublishedTitles (it should be, since it came from the dropdown)
+  if (!allPublishedTitles.find(function(p) { return String(p.id) === String(id); })) {
+    allPublishedTitles.push({ id: id, title: title });
+  }
+  renderRelatedChips();
+  var inp = document.getElementById('related-search');
+  if (inp) inp.value = '';
+  hideRelatedDropdown();
+}
+
+function removeRelatedArticle(id) {
+  manualRelatedIds = manualRelatedIds.filter(function(x) { return x !== String(id); });
+  renderRelatedChips();
+}
+
+function moveRelatedArticle(id, dir) {
+  var idx = manualRelatedIds.indexOf(String(id));
+  if (idx < 0) return;
+  var newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= manualRelatedIds.length) return;
+  var arr = manualRelatedIds.slice();
+  var tmp = arr[idx]; arr[idx] = arr[newIdx]; arr[newIdx] = tmp;
+  manualRelatedIds = arr;
+  renderRelatedChips();
+}
+
+function renderRelatedChips() {
+  var titleMap = {};
+  allPublishedTitles.forEach(function(p) { titleMap[String(p.id)] = p.title || ('ID: ' + p.id); });
+
+  var chips      = document.getElementById('related-chips');
+  var searchWrap = document.getElementById('related-search-wrap');
+
+  chips.innerHTML = manualRelatedIds.map(function(id, i) {
+    var title  = titleMap[id] || ('ID: ' + id);
+    var isFirst = i === 0;
+    var isLast  = i === manualRelatedIds.length - 1;
+    return '<div class="related-chip">' +
+      '<button class="related-chip-move" onclick="moveRelatedArticle(\'' + escH(id) + '\',-1)" ' + (isFirst ? 'disabled' : '') + ' title="Flytta upp" aria-label="Flytta upp">&#9650;</button>' +
+      '<button class="related-chip-move" onclick="moveRelatedArticle(\'' + escH(id) + '\',1)" '  + (isLast  ? 'disabled' : '') + ' title="Flytta ned" aria-label="Flytta ned">&#9660;</button>' +
+      '<span class="related-chip-title" title="' + escH(title) + '">' + escH(title) + '</span>' +
+      '<button class="related-chip-remove" onclick="removeRelatedArticle(\'' + escH(id) + '\')" aria-label="Ta bort">&times;</button>' +
+    '</div>';
+  }).join('');
+
+  // Hide search input once 4 are selected; re-show if one is removed
+  if (searchWrap) searchWrap.style.display = manualRelatedIds.length >= 4 ? 'none' : '';
 }
 
 // ════════════════════════════════════════════════════════════════════

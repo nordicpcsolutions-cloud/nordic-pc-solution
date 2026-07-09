@@ -12,12 +12,83 @@ async function checkAuth() {
     window.location.href = 'employe.html';
     return null;
   }
+  initIdleTimeoutTracking();
   return session;
 }
 
 async function adminLogout() {
   await supabaseClient.auth.signOut();
   window.location.href = 'employe.html';
+}
+
+// ── IDLE AUTO-LOGOUT ──
+const IDLE_TIMEOUT_MS   = 2 * 60 * 60 * 1000; // 2 hours
+const WARNING_BEFORE_MS = 2 * 60 * 1000;       // warn 2 min before logout
+
+let _idleTimer         = null;
+let _warningTimer      = null;
+let _warningModalEl    = null;
+let _countdownInterval = null;
+
+function resetIdleTimer() {
+  clearTimeout(_idleTimer);
+  clearTimeout(_warningTimer);
+  _hideIdleWarning();
+  _warningTimer = setTimeout(_showIdleWarning, IDLE_TIMEOUT_MS - WARNING_BEFORE_MS);
+  _idleTimer    = setTimeout(_performIdleLogout, IDLE_TIMEOUT_MS);
+}
+
+function _showIdleWarning() {
+  if (!_warningModalEl) {
+    _warningModalEl = document.createElement('div');
+    _warningModalEl.id = 'idle-warning-modal';
+    _warningModalEl.innerHTML = `
+      <div class="idle-warning-backdrop">
+        <div class="idle-warning-box">
+          <h3>Du loggas ut snart</h3>
+          <p>Du har varit inaktiv ett tag. Du loggas ut automatiskt om <span id="idle-countdown">2:00</span> minuter av säkerhetsskäl.</p>
+          <button id="idle-stay-logged-in-btn">Fortsätt vara inloggad</button>
+        </div>
+      </div>`;
+    document.body.appendChild(_warningModalEl);
+    document.getElementById('idle-stay-logged-in-btn').addEventListener('click', resetIdleTimer);
+  }
+  _warningModalEl.style.display = 'flex';
+  _startCountdownDisplay();
+}
+
+function _hideIdleWarning() {
+  if (_warningModalEl) _warningModalEl.style.display = 'none';
+  clearInterval(_countdownInterval);
+}
+
+function _startCountdownDisplay() {
+  let remainingMs = WARNING_BEFORE_MS;
+  clearInterval(_countdownInterval);
+  _countdownInterval = setInterval(() => {
+    remainingMs -= 1000;
+    if (remainingMs <= 0) { clearInterval(_countdownInterval); return; }
+    const mins = Math.floor(remainingMs / 60000);
+    const secs = Math.floor((remainingMs % 60000) / 1000);
+    const el = document.getElementById('idle-countdown');
+    if (el) el.textContent = mins + ':' + String(secs).padStart(2, '0');
+  }, 1000);
+}
+
+async function _performIdleLogout() {
+  _hideIdleWarning();
+  await supabaseClient.auth.signOut();
+  window.location.href = 'employe.html?reason=idle';
+}
+
+function initIdleTimeoutTracking() {
+  // Guard: only wire up once even if called multiple times
+  if (initIdleTimeoutTracking._initialized) return;
+  initIdleTimeoutTracking._initialized = true;
+  ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'click'].forEach(evt => {
+    document.addEventListener(evt, resetIdleTimer, { passive: true });
+  });
+  resetIdleTimer();
 }
 
 // ── TOAST ──
@@ -323,4 +394,40 @@ function escH(s) {
 function escAttr(s) {
   if (s == null) return '';
   return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// ── ARTICLE VIEW COUNTER ──
+// Called from public article pages to increment the view count for a post.
+// Uses localStorage with a 24-hour expiry per post rather than sessionStorage.
+// Rationale: sessionStorage resets on tab close, so a visitor returning the next
+// day in a new tab would re-increment — which is correct — but closing and reopening
+// the *same* tab mid-session would also re-increment, which is noise. localStorage
+// with a 24-hour TTL is a better balance: it counts genuine daily unique views
+// (a returning visitor the following day is meaningfully a new view) while
+// suppressing same-session and intra-day duplicates.
+async function incrementArticleView(postId) {
+  const storageKey    = 'viewed_post_' + postId;
+  const storedEntry   = localStorage.getItem(storageKey);
+  const now           = Date.now();
+  const TWENTY_FOUR_H = 24 * 60 * 60 * 1000;
+
+  if (storedEntry) {
+    const lastViewed = parseInt(storedEntry, 10);
+    if (!isNaN(lastViewed) && now - lastViewed < TWENTY_FOUR_H) return;
+  }
+
+  localStorage.setItem(storageKey, String(now));
+
+  const { data: current } = await supabaseClient
+    .from('blog_posts')
+    .select('views')
+    .eq('id', postId)
+    .single();
+
+  const newViews = (current?.views || 0) + 1;
+
+  await supabaseClient
+    .from('blog_posts')
+    .update({ views: newViews, last_viewed_at: new Date().toISOString() })
+    .eq('id', postId);
 }

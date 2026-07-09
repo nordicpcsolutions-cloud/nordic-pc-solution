@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0iIzA4MGMxOCIvPjx0ZXh0IHg9IjMyIiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iNDQiIGZpbGw9IiMxYTRmZmYiPlA8L3RleHQ+PC9zdmc+">
+<title>Resurser &#8211; Nordic PC Solutions</title>
+<meta name="description" content="Guider, tips och nyheter om PC-bygge, uppgraderingar och IT-support fr&#229;n Nordic PC Solutions i G&#246;teborg.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T21RVB775S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T21RVB775S');
+</script>
+
+<!-- Supabase JS v2 -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --blue:#1a4fff;
+  --blue-light:#3d6fff;
+  --cyan:#00d4ff;
+  --dark:#080c18;
+  --dark2:#0d1225;
+  --dark3:#121a30;
+  --dark4:#1a2440;
+  --gray:#7a8fb5;
+  --gray-light:#b8cae8;
+  --white:#eef2ff;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--dark);color:var(--white);overflow-x:hidden;}
+
+/* ── PROGRESS BAR ── */
+#progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--blue),var(--cyan));z-index:9999;transition:width 0.05s linear;box-shadow:0 0 10px var(--cyan),0 0 4px var(--blue);}
+
+/* ── SCROLL TO TOP ── */
+#scroll-top{position:fixed;bottom:2rem;right:2rem;width:46px;height:46px;border-radius:8px;background:var(--blue);border:none;color:#fff;font-size:1.1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity 0.3s,transform 0.3s,box-shadow 0.2s,background 0.2s;z-index:500;box-shadow:0 4px 20px rgba(26,79,255,0.45);}
+#scroll-top.visible{opacity:1;transform:translateY(0);}
+#scroll-top:hover{background:var(--blue-light);box-shadow:0 0 28px rgba(26,79,255,0.7);}
+
+/* ── NAV — matches index.html exactly ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:64px;background:rgba(8,12,24,0.75);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(26,79,255,0.1);gap:1rem;transition:background 0.3s,border-color 0.3s;}
+nav.scrolled{background:rgba(8,12,24,0.97);border-bottom-color:rgba(26,79,255,0.18);}
+.logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.3rem;letter-spacing:0.05em;color:var(--white);text-transform:uppercase;text-decoration:none;white-space:nowrap;flex-shrink:0;}
+.logo .lpc{color:var(--blue);}
+.logo-full{display:inline;}
+.logo-abbr{display:none;}
+.nav-center{display:flex;align-items:center;gap:2rem;flex:1;justify-content:center;}
+.nav-center a{color:var(--gray-light);text-decoration:none;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;position:relative;padding-bottom:2px;transition:color 0.2s;}
+.nav-center a::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1.5px;background:linear-gradient(90deg,var(--blue),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform 0.25s;}
+.nav-center a:hover{color:var(--white);}
+.nav-center a:hover::after,.nav-center a.active-page::after{transform:scaleX(1);}
+.nav-center a.active-page{color:var(--white);}
+.nav-right{display:flex;align-items:center;gap:0.75rem;flex-shrink:0;}
+.nav-cta{background:linear-gradient(135deg,#3d6fff 0%,#00d4ff 100%);color:#fff !important;padding:0.48rem 1.3rem;border-radius:4px;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:filter 0.2s,box-shadow 0.2s;box-shadow:0 0 16px rgba(26,79,255,0.3);}
+.nav-cta:hover{filter:brightness(1.15);box-shadow:0 0 28px rgba(26,79,255,0.6);}
+.lang-toggle{display:flex;border:1px solid rgba(255,255,255,0.1);border-radius:5px;overflow:hidden;flex-shrink:0;}
+.lang-btn{padding:0.38rem 0.65rem;background:transparent;color:var(--gray);border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.07em;transition:background 0.2s,color 0.2s;}
+.lang-btn.active{background:var(--blue);color:#fff;}
+.hamburger-btn{display:none;flex-direction:column;justify-content:space-between;align-items:center;width:44px;height:44px;padding:8px 4px;background:none;border:none;cursor:pointer;z-index:1002;flex-shrink:0;}
+.hamburger-btn span{display:block;height:2px;width:26px;background:var(--white);border-radius:2px;transition:transform 0.3s,opacity 0.2s;}
+.hamburger-btn.open span:nth-child(1){transform:translateY(10px) rotate(45deg);}
+.hamburger-btn.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger-btn.open span:nth-child(3){transform:translateY(-10px) rotate(-45deg);}
+
+/* ── MOBILE MENU ── */
+#mobile-menu{position:fixed;inset:0;z-index:998;background:rgba(8,12,24,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);pointer-events:none;}
+#mobile-menu.open{transform:translateX(0);pointer-events:auto;}
+.mobile-menu-close{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;cursor:pointer;color:var(--white);font-size:1.5rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background 0.2s;}
+.mobile-menu-close:hover{background:rgba(255,255,255,0.08);}
+.mobile-menu-inner{display:flex;flex-direction:column;align-items:flex-start;width:100%;max-width:340px;padding:0 2rem;}
+.mobile-menu-nav{display:flex;flex-direction:column;width:100%;margin-bottom:2.5rem;}
+.mobile-menu-nav a{display:flex;align-items:center;color:rgba(255,255,255,0.7);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-size:1.7rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;min-height:56px;border-bottom:1px solid rgba(255,255,255,0.06);transition:color 0.2s,padding-left 0.2s;}
+.mobile-menu-nav a:hover,.mobile-menu-nav a:focus{color:#fff;padding-left:0.5rem;}
+.mobile-menu-cta{color:var(--cyan)!important;border-bottom:none!important;margin-top:0.3rem;}
+.mobile-menu-lang{display:flex;gap:0.5rem;margin-top:1.5rem;}
+
+/* ── FOOTER ── */
+footer{background:var(--dark2);padding:3.5rem 5vw 2rem;position:relative;}
+footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(26,79,255,0.55) 30%,rgba(0,212,255,0.4) 70%,transparent);box-shadow:0 0 24px rgba(26,79,255,0.18);}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2.5rem;}
+.footer-brand .logo{font-size:1.1rem;display:block;margin-bottom:0.75rem;}
+.footer-brand p{font-size:0.84rem;color:var(--gray);line-height:1.68;max-width:230px;}
+.footer-col h4{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);margin-bottom:1.1rem;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.65rem;}
+.footer-col ul a{color:var(--gray-light);text-decoration:none;font-size:0.87rem;transition:color 0.2s;}
+.footer-col ul a:hover{color:var(--cyan);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:1.8rem;display:flex;justify-content:space-between;align-items:center;font-size:0.79rem;color:var(--gray);flex-wrap:wrap;gap:0.5rem;}
+.footer-social-link{display:flex;align-items:center;gap:0.45rem;}
+.footer-social-link svg{width:14px;height:14px;}
+
+/* ── SHARED BUTTONS ── */
+.btn-primary{display:inline-flex;align-items:center;gap:0.6rem;background:linear-gradient(135deg,#3d6fff 0%,#00d4ff 100%);color:#fff;text-decoration:none;padding:0.72rem 1.8rem;border-radius:5px;font-family:'Barlow',sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:0.05em;border:none;cursor:pointer;transition:filter 0.2s,box-shadow 0.2s;box-shadow:0 0 20px rgba(26,79,255,0.35);}
+.btn-primary:hover{filter:brightness(1.12);box-shadow:0 0 30px rgba(26,79,255,0.55);}
+.btn-secondary{display:inline-flex;align-items:center;gap:0.6rem;background:transparent;color:var(--white);text-decoration:none;padding:0.7rem 1.7rem;border-radius:5px;font-family:'Barlow',sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:0.05em;border:1px solid rgba(255,255,255,0.2);cursor:pointer;transition:border-color 0.2s,background 0.2s;}
+.btn-secondary:hover{border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.04);}
+
+/* ── COOKIE BANNER ── */
+#cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:999;background:var(--dark2);border-top:3px solid var(--blue);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+#cookie-banner p{font-size:0.84rem;color:var(--gray-light);line-height:1.5;flex:1;min-width:200px;}
+.cookie-actions{display:flex;gap:0.7rem;flex-shrink:0;flex-wrap:wrap;}
+.cookie-btn-accept{background:var(--blue);color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:6px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.82rem;cursor:pointer;min-height:44px;transition:background 0.2s;}
+.cookie-btn-accept:hover{background:var(--blue-light);}
+.cookie-btn-more{background:transparent;color:var(--gray-light);border:1px solid rgba(255,255,255,0.2);padding:0.6rem 1.4rem;border-radius:6px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.82rem;cursor:pointer;min-height:44px;text-decoration:none;display:inline-flex;align-items:center;transition:border-color 0.2s;}
+.cookie-btn-more:hover{border-color:rgba(255,255,255,0.5);}
+
+/* ════════════════════════════
+   PAGE-SPECIFIC STYLES
+════════════════════════════ */
+
+.page-content{padding-top:64px;}
+
+/* ── Page header ── */
+.page-header{padding:4.5rem 5vw 2.5rem;text-align:center;}
+.page-header-inner{max-width:640px;margin:0 auto;}
+.page-eyebrow{display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:1rem;}
+.page-heading{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(1.75rem,3.2vw,2.4rem);text-transform:uppercase;line-height:1.06;margin-bottom:0.9rem;}
+.page-sub{font-size:0.95rem;color:var(--gray);line-height:1.78;max-width:520px;margin:0 auto;}
+
+/* ── Category badge ── */
+.cat-badge{display:inline-block;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:rgba(26,79,255,0.14);border:1px solid rgba(26,79,255,0.28);color:#7aa5ff;padding:0.2rem 0.6rem;border-radius:4px;white-space:nowrap;}
+
+/* ── Read time ── */
+.read-time{font-size:0.72rem;color:var(--gray);}
+
+/* ── Read more link ── */
+.read-link{display:inline-flex;align-items:center;gap:0.3rem;color:var(--cyan);font-size:0.8rem;font-weight:700;text-decoration:none;transition:gap 0.2s;white-space:nowrap;}
+.read-link:hover{gap:0.55rem;}
+
+/* ── FEATURED ARTICLE ── */
+.featured-section{padding:0 5vw 3.5rem;}
+.featured-eyebrow{font-size:0.67rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
+.featured-eyebrow::before{content:'';width:6px;height:6px;background:var(--cyan);border-radius:50%;box-shadow:0 0 8px var(--cyan);animation:dot-pulse 2s infinite;flex-shrink:0;}
+@keyframes dot-pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(1.6);}}
+.featured-card{display:grid;grid-template-columns:1.2fr 1fr;background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:14px;overflow:hidden;min-height:340px;text-decoration:none;color:inherit;transition:border-color 0.25s,box-shadow 0.25s;}
+.featured-card:hover{border-color:rgba(26,79,255,0.3);box-shadow:0 16px 50px rgba(0,0,0,0.4),0 0 30px rgba(26,79,255,0.1);}
+.featured-img-wrap{overflow:hidden;position:relative;}
+.featured-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.45s ease;}
+.featured-card:hover .featured-img{transform:scale(1.04);}
+.featured-img-ph{width:100%;height:100%;min-height:340px;background:linear-gradient(135deg,var(--dark3) 0%,var(--dark4) 70%,rgba(26,79,255,0.08) 100%);}
+.featured-body{padding:2.5rem 2.25rem;display:flex;flex-direction:column;justify-content:center;gap:0.85rem;}
+.featured-meta{display:flex;align-items:center;gap:0.65rem;flex-wrap:wrap;}
+.featured-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(1.2rem,2vw,1.65rem);line-height:1.12;text-transform:uppercase;}
+.featured-excerpt{font-size:0.9rem;color:var(--gray-light);line-height:1.72;max-width:44ch;}
+.featured-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.05);margin-top:0.25rem;}
+.featured-date{font-size:0.75rem;color:var(--gray);}
+
+/* ── FILTER BAR ── */
+.filter-section{padding:0 5vw 2rem;}
+.search-wrap{position:relative;max-width:340px;margin-bottom:1.1rem;}
+.search-icon{position:absolute;left:0.85rem;top:50%;transform:translateY(-50%);color:var(--gray);pointer-events:none;flex-shrink:0;}
+.search-input{width:100%;background:var(--dark3);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:0.58rem 0.85rem 0.58rem 2.45rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.86rem;outline:none;transition:border-color 0.2s;}
+.search-input:focus{border-color:rgba(26,79,255,0.45);}
+.search-input::placeholder{color:var(--gray);}
+.cat-chips{display:flex;flex-wrap:wrap;gap:0.42rem;}
+.cat-chip{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--gray-light);font-family:'Barlow',sans-serif;font-size:0.76rem;font-weight:700;padding:0.3rem 0.82rem;border-radius:100px;cursor:pointer;transition:background 0.18s,border-color 0.18s,color 0.18s;white-space:nowrap;line-height:1.5;}
+.cat-chip:hover{border-color:rgba(255,255,255,0.26);color:var(--white);}
+.cat-chip.active{background:rgba(26,79,255,0.18);border-color:rgba(26,79,255,0.48);color:var(--white);}
+
+/* ── ARTICLES GRID ── */
+.grid-section{padding:0 5vw 4rem;}
+.section-bar{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.4rem;gap:1rem;flex-wrap:wrap;}
+.section-eyebrow{font-size:0.68rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--cyan);}
+.result-note{font-size:0.77rem;color:var(--gray);}
+.articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;transition:opacity 0.15s ease;}
+.articles-grid.fading{opacity:0;}
+@media(prefers-reduced-motion:reduce){.articles-grid{transition:none;}}
+.article-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:11px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:border-color 0.22s,transform 0.22s,box-shadow 0.22s;}
+.article-card:hover{border-color:rgba(26,79,255,0.28);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.35),0 0 18px rgba(26,79,255,0.09);}
+.article-card-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;}
+.article-card-img-ph{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,var(--dark3) 0%,var(--dark4) 100%);}
+.article-card-body{padding:1.15rem 1.2rem 1rem;display:flex;flex-direction:column;gap:0.5rem;flex:1;}
+.article-card-meta{display:flex;align-items:center;gap:0.55rem;flex-wrap:wrap;}
+.article-card-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.03rem;line-height:1.18;text-transform:uppercase;color:var(--white);}
+.article-card-excerpt{font-size:0.82rem;color:var(--gray-light);line-height:1.65;flex:1;}
+.article-card-footer{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;padding-top:0.7rem;border-top:1px solid rgba(255,255,255,0.05);margin-top:0.3rem;}
+.article-card-date{font-size:0.7rem;color:var(--gray);}
+
+/* Load more */
+.load-more-wrap{text-align:center;padding:2rem 0 0;}
+
+/* Empty state */
+.empty-state{grid-column:1/-1;text-align:center;padding:3.5rem 1rem;color:var(--gray);}
+.empty-state p{font-size:0.93rem;margin-bottom:0.4rem;color:var(--gray-light);}
+.empty-hint{font-size:0.8rem;color:var(--gray);}
+
+/* ── SECONDARY SECTIONS ── */
+.secondary-section{padding:0 5vw 4rem;}
+.section-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06) 30%,rgba(255,255,255,0.06) 70%,transparent);margin-bottom:3rem;}
+.secondary-header{display:flex;align-items:center;gap:0.65rem;margin-bottom:1.4rem;}
+.secondary-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.1rem;text-transform:uppercase;letter-spacing:0.04em;}
+.secondary-accent{color:var(--cyan);font-size:0.85rem;}
+
+/* Editor's Picks — horizontal scroll row */
+.picks-row{display:flex;gap:1.1rem;overflow-x:auto;padding-bottom:0.75rem;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.picks-row::-webkit-scrollbar{display:none;}
+.pick-card{flex:0 0 230px;background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:10px;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:border-color 0.2s,transform 0.2s;}
+.pick-card:hover{border-color:rgba(26,79,255,0.28);transform:translateY(-2px);}
+.pick-card-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;}
+.pick-card-img-ph{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,var(--dark3) 0%,var(--dark4) 100%);}
+.pick-card-body{padding:0.85rem;display:flex;flex-direction:column;gap:0.38rem;flex:1;}
+.pick-card-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:0.92rem;text-transform:uppercase;line-height:1.18;color:var(--white);}
+.pick-card-meta{font-size:0.7rem;color:var(--gray);margin-top:auto;padding-top:0.35rem;}
+
+/* Popular — compact numbered list */
+.popular-list{display:flex;flex-direction:column;gap:0.65rem;max-width:680px;}
+.popular-item{display:flex;align-items:center;gap:0.9rem;text-decoration:none;color:inherit;padding:0.7rem 0.9rem;background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:8px;transition:border-color 0.2s;}
+.popular-item:hover{border-color:rgba(26,79,255,0.26);}
+.popular-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1rem;color:rgba(26,79,255,0.45);min-width:1.6rem;text-align:center;flex-shrink:0;}
+.popular-thumb{width:48px;height:48px;border-radius:5px;object-fit:cover;flex-shrink:0;}
+.popular-thumb-ph{width:48px;height:48px;border-radius:5px;background:var(--dark4);flex-shrink:0;}
+.popular-body{flex:1;min-width:0;}
+.popular-title{font-weight:700;font-size:0.87rem;color:var(--white);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.popular-cat{font-size:0.7rem;color:var(--gray);margin-top:0.15rem;}
+.popular-views{font-size:0.7rem;color:var(--gray);flex-shrink:0;white-space:nowrap;}
+
+/* ── PAGE CTA ── */
+.page-cta-section{padding:4rem 5vw;text-align:center;background:linear-gradient(180deg,transparent 0%,rgba(26,79,255,0.04) 100%);border-top:1px solid rgba(255,255,255,0.04);margin-top:1rem;}
+.page-cta-eyebrow{font-size:0.68rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--cyan);display:block;margin-bottom:0.9rem;}
+.page-cta-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(1.55rem,2.8vw,2.1rem);text-transform:uppercase;margin-bottom:0.75rem;}
+.page-cta-sub{font-size:0.93rem;color:var(--gray-light);line-height:1.75;max-width:480px;margin:0 auto 2rem;}
+.page-cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .nav-center{display:none;}
+  .hamburger-btn{display:flex;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  .featured-card{grid-template-columns:1fr;}
+  .featured-img-ph{min-height:200px;}
+  .articles-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:600px){
+  .logo-full{display:none;}
+  .logo-abbr{display:inline;}
+  .footer-top{grid-template-columns:1fr;}
+  .articles-grid{grid-template-columns:1fr;}
+  #cookie-banner{flex-direction:column;align-items:flex-start;}
+  .cookie-actions{width:100%;}
+  .cookie-btn-accept,.cookie-btn-more{flex:1;justify-content:center;}
+  .page-cta-btns{flex-direction:column;align-items:center;}
+  .cat-chips{overflow-x:auto;flex-wrap:nowrap;padding-bottom:0.25rem;scrollbar-width:none;}
+  .cat-chips::-webkit-scrollbar{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
+
+<!-- SCROLL TO TOP -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Till toppen">&#8593;</button>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="index.html" class="logo">
+    <span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span>
+    <span class="logo-abbr">N<span class="lpc">P</span>S</span>
+  </a>
+  <div class="nav-center">
+    <a href="index.html#services" data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</a>
+    <a href="index.html#pricing"  data-sv="Priser"    data-en="Pricing">Priser</a>
+    <a href="index.html#gallery"  data-sv="Galleri"   data-en="Gallery">Galleri</a>
+    <a href="index.html#testimonials" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
+    <a href="foretag.html"        data-sv="F&#246;retag"  data-en="Business">F&#246;retag</a>
+    <a href="blogg.html" class="active-page" data-sv="Resurser" data-en="Resources">Resurser</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('sv')" id="btn-sv">SV</button>
+      <button class="lang-btn"        onclick="setLang('en')" id="btn-en">EN</button>
+    </div>
+    <a href="index.html#contact" class="nav-cta" data-sv="Boka Nu" data-en="Book Now">Boka Nu</a>
+    <button class="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Meny" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu" role="dialog" aria-modal="true">
+  <button class="mobile-menu-close" onclick="toggleMobileMenu()" aria-label="St&#228;ng meny">&#x2715;</button>
+  <div class="mobile-menu-inner">
+    <nav class="mobile-menu-nav">
+      <a href="index.html#services"     onclick="closeMobileMenu()" data-sv="Tj&#228;nster"    data-en="Services">Tj&#228;nster</a>
+      <a href="index.html#pricing"      onclick="closeMobileMenu()" data-sv="Priser"      data-en="Pricing">Priser</a>
+      <a href="index.html#gallery"      onclick="closeMobileMenu()" data-sv="Galleri"     data-en="Gallery">Galleri</a>
+      <a href="index.html#testimonials" onclick="closeMobileMenu()" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
+      <a href="foretag.html"            onclick="closeMobileMenu()" data-sv="F&#246;retag"     data-en="Business">F&#246;retag</a>
+      <a href="blogg.html"              onclick="closeMobileMenu()" data-sv="Resurser"    data-en="Resources">Resurser</a>
+      <a href="index.html#contact" class="mobile-menu-cta" onclick="closeMobileMenu()" data-sv="Boka Nu" data-en="Book Now">Boka Nu</a>
+    </nav>
+    <div class="mobile-menu-lang">
+      <button class="lang-btn active" id="mobile-btn-sv" onclick="setLang('sv')">SV</button>
+      <button class="lang-btn"        id="mobile-btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MAIN CONTENT
+══════════════════════════════════════ -->
+<div class="page-content">
+
+  <!-- Page header -->
+  <header class="page-header">
+    <div class="page-header-inner">
+      <span class="page-eyebrow" data-sv="Resurser" data-en="Resources">Resurser</span>
+      <h1 class="page-heading" data-sv="Guider, tips och nyheter om PC-bygge och IT-support" data-en="Guides, tips and news on PC building and IT support">Guider, tips och nyheter om PC-bygge och IT-support</h1>
+      <p class="page-sub" data-sv="Praktisk kunskap fr&#229;n verkstaden &#8212; oavsett om du ska bygga din f&#246;rsta PC, uppgradera befintlig h&#229;rdvara eller optimera ditt n&#228;tverk." data-en="Practical knowledge from the workshop &#8212; whether you&#8217;re building your first PC, upgrading existing hardware, or optimising your network.">Praktisk kunskap fr&#229;n verkstaden &#8212; oavsett om du ska bygga din f&#246;rsta PC, uppgradera befintlig h&#229;rdvara eller optimera ditt n&#228;tverk.</p>
+    </div>
+  </header>
+
+  <!-- Featured article (hidden until data confirms is_featured exists) -->
+  <section class="featured-section" id="featured-section" style="display:none;" aria-label="Utvald artikel">
+    <div class="featured-eyebrow" id="featured-eyebrow" data-sv="Utvald artikel" data-en="Featured article">Utvald artikel</div>
+    <div id="featured-card-wrap"></div>
+  </section>
+
+  <!-- Filter bar -->
+  <div class="filter-section">
+    <div class="search-wrap">
+      <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="search-input" type="search"
+             placeholder="S&#246;k artiklar&#8230;"
+             data-sv-ph="S&#246;k artiklar&#8230;" data-en-ph="Search articles&#8230;"
+             oninput="onSearchInput(this.value)" aria-label="S&#246;k artiklar">
+    </div>
+    <div class="cat-chips" id="cat-chips" role="group" aria-label="Filtrera per kategori"></div>
+  </div>
+
+  <!-- Articles grid -->
+  <section class="grid-section" aria-label="Artiklar">
+    <div class="section-bar">
+      <span class="section-eyebrow" id="grid-label" data-sv="Senaste artiklar" data-en="Latest articles">Senaste artiklar</span>
+      <span class="result-note" id="result-note" aria-live="polite"></span>
+    </div>
+    <div class="articles-grid" id="articles-grid" aria-live="polite">
+      <!-- populated by JS -->
+    </div>
+    <div class="load-more-wrap" id="load-more-wrap" style="display:none;">
+      <button class="btn-secondary" onclick="loadMore()" data-sv="Visa fler" data-en="Load more">Visa fler</button>
+    </div>
+  </section>
+
+  <!-- Editor's Picks (hidden if none flagged) -->
+  <section class="secondary-section" id="picks-section" style="display:none;" aria-label="Redaktionens val">
+    <div class="section-divider"></div>
+    <div class="secondary-header">
+      <span class="secondary-accent">&#10022;</span>
+      <h2 class="secondary-title" data-sv="Redaktionens val" data-en="Editor&#8217;s Picks">Redaktionens val</h2>
+    </div>
+    <div class="picks-row" id="picks-row"></div>
+  </section>
+
+  <!-- Popular articles (hidden if fewer than 5 published articles) -->
+  <section class="secondary-section" id="popular-section" style="display:none;" aria-label="Popul&#228;ra artiklar">
+    <div class="section-divider"></div>
+    <div class="secondary-header">
+      <h2 class="secondary-title" data-sv="Popul&#228;ra artiklar" data-en="Popular articles">Popul&#228;ra artiklar</h2>
+    </div>
+    <div class="popular-list" id="popular-list"></div>
+  </section>
+
+  <!-- Page-level CTA -->
+  <section class="page-cta-section" aria-labelledby="cta-heading">
+    <span class="page-cta-eyebrow" data-sv="Nordic PC Solutions" data-en="Nordic PC Solutions">Nordic PC Solutions</span>
+    <h2 class="page-cta-title" id="cta-heading" data-sv="Redo att bygga eller uppgradera?" data-en="Ready to build or upgrade?">Redo att bygga eller uppgradera?</h2>
+    <p class="page-cta-sub" data-sv="Hittade du n&#229;got anv&#228;ndbart? Vi tar det d&#228;rifr&#229;n. Oavsett om det g&#228;ller ett nytt skr&#228;ddarsytt bygge, en specifik uppgradering eller bara n&#229;gra fr&#229;gor &#8212; kontakta oss." data-en="Found something useful? We&#8217;ll take it from there. Whether it&#8217;s a new custom build, a specific upgrade, or just a few questions &#8212; get in touch.">Hittade du n&#229;got anv&#228;ndbart? Vi tar det d&#228;rifr&#229;n. Oavsett om det g&#228;ller ett nytt skr&#228;ddarsytt bygge, en specifik uppgradering eller bara n&#229;gra fr&#229;gor &#8212; kontakta oss.</p>
+    <div class="page-cta-btns">
+      <a href="index.html#contact" class="btn-primary" data-sv="Kontakta oss" data-en="Contact us">Kontakta oss</a>
+      <a href="foretag.html" class="btn-secondary" data-sv="F&#246;retagsl&#246;sningar &#8594;" data-en="Business solutions &#8594;">F&#246;retagsl&#246;sningar &#8594;</a>
+    </div>
+  </section>
+
+</div><!-- /.page-content -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="logo"><span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span><span class="logo-abbr">N<span class="lpc">P</span>S</span></a>
+      <p data-sv="Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete." data-en="Professional PC builds, repairs and upgrades in Gothenburg. Honest pricing, dedicated work.">Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete.</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</h4>
+      <ul>
+        <li><a href="index.html#services" data-sv="Skr&#228;ddarsydda Byggen" data-en="Custom PC Builds">Skr&#228;ddarsydda Byggen</a></li>
+        <li><a href="index.html#services" data-sv="Uppgraderingar" data-en="Upgrades">Uppgraderingar</a></li>
+        <li><a href="index.html#services" data-sv="Reng&#246;ring &amp; Optimering" data-en="Cleaning &amp; Optimisation">Reng&#246;ring &amp; Optimering</a></li>
+        <li><a href="index.html#services" data-sv="Fels&#246;kning &amp; Reparation" data-en="Diagnostics &amp; Repair">Fels&#246;kning &amp; Reparation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="F&#246;retaget" data-en="Company">F&#246;retaget</h4>
+      <ul>
+        <li><a href="index.html#about" data-sv="Om oss" data-en="About Us">Om oss</a></li>
+        <li><a href="index.html#gallery" data-sv="Galleri" data-en="Gallery">Galleri</a></li>
+        <li><a href="index.html#testimonials" data-sv="Recensioner" data-en="Reviews">Recensioner</a></li>
+        <li><a href="index.html#pricing" data-sv="Priser" data-en="Pricing">Priser</a></li>
+        <li><a href="faq.html" data-sv="Vanliga fr&#229;gor" data-en="FAQ">Vanliga fr&#229;gor</a></li>
+        <li><a href="policy.html" data-sv="Integritetspolicy" data-en="Privacy Policy">Integritetspolicy</a></li>
+        <li><a href="foretag.html" data-sv="F&#246;retag" data-en="Business">F&#246;retag</a></li>
+        <li><a href="blogg.html" data-sv="Resurser" data-en="Resources">Resurser</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Kontakt" data-en="Contact">Kontakt</h4>
+      <ul>
+        <li><a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a></li>
+        <li><a href="index.html#contact" data-sv="G&#246;teborg, Sverige" data-en="Gothenburg, Sweden">G&#246;teborg, Sverige</a></li>
+        <li><a href="https://www.instagram.com/nordicpcsolutions" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Instagram</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61584118142766&amp;sk=about" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> Facebook</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&#169; <span id="copy-year">2025</span> Nordic PC Solutions. <span data-sv="Alla r&#228;ttigheter f&#246;rbeh&#229;llna." data-en="All rights reserved.">Alla r&#228;ttigheter f&#246;rbeh&#229;llna.</span></span>
+    <span data-sv="Tillverkad med &#10084;&#65039; i Sverige" data-en="Made with &#10084;&#65039; in Sweden">Tillverkad med &#10084;&#65039; i Sverige</span>
+  </div>
+</footer>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none;" role="dialog" aria-label="Cookie-meddelande">
+  <p data-sv="Vi anv&#228;nder cookies f&#246;r att f&#246;rb&#228;ttra din upplevelse. Genom att forts&#228;tta anv&#228;nda sidan godk&#228;nner du v&#229;r anv&#228;ndning av cookies." data-en="We use cookies to improve your experience. By continuing to use the site you accept our use of cookies.">Vi anv&#228;nder cookies f&#246;r att f&#246;rb&#228;ttra din upplevelse. Genom att forts&#228;tta anv&#228;nda sidan godk&#228;nner du v&#229;r anv&#228;ndning av cookies.</p>
+  <div class="cookie-actions">
+    <button class="cookie-btn-accept" onclick="acceptCookies()" data-sv="Godk&#228;nn" data-en="Accept">Godk&#228;nn</button>
+    <a href="policy.html" class="cookie-btn-more" data-sv="L&#228;s mer" data-en="Read more">L&#228;s mer</a>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════════
+// SUPABASE
+// ════════════════════════════════════════════════════════════════════
+const SB_URL = 'https://pflehgaffylcfmgltzlr.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmbGVoZ2FmZnlsY2ZtZ2x0emxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5ODcxMjQsImV4cCI6MjA5NjU2MzEyNH0.9Hh4n-9IvsCBnwEbcKBhGan2LskY3lKhoeRcA2lxXac';
+const sb = supabase.createClient(SB_URL, SB_KEY);
+
+// ════════════════════════════════════════════════════════════════════
+// LANGUAGE — exact same pattern as index.html
+// ════════════════════════════════════════════════════════════════════
+let currentLang = 'sv';
+(function() {
+  try {
+    const bl = navigator.language || navigator.userLanguage || 'sv';
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    const isSE = bl.toLowerCase().startsWith('sv') || tz.includes('Stockholm') || tz.includes('Europe/Stockholm');
+    if (!isSE) currentLang = 'en';
+  } catch(e) { currentLang = 'sv'; }
+})();
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.getElementById('btn-sv').classList.toggle('active', lang === 'sv');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  const mbs = document.getElementById('mobile-btn-sv'); if (mbs) mbs.classList.toggle('active', lang === 'sv');
+  const mbe = document.getElementById('mobile-btn-en'); if (mbe) mbe.classList.toggle('active', lang === 'en');
+  document.querySelectorAll('[data-sv]').forEach(function(el) {
+    var val = el.getAttribute('data-' + lang);
+    if (!val) return;
+    el.textContent = val;
+  });
+  document.querySelectorAll('input[data-sv-ph]').forEach(function(el) {
+    el.placeholder = el.getAttribute('data-' + lang + '-ph') || el.getAttribute('data-sv-ph') || '';
+  });
+  // Re-render dynamic sections so their inline language labels update
+  if (allPosts.length) {
+    renderCategoryChips();
+    renderGrid();
+    renderPopular();
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════════════
+var allPosts       = [];
+var allCategories  = [];
+var activeCategory = 'all';
+var searchQuery    = '';
+var searchDebounce = null;
+var visibleCount   = 9;
+var PAGE_SIZE      = 9;
+
+// ════════════════════════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════════════════════════
+function escH(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function readingTime(content) {
+  var words = (content || '').trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
+function truncate(text, max) {
+  if (!text) return '';
+  return text.length <= max ? text : text.slice(0, max).trimEnd() + '…';
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  try {
+    return new Date(iso).toLocaleDateString(
+      currentLang === 'en' ? 'en-GB' : 'sv-SE',
+      { year: 'numeric', month: 'short', day: 'numeric' }
+    );
+  } catch(e) { return ''; }
+}
+
+function catBadgeHtml(cats) {
+  if (!cats || !cats.name) return '';
+  return '<span class="cat-badge">' + escH(cats.name) + '</span>';
+}
+
+function cardImg(url, title, cls, phCls) {
+  if (!url) return '<div class="' + phCls + '"></div>';
+  return '<img class="' + cls + '" src="' + escH(url) + '" alt="' + escH(title || '') + '" loading="lazy">';
+}
+
+// ════════════════════════════════════════════════════════════════════
+// DATA LOADING
+// ════════════════════════════════════════════════════════════════════
+async function init() {
+  var results = await Promise.all([
+    sb.from('blog_posts')
+      .select('id, slug, title, excerpt, hero_image_url, content, created_at, is_featured, is_editors_pick, views, categories(name, slug)')
+      .eq('status', 'published')
+      .order('created_at', { ascending: false }),
+    sb.from('categories').select('id, name, slug').order('sort_order')
+  ]);
+
+  var postsRes = results[0];
+  var catsRes  = results[1];
+
+  if (!postsRes.error) {
+    // Defensive client-side filter: exclude future publish_at that RLS may not gate on anon
+    var now = new Date();
+    allPosts = (postsRes.data || []).filter(function(p) {
+      return !p.publish_at || new Date(p.publish_at) <= now;
+    });
+  }
+  if (!catsRes.error) {
+    allCategories = catsRes.data || [];
+  }
+
+  renderFeatured();
+  renderCategoryChips();
+  renderGrid();
+  renderEditorsPicks();
+  renderPopular();
+  setLang(currentLang); // applies bilingual labels to static + newly-rendered dynamic elements
+}
+
+// ════════════════════════════════════════════════════════════════════
+// FEATURED ARTICLE
+// Section is hidden by default; shown only when is_featured=true exists.
+// ════════════════════════════════════════════════════════════════════
+function renderFeatured() {
+  var featured = allPosts.find(function(p) { return p.is_featured; });
+  var section  = document.getElementById('featured-section');
+  if (!featured) { section.style.display = 'none'; return; }
+
+  section.style.display = '';
+  var rt      = readingTime(featured.content);
+  var dateStr = formatDate(featured.created_at);
+  var readLabel = currentLang === 'en' ? 'Read article' : 'L&#228;s artikel';
+
+  document.getElementById('featured-card-wrap').innerHTML =
+    '<a href="blogg.html?slug=' + escH(featured.slug) + '" class="featured-card">' +
+      '<div class="featured-img-wrap">' +
+        (featured.hero_image_url
+          ? '<img class="featured-img" src="' + escH(featured.hero_image_url) + '" alt="' + escH(featured.title) + '" loading="lazy">'
+          : '<div class="featured-img-ph"></div>') +
+      '</div>' +
+      '<div class="featured-body">' +
+        '<div class="featured-meta">' +
+          catBadgeHtml(featured.categories) +
+          '<span class="read-time">' + rt + ' min</span>' +
+        '</div>' +
+        '<h2 class="featured-title">' + escH(featured.title || '') + '</h2>' +
+        '<p class="featured-excerpt">' + escH(truncate(featured.excerpt || '', 200)) + '</p>' +
+        '<div class="featured-footer">' +
+          '<span class="featured-date">' + escH(dateStr) + '</span>' +
+          '<span class="read-link">' + readLabel + ' →</span>' +
+        '</div>' +
+      '</div>' +
+    '</a>';
+}
+
+// ════════════════════════════════════════════════════════════════════
+// CATEGORY CHIPS
+// Counts computed client-side from already-loaded posts — no extra query.
+// Only categories with at least one published article are shown.
+// ════════════════════════════════════════════════════════════════════
+function renderCategoryChips() {
+  var counts = {};
+  allPosts.forEach(function(p) {
+    if (p.categories && p.categories.slug) {
+      var s = p.categories.slug;
+      counts[s] = (counts[s] || 0) + 1;
+    }
+  });
+
+  var activeCats = allCategories.filter(function(c) { return counts[c.slug] > 0; });
+  var allLabel   = currentLang === 'en' ? 'All' : 'Alla';
+
+  var html = '<button class="cat-chip' + (activeCategory === 'all' ? ' active' : '') + '" onclick="setCategory(\'all\')" aria-pressed="' + (activeCategory === 'all') + '">' +
+    allLabel + ' (' + allPosts.length + ')</button>';
+
+  activeCats.forEach(function(c) {
+    var cnt = counts[c.slug] || 0;
+    var pressed = activeCategory === c.slug;
+    html += '<button class="cat-chip' + (pressed ? ' active' : '') + '" onclick="setCategory(\'' + escH(c.slug) + '\')" aria-pressed="' + pressed + '">' +
+      escH(c.name) + ' (' + cnt + ')</button>';
+  });
+
+  document.getElementById('cat-chips').innerHTML = html;
+}
+
+function setCategory(slug) {
+  activeCategory = slug;
+  visibleCount   = PAGE_SIZE;
+  renderCategoryChips();
+  renderGridWithFade();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// SEARCH
+// ════════════════════════════════════════════════════════════════════
+function onSearchInput(val) {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(function() {
+    searchQuery  = val.trim();
+    visibleCount = PAGE_SIZE;
+    renderGridWithFade();
+  }, 160);
+}
+
+// ════════════════════════════════════════════════════════════════════
+// FILTER LOGIC — AND between category and search
+// ════════════════════════════════════════════════════════════════════
+function getFiltered() {
+  var list = allPosts;
+  if (activeCategory !== 'all') {
+    list = list.filter(function(p) { return p.categories && p.categories.slug === activeCategory; });
+  }
+  if (searchQuery) {
+    var q = searchQuery.toLowerCase();
+    list = list.filter(function(p) {
+      return (p.title || '').toLowerCase().includes(q) ||
+             (p.excerpt || '').toLowerCase().includes(q);
+    });
+  }
+  return list;
+}
+
+// ════════════════════════════════════════════════════════════════════
+// GRID — with opacity fade transition on filter/search change
+// ════════════════════════════════════════════════════════════════════
+function renderGridWithFade() {
+  var grid = document.getElementById('articles-grid');
+  grid.classList.add('fading');
+  setTimeout(function() {
+    renderGrid();
+    grid.classList.remove('fading');
+  }, 150);
+}
+
+function renderGrid() {
+  var filtered    = getFiltered();
+  var visible     = filtered.slice(0, visibleCount);
+  var grid        = document.getElementById('articles-grid');
+  var resultNote  = document.getElementById('result-note');
+  var loadMoreWrap = document.getElementById('load-more-wrap');
+
+  // Result count shown only when actively filtering
+  if (searchQuery || activeCategory !== 'all') {
+    var n = filtered.length;
+    var artLabel = currentLang === 'en' ? (n === 1 ? 'article' : 'articles') : (n === 1 ? 'artikel' : 'artiklar');
+    resultNote.textContent = n + ' ' + artLabel;
+  } else {
+    resultNote.textContent = '';
+  }
+
+  if (!visible.length) {
+    grid.innerHTML =
+      '<div class="empty-state">' +
+        '<p>' + (currentLang === 'en' ? 'No articles found.' : 'Inga artiklar hittades.') + '</p>' +
+        '<p class="empty-hint">' + (currentLang === 'en' ? 'Try a different search or category.' : 'Prova ett annat s&#246;kord eller en annan kategori.') + '</p>' +
+      '</div>';
+    loadMoreWrap.style.display = 'none';
+    return;
+  }
+
+  grid.innerHTML = visible.map(function(p) {
+    var rt      = readingTime(p.content);
+    var dateStr = formatDate(p.created_at);
+    var readLbl = currentLang === 'en' ? 'Read' : 'L&#228;s';
+    return '<a href="blogg.html?slug=' + escH(p.slug) + '" class="article-card">' +
+      cardImg(p.hero_image_url, p.title, 'article-card-img', 'article-card-img-ph') +
+      '<div class="article-card-body">' +
+        '<div class="article-card-meta">' + catBadgeHtml(p.categories) + '<span class="read-time">' + rt + ' min</span></div>' +
+        '<h2 class="article-card-title">' + escH(truncate(p.title || '', 78)) + '</h2>' +
+        '<p class="article-card-excerpt">' + escH(truncate(p.excerpt || '', 118)) + '</p>' +
+        '<div class="article-card-footer">' +
+          '<span class="article-card-date">' + escH(dateStr) + '</span>' +
+          '<span class="read-link">' + readLbl + ' →</span>' +
+        '</div>' +
+      '</div>' +
+    '</a>';
+  }).join('');
+
+  loadMoreWrap.style.display = filtered.length > visibleCount ? 'block' : 'none';
+}
+
+function loadMore() {
+  visibleCount += PAGE_SIZE;
+  renderGrid();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// EDITOR'S PICKS
+// Section omitted entirely when no articles have is_editors_pick = true.
+// ════════════════════════════════════════════════════════════════════
+function renderEditorsPicks() {
+  var picks   = allPosts.filter(function(p) { return p.is_editors_pick; });
+  var section = document.getElementById('picks-section');
+  if (!picks.length) { section.style.display = 'none'; return; }
+  section.style.display = '';
+
+  document.getElementById('picks-row').innerHTML = picks.map(function(p) {
+    var rt = readingTime(p.content);
+    return '<a href="blogg.html?slug=' + escH(p.slug) + '" class="pick-card">' +
+      cardImg(p.hero_image_url, p.title, 'pick-card-img', 'pick-card-img-ph') +
+      '<div class="pick-card-body">' +
+        catBadgeHtml(p.categories) +
+        '<div class="pick-card-title">' + escH(truncate(p.title || '', 68)) + '</div>' +
+        '<div class="pick-card-meta">' + rt + ' min · ' + escH(formatDate(p.created_at)) + '</div>' +
+      '</div>' +
+    '</a>';
+  }).join('');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// POPULAR ARTICLES
+// Section omitted entirely when fewer than 5 published articles exist.
+// Shows top 5 by views descending.
+// ════════════════════════════════════════════════════════════════════
+function renderPopular() {
+  var section = document.getElementById('popular-section');
+  if (allPosts.length < 5) { section.style.display = 'none'; return; }
+  section.style.display = '';
+
+  var top5 = allPosts.slice().sort(function(a, b) { return (b.views || 0) - (a.views || 0); }).slice(0, 5);
+  var viewsLbl = currentLang === 'en' ? 'views' : 'visningar';
+
+  document.getElementById('popular-list').innerHTML = top5.map(function(p, i) {
+    return '<a href="blogg.html?slug=' + escH(p.slug) + '" class="popular-item">' +
+      '<span class="popular-num">0' + (i + 1) + '</span>' +
+      (p.hero_image_url
+        ? '<img class="popular-thumb" src="' + escH(p.hero_image_url) + '" alt="" loading="lazy">'
+        : '<div class="popular-thumb-ph"></div>') +
+      '<div class="popular-body">' +
+        '<div class="popular-title">' + escH(p.title || '') + '</div>' +
+        (p.categories ? '<div class="popular-cat">' + escH(p.categories.name) + '</div>' : '') +
+      '</div>' +
+      '<span class="popular-views">' + (p.views || 0) + ' ' + viewsLbl + '</span>' +
+    '</a>';
+  }).join('');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// SCROLL / NAV — matches index.html
+// ════════════════════════════════════════════════════════════════════
+window.addEventListener('scroll', function() {
+  var scrolled = window.scrollY;
+  var max = document.documentElement.scrollHeight - window.innerHeight;
+  if (max > 0) document.getElementById('progress-bar').style.width = (scrolled / max * 100) + '%';
+  document.getElementById('main-nav').classList.toggle('scrolled', scrolled > 60);
+  document.getElementById('scroll-top').classList.toggle('visible', scrolled > 400);
+});
+
+// ════════════════════════════════════════════════════════════════════
+// MOBILE MENU — matches index.html
+// ════════════════════════════════════════════════════════════════════
+function toggleMobileMenu() {
+  var menu   = document.getElementById('mobile-menu');
+  var btn    = document.querySelector('.hamburger-btn');
+  var isOpen = menu.classList.contains('open');
+  menu.classList.toggle('open');
+  if (btn) { btn.classList.toggle('open'); btn.setAttribute('aria-expanded', String(!isOpen)); }
+  document.body.style.overflow = isOpen ? '' : 'hidden';
+}
+function closeMobileMenu() {
+  var menu = document.getElementById('mobile-menu');
+  var btn  = document.querySelector('.hamburger-btn');
+  if (!menu || !menu.classList.contains('open')) return;
+  menu.classList.remove('open');
+  if (btn) { btn.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+  document.body.style.overflow = '';
+}
+document.getElementById('mobile-menu').addEventListener('click', function(e) { if (e.target === this) closeMobileMenu(); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMobileMenu(); });
+
+// ════════════════════════════════════════════════════════════════════
+// COPYRIGHT YEAR
+// ════════════════════════════════════════════════════════════════════
+(function() {
+  var el = document.getElementById('copy-year');
+  if (el) el.textContent = new Date().getFullYear();
+})();
+
+// ════════════════════════════════════════════════════════════════════
+// COOKIE CONSENT — matches index.html
+// ════════════════════════════════════════════════════════════════════
+function acceptCookies() {
+  localStorage.setItem('npc_cookie_consent', 'accepted');
+  document.getElementById('cookie-banner').style.display = 'none';
+}
+(function() {
+  if (localStorage.getItem('npc_cookie_consent') === 'accepted') return;
+  setTimeout(function() {
+    var banner = document.getElementById('cookie-banner');
+    if (banner) banner.style.display = 'flex';
+  }, 1500);
+})();
+
+// ════════════════════════════════════════════════════════════════════
+// BOOT
+// ════════════════════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

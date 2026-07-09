@@ -21,6 +21,9 @@ a.btn-primary{display:inline-block;text-decoration:none;}
 .s-published::before{background:var(--green);}
 .s-scheduled{background:var(--amber-dim);color:#ffd080;}
 .s-scheduled::before{background:var(--amber);}
+/* Archived: warm neutral gray (no blue tint) — visually distinct from draft's blue-gray */
+.s-archived{background:rgba(90,80,70,0.18);color:#9a8878;}
+.s-archived::before{background:#6a5a50;}
 
 /* ── Language chip ── */
 .lang-badge{display:inline-block;font-size:0.6rem;font-weight:700;letter-spacing:0.08em;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);color:var(--accent);padding:0.1rem 0.38rem;border-radius:3px;margin-left:0.4rem;vertical-align:middle;}
@@ -98,6 +101,7 @@ a.btn-primary{display:inline-block;text-decoration:none;}
       <button class="filter-btn"        id="fb-draft"     onclick="setStatusFilter('draft')">Utkast</button>
       <button class="filter-btn"        id="fb-published" onclick="setStatusFilter('published')">Publicerade</button>
       <button class="filter-btn"        id="fb-scheduled" onclick="setStatusFilter('scheduled')">Schemalagda</button>
+      <button class="filter-btn"        id="fb-archived"  onclick="setStatusFilter('archived')">Arkiverade</button>
       <select class="cat-select" id="cat-filter" onchange="onCatChange()">
         <option value="all">Alla kategorier</option>
       </select>
@@ -117,6 +121,7 @@ a.btn-primary{display:inline-block;text-decoration:none;}
         <option value="draft">&#8594; Utkast</option>
         <option value="published">&#8594; Publicerad</option>
         <option value="scheduled">&#8594; Schemalagd</option>
+        <option value="archived">&#8594; Arkiverad</option>
       </select>
     </div>
 
@@ -174,6 +179,7 @@ a.btn-primary{display:inline-block;text-decoration:none;}
           <option value="draft">Utkast</option>
           <option value="published">Publicerad</option>
           <option value="scheduled">Schemalagd</option>
+          <option value="archived">Arkiverad</option>
         </select>
       </div>
       <div class="admin-field">
@@ -316,6 +322,7 @@ const STATUS_BADGE = {
   draft:     '<span class="status-badge s-draft">Utkast</span>',
   published: '<span class="status-badge s-published">Publicerad</span>',
   scheduled: '<span class="status-badge s-scheduled">Schemalagd</span>',
+  archived:  '<span class="status-badge s-archived">Arkiverad</span>',
 };
 
 function renderTable(items) {
@@ -417,7 +424,7 @@ function goToPage(n) {
 
 function setStatusFilter(s) {
   currentStatus = s;
-  ['all','draft','published','scheduled'].forEach(k =>
+  ['all','draft','published','scheduled','archived'].forEach(k =>
     document.getElementById('fb-' + k).classList.toggle('active', k === s)
   );
   applyFilters();
