@@ -286,23 +286,21 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
           </div>
         </div>
 
-        <!--
-          ════════════════════════════════════════
-          TODO (next pass): CTA Template
-          ════════════════════════════════════════
-          Add a <select id="f-cta"> populated from:
-            supabaseClient.from('cta_templates').select('id, name').order('name')
-          with a blank "Ingen CTA" first option.
-
-          In savePost(), replace the hardcoded null below with:
-            cta_template_id: document.getElementById('f-cta').value || null
-
-          In loadPost(), restore the selection with:
-            document.getElementById('f-cta').value = data.cta_template_id || '';
-        -->
         <div class="sidebar-card">
           <h3>CTA-mall</h3>
-          <p class="placeholder-note">Byggs ut i n&#228;sta pass.</p>
+          <div class="admin-field">
+            <label for="f-cta">Visa CTA-block</label>
+            <select id="f-cta" onchange="updateCtaPreview()">
+              <option value="">Ingen CTA</option>
+            </select>
+          </div>
+          <!-- Live preview of the selected CTA — populated client-side from allCtaTemplates, no extra query -->
+          <div id="cta-preview" style="display:none;margin-top:0.75rem;background:rgba(26,79,255,0.07);border:1px solid rgba(26,79,255,0.22);border-radius:8px;padding:0.85rem 1rem;">
+            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-light);margin-bottom:0.45rem;">F&#246;rhandsvisning</div>
+            <div id="cta-preview-title" style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1rem;color:var(--white);margin-bottom:0.3rem;"></div>
+            <div id="cta-preview-desc" style="font-size:0.78rem;color:var(--gray-light);line-height:1.55;margin-bottom:0.6rem;"></div>
+            <span id="cta-preview-btn" style="display:inline-block;background:var(--blue);color:#fff;font-family:'Barlow',sans-serif;font-size:0.75rem;font-weight:700;padding:0.32rem 0.85rem;border-radius:5px;pointer-events:none;"></span>
+          </div>
         </div>
 
       </aside><!-- /.editor-sidebar -->
@@ -325,10 +323,11 @@ var isNew         = true;   // false once post exists in the DB
 var slugDirty     = false;  // true once admin has manually typed in the slug field
 var easyMDE       = null;   // EasyMDE instance (assigned in initEditor)
 var heroUrl       = '';     // current hero image URL, kept in sync with the preview UI
-var allCategories = [];     // {id, name, slug, sort_order}[] loaded on init
-var allTags       = [];     // {id, name, slug}[] loaded on init, grows as new tags are created
-var selectedTags  = [];     // {id, name}[] chips currently selected for this post
-var tagDebounce   = null;   // debounce timer for tag autocomplete input
+var allCategories    = [];  // {id, name, slug, sort_order}[] loaded on init
+var allTags          = [];  // {id, name, slug}[] loaded on init, grows as new tags are created
+var selectedTags     = [];  // {id, name}[] chips currently selected for this post
+var tagDebounce      = null; // debounce timer for tag autocomplete input
+var allCtaTemplates  = [];  // {id, name, title, description, button_text, button_link}[] loaded on init
 
 // ════════════════════════════════════════════════════════════════════
 // INIT
@@ -351,6 +350,11 @@ var tagDebounce   = null;   // debounce timer for tag autocomplete input
     // Pre-select category: select is now populated AND category_id is now known
     if (existingPost && existingPost.category_id) {
       document.getElementById('f-category').value = String(existingPost.category_id);
+    }
+    // Pre-select CTA template (or leave "Ingen CTA" if null)
+    if (existingPost && existingPost.cta_template_id) {
+      document.getElementById('f-cta').value = String(existingPost.cta_template_id);
+      updateCtaPreview();
     }
     // Pre-populate tag chips from the join table
     await loadPostTags(id);
@@ -607,9 +611,7 @@ async function savePost() {
     publish_at:      publish_at,
     updated_at:      new Date().toISOString(),
     category_id:     document.getElementById('f-category').value || null,
-    // TODO (next pass): replace null with document.getElementById('f-cta').value || null
-    // once the CTA template selector is built (see sidebar TODO above)
-    cta_template_id: existingPost ? existingPost.cta_template_id : null,
+    cta_template_id: document.getElementById('f-cta').value || null,
   };
 
   if (!isNew) {
@@ -676,6 +678,12 @@ async function loadCategoriesAndTags() {
   }
   var tagRes = await supabaseClient.from('tags').select('*').order('name');
   if (!tagRes.error) allTags = tagRes.data || [];
+
+  var ctaRes = await supabaseClient.from('cta_templates').select('*').order('name');
+  if (!ctaRes.error) {
+    allCtaTemplates = ctaRes.data || [];
+    populateCtaSelect();
+  }
 }
 
 function populateCategorySelect() {
@@ -689,6 +697,32 @@ function populateCategorySelect() {
     sel.appendChild(opt);
   });
   if (prev) sel.value = prev; // preserve any selection already made
+}
+
+function populateCtaSelect() {
+  var sel  = document.getElementById('f-cta');
+  var prev = sel.value;
+  sel.innerHTML = '<option value="">Ingen CTA</option>';
+  allCtaTemplates.forEach(function(t) {
+    var opt = document.createElement('option');
+    opt.value       = String(t.id);
+    opt.textContent = t.name;
+    sel.appendChild(opt);
+  });
+  if (prev) sel.value = prev;
+  updateCtaPreview();
+}
+
+function updateCtaPreview() {
+  var id  = document.getElementById('f-cta').value;
+  var box = document.getElementById('cta-preview');
+  if (!id) { box.style.display = 'none'; return; }
+  var tpl = allCtaTemplates.find(function(t) { return String(t.id) === id; });
+  if (!tpl) { box.style.display = 'none'; return; }
+  document.getElementById('cta-preview-title').textContent = tpl.title       || '';
+  document.getElementById('cta-preview-desc').textContent  = tpl.description || '';
+  document.getElementById('cta-preview-btn').textContent   = tpl.button_text || '';
+  box.style.display = 'block';
 }
 
 function showNewCategoryInput() {
