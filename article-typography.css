@@ -42,8 +42,8 @@
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: var(--white, #f0f4ff);
-  margin-top: 2.2em;
-  margin-bottom: 0.5em;
+  margin-top: 2.8em;
+  margin-bottom: 0.6em;
   line-height: 1.15;
 }
 
@@ -64,8 +64,8 @@
 /* ── PARAGRAPHS ── */
 .article-content p {
   margin-top: 0;
-  margin-bottom: 1.2em;
-  line-height: 1.8;
+  margin-bottom: 1.5em;
+  line-height: 1.85;
   color: var(--gray-light, #c8d4ee);
 }
 
@@ -94,12 +94,12 @@
 /* ── LISTS ── */
 .article-content ul,
 .article-content ol {
-  margin: 0 0 1.2em 0;
-  padding-left: 1.6em;
+  margin: 0 0 1.5em 0;
+  padding-left: 1.9em;
 }
 .article-content li {
-  margin-bottom: 0.45em;
-  line-height: 1.7;
+  margin-bottom: 0.6em;
+  line-height: 1.78;
   color: var(--gray-light, #c8d4ee);
 }
 .article-content li > ul,
@@ -113,19 +113,20 @@
 
 /* ── BLOCKQUOTE ── */
 .article-content blockquote {
-  margin: 1.6em 0;
-  padding: 0.9em 1.4em;
-  border-left: 3px solid var(--blue, #1a4fff);
-  background: var(--dark3, #1a2235);
-  border-radius: 0 8px 8px 0;
+  margin: 2.2em 0;
+  padding: 1.25em 1.75em;
+  border-left: 4px solid var(--accent, #00d4ff);
+  background: rgba(0, 212, 255, 0.04);
+  border-radius: 0 10px 10px 0;
   font-style: italic;
   color: var(--gray-light, #c8d4ee);
 }
 .article-content blockquote p {
   margin-bottom: 0;
+  line-height: 1.8;
 }
 .article-content blockquote p + p {
-  margin-top: 0.75em;
+  margin-top: 0.9em;
 }
 
 /* ── INLINE CODE ── */
@@ -142,11 +143,12 @@
 
 /* ── CODE BLOCKS ── */
 .article-content pre {
-  margin: 1.5em 0;
-  padding: 1.2em 1.4em;
+  margin: 1.8em 0;
+  padding: 1.25em 1.5em;
   background: var(--dark3, #1a2235);
   border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 10px;
+  border-left: 3px solid rgba(0, 212, 255, 0.4);
+  border-radius: 0 10px 10px 0;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -225,8 +227,11 @@
 .article-content tbody tr:last-child td {
   border-bottom: none;
 }
+.article-content tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.018);
+}
 .article-content tbody tr:hover {
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 /* ── STRONG / EM ── */
