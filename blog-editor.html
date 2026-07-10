@@ -122,12 +122,13 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
 .related-dd-item:hover{background:rgba(255,255,255,0.06);color:var(--white);}
 </style>
 
-<!-- Script load order: Supabase → marked → DOMPurify → admin-shared → markdown-renderer → EasyMDE → media-picker -->
+<!-- Script load order: Supabase → marked → DOMPurify → admin-shared → markdown-renderer → content-block-renderer → EasyMDE → media-picker -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 <script src="admin-shared.js"></script>
 <script src="markdown-renderer.js"></script>
+<script src="content-block-renderer.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
 <script src="media-picker.js"></script>
 </head>
@@ -371,12 +372,26 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
 // STATE
 // ════════════════════════════════════════════════════════════════════
 
+// ════════════════════════════════════════════════════════════════════
+// CONTENT BLOCKS ARCHITECTURE NOTE
+// Articles use a block-based content architecture (content_blocks jsonb array).
+// Currently every article contains exactly one block of type 'markdown', edited
+// via EasyMDE. This is intentional groundwork for a future visual block editor
+// that will allow inserting additional block types (images, callouts, FAQs,
+// comparison tables, etc.) before/between/after the markdown block, without
+// requiring any data migration, since all articles are already stored in this
+// block-array shape.
+// content-block-renderer.js holds the render registry (BLOCK_RENDERERS) and
+// generateBlockId(); add new block types there to extend the system.
+// ════════════════════════════════════════════════════════════════════
+
 var postId        = null;   // string id from ?id=, set after create or on load
 var existingPost  = null;   // full blog_posts row loaded in edit mode
 var isNew         = true;   // false once post exists in the DB
 var slugDirty     = false;  // true once admin has manually typed in the slug field
 var easyMDE       = null;   // EasyMDE instance (assigned in initEditor)
 var heroUrl       = '';     // current hero image URL, kept in sync with the preview UI
+var existingMarkdownBlockId = null; // block id of the markdown block; preserved across saves so future block-reference features remain stable
 var allCategories    = [];  // {id, name, slug, sort_order}[] loaded on init
 var allTags          = [];  // {id, name, slug}[] loaded on init, grows as new tags are created
 var selectedTags     = [];  // {id, name}[] chips currently selected for this post
@@ -437,7 +452,18 @@ var relatedDebounce      = null;
 
   // Inject post content into EasyMDE now that the editor is initialised and visible
   if (existingPost) {
-    easyMDE.value(existingPost.content || '');
+    // Load from content_blocks (new architecture); fall back to legacy content column
+    // if content_blocks is empty (migration safety net for any un-migrated rows)
+    var _mdToLoad = existingPost.content || '';
+    var _blocks   = existingPost.content_blocks;
+    if (Array.isArray(_blocks) && _blocks.length > 0) {
+      var _mdBlock = _blocks.find(function(b) { return b.type === 'markdown'; });
+      if (_mdBlock && _mdBlock.data) {
+        _mdToLoad = _mdBlock.data.markdown || '';
+        existingMarkdownBlockId = _mdBlock.id || null;
+      }
+    }
+    easyMDE.value(_mdToLoad);
     // Prefer the DB-saved version over any stale localStorage autosave draft
     easyMDE.clearAutosavedValue();
   }
@@ -660,6 +686,16 @@ async function savePost() {
   var title    = document.getElementById('f-title').value.trim();
   var slug     = document.getElementById('f-slug').value.trim();
   var content  = easyMDE.value();
+
+  // Build content_blocks — preserve the existing block id so any future feature
+  // referencing a specific block by id remains stable across saves.
+  // generateBlockId() is only called for brand-new posts (existingMarkdownBlockId is null).
+  var contentBlocks = [{
+    id:   existingMarkdownBlockId || generateBlockId(),
+    type: 'markdown',
+    data: { markdown: content }
+  }];
+
   var status   = document.getElementById('f-status').value;
   var language = document.getElementById('f-language').value;
   var excerpt  = document.getElementById('f-excerpt').value.trim()   || null;
@@ -697,7 +733,8 @@ async function savePost() {
   var payload = {
     title:           title,
     slug:            slug,
-    content:         content,
+    content:         content,         // legacy column — kept as safety net during transition
+    content_blocks:  contentBlocks,   // new block-based structure
     excerpt:         excerpt,
     hero_image_url:  heroUrl || null,
     seo_title:       seoTitle,
@@ -938,7 +975,6 @@ function showTagDropdown(matches, query) {
     createRow.className = 'tag-dd-item tag-dd-create';
     createRow.textContent = '+ Skapa ny tagg: "' + query + '"';
     createRow.addEventListener('click', function() {
-      console.log('CREATE ROW CLICKED - calling doAddTag with:', query);
       doAddTag(query);
     });
     dropdown.appendChild(createRow);

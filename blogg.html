@@ -24,6 +24,7 @@
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 <script src="markdown-renderer.js"></script>
+<script src="content-block-renderer.js"></script>
 <script src="content-utils.js"></script>
 
 <style>
@@ -1149,9 +1150,12 @@ function renderArticleBody(article) {
     heroWrap.style.display = 'none';
   }
 
-  // Markdown content via markdown-renderer.js
+  // Render article content via the block system; fall back to legacy content column if needed
   var contentEl = document.getElementById('article-content');
-  contentEl.innerHTML = renderMarkdown(article.content || '');
+  var rendered = (article.content_blocks && article.content_blocks.length > 0)
+    ? renderContentBlocks(article.content_blocks)
+    : renderMarkdown(article.content || '');
+  contentEl.innerHTML = rendered;
 }
 
 function renderArticleTags(tags) {
