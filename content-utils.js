@@ -1,9 +1,40 @@
 // content-utils.js — shared public-page content logic.
+// incrementArticleView() was originally placed in admin-shared.js for convenience
+// but belongs here since it is public-page logic (called on article reads, not in
+// admin sessions). Public pages load content-utils.js directly without admin-shared.js.
 // Kept separate from admin-shared.js because public pages (blogg.html, future
 // portfolio/guides pages) should not pull in admin/auth dependencies.
 // These functions operate on already-loaded arrays of post-like objects and
 // never call Supabase directly, making them reusable across any content type
 // that provides the minimal shape: { id, category_id, created_at, tagIds[] }.
+
+// ────────────────────────────────────────────────────────────────────
+// VIEW COUNTER
+// ────────────────────────────────────────────────────────────────────
+
+/**
+ * Increments the view count for a blog post, at most once per 24 hours per browser.
+ * localStorage key prevents re-counting on same-tab refresh or quick return visits.
+ *
+ * @param {string|number} postId          — the blog_posts.id value
+ * @param {object}        supabaseClient  — initialised Supabase JS v2 client instance
+ */
+async function incrementArticleView(postId, supabaseClient) {
+  var storageKey   = 'viewed_post_' + postId;
+  var storedEntry  = localStorage.getItem(storageKey);
+  var now          = Date.now();
+  var TWENTY_FOUR_H = 24 * 60 * 60 * 1000;
+  if (storedEntry) {
+    var lastViewed = parseInt(storedEntry, 10);
+    if (!isNaN(lastViewed) && now - lastViewed < TWENTY_FOUR_H) return;
+  }
+  localStorage.setItem(storageKey, String(now));
+  var res = await supabaseClient.from('blog_posts').select('views').eq('id', postId).single();
+  var newViews = ((res.data && res.data.views) || 0) + 1;
+  await supabaseClient.from('blog_posts')
+    .update({ views: newViews, last_viewed_at: new Date().toISOString() })
+    .eq('id', postId);
+}
 
 // ────────────────────────────────────────────────────────────────────
 // PUBLIC API
