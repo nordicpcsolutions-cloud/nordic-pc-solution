@@ -451,6 +451,21 @@ var relatedDebounce      = null;
   document.getElementById('f-title').addEventListener('input', onTitleInput);
   document.getElementById('f-slug').addEventListener('input', function() { slugDirty = true; });
 
+  // Tag dropdown — single delegated listener on the stable container.
+  // Items are re-rendered on every keystroke via innerHTML; attaching handlers inside
+  // showTagDropdown() would require re-attaching after every render and forces the argument
+  // to survive JS-string-in-HTML-attribute escaping, which is fragile. Delegation avoids
+  // both problems: one listener, no inline onclick, data-* carries the payload safely.
+  document.getElementById('tag-dropdown').addEventListener('click', function(e) {
+    var item = e.target.closest('.tag-dd-item');
+    if (!item) return;
+    if (item.dataset.tagId !== undefined) {
+      selectExistingTag(item.dataset.tagId);
+    } else if (item.dataset.createTag !== undefined) {
+      doAddTag(item.dataset.createTag);
+    }
+  });
+
   // Dismiss autocomplete dropdowns on outside click
   document.addEventListener('click', function(e) {
     if (!document.getElementById('tag-input-wrap').contains(e.target)) {
@@ -916,17 +931,20 @@ function onTagKeydown(e) {
 }
 
 function showTagDropdown(matches, query) {
+  // data-tag-id and data-create-tag carry the payload; the delegation listener
+  // on #tag-dropdown (wired once in init) reads them. No inline onclick needed,
+  // which avoids all JS-string-in-HTML-attribute escaping issues entirely.
   var html = matches.map(function(t) {
-    return '<div class="tag-dd-item" onclick="selectExistingTag(\'' + escAttr(String(t.id)) + '\')">' +
+    return '<div class=”tag-dd-item” data-tag-id=”' + escAttr(String(t.id)) + '”>' +
            escH(t.name) + '</div>';
   }).join('');
 
-  // Only show "create" option when no existing tag has the same normalized slug
+  // Only show “create” option when no existing tag has the same normalized slug
   var querySlug    = slugify(query);
   var hasSlugMatch = allTags.some(function(t) { return t.slug === querySlug; });
   if (!hasSlugMatch) {
-    html += '<div class=”tag-dd-item tag-dd-create” onclick=”doAddTag(\'' + escAttr(query) + '\')”>' +
-            '+ Skapa ny tagg: &ldquo;' + escH(query) + '&rdquo;</div>';
+    html += '<div class=”tag-dd-item tag-dd-create” data-create-tag=”' + escAttr(query) + '”>' +
+            '+ Skapa ny tagg: “' + escH(query) + '”</div>';
   }
 
   var dd = document.getElementById('tag-dropdown');
