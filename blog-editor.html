@@ -456,9 +456,13 @@ var relatedDebounce      = null;
   // showTagDropdown() would require re-attaching after every render and forces the argument
   // to survive JS-string-in-HTML-attribute escaping, which is fragile. Delegation avoids
   // both problems: one listener, no inline onclick, data-* carries the payload safely.
+  console.log('[TAG DEBUG] Attaching click listener to dropdown container now');
   document.getElementById('tag-dropdown').addEventListener('click', function(e) {
+    console.log('[TAG DEBUG] Delegated click detected on container. event.target:', e.target);
     var item = e.target.closest('.tag-dd-item');
+    console.log('[TAG DEBUG] Matched tag-dd-item?', item);
     if (!item) return;
+    console.log('[TAG DEBUG] Click handler fired! Event target:', e.target, 'Target classList:', e.target.className);
     if (item.dataset.tagId !== undefined) {
       selectExistingTag(item.dataset.tagId);
     } else if (item.dataset.createTag !== undefined) {
@@ -931,6 +935,7 @@ function onTagKeydown(e) {
 }
 
 function showTagDropdown(matches, query) {
+  console.log('%c[TAG DEBUG] Dropdown rendering', 'background: yellow; color: black; font-size: 14px;', 'query=', query);
   // data-tag-id and data-create-tag carry the payload; the delegation listener
   // on #tag-dropdown (wired once in init) reads them. No inline onclick needed,
   // which avoids all JS-string-in-HTML-attribute escaping issues entirely.
@@ -947,6 +952,7 @@ function showTagDropdown(matches, query) {
             '+ Skapa ny tagg: “' + escH(query) + '”</div>';
   }
 
+  console.log('[TAG DEBUG] Generated dropdown HTML:', html);
   var dd = document.getElementById('tag-dropdown');
   dd.innerHTML    = html;
   dd.style.display = html ? 'block' : 'none';
