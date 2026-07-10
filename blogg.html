@@ -272,6 +272,17 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 .article-cta-card{background:linear-gradient(135deg,rgba(26,79,255,0.1) 0%,rgba(0,212,255,0.05) 100%);border:1px solid rgba(26,79,255,0.3);border-radius:12px;padding:2rem 2rem;margin-top:2.5rem;text-align:center;}
 .article-cta-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.45rem;text-transform:uppercase;margin-bottom:0.6rem;color:var(--white);}
 .article-cta-desc{font-size:0.9rem;color:var(--gray-light);line-height:1.72;max-width:40ch;margin:0 auto 1.4rem;}
+.article-cta-icon{color:var(--accent);margin-bottom:0.75rem;}
+.article-cta-btns{display:flex;gap:1rem;justify-content:center;align-items:center;flex-wrap:wrap;}
+.article-cta-btn-secondary{color:var(--gray-light);font-size:0.88rem;text-decoration:underline;text-underline-offset:3px;transition:color 0.15s;}
+.article-cta-btn-secondary:hover{color:var(--white);}
+/* Style variants */
+.article-cta-card--accent{background:linear-gradient(135deg,rgba(0,212,255,0.12) 0%,rgba(26,79,255,0.07) 100%);border-color:rgba(0,212,255,0.45);box-shadow:0 0 32px rgba(0,212,255,0.08);}
+.article-cta-card--accent .article-cta-icon{color:var(--cyan,#00d4ff);}
+.article-cta-card--subtle{background:rgba(255,255,255,0.02);border-color:rgba(255,255,255,0.08);text-align:left;padding:1.25rem 1.5rem;}
+.article-cta-card--subtle .article-cta-title{font-size:1.1rem;}
+.article-cta-card--subtle .article-cta-desc{max-width:none;margin-left:0;}
+.article-cta-card--subtle .article-cta-btns{justify-content:flex-start;}
 
 /* Prev / Next navigation */
 .article-prevnext-outer{padding:0 5vw 3.5rem;}
@@ -1172,13 +1183,28 @@ function renderArticleCta(ctaData) {
   var block = document.getElementById('article-cta-block');
   if (!ctaData) { block.innerHTML = ''; outer.style.display = 'none'; return; }
   outer.style.display = '';
+
+  var style    = ctaData.style_variant || 'default';
+  var varClass = style !== 'default' ? ' article-cta-card--' + style : '';
+  var iconSvg  = getCtaIconSvg(ctaData.icon || 'none');
+  var iconHtml = iconSvg ? '<div class="article-cta-icon">' + iconSvg + '</div>' : '';
+
+  var primaryBtn = (ctaData.button_text && ctaData.button_link)
+    ? '<a href="' + escH(ctaData.button_link) + '" class="btn-primary">' + escH(ctaData.button_text) + '</a>'
+    : '';
+  var secondaryBtn = (ctaData.secondary_button_text && ctaData.secondary_button_url)
+    ? '<a href="' + escH(ctaData.secondary_button_url) + '" class="article-cta-btn-secondary">' + escH(ctaData.secondary_button_text) + '</a>'
+    : '';
+  var btnsHtml = (primaryBtn || secondaryBtn)
+    ? '<div class="article-cta-btns">' + primaryBtn + secondaryBtn + '</div>'
+    : '';
+
   block.innerHTML =
-    '<div class="article-cta-card">' +
+    '<div class="article-cta-card' + varClass + '">' +
+      iconHtml +
       '<div class="article-cta-title">' + escH(ctaData.title || '') + '</div>' +
       '<p class="article-cta-desc">' + escH(ctaData.description || '') + '</p>' +
-      (ctaData.button_text && ctaData.button_link
-        ? '<a href="' + escH(ctaData.button_link) + '" class="btn-primary">' + escH(ctaData.button_text) + '</a>'
-        : '') +
+      btnsHtml +
     '</div>';
 }
 

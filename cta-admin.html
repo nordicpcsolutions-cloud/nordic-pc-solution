@@ -65,6 +65,18 @@
 .cta-preview-block .pv-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1rem;color:var(--white);margin-bottom:0.28rem;}
 .cta-preview-block .pv-desc{font-size:0.78rem;color:var(--gray-light);line-height:1.55;margin-bottom:0.55rem;}
 .cta-preview-block .pv-btn{display:inline-block;background:var(--blue);color:#fff;font-family:'Barlow',sans-serif;font-size:0.75rem;font-weight:700;padding:0.32rem 0.85rem;border-radius:5px;pointer-events:none;}
+.cta-preview-block .pv-icon{color:var(--accent);margin-bottom:0.45rem;}
+.cta-preview-block .pv-btns{display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;}
+.cta-preview-block .pv-btn-secondary{font-size:0.75rem;color:var(--gray-light);text-decoration:underline;pointer-events:none;}
+.cta-preview-block.pv-accent{background:rgba(0,212,255,0.09);border-color:rgba(0,212,255,0.4);}
+.cta-preview-block.pv-accent .pv-icon{color:var(--accent);}
+.cta-preview-block.pv-subtle{background:rgba(255,255,255,0.02);border-color:rgba(255,255,255,0.08);}
+/* Small inline badges shown in the template list */
+.style-badge{display:inline-block;font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.1rem 0.4rem;border-radius:3px;vertical-align:middle;margin-left:0.35rem;background:rgba(255,255,255,0.07);color:var(--gray-light);}
+.style-badge-accent{background:rgba(0,212,255,0.12);color:var(--accent);}
+.style-badge-subtle{background:rgba(255,255,255,0.05);color:var(--gray);}
+.style-badge-icon{background:rgba(26,79,255,0.15);color:var(--blue-light);}
+.style-badge-sec{background:rgba(26,79,255,0.1);color:var(--blue-light);}
 
 /* ── Add-new toolbar ── */
 .cta-toolbar{display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1rem;border-bottom:1px solid rgba(255,255,255,0.06);}
@@ -73,6 +85,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="admin-shared.js"></script>
+<script src="content-utils.js"></script>
 </head>
 <body>
 
@@ -166,12 +179,48 @@
       <input type="text" id="f-btn-link" placeholder="T.ex. foretag.html#kontakt">
     </div>
 
+    <div class="admin-field">
+      <label for="f-sec-btn-text">Sekund&#228;r knapptext <span style="font-weight:400;color:var(--gray);">(valfri)</span></label>
+      <input type="text" id="f-sec-btn-text" placeholder="T.ex. L&#228;s mer om oss" oninput="refreshPreview()">
+    </div>
+
+    <div class="admin-field">
+      <label for="f-sec-btn-link">Sekund&#228;r knappl&#228;nk <span style="font-weight:400;color:var(--gray);">(valfri)</span></label>
+      <input type="text" id="f-sec-btn-link" placeholder="T.ex. om-oss.html">
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+      <div class="admin-field" style="margin-bottom:0;">
+        <label for="f-icon">Ikon</label>
+        <select id="f-icon" onchange="refreshPreview()">
+          <option value="none">Ingen</option>
+          <option value="search">F&#246;rstoringsglas (analys)</option>
+          <option value="wrench">Verktyg (reparation)</option>
+          <option value="briefcase">Portf&#246;lj (f&#246;retag)</option>
+          <option value="cpu">CPU (h&#229;rdvara)</option>
+          <option value="chat">Pratbubbla (kontakt)</option>
+        </select>
+      </div>
+      <div class="admin-field" style="margin-bottom:0;">
+        <label for="f-style">Stil</label>
+        <select id="f-style" onchange="refreshPreview()">
+          <option value="default">Standard</option>
+          <option value="accent">Accent (mer framtr&#228;dande)</option>
+          <option value="subtle">Subtil (mer &#229;terh&#229;llsam)</option>
+        </select>
+      </div>
+    </div>
+
     <!-- Live preview updates as the admin types — no extra query needed -->
     <div class="cta-preview-block" id="form-preview" style="display:none;">
       <div class="pv-label">F&#246;rhandsvisning</div>
+      <div class="pv-icon" id="pv-icon" style="display:none;"></div>
       <div class="pv-title" id="pv-title"></div>
       <div class="pv-desc"  id="pv-desc"></div>
-      <span class="pv-btn"  id="pv-btn"></span>
+      <div class="pv-btns">
+        <span class="pv-btn" id="pv-btn"></span>
+        <span class="pv-btn-secondary" id="pv-btn-secondary" style="display:none;"></span>
+      </div>
     </div>
 
     <div class="form-footer">
@@ -278,8 +327,19 @@ function renderList() {
         '<button class="ax ax-danger"  onclick="startDelete(\'' + id + '\')">Ta bort</button>';
     }
 
+    var badges = '';
+    if (t.style_variant && t.style_variant !== 'default') {
+      badges += '<span class="style-badge style-badge-' + escH(t.style_variant) + '">' + escH(t.style_variant) + '</span>';
+    }
+    if (t.icon && t.icon !== 'none') {
+      badges += '<span class="style-badge style-badge-icon">' + escH(t.icon) + '</span>';
+    }
+    if (t.secondary_button_text) {
+      badges += '<span class="style-badge style-badge-sec">+2&nbsp;knappar</span>';
+    }
+
     return '<tr' + (isDel ? ' class="inline-del"' : '') + '>' +
-      '<td class="col-name">'     + escH(t.name        || '') + '</td>' +
+      '<td class="col-name">'     + escH(t.name        || '') + badges + '</td>' +
       '<td class="col-title">'    + escH(t.title       || '') + '</td>' +
       '<td class="col-btn-text">' + escH(t.button_text || '') + '</td>' +
       '<td class="col-link">'     + escH(t.button_link || '') + '</td>' +
@@ -302,18 +362,26 @@ function openForm(id) {
   if (id) {
     var t = allTemplates.find(function(x) { return String(x.id) === id; });
     document.getElementById('form-title').textContent   = 'Redigera CTA-mall';
-    document.getElementById('f-name').value             = t ? (t.name        || '') : '';
-    document.getElementById('f-title').value            = t ? (t.title       || '') : '';
-    document.getElementById('f-desc').value             = t ? (t.description || '') : '';
-    document.getElementById('f-btn-text').value         = t ? (t.button_text || '') : '';
-    document.getElementById('f-btn-link').value         = t ? (t.button_link || '') : '';
+    document.getElementById('f-name').value             = t ? (t.name                 || '') : '';
+    document.getElementById('f-title').value            = t ? (t.title                || '') : '';
+    document.getElementById('f-desc').value             = t ? (t.description          || '') : '';
+    document.getElementById('f-btn-text').value         = t ? (t.button_text          || '') : '';
+    document.getElementById('f-btn-link').value         = t ? (t.button_link          || '') : '';
+    document.getElementById('f-sec-btn-text').value     = t ? (t.secondary_button_text || '') : '';
+    document.getElementById('f-sec-btn-link').value     = t ? (t.secondary_button_url  || '') : '';
+    document.getElementById('f-icon').value             = t ? (t.icon          || 'none')    : 'none';
+    document.getElementById('f-style').value            = t ? (t.style_variant || 'default') : 'default';
   } else {
     document.getElementById('form-title').textContent = 'Ny CTA-mall';
-    document.getElementById('f-name').value     = '';
-    document.getElementById('f-title').value    = '';
-    document.getElementById('f-desc').value     = '';
-    document.getElementById('f-btn-text').value = '';
-    document.getElementById('f-btn-link').value = '';
+    document.getElementById('f-name').value         = '';
+    document.getElementById('f-title').value        = '';
+    document.getElementById('f-desc').value         = '';
+    document.getElementById('f-btn-text').value     = '';
+    document.getElementById('f-btn-link').value     = '';
+    document.getElementById('f-sec-btn-text').value = '';
+    document.getElementById('f-sec-btn-link').value = '';
+    document.getElementById('f-icon').value         = 'none';
+    document.getElementById('f-style').value        = 'default';
   }
 
   refreshPreview();
@@ -327,19 +395,39 @@ function closeForm() {
 }
 
 function refreshPreview() {
-  var title   = document.getElementById('f-title').value.trim();
-  var desc    = document.getElementById('f-desc').value.trim();
-  var btnText = document.getElementById('f-btn-text').value.trim();
-  var block   = document.getElementById('form-preview');
+  var title      = document.getElementById('f-title').value.trim();
+  var desc       = document.getElementById('f-desc').value.trim();
+  var btnText    = document.getElementById('f-btn-text').value.trim();
+  var secBtnText = document.getElementById('f-sec-btn-text').value.trim();
+  var icon       = document.getElementById('f-icon').value;
+  var style      = document.getElementById('f-style').value;
+  var block      = document.getElementById('form-preview');
 
   if (!title && !desc && !btnText) {
     block.style.display = 'none';
     return;
   }
 
+  // Icon
+  var iconEl = document.getElementById('pv-icon');
+  var iconSvg = getCtaIconSvg(icon);
+  iconEl.innerHTML    = iconSvg;
+  iconEl.style.display = iconSvg ? 'block' : 'none';
+
   document.getElementById('pv-title').textContent = title;
   document.getElementById('pv-desc').textContent  = desc;
   document.getElementById('pv-btn').textContent   = btnText;
+
+  // Secondary button
+  var secEl = document.getElementById('pv-btn-secondary');
+  secEl.textContent   = secBtnText;
+  secEl.style.display = secBtnText ? 'inline-block' : 'none';
+
+  // Style variant
+  block.classList.remove('pv-accent', 'pv-subtle');
+  if (style === 'accent') block.classList.add('pv-accent');
+  if (style === 'subtle') block.classList.add('pv-subtle');
+
   block.style.display = 'block';
 }
 
@@ -348,18 +436,29 @@ function refreshPreview() {
 // ════════════════════════════════════════════════════════════════════
 
 async function submitForm() {
-  var name     = document.getElementById('f-name').value.trim();
-  var title    = document.getElementById('f-title').value.trim();
-  var desc     = document.getElementById('f-desc').value.trim();
-  var btnText  = document.getElementById('f-btn-text').value.trim();
-  var btnLink  = document.getElementById('f-btn-link').value.trim();
+  var name       = document.getElementById('f-name').value.trim();
+  var title      = document.getElementById('f-title').value.trim();
+  var desc       = document.getElementById('f-desc').value.trim();
+  var btnText    = document.getElementById('f-btn-text').value.trim();
+  var btnLink    = document.getElementById('f-btn-link').value.trim();
+  var secBtnText = document.getElementById('f-sec-btn-text').value.trim() || null;
+  var secBtnLink = document.getElementById('f-sec-btn-link').value.trim() || null;
+  var icon       = document.getElementById('f-icon').value  || 'none';
+  var styleVar   = document.getElementById('f-style').value || 'default';
 
   if (!name)    { showToast('Namn kr&#228;vs.', 't-red');      return; }
   if (!title)   { showToast('Titel kr&#228;vs.', 't-red');     return; }
   if (!btnText) { showToast('Knapptext kr&#228;vs.', 't-red'); return; }
   if (!btnLink) { showToast('Knappl&#228;nk kr&#228;vs.', 't-red'); return; }
 
-  var payload = { name: name, title: title, description: desc, button_text: btnText, button_link: btnLink };
+  var payload = {
+    name: name, title: title, description: desc,
+    button_text: btnText, button_link: btnLink,
+    secondary_button_text: secBtnText,
+    secondary_button_url:  secBtnLink,
+    icon:          icon,
+    style_variant: styleVar,
+  };
 
   if (editingId) {
     var res = await supabaseClient.from('cta_templates').update(payload).eq('id', editingId).select().single();

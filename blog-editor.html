@@ -122,11 +122,12 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
 .related-dd-item:hover{background:rgba(255,255,255,0.06);color:var(--white);}
 </style>
 
-<!-- Script load order: Supabase → marked → DOMPurify → admin-shared → markdown-renderer → content-block-renderer → EasyMDE → media-picker -->
+<!-- Script load order: Supabase → marked → DOMPurify → admin-shared → content-utils → markdown-renderer → content-block-renderer → EasyMDE → media-picker -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 <script src="admin-shared.js"></script>
+<script src="content-utils.js"></script>
 <script src="markdown-renderer.js"></script>
 <script src="content-block-renderer.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
@@ -324,11 +325,15 @@ a.btn-back{display:inline-flex;align-items:center;gap:0.35rem;text-decoration:no
             </select>
           </div>
           <!-- Live preview of the selected CTA — populated client-side from allCtaTemplates, no extra query -->
-          <div id="cta-preview" style="display:none;margin-top:0.75rem;background:rgba(26,79,255,0.07);border:1px solid rgba(26,79,255,0.22);border-radius:8px;padding:0.85rem 1rem;">
+          <div id="cta-preview" style="display:none;margin-top:0.75rem;background:rgba(26,79,255,0.07);border:1px solid rgba(26,79,255,0.22);border-radius:8px;padding:0.85rem 1rem;transition:background 0.2s,border-color 0.2s;">
             <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-light);margin-bottom:0.45rem;">F&#246;rhandsvisning</div>
+            <div id="cta-preview-icon" style="color:var(--accent);margin-bottom:0.45rem;display:none;"></div>
             <div id="cta-preview-title" style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1rem;color:var(--white);margin-bottom:0.3rem;"></div>
             <div id="cta-preview-desc" style="font-size:0.78rem;color:var(--gray-light);line-height:1.55;margin-bottom:0.6rem;"></div>
-            <span id="cta-preview-btn" style="display:inline-block;background:var(--blue);color:#fff;font-family:'Barlow',sans-serif;font-size:0.75rem;font-weight:700;padding:0.32rem 0.85rem;border-radius:5px;pointer-events:none;"></span>
+            <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+              <span id="cta-preview-btn" style="display:inline-block;background:var(--blue);color:#fff;font-family:'Barlow',sans-serif;font-size:0.75rem;font-weight:700;padding:0.32rem 0.85rem;border-radius:5px;pointer-events:none;"></span>
+              <span id="cta-preview-btn-sec" style="display:none;font-size:0.75rem;color:var(--gray-light);text-decoration:underline;pointer-events:none;"></span>
+            </div>
           </div>
         </div>
 
@@ -856,9 +861,31 @@ function updateCtaPreview() {
   if (!id) { box.style.display = 'none'; return; }
   var tpl = allCtaTemplates.find(function(t) { return String(t.id) === id; });
   if (!tpl) { box.style.display = 'none'; return; }
+
+  // Icon
+  var iconEl  = document.getElementById('cta-preview-icon');
+  var iconSvg = getCtaIconSvg(tpl.icon || 'none');
+  iconEl.innerHTML   = iconSvg;
+  iconEl.style.display = iconSvg ? 'block' : 'none';
+
   document.getElementById('cta-preview-title').textContent = tpl.title       || '';
   document.getElementById('cta-preview-desc').textContent  = tpl.description || '';
   document.getElementById('cta-preview-btn').textContent   = tpl.button_text || '';
+
+  // Secondary button
+  var secBtn = document.getElementById('cta-preview-btn-sec');
+  secBtn.textContent   = tpl.secondary_button_text || '';
+  secBtn.style.display = tpl.secondary_button_text ? 'inline-block' : 'none';
+
+  // Style variant — shift background/border as a visual hint
+  var style = tpl.style_variant || 'default';
+  box.style.background  = style === 'accent' ? 'rgba(0,212,255,0.09)'
+                        : style === 'subtle'  ? 'rgba(255,255,255,0.02)'
+                        : 'rgba(26,79,255,0.07)';
+  box.style.borderColor = style === 'accent' ? 'rgba(0,212,255,0.4)'
+                        : style === 'subtle'  ? 'rgba(255,255,255,0.08)'
+                        : 'rgba(26,79,255,0.22)';
+
   box.style.display = 'block';
 }
 
