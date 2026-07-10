@@ -925,8 +925,8 @@ function showTagDropdown(matches, query) {
   var querySlug    = slugify(query);
   var hasSlugMatch = allTags.some(function(t) { return t.slug === querySlug; });
   if (!hasSlugMatch) {
-    html += '<div class="tag-dd-item tag-dd-create" onclick="doAddTag(' +
-            JSON.stringify(query) + ')">+ Skapa ny tagg: “' + escH(query) + '”</div>';
+    html += '<div class=”tag-dd-item tag-dd-create” onclick=”doAddTag(\'' + escAttr(query) + '\')”>' +
+            '+ Skapa ny tagg: &ldquo;' + escH(query) + '&rdquo;</div>';
   }
 
   var dd = document.getElementById('tag-dropdown');
