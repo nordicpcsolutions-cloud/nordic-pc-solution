@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0iIzA4MGMxOCIvPjx0ZXh0IHg9IjMyIiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iNDQiIGZpbGw9IiMxYTRmZmYiPlA8L3RleHQ+PC9zdmc+">
+<title data-sv="Prebyggda PC &#8211; Nordic PC Solutions" data-en="Prebuilt PCs &#8211; Nordic PC Solutions">Prebyggda PC &#8211; Nordic PC Solutions</title>
+<meta name="description" content="F&#228;rdiga prebyggda datorer fr&#229;n Nordic PC Solutions. Handplockade komponenter, testade byggen och transparent prissättning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T21RVB775S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T21RVB775S');
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --blue:#1a4fff;
+  --blue-light:#3d6fff;
+  --cyan:#00d4ff;
+  --accent:#00d4ff;
+  --dark:#080c18;
+  --dark2:#0d1225;
+  --dark3:#121a30;
+  --dark4:#1a2440;
+  --gray:#7a8fb5;
+  --gray-light:#b8cae8;
+  --white:#eef2ff;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--dark);color:var(--white);overflow-x:hidden;}
+
+/* ── PROGRESS BAR ── */
+#progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--blue),var(--cyan));z-index:9999;transition:width 0.05s linear;box-shadow:0 0 10px var(--cyan),0 0 4px var(--blue);pointer-events:none;}
+
+/* ── SCROLL TO TOP ── */
+#scroll-top{position:fixed;bottom:2rem;right:2rem;width:46px;height:46px;border-radius:8px;background:var(--blue);border:none;color:#fff;font-size:1.1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity 0.3s,transform 0.3s,box-shadow 0.2s,background 0.2s;z-index:500;box-shadow:0 4px 20px rgba(26,79,255,0.45);}
+#scroll-top.visible{opacity:1;transform:translateY(0);}
+#scroll-top:hover{background:var(--blue-light);box-shadow:0 0 28px rgba(26,79,255,0.7);}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:64px;background:rgba(8,12,24,0.75);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(26,79,255,0.1);gap:1rem;transition:background 0.3s,border-color 0.3s;}
+nav.scrolled{background:rgba(8,12,24,0.97);border-bottom-color:rgba(26,79,255,0.18);}
+.logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.3rem;letter-spacing:0.05em;color:var(--white);text-transform:uppercase;text-decoration:none;white-space:nowrap;flex-shrink:0;}
+.logo .lpc{color:var(--blue);}
+.logo-full{display:inline;}
+.logo-abbr{display:none;}
+.nav-center{display:flex;align-items:center;gap:2rem;flex:1;justify-content:center;}
+.nav-center a{color:var(--gray-light);text-decoration:none;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;position:relative;padding-bottom:2px;transition:color 0.2s;}
+.nav-center a::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1.5px;background:linear-gradient(90deg,var(--blue),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform 0.25s;}
+.nav-center a:hover{color:var(--white);}
+.nav-center a:hover::after,.nav-center a.active-page::after{transform:scaleX(1);}
+.nav-center a.active-page{color:var(--white);}
+.nav-right{display:flex;align-items:center;gap:0.75rem;flex-shrink:0;}
+.nav-cta{background:linear-gradient(135deg,#3d6fff 0%,#00d4ff 100%);color:#fff !important;padding:0.48rem 1.3rem;border-radius:4px;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:filter 0.2s,box-shadow 0.2s;box-shadow:0 0 16px rgba(26,79,255,0.3);}
+.nav-cta:hover{filter:brightness(1.15);box-shadow:0 0 28px rgba(26,79,255,0.6);}
+.lang-toggle{display:flex;border:1px solid rgba(255,255,255,0.1);border-radius:5px;overflow:hidden;flex-shrink:0;}
+.lang-btn{padding:0.38rem 0.65rem;background:transparent;color:var(--gray);border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.07em;transition:background 0.2s,color 0.2s;}
+.lang-btn.active{background:var(--blue);color:#fff;}
+.hamburger-btn{display:none;flex-direction:column;justify-content:space-between;align-items:center;width:44px;height:44px;padding:8px 4px;background:none;border:none;cursor:pointer;z-index:1002;flex-shrink:0;}
+.hamburger-btn span{display:block;height:2px;width:26px;background:var(--white);border-radius:2px;transition:transform 0.3s,opacity 0.2s;}
+.hamburger-btn.open span:nth-child(1){transform:translateY(10px) rotate(45deg);}
+.hamburger-btn.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger-btn.open span:nth-child(3){transform:translateY(-10px) rotate(-45deg);}
+
+/* ── MOBILE MENU ── */
+#mobile-menu{position:fixed;inset:0;z-index:1001;background:rgba(8,12,24,0.98);backdrop-filter:blur(20px);transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;padding:1.5rem 5vw 2rem;}
+#mobile-menu.open{transform:translateX(0);}
+.mobile-menu-close{align-self:flex-end;background:none;border:none;color:var(--white);font-size:1.5rem;cursor:pointer;padding:0.5rem;margin-bottom:1rem;}
+.mobile-menu-inner{display:flex;flex-direction:column;height:100%;gap:2rem;}
+.mobile-menu-nav{display:flex;flex-direction:column;gap:0.3rem;}
+.mobile-menu-nav a{color:var(--gray-light);text-decoration:none;font-size:1.1rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.8rem 0;border-bottom:1px solid rgba(255,255,255,0.05);transition:color 0.2s;}
+.mobile-menu-nav a:hover{color:var(--white);}
+.mobile-menu-cta{background:linear-gradient(135deg,#3d6fff,#00d4ff);color:#fff !important;border-radius:6px;padding:0.9rem !important;text-align:center;border-bottom:none !important;margin-top:0.5rem;}
+.mobile-menu-lang{display:flex;gap:0.5rem;}
+
+/* ── PAGE LAYOUT ── */
+.page-content{padding-top:64px;}
+
+/* ── PAGE INTRO ── */
+.page-intro{padding:4rem 5vw 2.5rem;max-width:860px;}
+.page-intro .eyebrow{font-size:0.75rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.8rem;}
+.page-intro h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;line-height:1.1;color:var(--white);margin-bottom:0.9rem;}
+.page-intro .intro-sub{font-size:1rem;color:var(--gray-light);line-height:1.65;}
+.page-intro .intro-sub a{color:var(--cyan);text-decoration:none;}
+.page-intro .intro-sub a:hover{text-decoration:underline;}
+
+/* ── FILTER CHIPS ── */
+.filter-bar{padding:0 5vw 2rem;display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;}
+.filter-chip{background:transparent;border:1px solid rgba(255,255,255,0.12);color:var(--gray-light);padding:0.42rem 0.95rem;border-radius:20px;font-family:'Barlow',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:background 0.2s,border-color 0.2s,color 0.2s;white-space:nowrap;}
+.filter-chip:hover{border-color:rgba(0,212,255,0.4);color:var(--white);}
+.filter-chip.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.filter-chip .chip-count{font-size:0.72rem;opacity:0.75;margin-left:0.25rem;}
+
+/* ── FEATURED SECTION ── */
+.featured-section{padding:0 5vw 2.5rem;}
+.featured-label{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:1.1rem;}
+.featured-row{display:flex;gap:1.25rem;overflow-x:auto;padding-bottom:0.5rem;scrollbar-width:thin;scrollbar-color:rgba(26,79,255,0.3) transparent;}
+.featured-row::-webkit-scrollbar{height:4px;}
+.featured-row::-webkit-scrollbar-track{background:transparent;}
+.featured-row::-webkit-scrollbar-thumb{background:rgba(26,79,255,0.4);border-radius:2px;}
+.featured-card{flex:0 0 320px;background:var(--dark3);border:1px solid rgba(0,212,255,0.25);border-radius:12px;overflow:hidden;position:relative;transition:border-color 0.2s,box-shadow 0.2s;}
+.featured-card:hover{border-color:rgba(0,212,255,0.5);box-shadow:0 0 28px rgba(0,212,255,0.12);}
+.featured-badge{position:absolute;top:0.7rem;left:0.7rem;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.6rem;border-radius:4px;z-index:2;}
+
+/* ── BUILD GRID ── */
+.builds-section{padding:0 5vw 4rem;}
+.builds-section-label{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);margin-bottom:1.25rem;}
+.builds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
+
+/* ── BUILD CARD ── */
+.build-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:border-color 0.2s,box-shadow 0.2s;}
+.build-card:hover{border-color:rgba(26,79,255,0.35);box-shadow:0 4px 24px rgba(26,79,255,0.12);}
+.build-card.is-featured{border-color:rgba(0,212,255,0.22);}
+.build-card.is-featured:hover{border-color:rgba(0,212,255,0.45);box-shadow:0 4px 24px rgba(0,212,255,0.12);}
+
+.card-hero{position:relative;width:100%;aspect-ratio:16/9;background:var(--dark4);overflow:hidden;flex-shrink:0;}
+.card-hero img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s;}
+.build-card:hover .card-hero img{transform:scale(1.04);}
+.card-hero-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.card-hero-placeholder svg{opacity:0.18;}
+
+.card-body{padding:1.1rem 1.2rem 0;flex:1;display:flex;flex-direction:column;}
+.card-category{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue-light);margin-bottom:0.45rem;}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:900;color:var(--white);line-height:1.2;margin-bottom:0.3rem;}
+.card-theme{font-size:0.82rem;color:var(--gray);margin-bottom:0.7rem;}
+.card-desc{font-size:0.86rem;color:var(--gray-light);line-height:1.6;margin-bottom:0.9rem;flex:1;}
+
+.card-price{display:flex;align-items:baseline;gap:0.4rem;margin-bottom:0.6rem;}
+.card-price-amount{font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:900;color:var(--white);}
+.card-price-label{font-size:0.75rem;color:var(--gray);}
+.card-price-missing{font-size:0.78rem;color:var(--gray);font-style:italic;}
+.card-price-override-note{font-size:0.72rem;color:var(--cyan);opacity:0.8;}
+
+.card-comp-preview{font-size:0.77rem;color:var(--gray);margin-bottom:0.9rem;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+.card-footer{padding:0 1.2rem 1.2rem;display:flex;flex-direction:column;gap:0.6rem;}
+.card-toggle-btn{background:none;border:none;color:var(--blue-light);font-family:'Barlow',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;padding:0;text-align:left;display:flex;align-items:center;gap:0.35rem;transition:color 0.2s;}
+.card-toggle-btn:hover{color:var(--cyan);}
+.card-toggle-btn .toggle-arrow{display:inline-block;transition:transform 0.25s;font-style:normal;}
+.card-toggle-btn.open .toggle-arrow{transform:rotate(180deg);}
+.card-comp-list{display:none;background:var(--dark4);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:0.8rem 1rem;margin-bottom:0.1rem;}
+.card-comp-list.open{display:block;}
+.card-comp-list table{width:100%;border-collapse:collapse;font-size:0.8rem;}
+.card-comp-list td{padding:0.3rem 0;color:var(--gray-light);}
+.card-comp-list td:first-child{color:var(--gray);width:40%;font-size:0.74rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;}
+.card-comp-list tr + tr td{border-top:1px solid rgba(255,255,255,0.04);}
+.card-cta{display:block;background:linear-gradient(135deg,var(--blue),var(--blue-light));color:#fff;text-decoration:none;text-align:center;padding:0.65rem 1rem;border-radius:7px;font-size:0.84rem;font-weight:700;letter-spacing:0.04em;transition:filter 0.2s,box-shadow 0.2s;}
+.card-cta:hover{filter:brightness(1.15);box-shadow:0 0 20px rgba(26,79,255,0.45);}
+
+/* ── EMPTY STATE ── */
+.empty-state{padding:5rem 5vw;text-align:center;color:var(--gray);}
+.empty-state svg{opacity:0.2;margin-bottom:1.5rem;}
+.empty-state h3{font-size:1.3rem;color:var(--gray-light);margin-bottom:0.6rem;}
+.empty-state p{font-size:0.92rem;line-height:1.6;}
+.empty-state a{color:var(--cyan);text-decoration:none;}
+.empty-state a:hover{text-decoration:underline;}
+
+/* ── LOADING ── */
+.skeleton-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;padding:0 5vw 4rem;}
+.skeleton-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:12px;overflow:hidden;}
+.skeleton-hero{aspect-ratio:16/9;background:linear-gradient(90deg,var(--dark4) 25%,var(--dark3) 50%,var(--dark4) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;}
+.skeleton-body{padding:1.1rem 1.2rem 1.4rem;}
+.skeleton-line{height:0.8rem;border-radius:4px;background:linear-gradient(90deg,var(--dark4) 25%,var(--dark3) 50%,var(--dark4) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;margin-bottom:0.65rem;}
+.skeleton-line.short{width:55%;}
+.skeleton-line.med{width:75%;}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+/* ── FOOTER ── */
+footer{background:var(--dark2);padding:3.5rem 5vw 2rem;position:relative;}
+footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(26,79,255,0.55) 30%,rgba(0,212,255,0.4) 70%,transparent);box-shadow:0 0 24px rgba(26,79,255,0.18);}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2.5rem;}
+.footer-brand .logo{font-size:1.1rem;display:block;margin-bottom:0.75rem;}
+.footer-brand p{font-size:0.84rem;color:var(--gray);line-height:1.68;max-width:230px;}
+.footer-col h4{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);margin-bottom:1.1rem;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.65rem;}
+.footer-col ul a{color:var(--gray-light);text-decoration:none;font-size:0.87rem;transition:color 0.2s;}
+.footer-col ul a:hover{color:var(--cyan);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:1.8rem;display:flex;justify-content:space-between;align-items:center;font-size:0.79rem;color:var(--gray);flex-wrap:wrap;gap:0.5rem;}
+.footer-social-link{display:flex;align-items:center;gap:0.45rem;}
+.footer-social-link svg{width:14px;height:14px;}
+
+/* ── COOKIE BANNER ── */
+#cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:999;background:var(--dark2);border-top:3px solid var(--blue);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+#cookie-banner p{font-size:0.84rem;color:var(--gray-light);line-height:1.5;flex:1;min-width:200px;}
+.cookie-actions{display:flex;gap:0.7rem;flex-shrink:0;flex-wrap:wrap;}
+.cookie-btn-accept{background:var(--blue);color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:6px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.82rem;cursor:pointer;min-height:44px;transition:background 0.2s;}
+.cookie-btn-accept:hover{background:var(--blue-light);}
+.cookie-btn-more{background:transparent;color:var(--gray-light);border:1px solid rgba(255,255,255,0.2);padding:0.6rem 1.4rem;border-radius:6px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.82rem;cursor:pointer;min-height:44px;text-decoration:none;display:inline-flex;align-items:center;transition:border-color 0.2s;}
+.cookie-btn-more:hover{border-color:rgba(255,255,255,0.5);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .nav-center{display:none;}
+  .hamburger-btn{display:flex;}
+  .logo-full{display:none;}
+  .logo-abbr{display:inline;}
+  .builds-grid{grid-template-columns:repeat(2,1fr);}
+  .skeleton-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-top{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .builds-grid{grid-template-columns:1fr;}
+  .skeleton-grid{grid-template-columns:1fr;}
+  .featured-card{flex:0 0 290px;}
+  #cookie-banner{flex-direction:column;align-items:flex-start;}
+  .cookie-actions{width:100%;}
+  .cookie-btn-accept,.cookie-btn-more{flex:1;justify-content:center;}
+  .footer-top{grid-template-columns:1fr;}
+  .page-intro{padding:3rem 5vw 2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
+
+<!-- SCROLL TO TOP -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">&#8593;</button>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="index.html" class="logo">
+    <span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span>
+    <span class="logo-abbr">N<span class="lpc">P</span>S</span>
+  </a>
+  <div class="nav-center">
+    <a href="index.html#services"     data-sv="Tj&#228;nster"    data-en="Services">Tj&#228;nster</a>
+    <a href="index.html#pricing"      data-sv="Priser"      data-en="Pricing">Priser</a>
+    <a href="index.html#gallery"      data-sv="Galleri"     data-en="Gallery">Galleri</a>
+    <a href="index.html#testimonials" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
+    <a href="foretag.html"            data-sv="F&#246;retag"     data-en="Business">F&#246;retag</a>
+    <a href="blogg.html"              data-sv="Resurser"    data-en="Resources">Resurser</a>
+    <a href="prebuilt.html" class="active-page" data-sv="Prebyggda PC" data-en="Prebuilt PCs">Prebyggda PC</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('sv')" id="btn-sv">SV</button>
+      <button class="lang-btn"        onclick="setLang('en')" id="btn-en">EN</button>
+    </div>
+    <a href="index.html#contact" class="nav-cta" data-sv="Boka Nu" data-en="Book Now">Boka Nu</a>
+    <button class="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Meny" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu" role="dialog" aria-modal="true">
+  <button class="mobile-menu-close" onclick="toggleMobileMenu()" aria-label="St&#228;ng meny">&#x2715;</button>
+  <div class="mobile-menu-inner">
+    <nav class="mobile-menu-nav">
+      <a href="index.html#services"     onclick="closeMobileMenu()" data-sv="Tj&#228;nster"    data-en="Services">Tj&#228;nster</a>
+      <a href="index.html#pricing"      onclick="closeMobileMenu()" data-sv="Priser"      data-en="Pricing">Priser</a>
+      <a href="index.html#gallery"      onclick="closeMobileMenu()" data-sv="Galleri"     data-en="Gallery">Galleri</a>
+      <a href="index.html#testimonials" onclick="closeMobileMenu()" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
+      <a href="foretag.html"            onclick="closeMobileMenu()" data-sv="F&#246;retag"     data-en="Business">F&#246;retag</a>
+      <a href="blogg.html"              onclick="closeMobileMenu()" data-sv="Resurser"    data-en="Resources">Resurser</a>
+      <a href="prebuilt.html"           onclick="closeMobileMenu()" data-sv="Prebyggda PC" data-en="Prebuilt PCs">Prebyggda PC</a>
+      <a href="index.html#contact" class="mobile-menu-cta" onclick="closeMobileMenu()" data-sv="Boka Nu" data-en="Book Now">Boka Nu</a>
+    </nav>
+    <div class="mobile-menu-lang">
+      <button class="lang-btn active" id="mobile-btn-sv" onclick="setLang('sv')">SV</button>
+      <button class="lang-btn"        id="mobile-btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="page-content">
+
+  <!-- PAGE INTRO -->
+  <div class="page-intro">
+    <div class="eyebrow" data-sv="F&#228;rdiga byggen" data-en="Ready-to-go builds">F&#228;rdiga byggen</div>
+    <h1 data-sv="Vill du slippa v&#228;lja komponenter sj&#228;lv?" data-en="Want us to handle the component choices?">Vill du slippa v&#228;lja komponenter sj&#228;lv?</h1>
+    <p class="intro-sub">
+      <span data-sv="H&#228;r hittar du v&#229;ra f&#228;rdiga konfigurationer &#8211; handplockade komponenter, testade byggen och transparent priss&#228;ttning. Vill du ha n&#229;got anpassat? " data-en="Here you'll find our ready-made configurations &#8211; hand-picked components, tested builds and transparent pricing. Want something custom? ">H&#228;r hittar du v&#229;ra f&#228;rdiga konfigurationer &#8211; handplockade komponenter, testade byggen och transparent priss&#228;ttning. Vill du ha n&#229;got anpassat? </span><a href="index.html#contact" data-sv="Kontakta oss" data-en="Contact us">Kontakta oss</a><span data-sv=" s&#229; skr&#228;ddarsyr vi ett bygge efter dina behov." data-en=" and we'll tailor a build to your exact needs."> s&#229; skr&#228;ddarsyr vi ett bygge efter dina behov.</span>
+    </p>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar" id="filter-bar">
+    <!-- Populated dynamically -->
+  </div>
+
+  <!-- FEATURED SECTION -->
+  <div class="featured-section" id="featured-section" style="display:none;">
+    <div class="featured-label" data-sv="Utvalda byggen" data-en="Featured builds">Utvalda byggen</div>
+    <div class="featured-row" id="featured-row"></div>
+  </div>
+
+  <!-- ALL BUILDS SECTION -->
+  <div class="builds-section" id="builds-section">
+    <div class="builds-section-label" id="builds-section-label" data-sv="Alla byggen" data-en="All builds">Alla byggen</div>
+    <!-- Loading skeletons -->
+    <div class="skeleton-grid" id="skeleton-grid">
+      <div class="skeleton-card"><div class="skeleton-hero"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line med"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-hero"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line med"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-hero"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line med"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+    </div>
+    <div class="builds-grid" id="builds-grid" style="display:none;"></div>
+    <div class="empty-state" id="empty-state" style="display:none;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      <h3 id="empty-title" data-sv="Inga byggen hittades" data-en="No builds found">Inga byggen hittades</h3>
+      <p id="empty-desc">
+        <span data-sv="Vi har inga f&#228;rdiga konfigurationer just nu &#8211; " data-en="We don't have any ready configurations right now &#8211; ">Vi har inga f&#228;rdiga konfigurationer just nu &#8211; </span><a href="index.html#contact" data-sv="kontakta oss" data-en="contact us">kontakta oss</a><span data-sv=" s&#229; bygger vi n&#229;got skr&#228;ddarsytt." data-en=" and we'll build something tailored for you."> s&#229; bygger vi n&#229;got skr&#228;ddarsytt.</span>
+      </p>
+    </div>
+  </div>
+
+</div><!-- /page-content -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="logo"><span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span><span class="logo-abbr">N<span class="lpc">P</span>S</span></a>
+      <p data-sv="Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete." data-en="Professional PC builds, repairs and upgrades in Gothenburg. Honest pricing, dedicated work.">Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete.</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</h4>
+      <ul>
+        <li><a href="index.html#services" data-sv="Skr&#228;ddarsydda Byggen"      data-en="Custom PC Builds">Skr&#228;ddarsydda Byggen</a></li>
+        <li><a href="index.html#services" data-sv="Uppgraderingar"             data-en="Upgrades">Uppgraderingar</a></li>
+        <li><a href="index.html#services" data-sv="Reng&#246;ring &amp; Optimering" data-en="Cleaning &amp; Optimisation">Reng&#246;ring &amp; Optimering</a></li>
+        <li><a href="index.html#services" data-sv="Fels&#246;kning &amp; Reparation" data-en="Diagnostics &amp; Repair">Fels&#246;kning &amp; Reparation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="F&#246;retaget" data-en="Company">F&#246;retaget</h4>
+      <ul>
+        <li><a href="index.html#about"        data-sv="Om oss"           data-en="About Us">Om oss</a></li>
+        <li><a href="index.html#gallery"      data-sv="Galleri"          data-en="Gallery">Galleri</a></li>
+        <li><a href="index.html#testimonials" data-sv="Recensioner"      data-en="Reviews">Recensioner</a></li>
+        <li><a href="index.html#pricing"      data-sv="Priser"           data-en="Pricing">Priser</a></li>
+        <li><a href="faq.html"                data-sv="Vanliga fr&#229;gor"   data-en="FAQ">Vanliga fr&#229;gor</a></li>
+        <li><a href="policy.html"             data-sv="Integritetspolicy" data-en="Privacy Policy">Integritetspolicy</a></li>
+        <li><a href="foretag.html"            data-sv="F&#246;retag"          data-en="Business">F&#246;retag</a></li>
+        <li><a href="blogg.html"              data-sv="Resurser"          data-en="Resources">Resurser</a></li>
+        <li><a href="prebuilt.html"           data-sv="Prebyggda PC"      data-en="Prebuilt PCs">Prebyggda PC</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Kontakt" data-en="Contact">Kontakt</h4>
+      <ul>
+        <li><a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a></li>
+        <li><a href="index.html#contact" data-sv="G&#246;teborg, Sverige" data-en="Gothenburg, Sweden">G&#246;teborg, Sverige</a></li>
+        <li><a href="https://www.instagram.com/nordicpcsolutions" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Instagram</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61584118142766&amp;sk=about" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> Facebook</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&#169; <span id="copy-year">2025</span> Nordic PC Solutions. <span data-sv="Alla r&#228;ttigheter f&#246;rbeh&#229;llna." data-en="All rights reserved.">Alla r&#228;ttigheter f&#246;rbeh&#229;llna.</span></span>
+    <span data-sv="Tillverkad med &#10084;&#65039; i Sverige" data-en="Made with &#10084;&#65039; in Sweden">Tillverkad med &#10084;&#65039; i Sverige</span>
+  </div>
+</footer>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none;" role="dialog" aria-label="Cookie-meddelande">
+  <p data-sv="Vi anv&#228;nder cookies f&#246;r att f&#246;rb&#228;ttra din upplevelse. Genom att forts&#228;tta anv&#228;nda sidan godk&#228;nner du v&#229;r anv&#228;ndning av cookies." data-en="We use cookies to improve your experience. By continuing to use the site you accept our use of cookies.">Vi anv&#228;nder cookies f&#246;r att f&#246;rb&#228;ttra din upplevelse. Genom att forts&#228;tta anv&#228;nda sidan godk&#228;nner du v&#229;r anv&#228;ndning av cookies.</p>
+  <div class="cookie-actions">
+    <button class="cookie-btn-accept" onclick="acceptCookies()" data-sv="Godk&#228;nn" data-en="Accept">Godk&#228;nn</button>
+    <a href="policy.html" class="cookie-btn-more" data-sv="L&#228;s mer" data-en="Read more">L&#228;s mer</a>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════════
+// SUPABASE
+// ════════════════════════════════════════════════════════════════════
+const SB_URL = 'https://pflehgaffylcfmgltzlr.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmbGVoZ2FmZnlsY2ZtZ2x0emxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5ODcxMjQsImV4cCI6MjA5NjU2MzEyNH0.9Hh4n-9IvsCBnwEbcKBhGan2LskY3lKhoeRcA2lxXac';
+const sb = supabase.createClient(SB_URL, SB_KEY);
+
+// ════════════════════════════════════════════════════════════════════
+// LANGUAGE
+// ════════════════════════════════════════════════════════════════════
+var currentLang = 'sv';
+(function() {
+  try {
+    var bl = navigator.language || navigator.userLanguage || 'sv';
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    var isSE = bl.toLowerCase().startsWith('sv') || tz.includes('Stockholm') || tz.includes('Europe/Stockholm');
+    if (!isSE) currentLang = 'en';
+  } catch(e) { currentLang = 'sv'; }
+})();
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.getElementById('btn-sv').classList.toggle('active', lang === 'sv');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  var mbs = document.getElementById('mobile-btn-sv'); if (mbs) mbs.classList.toggle('active', lang === 'sv');
+  var mbe = document.getElementById('mobile-btn-en'); if (mbe) mbe.classList.toggle('active', lang === 'en');
+  document.querySelectorAll('[data-sv]').forEach(function(el) {
+    var val = el.getAttribute('data-' + lang);
+    if (!val) return;
+    el.textContent = val;
+  });
+  document.querySelectorAll('input[data-sv-ph]').forEach(function(el) {
+    el.placeholder = el.getAttribute('data-' + lang + '-ph') || el.getAttribute('data-sv-ph') || '';
+  });
+  renderFilterBar();
+  renderBuilds();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════════════
+var allBuilds       = [];
+var allComponents   = {};   // { buildId: [component, ...] }
+var activeCategory  = 'all';
+
+// ════════════════════════════════════════════════════════════════════
+// DATA LOADING
+// ════════════════════════════════════════════════════════════════════
+async function loadBuilds() {
+  var { data: builds, error } = await sb
+    .from('prebuilt_builds')
+    .select('*')
+    .eq('status', 'published')
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true });
+
+  if (error || !builds || builds.length === 0) {
+    showSkeleton(false);
+    showEmpty(true);
+    return;
+  }
+
+  allBuilds = builds;
+
+  // Fetch all components for these builds in one query
+  var buildIds = builds.map(function(b) { return b.id; });
+  var { data: components } = await sb
+    .from('prebuilt_components')
+    .select('*')
+    .in('build_id', buildIds)
+    .order('sort_order', { ascending: true });
+
+  allComponents = {};
+  (components || []).forEach(function(c) {
+    if (!allComponents[c.build_id]) allComponents[c.build_id] = [];
+    allComponents[c.build_id].push(c);
+  });
+
+  showSkeleton(false);
+  renderFilterBar();
+  renderFeatured();
+  renderBuilds();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// FILTER
+// ════════════════════════════════════════════════════════════════════
+function getCategories() {
+  var counts = {};
+  allBuilds.forEach(function(b) {
+    var cat = b.category || '';
+    if (!cat) return;
+    counts[cat] = (counts[cat] || 0) + 1;
+  });
+  return counts;
+}
+
+function getFilteredBuilds() {
+  if (activeCategory === 'all') return allBuilds;
+  return allBuilds.filter(function(b) { return b.category === activeCategory; });
+}
+
+function renderFilterBar() {
+  var bar = document.getElementById('filter-bar');
+  var counts = getCategories();
+  var cats = Object.keys(counts);
+
+  if (cats.length < 2) {
+    bar.style.display = 'none';
+    return;
+  }
+
+  bar.style.display = '';
+  var allLabel  = currentLang === 'en' ? 'All' : 'Alla';
+  var allCount  = allBuilds.length;
+  var html      = '<button class="filter-chip' + (activeCategory === 'all' ? ' active' : '') +
+                  '" onclick="setCategory(\'all\')">' + escH(allLabel) +
+                  ' <span class="chip-count">(' + allCount + ')</span></button>';
+  cats.forEach(function(cat) {
+    html += '<button class="filter-chip' + (activeCategory === cat ? ' active' : '') +
+            '" onclick="setCategory(' + JSON.stringify(cat) + ')">' + escH(cat) +
+            ' <span class="chip-count">(' + counts[cat] + ')</span></button>';
+  });
+  bar.innerHTML = html;
+}
+
+function setCategory(cat) {
+  activeCategory = cat;
+  renderFilterBar();
+  renderBuilds();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// FEATURED ROW
+// ════════════════════════════════════════════════════════════════════
+function renderFeatured() {
+  var featured = allBuilds.filter(function(b) { return b.is_featured; });
+  var section  = document.getElementById('featured-section');
+  var row      = document.getElementById('featured-row');
+
+  if (featured.length === 0) {
+    section.style.display = 'none';
+    return;
+  }
+
+  section.style.display = '';
+  row.innerHTML = featured.map(function(b) {
+    return renderFeaturedCard(b);
+  }).join('');
+}
+
+function renderFeaturedCard(build) {
+  var heroHtml  = buildHeroHtml(build, true);
+  var priceHtml = buildPriceHtml(build);
+  var catHtml   = build.category ? '<div class="card-category">' + escH(build.category) + '</div>' : '';
+  var themeHtml = build.theme    ? '<div class="card-theme">'    + escH(build.theme)    + '</div>' : '';
+  var descHtml  = build.description
+    ? '<div class="card-desc">' + escH(build.description) + '</div>'
+    : '';
+  var compPreview = buildCompPreviewLine(build.id);
+
+  var featLabel  = currentLang === 'en' ? 'Featured' : 'Utvalt';
+  var ctaLabel   = currentLang === 'en' ? 'Contact us' : 'Kontakta oss';
+  var toggleLabel = currentLang === 'en' ? 'Show components' : 'Visa komponenter';
+
+  var uid = 'fc-' + build.id;
+
+  return '<div class="featured-card">' +
+    '<div class="featured-badge">' + escH(featLabel) + '</div>' +
+    heroHtml +
+    '<div class="card-body">' +
+      catHtml + themeHtml +
+      '<div class="card-title">' + escH(build.title || '') + '</div>' +
+      descHtml +
+      priceHtml +
+      (compPreview ? '<div class="card-comp-preview">' + escH(compPreview) + '</div>' : '') +
+    '</div>' +
+    '<div class="card-footer">' +
+      buildToggleBtn(uid, toggleLabel) +
+      buildCompTable(uid, build.id) +
+      '<a href="index.html#contact" class="card-cta">' + escH(ctaLabel) + '</a>' +
+    '</div>' +
+  '</div>';
+}
+
+// ════════════════════════════════════════════════════════════════════
+// BUILDS GRID
+// ════════════════════════════════════════════════════════════════════
+function renderBuilds() {
+  var grid      = document.getElementById('builds-grid');
+  var empty     = document.getElementById('empty-state');
+  var label     = document.getElementById('builds-section-label');
+  var filtered  = getFilteredBuilds();
+
+  if (filtered.length === 0) {
+    grid.style.display = 'none';
+    empty.style.display = '';
+    // Update empty state message for active filter
+    var emptyTitle = document.getElementById('empty-title');
+    if (emptyTitle) {
+      emptyTitle.textContent = currentLang === 'en'
+        ? 'No builds found in this category'
+        : 'Inga byggen hittades i den h&#228;r kategorin';
+    }
+    return;
+  }
+
+  empty.style.display = 'none';
+  grid.style.display = '';
+
+  var sectionLabelText = activeCategory === 'all'
+    ? (currentLang === 'en' ? 'All builds' : 'Alla byggen')
+    : escH(activeCategory);
+  label.textContent = sectionLabelText + ' (' + filtered.length + ')';
+
+  grid.innerHTML = filtered.map(function(b) {
+    return renderBuildCard(b);
+  }).join('');
+}
+
+function renderBuildCard(build) {
+  var heroHtml   = buildHeroHtml(build, false);
+  var priceHtml  = buildPriceHtml(build);
+  var catHtml    = build.category ? '<div class="card-category">' + escH(build.category) + '</div>' : '';
+  var themeHtml  = build.theme    ? '<div class="card-theme">'    + escH(build.theme)    + '</div>' : '';
+  var descHtml   = build.description
+    ? '<div class="card-desc">' + escH(build.description) + '</div>'
+    : '';
+  var compPreview = buildCompPreviewLine(build.id);
+
+  var ctaLabel   = currentLang === 'en' ? 'Contact us' : 'Kontakta oss';
+  var toggleLabel = currentLang === 'en' ? 'Show components' : 'Visa komponenter';
+  var featClass  = build.is_featured ? ' is-featured' : '';
+
+  var uid = 'bc-' + build.id;
+
+  return '<div class="build-card' + featClass + '">' +
+    heroHtml +
+    '<div class="card-body">' +
+      catHtml + themeHtml +
+      '<div class="card-title">' + escH(build.title || '') + '</div>' +
+      descHtml +
+      priceHtml +
+      (compPreview ? '<div class="card-comp-preview">' + escH(compPreview) + '</div>' : '') +
+    '</div>' +
+    '<div class="card-footer">' +
+      buildToggleBtn(uid, toggleLabel) +
+      buildCompTable(uid, build.id) +
+      '<a href="index.html#contact" class="card-cta">' + escH(ctaLabel) + '</a>' +
+    '</div>' +
+  '</div>';
+}
+
+// ════════════════════════════════════════════════════════════════════
+// CARD HELPERS
+// ════════════════════════════════════════════════════════════════════
+function buildHeroHtml(build, isFeatured) {
+  if (build.hero_image_url) {
+    return '<div class="card-hero">' +
+      '<img src="' + escH(build.hero_image_url) + '" alt="' + escH(build.title || '') + '" loading="lazy">' +
+    '</div>';
+  }
+  // Placeholder with monitor icon
+  return '<div class="card-hero">' +
+    '<div class="card-hero-placeholder">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>' +
+    '</div>' +
+  '</div>';
+}
+
+function buildPriceHtml(build) {
+  var comps = allComponents[build.id] || [];
+
+  if (build.price_override != null && build.price_override > 0) {
+    var overrideNote = currentLang === 'en' ? 'Fixed price' : 'Fast pris';
+    return '<div class="card-price">' +
+      '<span class="card-price-amount">' + formatPrice(build.price_override) + '</span>' +
+      '<span class="card-price-label"> kr</span>' +
+      '<span class="card-price-override-note">&#8212; ' + overrideNote + '</span>' +
+    '</div>';
+  }
+
+  var total        = 0;
+  var missingCount = 0;
+  comps.forEach(function(c) {
+    if (c.price != null && c.price > 0) {
+      total += c.price;
+    } else {
+      missingCount++;
+    }
+  });
+
+  if (comps.length === 0) {
+    var contactStr = currentLang === 'en' ? 'Contact us for pricing' : 'Kontakta oss f&#246;r pris';
+    return '<div class="card-price"><span class="card-price-missing">' + contactStr + '</span></div>';
+  }
+
+  var html = '<div class="card-price">' +
+    '<span class="card-price-amount">' + formatPrice(total) + '</span>' +
+    '<span class="card-price-label"> kr</span>';
+
+  if (missingCount > 0) {
+    var missingStr = currentLang === 'en'
+      ? '+ ' + missingCount + ' component' + (missingCount > 1 ? 's' : '') + ' (price TBD)'
+      : '+ ' + missingCount + ' komponent' + (missingCount > 1 ? 'er' : '') + ' (pris saknas)';
+    html += '<span class="card-price-missing"> ' + missingStr + '</span>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function buildCompPreviewLine(buildId) {
+  var comps = allComponents[buildId] || [];
+  if (comps.length === 0) return '';
+  // Show up to 4 key component names
+  var names = comps.slice(0, 4).map(function(c) { return c.name || c.category || ''; }).filter(Boolean);
+  if (names.length === 0) return '';
+  var preview = names.join(' · ');
+  if (comps.length > 4) preview += ' · ...';
+  return preview;
+}
+
+function buildToggleBtn(uid, label) {
+  return '<button class="card-toggle-btn" id="' + uid + '-btn" onclick="toggleComponents(\'' + uid + '\')">' +
+    escH(label) + ' <span class="toggle-arrow">&#9660;</span>' +
+  '</button>';
+}
+
+function buildCompTable(uid, buildId) {
+  var comps = allComponents[buildId] || [];
+  if (comps.length === 0) return '';
+
+  var rows = comps.map(function(c) {
+    var priceCell = c.price != null && c.price > 0
+      ? formatPrice(c.price) + ' kr'
+      : (currentLang === 'en' ? '—' : '—');
+    return '<tr><td>' + escH(c.category || '') + '</td><td>' + escH(c.name || '') + '</td><td style="text-align:right;color:var(--gray-light);">' + priceCell + '</td></tr>';
+  }).join('');
+
+  return '<div class="card-comp-list" id="' + uid + '-list">' +
+    '<table><tbody>' + rows + '</tbody></table>' +
+  '</div>';
+}
+
+function toggleComponents(uid) {
+  var btn  = document.getElementById(uid + '-btn');
+  var list = document.getElementById(uid + '-list');
+  if (!btn || !list) return;
+  var isOpen = list.classList.contains('open');
+  list.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  var showLabel = currentLang === 'en' ? 'Show components' : 'Visa komponenter';
+  var hideLabel = currentLang === 'en' ? 'Hide components' : 'D&#246;lj komponenter';
+  var arrow = btn.querySelector('.toggle-arrow');
+  // Update label text (keep the arrow span)
+  btn.childNodes[0].textContent = isOpen ? showLabel : hideLabel;
+}
+
+// ════════════════════════════════════════════════════════════════════
+// UTILITIES
+// ════════════════════════════════════════════════════════════════════
+function escH(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function formatPrice(n) {
+  return Math.round(n).toLocaleString('sv-SE');
+}
+
+function showSkeleton(visible) {
+  document.getElementById('skeleton-grid').style.display = visible ? '' : 'none';
+}
+
+function showEmpty(visible) {
+  document.getElementById('empty-state').style.display = visible ? '' : 'none';
+  document.getElementById('builds-grid').style.display = visible ? 'none' : '';
+  if (visible) {
+    document.getElementById('skeleton-grid').style.display = 'none';
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// NAV / MOBILE MENU
+// ════════════════════════════════════════════════════════════════════
+function toggleMobileMenu() {
+  var menu = document.getElementById('mobile-menu');
+  var btn  = document.querySelector('.hamburger-btn');
+  var isOpen = menu.classList.contains('open');
+  menu.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.setAttribute('aria-expanded', String(!isOpen));
+  document.body.style.overflow = isOpen ? '' : 'hidden';
+}
+
+function closeMobileMenu() {
+  var menu = document.getElementById('mobile-menu');
+  var btn  = document.querySelector('.hamburger-btn');
+  menu.classList.remove('open');
+  btn.classList.remove('open');
+  btn.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+// ════════════════════════════════════════════════════════════════════
+// SCROLL / PROGRESS BAR
+// ════════════════════════════════════════════════════════════════════
+window.addEventListener('scroll', function() {
+  var nav = document.getElementById('main-nav');
+  if (nav) nav.classList.toggle('scrolled', window.scrollY > 20);
+
+  var scrollBtn = document.getElementById('scroll-top');
+  if (scrollBtn) scrollBtn.classList.toggle('visible', window.scrollY > 300);
+
+  var docEl  = document.documentElement;
+  var body   = document.body;
+  var total  = Math.max(docEl.scrollHeight, body.scrollHeight) - docEl.clientHeight;
+  var pct    = total > 0 ? (window.scrollY / total) * 100 : 0;
+  var bar    = document.getElementById('progress-bar');
+  if (bar) bar.style.width = pct + '%';
+}, { passive: true });
+
+// ════════════════════════════════════════════════════════════════════
+// COOKIE BANNER
+// ════════════════════════════════════════════════════════════════════
+function acceptCookies() {
+  localStorage.setItem('npc_cookie_consent', 'accepted');
+  document.getElementById('cookie-banner').style.display = 'none';
+}
+
+(function() {
+  if (localStorage.getItem('npc_cookie_consent') === 'accepted') return;
+  setTimeout(function() {
+    var banner = document.getElementById('cookie-banner');
+    if (banner) banner.style.display = 'flex';
+  }, 1200);
+})();
+
+// ════════════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════════════
+document.getElementById('copy-year').textContent = new Date().getFullYear();
+setLang(currentLang);
+loadBuilds();
+</script>
+</body>
+</html>
