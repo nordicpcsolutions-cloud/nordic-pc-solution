@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0iIzBhMGYxZSIvPjx0ZXh0IHg9IjMyIiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iNDQiIGZpbGw9IiMxYTRmZmYiPlA8L3RleHQ+PC9zdmc+">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prebyggda PC &#8211; Nordic PC Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin-shared.css">
+<style>
+.page-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;flex-wrap:wrap;gap:1rem;}
+.page-hd h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.85rem;letter-spacing:0.02em;text-transform:uppercase;}
+a.btn-primary{display:inline-block;text-decoration:none;}
+
+/* Status badges */
+.s-draft    {background:rgba(136,153,187,0.14);color:var(--gray-light);}
+.s-draft::before{background:var(--gray);}
+.s-published{background:var(--green-dim);color:#6ff0b0;}
+.s-published::before{background:var(--green);}
+.s-archived{background:rgba(90,80,70,0.18);color:#9a8878;}
+.s-archived::before{background:#6a5a50;}
+
+/* Category badge */
+.cat-badge{display:inline-block;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.15rem 0.55rem;border-radius:4px;background:rgba(26,79,255,0.15);color:var(--blue-light);}
+
+/* Featured / active indicators */
+.feat-star{color:#f5c542;font-size:0.95rem;}
+.feat-none{color:var(--dark4);font-size:0.95rem;}
+.active-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 5px rgba(15,186,104,0.45);}
+.inactive-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.12);}
+
+/* Build table */
+.admin-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;}
+.build-table{width:100%;border-collapse:collapse;}
+.build-table th{text-align:left;font-size:0.67rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);padding:0.55rem 1rem;border-bottom:1px solid rgba(255,255,255,0.06);white-space:nowrap;}
+.build-table td{padding:0.65rem 1rem;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;font-size:0.85rem;color:var(--gray-light);}
+.build-table tr:last-child td{border-bottom:none;}
+.build-table tbody tr:hover td{background:rgba(255,255,255,0.018);}
+
+/* Thumbnail */
+.build-thumb{width:60px;height:38px;object-fit:cover;border-radius:5px;border:1px solid rgba(255,255,255,0.08);background:var(--dark3);display:block;}
+.build-thumb-ph{width:60px;height:38px;border-radius:5px;border:1px solid rgba(255,255,255,0.08);background:var(--dark3);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.12);font-size:1rem;}
+
+/* Title cell */
+.build-title{color:var(--white);font-weight:700;line-height:1.25;}
+.build-theme{font-size:0.75rem;color:var(--gray);margin-top:0.1rem;}
+
+/* Sort buttons */
+.sort-btn{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--gray);padding:0.18rem 0.42rem;border-radius:4px;cursor:pointer;font-size:0.72rem;line-height:1;transition:color 0.15s,border-color 0.15s;}
+.sort-btn:hover:not(:disabled){color:var(--white);border-color:rgba(255,255,255,0.35);}
+.sort-btn:disabled{opacity:0.22;cursor:not-allowed;}
+
+/* Filter bar extras */
+.search-input{background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.42rem 0.85rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.84rem;outline:none;min-height:38px;transition:border-color 0.2s;width:170px;}
+.search-input:focus{border-color:var(--blue);}
+.search-input::placeholder{color:var(--gray);}
+.cat-select{background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.42rem 0.85rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.84rem;outline:none;cursor:pointer;min-height:38px;transition:border-color 0.2s;}
+.cat-select:focus{border-color:var(--blue);}
+.cat-select option{background:var(--dark3);}
+.result-count{font-size:0.78rem;color:var(--gray);font-weight:600;margin-left:auto;white-space:nowrap;}
+
+/* Act-btn danger variant */
+.act-btn.act-danger{border-color:rgba(232,64,64,0.25);color:var(--red);}
+.act-btn.act-danger:hover{background:rgba(232,64,64,0.1);border-color:var(--red);}
+
+@media(max-width:720px){
+  .hide-mobile{display:none;}
+  .page-hd{flex-direction:column;align-items:flex-start;}
+  .filter-bar{gap:0.5rem;}
+  .search-input{width:130px;}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="admin-shared.js"></script>
+</head>
+<body>
+
+<div id="app" style="display:none;">
+  <div id="admin-nav"></div>
+
+  <main class="admin-main">
+
+    <div class="page-hd">
+      <h1>Prebyggda PC</h1>
+      <a href="prebuilt-editor.html" class="btn-primary">+ Ny build</a>
+    </div>
+
+    <!-- Filter / search bar -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-status="all"       onclick="setStatusFilter('all')">Alla</button>
+      <button class="filter-btn"        data-status="draft"     onclick="setStatusFilter('draft')">Utkast</button>
+      <button class="filter-btn"        data-status="published" onclick="setStatusFilter('published')">Publicerade</button>
+      <button class="filter-btn"        data-status="archived"  onclick="setStatusFilter('archived')">Arkiverade</button>
+      <select class="cat-select" id="cat-filter" onchange="setCategoryFilter(this.value)">
+        <option value="">Alla kategorier</option>
+      </select>
+      <input class="search-input" type="text" id="search-input"
+             placeholder="S&#246;k titel&#8230;" oninput="onSearchInput(this.value)">
+      <span class="result-count" id="result-count"></span>
+    </div>
+
+    <!-- Build list table -->
+    <div class="admin-card">
+      <table class="build-table">
+        <thead>
+          <tr>
+            <th style="width:74px;">Bild</th>
+            <th>Titel</th>
+            <th class="hide-mobile">Kategori</th>
+            <th class="hide-mobile">Status</th>
+            <th class="hide-mobile" title="Utvald">&#9733;</th>
+            <th class="hide-mobile" title="Aktiv">Aktiv</th>
+            <th class="hide-mobile" style="width:95px;">Ordning</th>
+            <th style="width:150px;">&#197;tg&#228;rder</th>
+          </tr>
+        </thead>
+        <tbody id="builds-tbody">
+          <tr><td colspan="8" style="text-align:center;padding:2.5rem;color:var(--gray);">Laddar&#8230;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</div>
+
+<!-- Confirm delete modal -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="confirm-card">
+    <h3 id="confirm-title">Radera build?</h3>
+    <p  id="confirm-msg">Builden och alla tillh&#246;rande komponenter raderas permanent.</p>
+    <div class="confirm-actions">
+      <button class="confirm-yes" id="confirm-yes-btn">Ta bort</button>
+      <button class="confirm-no"  onclick="closeConfirm()">Avbryt</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════════════
+
+var allBuilds      = [];
+var statusFilter   = 'all';
+var categoryFilter = '';
+var searchQuery    = '';
+var pendingDeleteId = null;
+
+// ════════════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════════════
+
+(async function init() {
+  var session = await checkAuth();
+  if (!session) return;
+  renderAdminNav('prebuilt');
+  document.getElementById('app').style.display = 'flex';
+  await loadBuilds();
+})();
+
+// ════════════════════════════════════════════════════════════════════
+// LOAD
+// ════════════════════════════════════════════════════════════════════
+
+async function loadBuilds() {
+  var res = await supabaseClient
+    .from('prebuilt_builds')
+    .select('*')
+    .order('sort_order', { ascending: true });
+
+  if (res.error) {
+    showToast('Kunde inte ladda builds: ' + res.error.message, 't-red');
+    document.getElementById('builds-tbody').innerHTML =
+      '<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--red);">Fel vid laddning.</td></tr>';
+    return;
+  }
+
+  allBuilds = res.data || [];
+
+  // Populate category filter from distinct values actually present in the data
+  var cats = Array.from(
+    new Set(allBuilds.map(function(b) { return b.category || ''; }).filter(Boolean))
+  ).sort();
+  var catSel = document.getElementById('cat-filter');
+  catSel.innerHTML = '<option value="">Alla kategorier</option>';
+  cats.forEach(function(c) {
+    var opt = document.createElement('option');
+    opt.value       = c;
+    opt.textContent = c;
+    catSel.appendChild(opt);
+  });
+
+  renderList();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// FILTER HELPERS
+// ════════════════════════════════════════════════════════════════════
+
+function getFilteredBuilds() {
+  return allBuilds.filter(function(b) {
+    if (statusFilter !== 'all' && b.status !== statusFilter) return false;
+    if (categoryFilter && b.category !== categoryFilter)     return false;
+    if (searchQuery) {
+      var q = searchQuery.toLowerCase();
+      if (!(b.title      || '').toLowerCase().includes(q) &&
+          !(b.theme_name || '').toLowerCase().includes(q))  return false;
+    }
+    return true;
+  });
+}
+
+function setStatusFilter(status) {
+  statusFilter = status;
+  document.querySelectorAll('.filter-btn[data-status]').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.status === status);
+  });
+  renderList();
+}
+
+function setCategoryFilter(val) {
+  categoryFilter = val;
+  renderList();
+}
+
+function onSearchInput(val) {
+  searchQuery = val.trim();
+  renderList();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════════════════════════
+
+function renderList() {
+  var filtered = getFilteredBuilds();
+  document.getElementById('result-count').textContent =
+    filtered.length + ' build' + (filtered.length !== 1 ? 's' : '');
+
+  var tbody = document.getElementById('builds-tbody');
+
+  if (!filtered.length) {
+    tbody.innerHTML =
+      '<tr><td colspan="8" style="text-align:center;padding:2.5rem;color:var(--gray);">Inga builds matchar filtret.</td></tr>';
+    return;
+  }
+
+  var STATUS_CLASS = { draft: 's-draft', published: 's-published', archived: 's-archived' };
+  var STATUS_LABEL = { draft: 'Utkast',  published: 'Publicerad',  archived: 'Arkiverad'  };
+
+  tbody.innerHTML = filtered.map(function(b, i) {
+    var id = String(b.id);
+
+    var thumb = b.hero_image_url
+      ? '<img class="build-thumb" src="' + escAttr(b.hero_image_url) + '" alt="" loading="lazy">'
+      : '<div class="build-thumb-ph">&#128247;</div>';
+
+    var sClass = STATUS_CLASS[b.status] || 's-draft';
+    var sLabel = STATUS_LABEL[b.status] || escH(b.status || 'Utkast');
+
+    var catBadge = b.category
+      ? '<span class="cat-badge">' + escH(b.category) + '</span>'
+      : '<span style="color:var(--dark4);">&#8212;</span>';
+
+    var featIcon   = b.is_featured ? '<span class="feat-star" title="Utvald">&#9733;</span>'
+                                    : '<span class="feat-none" title="Ej utvald">&#9734;</span>';
+    var activeIcon = b.is_active   ? '<span class="active-dot"   title="Aktiv"></span>'
+                                    : '<span class="inactive-dot" title="Inaktiv"></span>';
+
+    var isFirst = (i === 0);
+    var isLast  = (i === filtered.length - 1);
+
+    return '<tr>' +
+      '<td>' + thumb + '</td>' +
+      '<td>' +
+        '<div class="build-title">' + escH(b.title || '') + '</div>' +
+        (b.theme_name ? '<div class="build-theme">' + escH(b.theme_name) + '</div>' : '') +
+      '</td>' +
+      '<td class="hide-mobile">' + catBadge + '</td>' +
+      '<td class="hide-mobile"><span class="status-badge ' + sClass + '">' + sLabel + '</span></td>' +
+      '<td class="hide-mobile" style="text-align:center;">' + featIcon + '</td>' +
+      '<td class="hide-mobile" style="text-align:center;">' + activeIcon + '</td>' +
+      '<td class="hide-mobile">' +
+        '<div style="display:flex;gap:0.35rem;align-items:center;">' +
+          '<button class="sort-btn" onclick="moveBuild(\'' + id + '\',-1)"' + (isFirst ? ' disabled' : '') + ' title="Flytta upp">&#8593;</button>' +
+          '<span style="font-size:0.75rem;color:var(--gray);min-width:2ch;text-align:center;">' +
+            (b.sort_order != null ? b.sort_order : '&#8212;') +
+          '</span>' +
+          '<button class="sort-btn" onclick="moveBuild(\'' + id + '\',1)"' + (isLast ? ' disabled' : '') + ' title="Flytta ner">&#8595;</button>' +
+        '</div>' +
+      '</td>' +
+      '<td>' +
+        '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;">' +
+          '<a class="act-btn" href="prebuilt-editor.html?id=' + id + '" style="text-decoration:none;">Redigera</a>' +
+          '<button class="act-btn act-danger" onclick="confirmDelete(\'' + id + '\')">Radera</button>' +
+        '</div>' +
+      '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// SORT ORDER — up/down arrows swap sort_order values
+// ════════════════════════════════════════════════════════════════════
+
+async function moveBuild(id, direction) {
+  var filtered = getFilteredBuilds();
+  var idx = filtered.findIndex(function(b) { return String(b.id) === id; });
+  if (idx === -1) return;
+  var swapIdx = idx + direction;
+  if (swapIdx < 0 || swapIdx >= filtered.length) return;
+
+  var a = filtered[idx];
+  var b = filtered[swapIdx];
+
+  // Use visual positions as fallback when sort_order is null or both are equal
+  var orderA = a.sort_order != null ? a.sort_order : idx * 10;
+  var orderB = b.sort_order != null ? b.sort_order : swapIdx * 10;
+  if (orderA === orderB) { orderA = swapIdx * 10; orderB = idx * 10; }
+
+  var results = await Promise.all([
+    supabaseClient.from('prebuilt_builds').update({ sort_order: orderB }).eq('id', a.id),
+    supabaseClient.from('prebuilt_builds').update({ sort_order: orderA }).eq('id', b.id),
+  ]);
+  if (results[0].error || results[1].error) {
+    showToast('Kunde inte uppdatera ordning.', 't-red');
+    return;
+  }
+
+  a.sort_order = orderB;
+  b.sort_order = orderA;
+
+  allBuilds.sort(function(x, y) {
+    return (x.sort_order != null ? x.sort_order : 9999) -
+           (y.sort_order != null ? y.sort_order : 9999);
+  });
+  renderList();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// DELETE
+// ON DELETE CASCADE on prebuilt_components.build_id removes associated
+// component rows automatically when the parent build row is deleted.
+// ════════════════════════════════════════════════════════════════════
+
+function confirmDelete(id) {
+  var build = allBuilds.find(function(b) { return String(b.id) === id; });
+  pendingDeleteId = id;
+  document.getElementById('confirm-title').textContent = 'Radera build?';
+  document.getElementById('confirm-msg').textContent   =
+    '“' + (build ? (build.title || id) : id) +
+    '” och alla tillhörande komponenter raderas permanent.';
+  document.getElementById('confirm-yes-btn').onclick = executeDelete;
+  document.getElementById('confirm-modal').classList.add('open');
+}
+
+async function executeDelete() {
+  closeConfirm();
+  var id = pendingDeleteId;
+  if (!id) return;
+
+  var res = await supabaseClient.from('prebuilt_builds').delete().eq('id', id);
+  if (res.error) {
+    showToast('Kunde inte radera: ' + res.error.message, 't-red');
+    return;
+  }
+
+  allBuilds = allBuilds.filter(function(b) { return String(b.id) !== id; });
+  renderList();
+  showToast('Build raderad.', 't-green');
+}
+
+function closeConfirm() {
+  document.getElementById('confirm-modal').classList.remove('open');
+  pendingDeleteId = null;
+}
+
+document.getElementById('confirm-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeConfirm();
+});
+</script>
+</body>
+</html>

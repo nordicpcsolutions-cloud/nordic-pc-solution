@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0iIzBhMGYxZSIvPjx0ZXh0IHg9IjMyIiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iNDQiIGZpbGw9IiMxYTRmZmYiPlA8L3RleHQ+PC9zdmc+">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ny build &#8211; Nordic PC Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin-shared.css">
+<style>
+/* Editor layout — same structure as blog-editor.html */
+.editor-header{display:flex;align-items:center;gap:0.85rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.editor-header h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;text-transform:uppercase;letter-spacing:0.02em;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.editor-cols{display:grid;grid-template-columns:1fr 300px;gap:1.25rem;align-items:start;}
+.editor-main{display:flex;flex-direction:column;gap:0.75rem;min-width:0;}
+.editor-sidebar{display:flex;flex-direction:column;gap:0.75rem;position:sticky;top:1rem;}
+
+/* Main content cards */
+.main-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:1.25rem 1.35rem;display:flex;flex-direction:column;gap:0.85rem;}
+.main-card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.1rem;}
+.main-card-title{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);}
+
+/* Sidebar cards — same as blog-editor.html */
+.sidebar-card{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:1rem 1.1rem;}
+.sidebar-card h3{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin:0 0 0.85rem 0;}
+
+/* Big title input */
+.title-input{background:var(--dark2);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:0.85rem 1rem;color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:1.55rem;font-weight:900;text-transform:uppercase;letter-spacing:0.02em;outline:none;width:100%;transition:border-color 0.2s;min-height:unset;}
+.title-input:focus{border-color:var(--blue);}
+.title-input::placeholder{color:rgba(255,255,255,0.1);}
+
+/* Hero image — same CSS as blog-editor.html */
+.hero-section{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:1rem 1.1rem;}
+.hero-label{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:0.65rem;}
+.hero-row{display:flex;align-items:flex-start;gap:0.9rem;flex-wrap:wrap;}
+.hero-thumb{width:130px;height:82px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;display:none;}
+.hero-placeholder{width:130px;height:82px;border-radius:6px;border:1px dashed rgba(255,255,255,0.15);background:var(--dark3);display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:rgba(255,255,255,0.1);flex-shrink:0;}
+.hero-actions{display:flex;gap:0.5rem;margin-bottom:0.4rem;}
+.hero-url-note{font-size:0.7rem;color:var(--gray);word-break:break-all;max-width:280px;margin-top:0.2rem;}
+
+/* Component rows */
+.comp-list{display:flex;flex-direction:column;gap:0.45rem;}
+.comp-empty{text-align:center;padding:1.5rem;color:var(--gray);font-size:0.85rem;}
+.comp-row{display:grid;grid-template-columns:auto 130px 1fr 90px 1fr 1fr auto;gap:0.4rem;align-items:center;background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:7px;padding:0.5rem 0.7rem;}
+.comp-move{display:flex;flex-direction:column;gap:0.2rem;flex-shrink:0;}
+.comp-move-btn{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--gray);padding:0.1rem 0.38rem;border-radius:3px;cursor:pointer;font-size:0.68rem;line-height:1.2;transition:color 0.15s,border-color 0.15s;}
+.comp-move-btn:hover:not(:disabled){color:var(--white);border-color:rgba(255,255,255,0.35);}
+.comp-move-btn:disabled{opacity:0.22;cursor:not-allowed;}
+.comp-input{background:var(--dark4);border:1px solid rgba(255,255,255,0.07);border-radius:5px;padding:0.4rem 0.55rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.82rem;outline:none;width:100%;transition:border-color 0.2s;min-height:unset;}
+.comp-input:focus{border-color:var(--blue);}
+.comp-input::placeholder{color:rgba(255,255,255,0.2);}
+.comp-remove{background:transparent;border:1px solid rgba(232,64,64,0.25);color:var(--red);padding:0.25rem 0.5rem;border-radius:4px;cursor:pointer;font-size:0.75rem;line-height:1.3;transition:background 0.15s,border-color 0.15s;white-space:nowrap;flex-shrink:0;}
+.comp-remove:hover{background:rgba(232,64,64,0.1);border-color:var(--red);}
+
+/* Price summary bar */
+.price-summary{background:rgba(26,79,255,0.07);border:1px solid rgba(26,79,255,0.2);border-radius:7px;padding:0.8rem 1rem;}
+.price-total{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.1rem;color:var(--white);}
+.price-note{font-size:0.72rem;color:var(--gray);margin-top:0.2rem;line-height:1.5;}
+
+/* Sidebar checkbox rows */
+.check-row{display:flex;align-items:center;gap:0.6rem;padding:0.4rem 0;cursor:pointer;user-select:none;}
+.check-row input[type="checkbox"]{width:16px;height:16px;accent-color:var(--blue);cursor:pointer;flex-shrink:0;}
+.check-row span{font-size:0.85rem;color:var(--gray-light);}
+.field-hint{font-size:0.72rem;color:var(--gray);line-height:1.5;}
+
+/* Comp row header labels */
+.comp-header{display:grid;grid-template-columns:auto 130px 1fr 90px 1fr 1fr auto;gap:0.4rem;padding:0 0.7rem 0.3rem;margin-bottom:0.1rem;}
+.comp-header span{font-size:0.62rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--gray);}
+
+@media(max-width:900px){
+  .editor-cols{grid-template-columns:1fr;}
+  .editor-sidebar{position:static;}
+}
+@media(max-width:640px){
+  .comp-header{display:none;}
+  .comp-row{grid-template-columns:auto 1fr 1fr;grid-template-rows:auto auto auto;row-gap:0.35rem;}
+  .comp-row .comp-move{grid-row:1 / 4;}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="admin-shared.js"></script>
+<script src="media-picker.js"></script>
+</head>
+<body>
+
+<div id="app" style="display:none;">
+  <div id="admin-nav"></div>
+
+  <main class="admin-main">
+
+    <!-- Page header -->
+    <div class="editor-header">
+      <a class="btn-secondary btn-back" href="prebuilt-admin.html">&#8592; Prebyggda PC</a>
+      <h1 id="page-title">Ny build</h1>
+      <button class="btn-primary" onclick="saveBuild()">Spara</button>
+    </div>
+
+    <div class="editor-cols">
+
+      <!-- ══════════════════════════════════════
+           LEFT COLUMN — main content
+      ══════════════════════════════════════ -->
+      <div class="editor-main">
+
+        <!-- Title -->
+        <input class="title-input" id="f-title" type="text" placeholder="Titel&#8230;">
+
+        <!-- Core fields -->
+        <div class="main-card">
+          <div class="admin-field">
+            <label for="f-theme">Tema / Undertitel</label>
+            <input type="text" id="f-theme" placeholder="T.ex. Dark Stealth">
+          </div>
+          <div class="admin-field">
+            <label for="f-category">Kategori</label>
+            <!-- datalist populated from existing categories in loadExistingCategories() -->
+            <input type="text" id="f-category" list="cat-datalist"
+                   placeholder="T.ex. Budget, Standard, Pro&#8230;" autocomplete="off">
+            <datalist id="cat-datalist"></datalist>
+          </div>
+          <div class="admin-field">
+            <label for="f-desc">Beskrivning</label>
+            <textarea id="f-desc" rows="4" placeholder="Beskriv builden&#8230;"></textarea>
+          </div>
+        </div>
+
+        <!-- Hero image — identical pattern to blog-editor.html -->
+        <div class="hero-section">
+          <div class="hero-label">Hero-bild</div>
+          <div class="hero-row">
+            <img   id="hero-thumb"       class="hero-thumb"       src=""  alt="">
+            <div   id="hero-placeholder" class="hero-placeholder">&#128247;</div>
+            <div>
+              <div class="hero-actions">
+                <button class="btn-secondary" style="font-size:0.82rem;"
+                        onclick="pickHero()">V&#228;lj bild</button>
+                <button class="btn-ghost" id="clear-hero-btn" style="display:none;"
+                        onclick="clearHero()">Ta bort</button>
+              </div>
+              <div class="hero-url-note" id="hero-url-note"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Component list -->
+        <div class="main-card">
+          <div class="main-card-hd">
+            <span class="main-card-title">Komponenter</span>
+            <button class="btn-secondary"
+                    style="font-size:0.78rem;padding:0.35rem 0.85rem;min-height:unset;"
+                    onclick="addComponent()">+ L&#228;gg till komponent</button>
+          </div>
+
+          <!-- Column label row (hidden on small screens) -->
+          <div class="comp-header" id="comp-header" style="display:none;">
+            <span></span><!-- move buttons -->
+            <span>Kategori</span>
+            <span>Namn</span>
+            <span>Pris (kr)</span>
+            <span>Produkt-URL</span>
+            <span>Anteckningar</span>
+            <span></span><!-- remove button -->
+          </div>
+
+          <div class="comp-list" id="comp-list">
+            <div class="comp-empty">Inga komponenter &#228;nnu.</div>
+          </div>
+
+          <!-- Live price summary — updated on every price input event -->
+          <div class="price-summary" id="price-summary" style="display:none;"></div>
+        </div>
+
+      </div><!-- /.editor-main -->
+
+      <!-- ══════════════════════════════════════
+           RIGHT SIDEBAR
+      ══════════════════════════════════════ -->
+      <aside class="editor-sidebar">
+
+        <div class="sidebar-card">
+          <h3>Status</h3>
+          <div class="admin-field">
+            <label for="f-status">Publiceringsstatus</label>
+            <select id="f-status">
+              <option value="draft">Utkast</option>
+              <option value="published">Publicerad</option>
+              <option value="archived">Arkiverad</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <h3>Inst&#228;llningar</h3>
+          <label class="check-row">
+            <input type="checkbox" id="f-active" checked>
+            <span>Aktiv (visas p&#229; sidan)</span>
+          </label>
+          <label class="check-row">
+            <input type="checkbox" id="f-featured">
+            <span>Utvald (featured)</span>
+          </label>
+          <p class="field-hint" style="margin-top:0.3rem;">
+            Flera builds kan vara utvalda samtidigt &#8212; ingen annan build p&#229;verkas.
+          </p>
+        </div>
+
+        <div class="sidebar-card">
+          <h3>Sortering</h3>
+          <div class="admin-field">
+            <label for="f-sort">Sorteringsordning</label>
+            <input type="number" id="f-sort" min="0" placeholder="0">
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <h3>Prisst&#228;llning</h3>
+          <div class="admin-field">
+            <label for="f-price-override">Override-pris (kr)</label>
+            <input type="number" id="f-price-override" min="0"
+                   placeholder="Valfritt&#8230;" oninput="updatePriceTotal()">
+          </div>
+          <p class="field-hint" style="margin-top:0.3rem;">
+            Om detta fylls i anv&#228;nds det som visat pris ist&#228;llet f&#246;r att ber&#228;knas automatiskt fr&#229;n komponenter.
+          </p>
+        </div>
+
+      </aside><!-- /.editor-sidebar -->
+
+    </div><!-- /.editor-cols -->
+
+  </main>
+</div>
+
+<!-- Datalist for component categories (free text supported, these are suggestions) -->
+<datalist id="comp-cat-datalist">
+  <option value="CPU">
+  <option value="GPU">
+  <option value="Moderkort">
+  <option value="RAM">
+  <option value="SSD">
+  <option value="HDD">
+  <option value="N&#228;taggregat">
+  <option value="Kabinett">
+  <option value="CPU-kylare">
+  <option value="Systemf&#228;kt">
+  <option value="K&#246;lplatta">
+  <option value="Bildsk&#228;rm">
+  <option value="&#214;vrigt">
+</datalist>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════════════
+
+var buildId       = null;   // null = create mode; string = edit mode
+var existingBuild = null;   // full build row when in edit mode
+var heroUrl       = '';     // current hero image URL
+var components    = [];     // [{category, name, price, product_url, notes}]
+
+// ════════════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════════════
+
+(async function init() {
+  var session = await checkAuth();
+  if (!session) return;
+  renderAdminNav('prebuilt');
+
+  var params = new URLSearchParams(window.location.search);
+  var id     = params.get('id');
+
+  // Populate category datalist from existing builds
+  var catRes = await supabaseClient
+    .from('prebuilt_builds')
+    .select('category')
+    .not('category', 'is', null);
+  if (!catRes.error) {
+    var cats = Array.from(
+      new Set((catRes.data || []).map(function(r) { return r.category; }).filter(Boolean))
+    ).sort();
+    var dl = document.getElementById('cat-datalist');
+    cats.forEach(function(c) {
+      var opt = document.createElement('option');
+      opt.value = c;
+      dl.appendChild(opt);
+    });
+  }
+
+  if (id) {
+    buildId = id;
+    await loadBuild(id);
+  } else {
+    // Create mode — start with one blank component row
+    addComponent();
+  }
+
+  document.getElementById('app').style.display = 'flex';
+})();
+
+// ════════════════════════════════════════════════════════════════════
+// LOAD (edit mode)
+// ════════════════════════════════════════════════════════════════════
+
+async function loadBuild(id) {
+  var buildRes = await supabaseClient
+    .from('prebuilt_builds')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (buildRes.error || !buildRes.data) {
+    showToast('Kunde inte ladda build: ' + (buildRes.error ? buildRes.error.message : 'Hittades inte.'), 't-red');
+    return;
+  }
+
+  existingBuild = buildRes.data;
+  var b = existingBuild;
+
+  document.getElementById('page-title').textContent = 'Redigera build';
+  document.title = (b.title || 'Build') + ' – Nordic PC Admin';
+
+  document.getElementById('f-title').value           = b.title          || '';
+  document.getElementById('f-theme').value           = b.theme_name     || '';
+  document.getElementById('f-category').value        = b.category       || '';
+  document.getElementById('f-desc').value            = b.description    || '';
+  document.getElementById('f-status').value          = b.status         || 'draft';
+  document.getElementById('f-active').checked        = !!b.is_active;
+  document.getElementById('f-featured').checked      = !!b.is_featured;
+  document.getElementById('f-sort').value            = b.sort_order     != null ? b.sort_order    : '';
+  document.getElementById('f-price-override').value  = b.price_override != null ? b.price_override : '';
+
+  if (b.hero_image_url) setHeroPreview(b.hero_image_url);
+
+  // Load associated components
+  var compRes = await supabaseClient
+    .from('prebuilt_components')
+    .select('*')
+    .eq('build_id', id)
+    .order('sort_order', { ascending: true });
+
+  if (!compRes.error && compRes.data && compRes.data.length > 0) {
+    components = compRes.data.map(function(c) {
+      return {
+        category:    c.category    || '',
+        name:        c.name        || '',
+        price:       c.price       != null ? String(c.price) : '',
+        product_url: c.product_url || '',
+        notes:       c.notes       || '',
+      };
+    });
+  } else {
+    components = [];
+    addComponent(); // start with one blank row even in edit mode if none exist
+  }
+
+  renderComponentRows();
+  updatePriceTotal();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// HERO IMAGE — identical pattern to blog-editor.html
+// openMediaPicker() is from media-picker.js
+// ════════════════════════════════════════════════════════════════════
+
+function pickHero() {
+  openMediaPicker(function(media) {
+    setHeroPreview(media.public_url);
+    showToast('Hero-bild vald.', 't-green');
+  });
+}
+
+function clearHero() {
+  setHeroPreview('');
+}
+
+function setHeroPreview(url) {
+  var thumb    = document.getElementById('hero-thumb');
+  var ph       = document.getElementById('hero-placeholder');
+  var clearBtn = document.getElementById('clear-hero-btn');
+  var note     = document.getElementById('hero-url-note');
+  heroUrl = url || '';
+  if (url) {
+    thumb.src              = url;
+    thumb.style.display    = 'block';
+    ph.style.display       = 'none';
+    clearBtn.style.display = '';
+    note.textContent       = url;
+  } else {
+    thumb.style.display    = 'none';
+    ph.style.display       = 'flex';
+    clearBtn.style.display = 'none';
+    note.textContent       = '';
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// COMPONENTS — add / remove / reorder
+// ════════════════════════════════════════════════════════════════════
+
+function addComponent() {
+  syncAllComponentsFromDOM();
+  components.push({ category: '', name: '', price: '', product_url: '', notes: '' });
+  renderComponentRows();
+  updatePriceTotal();
+  // Focus the name input of the new last row
+  var lastIdx  = components.length - 1;
+  var nameInput = document.getElementById('comp-' + lastIdx + '-name');
+  if (nameInput) nameInput.focus();
+}
+
+function removeComponent(idx) {
+  syncAllComponentsFromDOM();
+  components.splice(idx, 1);
+  renderComponentRows();
+  updatePriceTotal();
+}
+
+function moveComponent(idx, dir) {
+  syncAllComponentsFromDOM();
+  var swapIdx = idx + dir;
+  if (swapIdx < 0 || swapIdx >= components.length) return;
+  var tmp = components[idx];
+  components[idx]     = components[swapIdx];
+  components[swapIdx] = tmp;
+  renderComponentRows();
+}
+
+// Read current DOM values back into the components array before any re-render
+function syncAllComponentsFromDOM() {
+  for (var i = 0; i < components.length; i++) {
+    var p = 'comp-' + i + '-';
+    var catEl   = document.getElementById(p + 'cat');
+    if (!catEl) continue;
+    components[i].category    = catEl.value;
+    components[i].name        = document.getElementById(p + 'name').value;
+    components[i].price       = document.getElementById(p + 'price').value;
+    components[i].product_url = document.getElementById(p + 'url').value;
+    components[i].notes       = document.getElementById(p + 'notes').value;
+  }
+}
+
+function renderComponentRows() {
+  var list = document.getElementById('comp-list');
+  var hdr  = document.getElementById('comp-header');
+
+  if (!components.length) {
+    list.innerHTML = '<div class="comp-empty">Inga komponenter &#228;nnu. Klicka "+ L&#228;gg till komponent".</div>';
+    hdr.style.display = 'none';
+    updatePriceTotal();
+    return;
+  }
+
+  hdr.style.display = '';
+
+  list.innerHTML = components.map(function(c, i) {
+    var isFirst = (i === 0);
+    var isLast  = (i === components.length - 1);
+    var p       = 'comp-' + i + '-';
+    return '<div class="comp-row">' +
+      // Up/down move buttons
+      '<div class="comp-move">' +
+        '<button class="comp-move-btn" title="Flytta upp"' + (isFirst ? ' disabled' : '') +
+          ' onclick="syncAllComponentsFromDOM();moveComponent(' + i + ',-1)">&#8593;</button>' +
+        '<button class="comp-move-btn" title="Flytta ner"' + (isLast ? ' disabled' : '') +
+          ' onclick="syncAllComponentsFromDOM();moveComponent(' + i + ',1)">&#8595;</button>' +
+      '</div>' +
+      // Category (datalist autocomplete, free text supported)
+      '<input class="comp-input" id="' + p + 'cat" type="text" list="comp-cat-datalist"' +
+        ' placeholder="Kategori" value="' + escAttr(c.category) + '">' +
+      // Name
+      '<input class="comp-input" id="' + p + 'name" type="text"' +
+        ' placeholder="Namn" value="' + escAttr(c.name) + '">' +
+      // Price
+      '<input class="comp-input" id="' + p + 'price" type="number" min="0"' +
+        ' placeholder="Pris" value="' + escAttr(c.price) + '" oninput="updatePriceTotal()">' +
+      // Product URL
+      '<input class="comp-input" id="' + p + 'url" type="url"' +
+        ' placeholder="Produkt-URL" value="' + escAttr(c.product_url) + '">' +
+      // Notes
+      '<input class="comp-input" id="' + p + 'notes" type="text"' +
+        ' placeholder="Anteckningar" value="' + escAttr(c.notes) + '">' +
+      // Remove button
+      '<button class="comp-remove" title="Ta bort rad"' +
+        ' onclick="syncAllComponentsFromDOM();removeComponent(' + i + ')">&#10005;</button>' +
+    '</div>';
+  }).join('');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// LIVE PRICE TOTAL
+// price_override takes precedence; partial pricing shows a notice
+// ════════════════════════════════════════════════════════════════════
+
+function updatePriceTotal() {
+  var overrideEl  = document.getElementById('f-price-override');
+  var override    = overrideEl ? parseFloat(overrideEl.value) : NaN;
+  var summary     = document.getElementById('price-summary');
+
+  if (!components.length) {
+    summary.style.display = 'none';
+    return;
+  }
+
+  var total        = 0;
+  var missingCount = 0;
+  for (var i = 0; i < components.length; i++) {
+    var el  = document.getElementById('comp-' + i + '-price');
+    var val = el ? parseFloat(el.value) : NaN;
+    if (!isNaN(val) && val > 0) { total += val; }
+    else { missingCount++; }
+  }
+
+  summary.style.display = 'block';
+
+  if (!isNaN(override) && override > 0) {
+    summary.innerHTML =
+      '<div class="price-total">' + override.toLocaleString('sv-SE') + '&nbsp;kr</div>' +
+      '<div class="price-note">(manuellt satt pris)</div>';
+    return;
+  }
+
+  var totalHtml = total > 0
+    ? '<div class="price-total">Ber&#228;knat totalpris: ' + total.toLocaleString('sv-SE') + '&nbsp;kr</div>'
+    : '';
+  var noteHtml  = (missingCount > 0 && total > 0)
+    ? '<div class="price-note">Baserat p&#229; angivna komponenter &#8212; ' +
+        missingCount + ' komponent' + (missingCount !== 1 ? 'er' : '') + ' saknar pris</div>'
+    : (missingCount > 0 && total === 0)
+      ? '<div class="price-note">Inga komponentpriser angivna</div>'
+      : '';
+
+  summary.innerHTML = totalHtml + noteHtml;
+}
+
+// ════════════════════════════════════════════════════════════════════
+// SAVE
+// 1. Upsert prebuilt_builds row
+// 2. Delete-and-reinsert prebuilt_components (same pattern as blog_post_tags)
+// ════════════════════════════════════════════════════════════════════
+
+async function saveBuild() {
+  syncAllComponentsFromDOM();
+
+  var title     = document.getElementById('f-title').value.trim();
+  var theme     = document.getElementById('f-theme').value.trim()    || null;
+  var category  = document.getElementById('f-category').value.trim() || null;
+  var desc      = document.getElementById('f-desc').value.trim()     || null;
+  var status    = document.getElementById('f-status').value;
+  var isActive  = document.getElementById('f-active').checked;
+  // is_featured intentionally allows multiple simultaneous true values —
+  // no auto-unfeature-others logic (unlike blog_posts.is_featured)
+  var isFeatured = document.getElementById('f-featured').checked;
+  var sortRaw   = document.getElementById('f-sort').value;
+  var sortOrder = sortRaw !== '' ? parseInt(sortRaw, 10) : 0;
+  var priceRaw  = document.getElementById('f-price-override').value;
+  var priceOv   = priceRaw !== '' ? parseFloat(priceRaw) : NaN;
+
+  if (!title) { showToast('Titel kr&#228;vs.', 't-red'); return; }
+
+  var isCreateMode = !buildId;
+
+  var payload = {
+    title:          title,
+    theme_name:     theme,
+    category:       category,
+    description:    desc,
+    hero_image_url: heroUrl || null,
+    status:         status,
+    is_active:      isActive,
+    is_featured:    isFeatured,
+    sort_order:     isNaN(sortOrder) ? 0 : sortOrder,
+    price_override: (!isNaN(priceOv) && priceOv > 0) ? priceOv : null,
+    updated_at:     new Date().toISOString(),
+  };
+
+  var currentBuildId = buildId;
+
+  if (!isCreateMode) {
+    // ── UPDATE existing build ──
+    var upd = await supabaseClient
+      .from('prebuilt_builds')
+      .update(payload)
+      .eq('id', buildId);
+    if (upd.error) {
+      showToast('Sparfel: ' + upd.error.message, 't-red');
+      return;
+    }
+    if (existingBuild) Object.assign(existingBuild, payload);
+  } else {
+    // ── INSERT new build ──
+    payload.created_at = new Date().toISOString();
+    var ins = await supabaseClient
+      .from('prebuilt_builds')
+      .insert(payload)
+      .select('id')
+      .single();
+    if (ins.error) {
+      showToast('Sparfel: ' + ins.error.message, 't-red');
+      return;
+    }
+    currentBuildId = String(ins.data.id);
+    buildId = currentBuildId;
+  }
+
+  // ── Components: delete-and-reinsert pattern ──
+  // Delete all existing component rows for this build first
+  var delRes = await supabaseClient
+    .from('prebuilt_components')
+    .delete()
+    .eq('build_id', currentBuildId);
+  if (delRes.error) {
+    showToast('Komponentfel (radering): ' + delRes.error.message, 't-red');
+    return;
+  }
+
+  // Insert fresh rows; skip rows with neither name nor category
+  var compRows = [];
+  components.forEach(function(c, i) {
+    var name = (c.name || '').trim();
+    var cat  = (c.category || '').trim();
+    if (!name && !cat) return; // skip completely blank rows
+    compRows.push({
+      build_id:    currentBuildId,
+      category:    cat     || null,
+      name:        name    || null,
+      price:       (c.price !== '' && !isNaN(parseFloat(c.price))) ? parseFloat(c.price) : null,
+      product_url: (c.product_url || '').trim() || null,
+      notes:       (c.notes       || '').trim() || null,
+      sort_order:  i,
+    });
+  });
+
+  if (compRows.length > 0) {
+    var insComp = await supabaseClient.from('prebuilt_components').insert(compRows);
+    if (insComp.error) {
+      showToast('Komponentfel (sparning): ' + insComp.error.message, 't-red');
+      return;
+    }
+  }
+
+  showToast('Build sparad.', 't-green');
+
+  if (isCreateMode) {
+    // Redirect to edit mode so URL reflects the new id and further saves use UPDATE
+    window.location.href = 'prebuilt-editor.html?id=' + currentBuildId;
+  }
+}
+</script>
+</body>
+</html>
