@@ -1036,16 +1036,24 @@ async function initArticleView(slug) {
       .eq('status', 'published')
       .order('created_at', { ascending: false }),
     sb.from('blog_post_tags').select('post_id, tag_id'),
+    sb.from('settings').select('related_articles_max_count').eq('id', 'global').single(),
   ];
   if (article.cta_template_id) {
     fetches.push(sb.from('cta_templates').select('*').eq('id', article.cta_template_id).single());
   }
 
   var results = await Promise.all(fetches);
-  var tagsRes       = results[0];
-  var allPostsRes   = results[1];
-  var allTagMapsRes = results[2];
-  var ctaRes        = article.cta_template_id ? results[3] : null;
+  var tagsRes        = results[0];
+  var allPostsRes    = results[1];
+  var allTagMapsRes  = results[2];
+  var settingsRes    = results[3];
+  var ctaRes         = article.cta_template_id ? results[4] : null;
+
+  // Read global max-related-count; fall back to 4 if the setting is unavailable
+  var relatedMaxCount = 4;
+  if (!settingsRes.error && settingsRes.data && settingsRes.data.related_articles_max_count != null) {
+    relatedMaxCount = settingsRes.data.related_articles_max_count;
+  }
 
   // 3. Attach tag IDs to article (needed by getRelatedArticles)
   var articleTags = !tagsRes.error ? (tagsRes.data || []).map(function(r) { return r.tags; }).filter(Boolean) : [];
@@ -1073,7 +1081,7 @@ async function initArticleView(slug) {
   var nextPost = curIdx < byDate.length - 1 ? byDate[curIdx + 1] : null;
 
   // 6. Get related articles via content-utils.js
-  var related = await getRelatedArticles(article, candidatePosts, 4);
+  var related = await getRelatedArticles(article, candidatePosts, relatedMaxCount);
 
   // 7. CTA data
   var ctaData = (ctaRes && !ctaRes.error) ? ctaRes.data : null;

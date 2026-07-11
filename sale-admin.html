@@ -142,6 +142,22 @@
       </div>
     </div>
 
+    <!-- ── CONTENT SETTINGS ── -->
+    <div class="sale-form-card">
+      <h3>Inneh&#229;llsinst&#228;llningar</h3>
+      <div class="sale-form-grid" style="grid-template-columns:1fr 1fr;">
+        <div class="sale-field">
+          <label for="f-related-max">Max relaterade artiklar</label>
+          <input type="number" id="f-related-max" min="2" max="8" placeholder="4"
+                 title="Hur m&#229;nga relaterade artiklar som visas under varje artikel (2–8).">
+        </div>
+      </div>
+      <div class="save-row">
+        <button class="sale-save-btn" onclick="saveContentSettings()">Uppdatera</button>
+        <span class="save-flash" id="save-flash-content">&#10003; Sparat</span>
+      </div>
+    </div>
+
     <!-- ── PRICES REFERENCE ── -->
     <div class="prices-card">
       <h3>Ordinarie priser</h3>
@@ -185,7 +201,7 @@ const SERVICES = [
 async function loadSettings() {
   const { data, error } = await supabaseClient
     .from('settings')
-    .select('sale_active,sale_percent,sale_title,sale_end_date,sale_applies_to')
+    .select('sale_active,sale_percent,sale_title,sale_end_date,sale_applies_to,related_articles_max_count')
     .eq('id', 'global')
     .single();
 
@@ -210,6 +226,7 @@ async function loadSettings() {
   document.getElementById('f-percent').value        = data.sale_percent  ?? '';
   document.getElementById('f-title').value          = data.sale_title    ?? '';
   document.getElementById('f-end-date').value       = data.sale_end_date ?? '';
+  document.getElementById('f-related-max').value    = data.related_articles_max_count ?? 4;
 
   // sale_applies_to is now text[] — Supabase JS returns it as a JS array
   const appliesArr = Array.isArray(data.sale_applies_to) ? data.sale_applies_to : [];
@@ -285,6 +302,36 @@ async function saveSettings() {
   showToast('Inst&#228;llningar sparade.', 't-green');
 
   const flash = document.getElementById('save-flash');
+  flash.classList.add('show');
+  setTimeout(() => flash.classList.remove('show'), 2500);
+}
+
+// ── SAVE CONTENT SETTINGS ──
+async function saveContentSettings() {
+  const relatedMax = parseInt(document.getElementById('f-related-max').value, 10);
+
+  if (isNaN(relatedMax) || relatedMax < 2 || relatedMax > 8) {
+    showToast('Ange ett v&#228;rde mellan 2 och 8.', 't-amber');
+    return;
+  }
+
+  const { data: rows, error } = await supabaseClient
+    .from('settings')
+    .update({ related_articles_max_count: relatedMax })
+    .eq('id', 'global')
+    .select('id');
+
+  if (error) {
+    showToast('Fel vid sparning: ' + error.message, 't-red');
+    return;
+  }
+  if (!rows || rows.length === 0) {
+    showToast('Inget sparades — raden id=global saknas i settings.', 't-red');
+    return;
+  }
+
+  showToast('Inneh&#229;llsinst&#228;llningar sparade.', 't-green');
+  const flash = document.getElementById('save-flash-content');
   flash.classList.add('show');
   setTimeout(() => flash.classList.remove('show'), 2500);
 }

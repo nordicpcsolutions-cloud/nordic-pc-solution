@@ -59,8 +59,9 @@ async function incrementArticleView(postId, supabaseClient) {
  * @param {number}   [limit=4]         — max results to return
  * @returns {Promise<object[]>}
  */
-async function getRelatedArticles(currentPost, allPublishedPosts, limit) {
-  limit = limit !== undefined ? limit : 4;
+async function getRelatedArticles(currentPost, allPublishedPosts, limit, sortMode) {
+  limit    = limit    !== undefined ? limit    : 4;
+  sortMode = sortMode !== undefined ? sortMode : 'relevance';
 
   if (
     currentPost.related_articles_mode === 'manual' &&
@@ -78,11 +79,11 @@ async function getRelatedArticles(currentPost, allPublishedPosts, limit) {
     // Manual picks don't fill the limit — auto-fill remaining slots
     var remaining   = limit - manualPicks.length;
     var excludeIds  = manualPicks.map(function(p) { return p.id; });
-    var autoFill    = await getAutoRelated(currentPost, allPublishedPosts, remaining, excludeIds);
+    var autoFill    = await getAutoRelated(currentPost, allPublishedPosts, remaining, excludeIds, sortMode);
     return manualPicks.concat(autoFill);
   }
 
-  return getAutoRelated(currentPost, allPublishedPosts, limit, []);
+  return getAutoRelated(currentPost, allPublishedPosts, limit, [], sortMode);
 }
 
 // ────────────────────────────────────────────────────────────────────
@@ -137,8 +138,9 @@ function getCtaIconSvg(icon) {
   return svgs[icon] || '';
 }
 
-async function getAutoRelated(currentPost, allPublishedPosts, limit, excludeIds) {
+async function getAutoRelated(currentPost, allPublishedPosts, limit, excludeIds, sortMode) {
   excludeIds = excludeIds || [];
+  sortMode   = sortMode   || 'relevance';
 
   var candidates = allPublishedPosts.filter(function(p) {
     if (String(p.id) === String(currentPost.id)) return false;
@@ -158,11 +160,17 @@ async function getAutoRelated(currentPost, allPublishedPosts, limit, excludeIds)
     };
   });
 
-  // Tier 1: shared tags, highest count first
-  var byTags = scored
-    .filter(function(s) { return s.sharedTagCount > 0; })
-    .sort(function(a, b) { return b.sharedTagCount - a.sharedTagCount; })
-    .map(function(s) { return s.post; });
+  // Tier 1: shared-tag matches, ordered within the tier by sortMode
+  var tier1 = scored.filter(function(s) { return s.sharedTagCount > 0; });
+  if (sortMode === 'recent') {
+    tier1.sort(function(a, b) { return new Date(b.post.created_at) - new Date(a.post.created_at); });
+  } else if (sortMode === 'popular') {
+    tier1.sort(function(a, b) { return (b.post.views || 0) - (a.post.views || 0); });
+  } else {
+    // 'relevance' (default) — shared tag count descending, existing behavior
+    tier1.sort(function(a, b) { return b.sharedTagCount - a.sharedTagCount; });
+  }
+  var byTags = tier1.map(function(s) { return s.post; });
 
   var result = byTags.slice(0, limit);
 
