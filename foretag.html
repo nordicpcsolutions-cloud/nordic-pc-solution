@@ -357,9 +357,13 @@ nav.scrolled{background:rgba(8,12,24,0.97);}
 /* ── FOOTER ── */
 footer{background:var(--dark2);padding:3.5rem 5vw 2rem;position:relative;}
 footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(26,79,255,0.55) 30%,rgba(0,212,255,0.4) 70%,transparent);}
-.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2.5rem;}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:1.8rem;margin-bottom:2.5rem;}
 .footer-brand p{font-size:0.84rem;color:var(--gray);line-height:1.68;max-width:230px;margin-top:0.75rem;}
 .footer-col h4{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);margin-bottom:1.1rem;}
+.footer-google-rating{display:inline-flex;align-items:center;gap:0.45rem;margin-top:0.9rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:0.32rem 0.8rem;text-decoration:none;transition:border-color 0.2s;}
+.footer-google-rating:hover{border-color:rgba(245,197,66,0.4);}
+.fgr-stars{color:#f5c542;font-size:0.76rem;letter-spacing:0.06em;}
+.fgr-text{font-size:0.75rem;color:var(--gray-light);font-weight:600;}
 .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.65rem;}
 .footer-col ul a{color:var(--gray-light);text-decoration:none;font-size:0.87rem;transition:color 0.2s;}
 .footer-col ul a:hover{color:var(--cyan);}
@@ -384,7 +388,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 @media(max-width:960px){
   .nav-center{display:none;}
   .hamburger-btn{display:flex;}
-  .footer-top{grid-template-columns:1fr 1fr;}
+  .footer-top{grid-template-columns:repeat(3,1fr);}
   /* Hero: stack at tablet */
   .biz-hero{min-height:unset;padding:5.5rem 5vw 4rem;}
   .biz-hero-grid{grid-template-columns:1fr;gap:3rem;}
@@ -430,7 +434,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   .biz-form-row{grid-template-columns:1fr;}
   .biz-field input,.biz-field select,.biz-field textarea{font-size:16px;}
   .biz-field input,.biz-field select{height:3.5rem;}
-  .footer-top{grid-template-columns:1fr 1fr;}
+  .footer-top{grid-template-columns:repeat(3,1fr);}
   .footer-brand{grid-column:1/-1;}
   /* Trust inline: hide separators, let points wrap */
   .biz-trust-sep{display:none;}
@@ -446,6 +450,18 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 @media(max-width:420px){
   .biz-tl-step::before{font-size:2.4rem;}
 }
+/* ── TESTIMONIAL ── */
+.biz-testimonial-wrap{max-width:700px;margin:0 auto;}
+.testimonial-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:2.5rem 2rem 2rem;position:relative;overflow:hidden;}
+.testimonial-card::before{content:'\201C';position:absolute;top:0.6rem;left:1.2rem;font-size:5rem;line-height:1;color:rgba(26,79,255,0.18);font-family:'Barlow Condensed',sans-serif;font-weight:900;pointer-events:none;user-select:none;}
+.testimonial-stars{color:#f5c542;font-size:0.88rem;margin-bottom:0.9rem;letter-spacing:0.12em;}
+.testimonial-text{font-size:0.95rem;color:var(--gray-light);line-height:1.75;margin-bottom:1.5rem;font-style:italic;}
+.testimonial-author{display:flex;align-items:center;gap:0.75rem;}
+.author-avatar{width:40px;height:40px;border-radius:50%;background:rgba(26,79,255,0.18);border:1px solid rgba(26,79,255,0.4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.82rem;color:var(--cyan);flex-shrink:0;}
+.author-name{font-weight:700;font-size:0.88rem;}
+.author-loc{font-size:0.74rem;color:var(--gray);}
+.testimonial-note{margin-top:1.5rem;text-align:center;font-size:0.78rem;color:var(--gray);font-style:italic;}
+.biz-testimonial-section{padding:4rem 1.5rem;}
 </style>
 <script type="application/ld+json">
 {
@@ -493,13 +509,10 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   </a>
   <div class="nav-center">
     <a href="index.html#services" data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</a>
-    <a href="index.html#pricing" data-sv="Priser" data-en="Pricing">Priser</a>
-    <a href="index.html#gallery" data-sv="Galleri" data-en="Gallery">Galleri</a>
-    <a href="index.html#testimonials" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
+    <a href="index.html#pricing"  data-sv="Priser"     data-en="Pricing">Priser</a>
+    <a href="pc-analysis.html"    data-sv="PC-analys"  data-en="PC Analysis">PC-analys</a>
+    <a href="blogg.html"          data-sv="Resurser"   data-en="Resources">Resurser</a>
     <a href="foretag.html" class="active-page" data-sv="F&#246;retag" data-en="Business">F&#246;retag</a>
-    <a href="blogg.html" data-sv="Resurser" data-en="Resources">Resurser</a>
-    <a href="prebuilt.html" data-sv="Prebyggda PC" data-en="Prebuilt PCs">Prebyggda PC</a>
-    <a href="index.html" class="nav-individuals" data-sv="F&#246;r privatpersoner &#8594;" data-en="For individuals &#8594;">F&#246;r privatpersoner &#8594;</a>
   </div>
   <div class="nav-right">
     <div class="lang-toggle">
@@ -517,13 +530,10 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   <div class="mobile-menu-inner">
     <nav class="mobile-menu-nav">
       <a href="index.html#services" onclick="closeMobileMenu()" data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</a>
-      <a href="index.html#pricing" onclick="closeMobileMenu()" data-sv="Priser" data-en="Pricing">Priser</a>
-      <a href="index.html#gallery" onclick="closeMobileMenu()" data-sv="Galleri" data-en="Gallery">Galleri</a>
-      <a href="index.html#testimonials" onclick="closeMobileMenu()" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
-      <a href="foretag.html" onclick="closeMobileMenu()" data-sv="F&#246;retag" data-en="Business">F&#246;retag</a>
-      <a href="blogg.html" onclick="closeMobileMenu()" data-sv="Resurser" data-en="Resources">Resurser</a>
-      <a href="prebuilt.html" onclick="closeMobileMenu()" data-sv="Prebyggda PC" data-en="Prebuilt PCs">Prebyggda PC</a>
-      <a href="index.html" onclick="closeMobileMenu()" style="font-size:1.15rem;opacity:0.65;" data-sv="F&#246;r privatpersoner" data-en="For individuals">F&#246;r privatpersoner</a>
+      <a href="index.html#pricing"  onclick="closeMobileMenu()" data-sv="Priser"     data-en="Pricing">Priser</a>
+      <a href="pc-analysis.html"    onclick="closeMobileMenu()" data-sv="PC-analys"  data-en="PC Analysis">PC-analys</a>
+      <a href="blogg.html"          onclick="closeMobileMenu()" data-sv="Resurser"   data-en="Resources">Resurser</a>
+      <a href="foretag.html"        onclick="closeMobileMenu()" data-sv="F&#246;retag"  data-en="Business">F&#246;retag</a>
       <a href="#kontakt" class="mobile-menu-cta" onclick="closeMobileMenu()" data-sv="Boka m&#246;te" data-en="Book meeting">Boka m&#246;te</a>
     </nav>
     <div class="mobile-menu-lang">
@@ -1000,6 +1010,30 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   </div>
 </section>
 
+<!-- ══════════════════════════════════════════════════
+     TESTIMONIAL — Emma Lindqvist (business customer)
+══════════════════════════════════════════════════ -->
+<section class="biz-testimonial-section">
+  <div class="section-header" style="text-align:center;margin-bottom:2rem;">
+    <div class="section-eyebrow reveal" data-sv="Vad v&#229;ra f&#246;retagskunder s&#228;ger" data-en="What our business customers say">Vad v&#229;ra f&#246;retagskunder s&#228;ger</div>
+  </div>
+  <div class="biz-testimonial-wrap reveal">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="testimonial-text"
+         data-sv='"Vi hanterade ett akut haveri med tre station&#228;rer p&#229; samma dag. Diagnos och byte av komponenter var genomf&#246;rt inom 24 timmar. Professionellt, p&#229;litligt och ingen on&#246;dig nedtid."'
+         data-en='"We had three desktops fail on the same day. Diagnosis and component replacement were done within 24 hours. Professional, reliable, and no unnecessary downtime."'>"Vi hanterade ett akut haveri med tre station&#228;rer p&#229; samma dag. Diagnos och byte av komponenter var genomf&#246;rt inom 24 timmar. Professionellt, p&#229;litligt och ingen on&#246;dig nedtid."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">EL</div>
+        <div>
+          <div class="author-name">Emma Lindqvist</div>
+          <div class="author-loc" data-sv="IT-ansvarig, G&#246;teborg" data-en="IT Manager, Gothenburg">IT-ansvarig, G&#246;teborg</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="kontakt" class="biz-section">
   <div class="biz-contact-grid">
@@ -1072,38 +1106,51 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   <div class="footer-top">
     <div class="footer-brand">
       <a href="index.html" class="logo"><span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span><span class="logo-abbr">N<span class="lpc">P</span>S</span></a>
-      <p data-sv="Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete." data-en="Professional PC builds, repairs and upgrades in Gothenburg. Honest pricing, dedicated work.">Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete.</p>
+      <p data-sv="Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete." data-en="Professional PC builds, repairs and upgrades in Gothenburg. Honest pricing, dedicated work.">Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete.</p>      <!-- NOTE: Replace this URL with the real Google Business Profile URL once
+           the Nordic PC Solutions Google listing is verified and live.
+           Current URL is a generic search — not a verified business listing link. -->
+      <a href="https://www.google.com/search?q=Nordic+PC+Solutions+G%C3%B6teborg" target="_blank" rel="noopener noreferrer" class="footer-google-rating">
+        <span class="fgr-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="fgr-text" data-sv="4.8 p&#229; Google" data-en="4.8 on Google">4.8 p&#229; Google</span>
+      </a>
     </div>
     <div class="footer-col">
       <h4 data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</h4>
       <ul>
-        <li><a href="index.html#services" data-sv="Skr&#228;ddarsydda Byggen" data-en="Custom PC Builds">Skr&#228;ddarsydda Byggen</a></li>
+        <li><a href="index.html#services" data-sv="Skr&#228;ddarsydda datorer" data-en="Custom PCs">Skr&#228;ddarsydda datorer</a></li>
         <li><a href="index.html#services" data-sv="Uppgraderingar" data-en="Upgrades">Uppgraderingar</a></li>
-        <li><a href="index.html#services" data-sv="Reng&#246;ring &amp; Optimering" data-en="Cleaning &amp; Optimisation">Reng&#246;ring &amp; Optimering</a></li>
-        <li><a href="index.html#services" data-sv="Fels&#246;kning &amp; Reparation" data-en="Diagnostics &amp; Repair">Fels&#246;kning &amp; Reparation</a></li>
-        <li><a href="foretag.html" data-sv="IT f&#246;r F&#246;retag" data-en="IT for Business">IT f&#246;r F&#246;retag</a></li>
+        <li><a href="index.html#services" data-sv="Reparationer" data-en="Repairs">Reparationer</a></li>
+        <li><a href="pc-analysis.html" data-sv="PC-analys" data-en="PC Analysis">PC-analys</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4 data-sv="Om oss" data-en="Company">Om oss</h4>
+      <h4 data-sv="Resurser" data-en="Resources">Resurser</h4>
       <ul>
-        <li><a href="index.html#about" data-sv="Om oss" data-en="About Us">Om oss</a></li>
-        <li><a href="index.html#gallery" data-sv="Galleri" data-en="Gallery">Galleri</a></li>
-        <li><a href="index.html#testimonials" data-sv="Recensioner" data-en="Reviews">Recensioner</a></li>
-        <li><a href="index.html#pricing" data-sv="Priser" data-en="Pricing">Priser</a></li>
-        <li><a href="faq.html" data-sv="Vanliga fr&#229;gor" data-en="FAQ">Vanliga fr&#229;gor</a></li>
+        <li><a href="blogg.html" data-sv="Alla artiklar" data-en="All articles">Alla artiklar</a></li>
+        <li><a href="blogg.html" data-sv="Kategorier" data-en="Categories">Kategorier</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Portfolio" data-en="Portfolio">Portfolio</h4>
+      <ul>
+        <li><a href="index.html#gallery" data-sv="Senaste projekten" data-en="Recent projects">Senaste projekten</a></li>
+        <!-- portfolio.html is a planned future page — the full Portfolio module
+             (database-backed projects, before/after sliders, YouTube embeds, component lists)
+             has not been built yet. This link will 404 until that page exists. -->
+        <li><a href="portfolio.html" data-sv="Se hela portfolion" data-en="Full portfolio">Se hela portfolion</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="F&#246;retaget" data-en="Company">F&#246;retaget</h4>
+      <ul>
+        <li><a href="foretag.html" data-sv="F&#246;retagsl&#246;sningar" data-en="Business solutions">F&#246;retagsl&#246;sningar</a></li>
+        <li><a href="about.html" data-sv="Om oss" data-en="About Us">Om oss</a></li>
+        <li><a href="index.html#contact" data-sv="Kontakt" data-en="Contact">Kontakt</a></li>
         <li><a href="policy.html" data-sv="Integritetspolicy" data-en="Privacy Policy">Integritetspolicy</a></li>
-        <li><a href="blogg.html" data-sv="Resurser" data-en="Resources">Resurser</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4 data-sv="Kontakt" data-en="Contact">Kontakt</h4>
-      <ul>
-        <li><a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a></li>
-        <li><a href="index.html#contact" data-sv="G&#246;teborg, Sverige" data-en="Gothenburg, Sweden">G&#246;teborg, Sverige</a></li>
-        <li><a href="index.html" data-sv="F&#246;r privatpersoner" data-en="For individuals">F&#246;r privatpersoner</a></li>
+        <li><a href="policy.html" data-sv="Cookiepolicy" data-en="Cookie Policy">Cookiepolicy</a></li>
+        <li><a href="mailto:nordicpcsolutions@gmail.com" class="footer-social-link">nordicpcsolutions@gmail.com</a></li>
         <li><a href="https://www.instagram.com/nordicpcsolutions" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Instagram</a></li>
-        <li><a href="https://www.facebook.com/profile.php?id=61584118142766&sk=about" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> Facebook</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61584118142766&amp;sk=about" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> Facebook</a></li>
       </ul>
     </div>
   </div>

@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0iIzA4MGMxOCIvPjx0ZXh0IHg9IjMyIiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iNDQiIGZpbGw9IiMxYTRmZmYiPlA8L3RleHQ+PC9zdmc+">
+
+<title data-sv="Om Nordic PC Solutions &#8211; G&#246;teborg" data-en="About Nordic PC Solutions &#8211; Gothenburg">Om Nordic PC Solutions &#8211; G&#246;teborg</title>
+<meta name="description" content="L&#228;r k&#228;nna Nordic PC Solutions &#8211; lokal PC-expertis i G&#246;teborg. &#196;rlig r&#229;dgivning, transparent priss&#228;ttning och personlig service f&#246;r privatpersoner och f&#246;retag.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://nordicpcsolutions.se/about.html">
+<meta property="og:title" content="Om Nordic PC Solutions &#8211; G&#246;teborg">
+<meta property="og:description" content="Lokal PC-expertis grundad i G&#246;teborg. &#196;rlig r&#229;dgivning, transparent prissättning och personlig service.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sv_SE">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Nordic PC Solutions",
+  "url": "https://nordicpcsolutions.se",
+  "email": "nordicpcsolutions@gmail.com",
+  "description": "Professionella PC-tjänster i Göteborg – byggen, uppgraderingar, reparationer och diagnostik för privatpersoner och företag.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Göteborg",
+    "addressRegion": "Västra Götaland",
+    "addressCountry": "SE"
+  },
+  "areaServed": { "@type": "City", "name": "Göteborg" },
+  "sameAs": [
+    "https://www.instagram.com/nordicpcsolutions",
+    "https://www.facebook.com/profile.php?id=61584118142766"
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T21RVB775S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T21RVB775S');
+</script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --blue:#1a4fff;
+  --blue-light:#3d6fff;
+  --cyan:#00d4ff;
+  --accent:#00d4ff;
+  --dark:#080c18;
+  --dark2:#0d1225;
+  --dark3:#121a30;
+  --dark4:#1a2440;
+  --gray:#7a8fb5;
+  --gray-light:#b8cae8;
+  --white:#eef2ff;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--dark);color:var(--white);overflow-x:hidden;}
+
+/* ── PROGRESS BAR ── */
+#progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--blue),var(--cyan));z-index:9999;transition:width 0.05s linear;box-shadow:0 0 10px var(--cyan),0 0 4px var(--blue);pointer-events:none;}
+
+/* ── SCROLL TO TOP ── */
+#scroll-top{position:fixed;bottom:2rem;right:2rem;width:46px;height:46px;border-radius:8px;background:var(--blue);border:none;color:#fff;font-size:1.1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity 0.3s,transform 0.3s,box-shadow 0.2s,background 0.2s;z-index:500;box-shadow:0 4px 20px rgba(26,79,255,0.45);}
+#scroll-top.visible{opacity:1;transform:translateY(0);}
+#scroll-top:hover{background:var(--blue-light);box-shadow:0 0 28px rgba(26,79,255,0.7);}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:64px;background:rgba(8,12,24,0.75);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(26,79,255,0.1);gap:1rem;transition:background 0.3s,border-color 0.3s;}
+nav.scrolled{background:rgba(8,12,24,0.97);border-bottom-color:rgba(26,79,255,0.18);}
+.logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.3rem;letter-spacing:0.05em;color:var(--white);text-transform:uppercase;text-decoration:none;white-space:nowrap;flex-shrink:0;}
+.logo .lpc{color:var(--blue);}
+.logo-full{display:inline;}
+.logo-abbr{display:none;}
+.nav-center{display:flex;align-items:center;gap:2rem;flex:1;justify-content:center;}
+.nav-center a{color:var(--gray-light);text-decoration:none;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;position:relative;padding-bottom:2px;transition:color 0.2s;}
+.nav-center a::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1.5px;background:linear-gradient(90deg,var(--blue),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform 0.25s;}
+.nav-center a:hover{color:var(--white);}
+.nav-center a:hover::after,.nav-center a.active-page::after{transform:scaleX(1);}
+.nav-center a.active-page{color:var(--white);}
+.nav-right{display:flex;align-items:center;gap:0.75rem;flex-shrink:0;}
+.nav-cta{background:linear-gradient(135deg,#3d6fff 0%,#00d4ff 100%);color:#fff !important;padding:0.48rem 1.3rem;border-radius:4px;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:filter 0.2s,box-shadow 0.2s;box-shadow:0 0 16px rgba(26,79,255,0.3);}
+.nav-cta:hover{filter:brightness(1.15);box-shadow:0 0 28px rgba(26,79,255,0.6);}
+.lang-toggle{display:flex;border:1px solid rgba(255,255,255,0.1);border-radius:5px;overflow:hidden;flex-shrink:0;}
+.lang-btn{padding:0.38rem 0.65rem;background:transparent;color:var(--gray);border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.07em;transition:background 0.2s,color 0.2s;}
+.lang-btn.active{background:var(--blue);color:#fff;}
+.hamburger-btn{display:none;flex-direction:column;justify-content:space-between;align-items:center;width:44px;height:44px;padding:8px 4px;background:none;border:none;cursor:pointer;z-index:1002;flex-shrink:0;}
+.hamburger-btn span{display:block;height:2px;width:26px;background:var(--white);border-radius:2px;transition:transform 0.3s,opacity 0.2s;}
+.hamburger-btn.open span:nth-child(1){transform:translateY(10px) rotate(45deg);}
+.hamburger-btn.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger-btn.open span:nth-child(3){transform:translateY(-10px) rotate(-45deg);}
+
+/* ── MOBILE MENU ── */
+#mobile-menu{position:fixed;inset:0;z-index:1001;background:rgba(8,12,24,0.98);backdrop-filter:blur(20px);transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;padding:1.5rem 5vw 2rem;}
+#mobile-menu.open{transform:translateX(0);}
+.mobile-menu-close{align-self:flex-end;background:none;border:none;color:var(--white);font-size:1.5rem;cursor:pointer;padding:0.5rem;margin-bottom:1rem;}
+.mobile-menu-inner{display:flex;flex-direction:column;height:100%;gap:2rem;}
+.mobile-menu-nav{display:flex;flex-direction:column;gap:0.3rem;}
+.mobile-menu-nav a{color:var(--gray-light);text-decoration:none;font-size:1.1rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.8rem 0;border-bottom:1px solid rgba(255,255,255,0.05);transition:color 0.2s;}
+.mobile-menu-nav a:hover{color:var(--white);}
+.mobile-menu-cta{background:linear-gradient(135deg,#3d6fff,#00d4ff);color:#fff !important;border-radius:6px;padding:0.9rem !important;text-align:center;border-bottom:none !important;margin-top:0.5rem;}
+.mobile-menu-lang{display:flex;gap:0.5rem;}
+
+/* ── PAGE LAYOUT ── */
+.page-content{padding-top:64px;}
+.abt-section{padding:5rem 5vw;}
+.abt-section-alt{background:var(--dark2);}
+.abt-inner{max-width:760px;}
+.abt-inner-wide{max-width:980px;}
+
+/* ── SHARED TYPOGRAPHY ── */
+.eyebrow{font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.8rem;}
+.section-heading{font-family:'Barlow Condensed',sans-serif;font-size:clamp(1.75rem,4vw,2.6rem);font-weight:900;line-height:1.1;color:var(--white);margin-bottom:1rem;}
+.body-text{font-size:0.97rem;color:var(--gray-light);line-height:1.78;}
+.body-text + .body-text{margin-top:1rem;}
+
+/* ── HERO ── */
+.abt-hero{position:relative;overflow:hidden;padding:7rem 5vw 5rem;background:linear-gradient(160deg,var(--dark) 0%,#0a1530 55%,#0c1e48 100%);}
+.abt-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(26,79,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(26,79,255,0.05) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.abt-hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:linear-gradient(to bottom,transparent,var(--dark));pointer-events:none;}
+.abt-hero-inner{position:relative;z-index:1;max-width:660px;}
+.abt-hero h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2rem,5.5vw,3.4rem);font-weight:900;line-height:1.1;color:var(--white);margin-bottom:1.1rem;}
+.abt-hero-sub{font-size:1.05rem;color:var(--gray-light);line-height:1.68;max-width:540px;}
+
+/* ── STORY ── */
+.story-body{display:flex;flex-direction:column;gap:1.1rem;}
+
+/* ── MISSION BOX ── */
+.mission-box{background:var(--dark3);border:1px solid rgba(26,79,255,0.25);border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:1.8rem 2rem;margin-top:0.5rem;}
+.mission-box p{font-size:1.05rem;color:var(--white);line-height:1.72;font-style:italic;}
+
+/* ── EXPERIENCE ── */
+.exp-highlight{display:inline-flex;align-items:center;gap:0.6rem;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.18);border-radius:8px;padding:0.6rem 1rem;margin-bottom:1.5rem;}
+.exp-highlight-num{font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:900;color:var(--cyan);line-height:1;}
+.exp-highlight-lbl{font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-light);}
+
+/* ── TRUST POINTS ── */
+.trust-list{display:flex;flex-direction:column;gap:0.9rem;margin-top:0.5rem;}
+.trust-item{display:flex;align-items:flex-start;gap:0.9rem;}
+.trust-check{width:28px;height:28px;border-radius:7px;background:rgba(26,79,255,0.12);border:1px solid rgba(26,79,255,0.25);display:flex;align-items:center;justify-content:center;color:var(--cyan);flex-shrink:0;margin-top:0.12rem;}
+.trust-check svg{width:14px;height:14px;}
+.trust-text-wrap{flex:1;}
+.trust-title{font-weight:700;font-size:0.95rem;color:var(--white);margin-bottom:0.22rem;}
+.trust-desc{font-size:0.86rem;color:var(--gray-light);line-height:1.58;}
+
+/* ── PROCESS ── */
+.process-steps{display:flex;flex-direction:column;gap:0;margin-top:0.5rem;counter-reset:proc-step;}
+.process-step{display:flex;gap:1.4rem;align-items:flex-start;position:relative;padding-bottom:2rem;counter-increment:proc-step;}
+.process-step:last-child{padding-bottom:0;}
+.process-step::before{content:'';position:absolute;left:18px;top:38px;bottom:0;width:1px;background:rgba(26,79,255,0.2);}
+.process-step:last-child::before{display:none;}
+.process-node{width:38px;height:38px;border-radius:50%;background:rgba(26,79,255,0.15);border:1px solid rgba(26,79,255,0.4);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:0.88rem;font-weight:900;color:var(--cyan);flex-shrink:0;z-index:1;}
+.process-body{padding-top:0.4rem;flex:1;}
+.process-title{font-weight:700;font-size:0.97rem;color:var(--white);margin-bottom:0.35rem;}
+.process-desc{font-size:0.87rem;color:var(--gray-light);line-height:1.62;}
+
+/* ── VALUES ── */
+.values-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;margin-top:0.5rem;}
+.value-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.5rem 1.6rem;transition:border-color 0.2s;}
+.value-card:hover{border-color:rgba(26,79,255,0.3);}
+.value-title{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:900;text-transform:uppercase;letter-spacing:0.04em;color:var(--white);margin-bottom:0.5rem;}
+.value-title .accent-word{color:var(--cyan);}
+.value-desc{font-size:0.86rem;color:var(--gray-light);line-height:1.62;}
+
+/* ── FAQ ── */
+.faq-list{display:flex;flex-direction:column;gap:1rem;max-width:760px;}
+.faq-item{background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;transition:border-color 0.2s;}
+.faq-item.open{border-color:var(--blue);}
+.faq-question{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.3rem 1.6rem;cursor:pointer;user-select:none;min-height:44px;}
+.faq-question h3{font-size:1rem;font-weight:700;color:var(--white);line-height:1.4;}
+.faq-icon{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:rgba(26,79,255,0.15);border:1px solid rgba(26,79,255,0.3);display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:1.1rem;font-weight:900;transition:transform 0.3s,background 0.2s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--blue);color:#fff;}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height 0.35s ease;}
+.faq-item.open .faq-answer{max-height:500px;}
+.faq-answer-inner{padding:0 1.6rem 1.4rem;border-top:1px solid rgba(26,79,255,0.15);padding-top:1rem;}
+.faq-answer-inner p{font-size:0.92rem;color:var(--gray-light);line-height:1.75;}
+.faq-answer-inner a{color:var(--cyan);text-decoration:none;}
+.faq-answer-inner a:hover{text-decoration:underline;}
+
+/* ── CONTACT BLOCK ── */
+.contact-block{display:flex;flex-direction:column;gap:1rem;margin-top:0.5rem;}
+.contact-row{display:flex;align-items:center;gap:0.9rem;}
+.contact-icon{width:40px;height:40px;border-radius:9px;background:rgba(26,79,255,0.12);border:1px solid rgba(26,79,255,0.2);display:flex;align-items:center;justify-content:center;color:var(--cyan);flex-shrink:0;}
+.contact-icon svg{width:18px;height:18px;}
+.contact-label{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:0.1rem;}
+.contact-value{font-size:0.95rem;color:var(--gray-light);}
+.contact-value a{color:var(--cyan);text-decoration:none;}
+.contact-value a:hover{text-decoration:underline;}
+.contact-cta{margin-top:0.5rem;}
+.btn-primary{display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,#3d6fff 0%,#00d4ff 100%);color:#fff;border:none;padding:0.9rem 2rem;border-radius:6px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:filter 0.2s,box-shadow 0.2s;box-shadow:0 0 20px rgba(26,79,255,0.35);}
+.btn-primary:hover{filter:brightness(1.12);box-shadow:0 0 32px rgba(26,79,255,0.55);}
+
+/* ── FOOTER ── */
+footer{background:var(--dark2);padding:3.5rem 5vw 2rem;position:relative;}
+footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(26,79,255,0.55) 30%,rgba(0,212,255,0.4) 70%,transparent);box-shadow:0 0 24px rgba(26,79,255,0.18);}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:1.8rem;margin-bottom:2.5rem;}
+.footer-brand .logo{font-size:1.1rem;display:block;margin-bottom:0.75rem;}
+.footer-brand p{font-size:0.84rem;color:var(--gray);line-height:1.68;max-width:230px;}
+.footer-col h4{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);margin-bottom:1.1rem;}
+.footer-google-rating{display:inline-flex;align-items:center;gap:0.45rem;margin-top:0.9rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:0.32rem 0.8rem;text-decoration:none;transition:border-color 0.2s;}
+.footer-google-rating:hover{border-color:rgba(245,197,66,0.4);}
+.fgr-stars{color:#f5c542;font-size:0.76rem;letter-spacing:0.06em;}
+.fgr-text{font-size:0.75rem;color:var(--gray-light);font-weight:600;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.65rem;}
+.footer-col ul a{color:var(--gray-light);text-decoration:none;font-size:0.87rem;transition:color 0.2s;}
+.footer-col ul a:hover{color:var(--cyan);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:1.8rem;display:flex;justify-content:space-between;align-items:center;font-size:0.79rem;color:var(--gray);flex-wrap:wrap;gap:0.5rem;}
+.footer-social-link{display:flex;align-items:center;gap:0.45rem;}
+.footer-social-link svg{width:14px;height:14px;}
+
+/* ── COOKIE BANNER ── */
+#cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:999;background:var(--dark2);border-top:3px solid var(--blue);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+#cookie-banner p{font-size:0.84rem;color:var(--gray-light);line-height:1.5;flex:1;min-width:200px;}
+.cookie-actions{display:flex;gap:0.7rem;flex-shrink:0;flex-wrap:wrap;}
+.cookie-btn-accept{background:var(--blue);color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:6px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.82rem;cursor:pointer;min-height:44px;transition:background 0.2s;}
+.cookie-btn-accept:hover{background:var(--blue-light);}
+.cookie-btn-more{background:transparent;color:var(--gray-light);border:1px solid rgba(255,255,255,0.2);padding:0.6rem 1.4rem;border-radius:6px;font-family:'Barlow',sans-serif;font-weight:700;font-size:0.82rem;cursor:pointer;min-height:44px;text-decoration:none;display:inline-flex;align-items:center;transition:border-color 0.2s;}
+.cookie-btn-more:hover{border-color:rgba(255,255,255,0.5);}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.2s;}
+.reveal-delay-3{transition-delay:0.3s;}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .nav-center{display:none;}
+  .hamburger-btn{display:flex;}
+  .logo-full{display:none;}
+  .logo-abbr{display:inline;}
+  .footer-top{grid-template-columns:repeat(3,1fr);}
+  .values-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .abt-section{padding:3.5rem 5vw;}
+  .abt-hero{padding:6rem 5vw 4rem;}
+  .values-grid{grid-template-columns:1fr;}
+  .faq-question{padding:1rem 1.2rem;}
+  .faq-answer-inner{padding:0 1.2rem 1.2rem;padding-top:0.8rem;}
+  #cookie-banner{flex-direction:column;align-items:flex-start;}
+  .cookie-actions{width:100%;}
+  .cookie-btn-accept,.cookie-btn-more{flex:1;justify-content:center;}
+  .footer-top{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
+
+<!-- SCROLL TO TOP -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">&#8593;</button>
+
+<!-- NAV — about.html is not linked in primary nav, so no active-page class on any link -->
+<nav id="main-nav">
+  <a href="index.html" class="logo">
+    <span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span>
+    <span class="logo-abbr">N<span class="lpc">P</span>S</span>
+  </a>
+  <div class="nav-center">
+    <a href="index.html#services" data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</a>
+    <a href="index.html#pricing"  data-sv="Priser"     data-en="Pricing">Priser</a>
+    <a href="pc-analysis.html"    data-sv="PC-analys"  data-en="PC Analysis">PC-analys</a>
+    <a href="blogg.html"          data-sv="Resurser"   data-en="Resources">Resurser</a>
+    <a href="foretag.html"        data-sv="F&#246;retag"  data-en="Business">F&#246;retag</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('sv')" id="btn-sv">SV</button>
+      <button class="lang-btn"        onclick="setLang('en')" id="btn-en">EN</button>
+    </div>
+    <a href="index.html#contact" class="nav-cta" data-sv="Boka Nu" data-en="Book Now">Boka Nu</a>
+    <button class="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Meny" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu" role="dialog" aria-modal="true">
+  <button class="mobile-menu-close" onclick="toggleMobileMenu()" aria-label="St&#228;ng meny">&#x2715;</button>
+  <div class="mobile-menu-inner">
+    <nav class="mobile-menu-nav">
+      <a href="index.html#services" onclick="closeMobileMenu()" data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</a>
+      <a href="index.html#pricing"  onclick="closeMobileMenu()" data-sv="Priser"     data-en="Pricing">Priser</a>
+      <a href="pc-analysis.html"    onclick="closeMobileMenu()" data-sv="PC-analys"  data-en="PC Analysis">PC-analys</a>
+      <a href="blogg.html"          onclick="closeMobileMenu()" data-sv="Resurser"   data-en="Resources">Resurser</a>
+      <a href="foretag.html"        onclick="closeMobileMenu()" data-sv="F&#246;retag"  data-en="Business">F&#246;retag</a>
+      <a href="index.html#contact" class="mobile-menu-cta" onclick="closeMobileMenu()" data-sv="Boka Nu" data-en="Book Now">Boka Nu</a>
+    </nav>
+    <div class="mobile-menu-lang">
+      <button class="lang-btn active" id="mobile-btn-sv" onclick="setLang('sv')">SV</button>
+      <button class="lang-btn"        id="mobile-btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="page-content">
+
+<!-- ══════════════════════
+     1. HERO
+══════════════════════ -->
+<section class="abt-hero">
+  <div class="abt-hero-inner">
+    <div class="eyebrow" data-sv="Om oss" data-en="About us">Om oss</div>
+    <h1 data-sv="Om Nordic PC Solutions" data-en="About Nordic PC Solutions">Om Nordic PC Solutions</h1>
+    <p class="abt-hero-sub" data-sv="Vi &#228;r ett litet, lokalt PC-f&#246;retag i G&#246;teborg som tror p&#229; ett enkelt s&#228;tt att arbeta: &#228;rliga svar, rimliga priser och personlig service &#8212; utan onödiga krumsprång." data-en="We&#8217;re a small, local PC company in Gothenburg that believes in a simple way of working: honest answers, fair prices and personal service &#8212; without unnecessary complications.">Vi &#228;r ett litet, lokalt PC-f&#246;retag i G&#246;teborg som tror p&#229; ett enkelt s&#228;tt att arbeta: &#228;rliga svar, rimliga priser och personlig service &#8212; utan onödiga krumsprång.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════
+     2. VÅR HISTORIA
+══════════════════════ -->
+<section class="abt-section">
+  <div class="abt-inner">
+    <div class="eyebrow reveal" data-sv="V&#229;r historia" data-en="Our story">V&#229;r historia</div>
+    <h2 class="section-heading reveal" data-sv="Hur det b&#246;rjade" data-en="How it started">Hur det b&#246;rjade</h2>
+    <div class="story-body">
+      <p class="body-text reveal"
+         data-sv="Allt b&#246;rjade med ett genuint intresse f&#246;r teknik. Fr&#229;n att ha plockat is&#228;r och s&#228;tt ihop datorer sedan 2016 &#8211; f&#246;rst f&#246;r egen r&#228;kning, sedan f&#246;r v&#228;nner och bekanta &#8211; kom insikten att m&#229;nga m&#228;nniskor k&#228;nner sig vilse n&#228;r de m&#246;ter teknikbranschen. Alltf&#246;r m&#229;nga fick betala f&#246;r mer &#228;n de beh&#246;vde, eller fick svar fyllda av j&#228;ck och facktermer de inte bett om."
+         data-en="It all started with a genuine interest in technology. From taking apart and reassembling computers since 2016 &#8211; first for personal use, then for friends and acquaintances &#8211; came the realisation that many people feel lost when they encounter the tech industry. Too many were paying for more than they needed, or getting answers filled with jargon and technical terms they never asked for.">Allt b&#246;rjade med ett genuint intresse f&#246;r teknik. Fr&#229;n att ha plockat is&#228;r och s&#228;tt ihop datorer sedan 2016 &#8211; f&#246;rst f&#246;r egen r&#228;kning, sedan f&#246;r v&#228;nner och bekanta &#8211; kom insikten att m&#229;nga m&#228;nniskor k&#228;nner sig vilse n&#228;r de m&#246;ter teknikbranschen. Alltf&#246;r m&#229;nga fick betala f&#246;r mer &#228;n de beh&#246;vde, eller fick svar fyllda av j&#228;ck och facktermer de inte bett om.</p>
+
+      <p class="body-text reveal reveal-delay-1"
+         data-sv="Nordic PC Solutions grundades i G&#246;teborg f&#246;r att vara ett alternativ till det. Inte ett stort kedje-f&#246;retag med callcenter och s&#228;ljkvoter, utan n&#229;got mindre och mer personligt. Tanken var enkel: det ska vara l&#228;tt att f&#229; hj&#228;lp med sin dator, priset ska vara tydligt i f&#246;rv&#228;g och du ska alltid f&#229; ett &#228;rligt svar &#8211; &#228;ven om det &#228;rliga svaret &#228;r att du inte beh&#246;ver l&#228;gga pengar p&#229; n&#229;got alls."
+         data-en="Nordic PC Solutions was founded in Gothenburg to be an alternative to that. Not a large chain company with call centres and sales quotas, but something smaller and more personal. The idea was simple: getting help with your computer should be straightforward, the price should be clear upfront and you should always get an honest answer &#8211; even when that honest answer is that you don&#8217;t need to spend any money at all.">Nordic PC Solutions grundades i G&#246;teborg f&#246;r att vara ett alternativ till det. Inte ett stort kedje-f&#246;retag med callcenter och s&#228;ljkvoter, utan n&#229;got mindre och mer personligt. Tanken var enkel: det ska vara l&#228;tt att f&#229; hj&#228;lp med sin dator, priset ska vara tydligt i f&#246;rv&#228;g och du ska alltid f&#229; ett &#228;rligt svar &#8211; &#228;ven om det &#228;rliga svaret &#228;r att du inte beh&#246;ver l&#228;gga pengar p&#229; n&#229;got alls.</p>
+
+      <p class="body-text reveal reveal-delay-2"
+         data-sv="I dag hj&#228;lper vi privatpersoner och f&#246;retag i G&#246;teborg med allt fr&#229;n skr&#228;ddarsydda byggen och uppgraderingar till fels&#246;kning och drifts&#228;ttning. Varje uppdrag utf&#246;rs med samma grundl&#228;ggande inriktning som fr&#229;n b&#246;rjan: ordentligt utf&#246;rt, tydligt kommunicerat och till ett pris du visste om i f&#246;rv&#228;g."
+         data-en="Today we help individuals and businesses in Gothenburg with everything from custom builds and upgrades to diagnostics and setup. Every job is carried out with the same fundamental approach as from the start: done properly, communicated clearly and at a price you knew about beforehand.">I dag hj&#228;lper vi privatpersoner och f&#246;retag i G&#246;teborg med allt fr&#229;n skr&#228;ddarsydda byggen och uppgraderingar till fels&#246;kning och drifts&#228;ttning. Varje uppdrag utf&#246;rs med samma grundl&#228;ggande inriktning som fr&#229;n b&#246;rjan: ordentligt utf&#246;rt, tydligt kommunicerat och till ett pris du visste om i f&#246;rv&#228;g.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════
+     3. VÅRT UPPDRAG
+══════════════════════ -->
+<section class="abt-section abt-section-alt">
+  <div class="abt-inner">
+    <div class="eyebrow reveal" data-sv="V&#229;rt uppdrag" data-en="Our mission">V&#229;rt uppdrag</div>
+    <h2 class="section-heading reveal" data-sv="Varf&#246;r vi finns" data-en="Why we exist">Varf&#246;r vi finns</h2>
+    <div class="mission-box reveal">
+      <p data-sv="Att hj&#228;lpa privatpersoner och f&#246;retag i G&#246;teborg att f&#229; r&#228;tt teknik f&#246;r sina behov &#8211; utan on&#246;dig komplexitet, utan &#246;verpris och utan dolda agendor."
+         data-en="To help individuals and businesses in Gothenburg get the right technology for their needs &#8211; without unnecessary complexity, without overpaying and without hidden agendas.">"Att hj&#228;lpa privatpersoner och f&#246;retag i G&#246;teborg att f&#229; r&#228;tt teknik f&#246;r sina behov &#8211; utan on&#246;dig komplexitet, utan &#246;verpris och utan dolda agendor."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════
+     4. ERFARENHET SEDAN 2016
+     NOTE: "2016" refers to when the technician personally began building
+     and repairing computers — it is the individual's hands-on experience,
+     not a claim about the company's founding year.
+══════════════════════ -->
+<section class="abt-section">
+  <div class="abt-inner">
+    <div class="eyebrow reveal" data-sv="Erfarenhet" data-en="Experience">Erfarenhet</div>
+    <h2 class="section-heading reveal" data-sv="Praktisk erfarenhet sedan 2016" data-en="Hands-on experience since 2016">Praktisk erfarenhet sedan 2016</h2>
+    <div class="exp-highlight reveal">
+      <div class="exp-highlight-num">2016</div>
+      <div class="exp-highlight-lbl" data-sv="Tekniker med praktisk erfarenhet sedan" data-en="Technician with hands-on experience since">Tekniker med praktisk erfarenhet sedan</div>
+    </div>
+    <p class="body-text reveal"
+       data-sv="V&#229;r grundare har arbetat med datorer p&#229; hobbyniv&#229; och professionell niv&#229; sedan 2016 &#8211; det &#228;r den egna, praktiska erfarenheten som l&#228;gger grunden f&#246;r verksamheten. Det inneb&#228;r hundratals byggen, uppgraderingar, fels&#246;kningsjobb och diagnostikuppdrag p&#229; en rad olika plattformar, konfigurationer och budgetar. Erfarenheten kommer fr&#229;n faktiskt arbete, inte fr&#229;n en certifieringskurs."
+       data-en="Our founder has worked with computers at both a hobby and professional level since 2016 &#8211; it&#8217;s that personal, practical experience that forms the foundation of the business. That means hundreds of builds, upgrades, troubleshooting jobs and diagnostics across a wide range of platforms, configurations and budgets. The experience comes from actual work, not from a certification course.">V&#229;r grundare har arbetat med datorer p&#229; hobbyniv&#229; och professionell niv&#229; sedan 2016 &#8211; det &#228;r den egna, praktiska erfarenheten som l&#228;gger grunden f&#246;r verksamheten. Det inneb&#228;r hundratals byggen, uppgraderingar, fels&#246;kningsjobb och diagnostikuppdrag p&#229; en rad olika plattformar, konfigurationer och budgetar. Erfarenheten kommer fr&#229;n faktiskt arbete, inte fr&#229;n en certifieringskurs.</p>
+    <p class="body-text reveal reveal-delay-1" style="margin-top:1rem;"
+       data-sv="Den praktiska kunskapen g&#246;r skillnad i vardagen: vi k&#228;nner igen problem snabbt, undviker on&#246;diga omv&#228;gar och kan ge konkreta rekommendationer ist&#228;llet f&#246;r vaga uppskattningar."
+       data-en="That practical knowledge makes a difference in day-to-day work: we recognise problems quickly, avoid unnecessary detours and can give concrete recommendations instead of vague estimates.">Den praktiska kunskapen g&#246;r skillnad i vardagen: vi k&#228;nner igen problem snabbt, undviker on&#246;diga omv&#228;gar och kan ge konkreta rekommendationer ist&#228;llet f&#246;r vaga uppskattningar.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════
+     5. VARFÖR NORDIC PC SOLUTIONS
+══════════════════════ -->
+<section class="abt-section abt-section-alt">
+  <div class="abt-inner-wide">
+    <div class="eyebrow reveal" data-sv="Varf&#246;r v&#228;lja oss" data-en="Why choose us">Varf&#246;r v&#228;lja oss</div>
+    <h2 class="section-heading reveal" data-sv="Vad vi st&#229;r f&#246;r" data-en="What we stand for">Vad vi st&#229;r f&#246;r</h2>
+    <div class="trust-list">
+
+      <div class="trust-item reveal">
+        <div class="trust-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="trust-text-wrap">
+          <div class="trust-title" data-sv="Transparenta priser" data-en="Transparent pricing">Transparenta priser</div>
+          <p class="trust-desc" data-sv="Du f&#229;r alltid en offert eller prisuppskattning innan vi b&#246;rjar. Inga dolda avgifter, inga obehagliga &#246;verraskningar p&#229; slutnotan." data-en="You always get a quote or price estimate before we start. No hidden fees, no unpleasant surprises on the final invoice.">Du f&#229;r alltid en offert eller prisuppskattning innan vi b&#246;rjar. Inga dolda avgifter, inga obehagliga &#246;verraskningar p&#229; slutnotan.</p>
+        </div>
+      </div>
+
+      <div class="trust-item reveal reveal-delay-1">
+        <div class="trust-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="trust-text-wrap">
+          <div class="trust-title" data-sv="Personlig kontakt" data-en="Personal contact">Personlig kontakt</div>
+          <p class="trust-desc" data-sv="Du pratar alltid med en verklig m&#228;nniska som k&#228;nner till ditt &#228;rende. Inget callcenter, inget &#228;rendenummer, ingen automatiserad telefon&#246;vning." data-en="You always speak to a real person who knows your case. No call centre, no ticket number, no automated phone system.">Du pratar alltid med en verklig m&#228;nniska som k&#228;nner till ditt &#228;rende. Inget callcenter, inget &#228;rendenummer, ingen automatiserad telefon&#246;vning.</p>
+        </div>
+      </div>
+
+      <div class="trust-item reveal reveal-delay-2">
+        <div class="trust-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="trust-text-wrap">
+          <div class="trust-title" data-sv="Inget k&#246;ptvång" data-en="No sales pressure">Inget k&#246;ptvång</div>
+          <p class="trust-desc" data-sv="Vi rekommenderar det som faktiskt hj&#228;lper dig, inte det som ger oss st&#246;rst marginal. Om du inte beh&#246;ver l&#228;gga pengar p&#229; n&#229;got s&#228;ger vi det rakt ut." data-en="We recommend what actually helps you, not what gives us the best margin. If you don&#8217;t need to spend money on anything, we&#8217;ll tell you straight.">Vi rekommenderar det som faktiskt hj&#228;lper dig, inte det som ger oss st&#246;rst marginal. Om du inte beh&#246;ver l&#228;gga pengar p&#229; n&#229;got s&#228;ger vi det rakt ut.</p>
+        </div>
+      </div>
+
+      <div class="trust-item reveal reveal-delay-3">
+        <div class="trust-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="trust-text-wrap">
+          <div class="trust-title" data-sv="Lokalt i G&#246;teborg" data-en="Local in Gothenburg">Lokalt i G&#246;teborg</div>
+          <p class="trust-desc" data-sv="Vi &#228;r inte ett n&#228;tbaserat f&#246;retag som skickar n&#229;gonting i en &#229;tervinningspåse. Vi &#228;r h&#228;r i din stad och hj&#228;lper dig direkt." data-en="We&#8217;re not an online company that ships something in a recycling bag. We&#8217;re here in your city and help you directly.">Vi &#228;r inte ett n&#228;tbaserat f&#246;retag som skickar n&#229;gonting i en &#229;tervinningsp&#229;se. Vi &#228;r h&#228;r i din stad och hj&#228;lper dig direkt.</p>
+        </div>
+      </div>
+
+      <div class="trust-item reveal">
+        <div class="trust-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="trust-text-wrap">
+          <div class="trust-title" data-sv="Snabb handl&#228;ggningstid" data-en="Fast turnaround">Snabb handl&#228;ggningstid</div>
+          <p class="trust-desc" data-sv="De flesta uppdrag slutf&#246;rs inom 1&#8211;4 dagar. Vi kommunicerar tydligt under hela processen s&#229; du aldrig undrar vad som h&#228;nder med din dator." data-en="Most jobs are completed within 1&#8211;4 days. We communicate clearly throughout the process so you never wonder what&#8217;s happening with your computer.">De flesta uppdrag slutf&#246;rs inom 1&#8211;4 dagar. Vi kommunicerar tydligt under hela processen s&#229; du aldrig undrar vad som h&#228;nder med din dator.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════
+     6. HUR VI ARBETAR
+══════════════════════ -->
+<section class="abt-section">
+  <div class="abt-inner">
+    <div class="eyebrow reveal" data-sv="V&#229;rt arbetss&#228;tt" data-en="How we work">V&#229;rt arbetss&#228;tt</div>
+    <h2 class="section-heading reveal" data-sv="Fr&#229;n f&#246;rsta kontakt till leverans" data-en="From first contact to delivery">Fr&#229;n f&#246;rsta kontakt till leverans</h2>
+    <div class="process-steps">
+
+      <div class="process-step reveal">
+        <div class="process-node">01</div>
+        <div class="process-body">
+          <div class="process-title" data-sv="Du h&#246;r av dig" data-en="You get in touch">Du h&#246;r av dig</div>
+          <p class="process-desc" data-sv="Via formul&#228;ret p&#229; hemsidan, e-post eller ett direkt meddelande. Ber&#228;tta vad du beh&#246;ver hj&#228;lp med &#8211; det beh&#246;ver inte vara n&#229;got tekniskt formellt, skriv precis som du skull f&#246;rklara det f&#246;r en v&#228;n." data-en="Via the form on the website, email or a direct message. Describe what you need help with &#8211; it doesn&#8217;t need to be technically formal, write exactly how you&#8217;d explain it to a friend.">Via formul&#228;ret p&#229; hemsidan, e-post eller ett direkt meddelande. Ber&#228;tta vad du beh&#246;ver hj&#228;lp med &#8211; det beh&#246;ver inte vara n&#229;got tekniskt formellt, skriv precis som du skull f&#246;rklara det f&#246;r en v&#228;n.</p>
+        </div>
+      </div>
+
+      <div class="process-step reveal reveal-delay-1">
+        <div class="process-node">02</div>
+        <div class="process-body">
+          <div class="process-title" data-sv="Vi g&#229;r igenom ditt behov" data-en="We review your situation">Vi g&#229;r igenom ditt behov</div>
+          <p class="process-desc" data-sv="Vi &#229;terkommer snabbt med fr&#229;gor om det beh&#246;vs, och ger dig en tydlig prisuppskattning och tidsram f&#246;r uppdraget. Inga vaga &#8220;det beror p&#229;&#8221;-svar utan n&#229;gonting konkret att f&#246;rh&#229;lla dig till." data-en="We&#8217;ll get back to you quickly with any questions if needed, and give you a clear price estimate and timeframe for the job. No vague &#8220;it depends&#8221; answers &#8211; something concrete to work with.">Vi &#229;terkommer snabbt med fr&#229;gor om det beh&#246;vs, och ger dig en tydlig prisuppskattning och tidsram f&#246;r uppdraget. Inga vaga &#8220;det beror p&#229;&#8221;-svar utan n&#229;gonting konkret att f&#246;rh&#229;lla dig till.</p>
+        </div>
+      </div>
+
+      <div class="process-step reveal reveal-delay-2">
+        <div class="process-node">03</div>
+        <div class="process-body">
+          <div class="process-title" data-sv="Vi utf&#246;r jobbet" data-en="We carry out the work">Vi utf&#246;r jobbet</div>
+          <p class="process-desc" data-sv="Uppdraget utf&#246;rs omsorgsfullt och metodiskt. Vi h&#229;ller dig informerad under processen och h&#246;r av oss om vi st&#246;ter p&#229; n&#229;gonting ov&#228;ntat &#8211; utan att g&#229; vidare p&#229; eget bevåg." data-en="The job is carried out carefully and methodically. We keep you informed throughout the process and get in touch if we encounter anything unexpected &#8211; without acting unilaterally.">Uppdraget utf&#246;rs omsorgsfullt och metodiskt. Vi h&#229;ller dig informerad under processen och h&#246;r av oss om vi st&#246;ter p&#229; n&#229;gonting ov&#228;ntat &#8211; utan att g&#229; vidare p&#229; eget bevåg.</p>
+        </div>
+      </div>
+
+      <div class="process-step reveal reveal-delay-3">
+        <div class="process-node">04</div>
+        <div class="process-body">
+          <div class="process-title" data-sv="&#197;terl&#228;mning och genomg&#229;ng" data-en="Delivery and walkthrough">&#197;terl&#228;mning och genomg&#229;ng</div>
+          <p class="process-desc" data-sv="N&#228;r uppdraget &#228;r klart f&#246;rklarar vi vad vi gjort och varf&#246;r &#8211; p&#229; vanlig svenska, utan fackj&#228;ck. Du ska kunna f&#246;rst&#229; precis vad du betalt f&#246;r." data-en="When the job is done we explain what we did and why &#8211; in plain language, without jargon. You should be able to understand exactly what you paid for.">N&#228;r uppdraget &#228;r klart f&#246;rklarar vi vad vi gjort och varf&#246;r &#8211; p&#229; vanlig svenska, utan fackj&#228;ck. Du ska kunna f&#246;rst&#229; precis vad du betalt f&#246;r.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════
+     7. VÅRA VÄRDERINGAR
+══════════════════════ -->
+<section class="abt-section abt-section-alt">
+  <div class="abt-inner-wide">
+    <div class="eyebrow reveal" data-sv="V&#229;ra v&#228;rderingar" data-en="Our values">V&#229;ra v&#228;rderingar</div>
+    <h2 class="section-heading reveal" data-sv="Det h&#228;r st&#229;r vi f&#246;r" data-en="This is what we stand for">Det h&#228;r st&#229;r vi f&#246;r</h2>
+    <div class="values-grid">
+
+      <div class="value-card reveal">
+        <div class="value-title"><span class="accent-word" data-sv="&#196;rlighet" data-en="Honesty">&#196;rlighet</span></div>
+        <p class="value-desc" data-sv="Vi s&#228;ger som det &#228;r, &#228;ven n&#228;r det inte &#228;r vad kunden vill h&#246;ra. Ett &#228;rligt &#8220;det &#228;r inte v&#228;rt det&#8221; &#228;r mer v&#228;rdefullt &#228;n ett s&#228;lljobb." data-en="We say it as it is, even when it&#8217;s not what the customer wants to hear. An honest &#8220;it&#8217;s not worth it&#8221; is more valuable than a sales pitch.">Vi s&#228;ger som det &#228;r, &#228;ven n&#228;r det inte &#228;r vad kunden vill h&#246;ra. Ett &#228;rligt &#8220;det &#228;r inte v&#228;rt det&#8221; &#228;r mer v&#228;rdefullt &#228;n ett s&#228;lljobb.</p>
+      </div>
+
+      <div class="value-card reveal reveal-delay-1">
+        <div class="value-title"><span class="accent-word" data-sv="Kvalitet" data-en="Quality">Kvalitet</span></div>
+        <p class="value-desc" data-sv="Vi tar varje uppdrag p&#229; allvar, oavsett hur litet det verkar. En slarvig kabeldragning eller ett halvhj&#228;rtat fels&#246;kningsjobb &#228;r inte acceptabelt." data-en="We take every job seriously, no matter how small it seems. Sloppy cable management or a half-hearted diagnostic job is not acceptable.">Vi tar varje uppdrag p&#229; allvar, oavsett hur litet det verkar. En slarvig kabeldragning eller ett halvhj&#228;rtat fels&#246;kningsjobb &#228;r inte acceptabelt.</p>
+      </div>
+
+      <div class="value-card reveal reveal-delay-2">
+        <div class="value-title"><span class="accent-word" data-sv="Personlig service" data-en="Personal service">Personlig service</span></div>
+        <p class="value-desc" data-sv="Du &#228;r inte ett &#228;rendenummer. Vi f&#246;rs&#246;ker f&#246;rst&#229; vad du faktiskt beh&#246;ver, inte bara vad du fr&#229;gat efter &#8211; och vi behandlar din utrustning med samma omsorg som vi skulle behandla v&#229;r egen." data-en="You&#8217;re not a ticket number. We try to understand what you actually need, not just what you&#8217;ve asked for &#8211; and we treat your equipment with the same care we&#8217;d treat our own.">Du &#228;r inte ett &#228;rendenummer. Vi f&#246;rs&#246;ker f&#246;rst&#229; vad du faktiskt beh&#246;ver, inte bara vad du fr&#229;gat efter &#8211; och vi behandlar din utrustning med samma omsorg som vi skulle behandla v&#229;r egen.</p>
+      </div>
+
+      <div class="value-card reveal reveal-delay-3">
+        <div class="value-title"><span class="accent-word" data-sv="Tillg&#228;nglighet" data-en="Accessibility">Tillg&#228;nglighet</span></div>
+        <p class="value-desc" data-sv="Teknik ska inte vara en herreklubb f&#246;r den som kan j&#228;rgonet. Vi f&#246;rklarar saker tydligt och utan nedl&#228;tenhet, s&#229; att alla kan fatta ett informerat beslut." data-en="Technology shouldn&#8217;t be a members&#8217; club for those who know the jargon. We explain things clearly and without condescension, so everyone can make an informed decision.">Teknik ska inte vara en herreklubb f&#246;r den som kan j&#228;rgonet. Vi f&#246;rklarar saker tydligt och utan nedl&#228;tenhet, s&#229; att alla kan fatta ett informerat beslut.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════
+     8. VANLIGA FRÅGOR
+══════════════════════ -->
+<section class="abt-section">
+  <div class="eyebrow reveal" data-sv="Vanliga fr&#229;gor" data-en="FAQ">Vanliga fr&#229;gor</div>
+  <h2 class="section-heading reveal" style="margin-bottom:2rem;" data-sv="L&#228;r k&#228;nna oss lite b&#228;ttre" data-en="Get to know us a little better">L&#228;r k&#228;nna oss lite b&#228;ttre</h2>
+  <div class="faq-list">
+
+    <div class="faq-item reveal">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h3 data-sv="Var h&#229;ller ni till?" data-en="Where are you based?">Var h&#229;ller ni till?</h3>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p data-sv="Vi &#228;r baserade i G&#246;teborg. Vi kan hj&#228;lpa dig p&#229; plats i G&#246;teborg eller h&#229;ntera uppdraget fr&#229;n v&#229;r sida beroende p&#229; tj&#228;nstens art. H&#246;r av dig s&#229; diskuterar vi den b&#228;sta l&#246;sningen f&#246;r just ditt &#228;rende."
+             data-en="We&#8217;re based in Gothenburg. We can help you in person in Gothenburg or handle the job from our end depending on the nature of the service. Get in touch and we&#8217;ll discuss the best solution for your specific case.">Vi &#228;r baserade i G&#246;teborg. Vi kan hj&#228;lpa dig p&#229; plats i G&#246;teborg eller h&#229;ntera uppdraget fr&#229;n v&#229;r sida beroende p&#229; tj&#228;nstens art. H&#246;r av dig s&#229; diskuterar vi den b&#228;sta l&#246;sningen f&#246;r just ditt &#228;rende.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal reveal-delay-1">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h3 data-sv="Arbetar ni med b&#229;de privatpersoner och f&#246;retag?" data-en="Do you work with both individuals and businesses?">Arbetar ni med b&#229;de privatpersoner och f&#246;retag?</h3>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p data-sv="Ja, vi hj&#228;lper b&#229;da. F&#246;r privatpersoner handlar det ofta om byggen, uppgraderingar, reparationer och diagnostik. F&#246;r f&#246;retag erbjuder vi &#228;ven IT-st&#246;d, drifts&#228;ttning och l&#246;pande underhåll av arbetsstationer och n&#228;tverk. Se g&#228;rna v&#229;r <a href='foretag.html'>f&#246;retagssida</a> f&#246;r mer information om vad vi erbjuder f&#246;retagskunder."
+             data-en="Yes, we help both. For individuals it&#8217;s often about builds, upgrades, repairs and diagnostics. For businesses we also offer IT support, setup and ongoing maintenance of workstations and networks. See our <a href='foretag.html'>business page</a> for more information about what we offer business customers.">Ja, vi hj&#228;lper b&#229;da. F&#246;r privatpersoner handlar det ofta om byggen, uppgraderingar, reparationer och diagnostik. F&#246;r f&#246;retag erbjuder vi &#228;ven IT-st&#246;d, drifts&#228;ttning och l&#246;pande underhåll av arbetsstationer och n&#228;tverk. Se g&#228;rna v&#229;r <a href="foretag.html">f&#246;retagssida</a> f&#246;r mer information om vad vi erbjuder f&#246;retagskunder.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal reveal-delay-2">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h3 data-sv="Hur kan jag kontakta er?" data-en="How can I contact you?">Hur kan jag kontakta er?</h3>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p data-sv="Enklast via <a href='mailto:nordicpcsolutions@gmail.com'>nordicpcsolutions@gmail.com</a> eller via <a href='index.html#contact'>kontaktformul&#228;ret p&#229; startsidan</a>. Du kan &#228;ven n&#229; oss via Instagram och Facebook om det passar b&#228;ttre. Vi svarar normalt inom en arbetsdag."
+             data-en="Easiest via <a href='mailto:nordicpcsolutions@gmail.com'>nordicpcsolutions@gmail.com</a> or via the <a href='index.html#contact'>contact form on the home page</a>. You can also reach us on Instagram and Facebook if that suits you better. We normally respond within one business day.">Enklast via <a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a> eller via <a href="index.html#contact">kontaktformul&#228;ret p&#229; startsidan</a>. Du kan &#228;ven n&#229; oss via Instagram och Facebook om det passar b&#228;ttre. Vi svarar normalt inom en arbetsdag.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal reveal-delay-3">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h3 data-sv="Tar ni uppdrag &#246;ver hela G&#246;teborg?" data-en="Do you take jobs across all of Gothenburg?">Tar ni uppdrag &#246;ver hela G&#246;teborg?</h3>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p data-sv="Ja, vi arbetar i hela G&#246;teborg med omnejd. Kontakta oss g&#228;rna om du &#228;r os&#228;ker p&#229; om vi t&#228;cker ditt omr&#229;de &#8211; vi l&#246;ser det mesta."
+             data-en="Yes, we work across all of Gothenburg and the surrounding area. Feel free to contact us if you&#8217;re unsure whether we cover your area &#8211; we sort out most things.">Ja, vi arbetar i hela G&#246;teborg med omnejd. Kontakta oss g&#228;rna om du &#228;r os&#228;ker p&#229; om vi t&#228;cker ditt omr&#229;de &#8211; vi l&#246;ser det mesta.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════
+     9. KONTAKTINFORMATION
+══════════════════════ -->
+<section class="abt-section abt-section-alt">
+  <div class="abt-inner">
+    <div class="eyebrow reveal" data-sv="Kontakt" data-en="Contact">Kontakt</div>
+    <h2 class="section-heading reveal" data-sv="H&#246;r av dig" data-en="Get in touch">H&#246;r av dig</h2>
+    <div class="contact-block">
+
+      <div class="contact-row reveal">
+        <div class="contact-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="contact-label" data-sv="E-post" data-en="Email">E-post</div>
+          <div class="contact-value"><a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a></div>
+        </div>
+      </div>
+
+      <div class="contact-row reveal reveal-delay-1">
+        <div class="contact-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="contact-label" data-sv="Plats" data-en="Location">Plats</div>
+          <div class="contact-value" data-sv="G&#246;teborg, Sverige" data-en="Gothenburg, Sweden">G&#246;teborg, Sverige</div>
+        </div>
+      </div>
+
+      <div class="contact-row reveal reveal-delay-2">
+        <div class="contact-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="contact-label" data-sv="Svarstid" data-en="Response time">Svarstid</div>
+          <div class="contact-value" data-sv="Normalt inom 1 arbetsdag" data-en="Normally within 1 business day">Normalt inom 1 arbetsdag</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="contact-cta reveal" style="margin-top:1.8rem;">
+      <a href="index.html#contact" class="btn-primary">
+        <span data-sv="G&#229; till kontaktformul&#228;ret" data-en="Go to contact form">G&#229; till kontaktformul&#228;ret</span>
+        <span aria-hidden="true">&#8594;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</div><!-- /page-content -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="logo"><span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span><span class="logo-abbr">N<span class="lpc">P</span>S</span></a>
+      <p data-sv="Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete." data-en="Professional PC builds, repairs and upgrades in Gothenburg. Honest pricing, dedicated work.">Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete.</p>      <!-- NOTE: Replace this URL with the real Google Business Profile URL once
+           the Nordic PC Solutions Google listing is verified and live.
+           Current URL is a generic search — not a verified business listing link. -->
+      <a href="https://www.google.com/search?q=Nordic+PC+Solutions+G%C3%B6teborg" target="_blank" rel="noopener noreferrer" class="footer-google-rating">
+        <span class="fgr-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="fgr-text" data-sv="4.8 p&#229; Google" data-en="4.8 on Google">4.8 p&#229; Google</span>
+      </a>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</h4>
+      <ul>
+        <li><a href="index.html#services" data-sv="Skr&#228;ddarsydda datorer" data-en="Custom PCs">Skr&#228;ddarsydda datorer</a></li>
+        <li><a href="index.html#services" data-sv="Uppgraderingar" data-en="Upgrades">Uppgraderingar</a></li>
+        <li><a href="index.html#services" data-sv="Reparationer" data-en="Repairs">Reparationer</a></li>
+        <li><a href="pc-analysis.html" data-sv="PC-analys" data-en="PC Analysis">PC-analys</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Resurser" data-en="Resources">Resurser</h4>
+      <ul>
+        <li><a href="blogg.html" data-sv="Alla artiklar" data-en="All articles">Alla artiklar</a></li>
+        <li><a href="blogg.html" data-sv="Kategorier" data-en="Categories">Kategorier</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Portfolio" data-en="Portfolio">Portfolio</h4>
+      <ul>
+        <li><a href="index.html#gallery" data-sv="Senaste projekten" data-en="Recent projects">Senaste projekten</a></li>
+        <!-- portfolio.html is a planned future page — the full Portfolio module
+             (database-backed projects, before/after sliders, YouTube embeds, component lists)
+             has not been built yet. This link will 404 until that page exists. -->
+        <li><a href="portfolio.html" data-sv="Se hela portfolion" data-en="Full portfolio">Se hela portfolion</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="F&#246;retaget" data-en="Company">F&#246;retaget</h4>
+      <ul>
+        <li><a href="foretag.html" data-sv="F&#246;retagsl&#246;sningar" data-en="Business solutions">F&#246;retagsl&#246;sningar</a></li>
+        <li><a href="about.html" data-sv="Om oss" data-en="About Us">Om oss</a></li>
+        <li><a href="index.html#contact" data-sv="Kontakt" data-en="Contact">Kontakt</a></li>
+        <li><a href="policy.html" data-sv="Integritetspolicy" data-en="Privacy Policy">Integritetspolicy</a></li>
+        <li><a href="policy.html" data-sv="Cookiepolicy" data-en="Cookie Policy">Cookiepolicy</a></li>
+        <li><a href="mailto:nordicpcsolutions@gmail.com" class="footer-social-link">nordicpcsolutions@gmail.com</a></li>
+        <li><a href="https://www.instagram.com/nordicpcsolutions" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Instagram</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61584118142766&amp;sk=about" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> Facebook</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&#169; <span id="copy-year">2025</span> Nordic PC Solutions. <span data-sv="Alla r&#228;ttigheter f&#246;rbeh&#229;llna." data-en="All rights reserved.">Alla r&#228;ttigheter f&#246;rbeh&#229;llna.</span></span>
+    <span data-sv="Tillverkad med &#10084;&#65039; i Sverige" data-en="Made with &#10084;&#65039; in Sweden">Tillverkad med &#10084;&#65039; i Sverige</span>
+  </div>
+</footer>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none;" role="dialog" aria-label="Cookie-meddelande">
+  <p data-sv="Vi anv&#228;nder cookies f&#246;r att f&#246;rb&#228;ttra din upplevelse. Genom att forts&#228;tta anv&#228;nda sidan godk&#228;nner du v&#229;r anv&#228;ndning av cookies." data-en="We use cookies to improve your experience. By continuing to use the site you accept our use of cookies.">Vi anv&#228;nder cookies f&#246;r att f&#246;rb&#228;ttra din upplevelse. Genom att forts&#228;tta anv&#228;nda sidan godk&#228;nner du v&#229;r anv&#228;ndning av cookies.</p>
+  <div class="cookie-actions">
+    <button class="cookie-btn-accept" onclick="acceptCookies()" data-sv="Godk&#228;nn" data-en="Accept">Godk&#228;nn</button>
+    <a href="policy.html" class="cookie-btn-more" data-sv="L&#228;s mer" data-en="Read more">L&#228;s mer</a>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════════
+// LANGUAGE
+// ════════════════════════════════════════════════════════════════════
+var currentLang = 'sv';
+(function() {
+  try {
+    var bl = navigator.language || navigator.userLanguage || 'sv';
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    var isSE = bl.toLowerCase().startsWith('sv') || tz.includes('Stockholm') || tz.includes('Europe/Stockholm');
+    if (!isSE) currentLang = 'en';
+  } catch(e) { currentLang = 'sv'; }
+})();
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.getElementById('btn-sv').classList.toggle('active', lang === 'sv');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  var mbs = document.getElementById('mobile-btn-sv'); if (mbs) mbs.classList.toggle('active', lang === 'sv');
+  var mbe = document.getElementById('mobile-btn-en'); if (mbe) mbe.classList.toggle('active', lang === 'en');
+  document.querySelectorAll('[data-sv]').forEach(function(el) {
+    var val = el.getAttribute('data-' + lang);
+    if (!val) return;
+    // Use innerHTML for elements containing links in their translated text
+    if ((el.tagName === 'P' || el.tagName === 'SPAN') && val.indexOf('<') !== -1) {
+      el.innerHTML = val;
+    } else {
+      el.textContent = val;
+    }
+  });
+  var titleEl = document.querySelector('title[data-sv]');
+  if (titleEl) { var t = titleEl.getAttribute('data-' + lang); if (t) document.title = t; }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// NAV SCROLL + MOBILE MENU
+// ════════════════════════════════════════════════════════════════════
+window.addEventListener('scroll', function() {
+  var nav = document.getElementById('main-nav');
+  if (nav) nav.classList.toggle('scrolled', window.scrollY > 20);
+  var scrollBtn = document.getElementById('scroll-top');
+  if (scrollBtn) scrollBtn.classList.toggle('visible', window.scrollY > 300);
+  var docEl = document.documentElement;
+  var total = Math.max(docEl.scrollHeight, document.body.scrollHeight) - docEl.clientHeight;
+  var bar = document.getElementById('progress-bar');
+  if (bar) bar.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
+}, { passive: true });
+
+function toggleMobileMenu() {
+  var menu = document.getElementById('mobile-menu');
+  var btn  = document.querySelector('.hamburger-btn');
+  var isOpen = menu.classList.contains('open');
+  menu.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.setAttribute('aria-expanded', String(!isOpen));
+  document.body.style.overflow = isOpen ? '' : 'hidden';
+}
+
+function closeMobileMenu() {
+  var menu = document.getElementById('mobile-menu');
+  var btn  = document.querySelector('.hamburger-btn');
+  menu.classList.remove('open');
+  btn.classList.remove('open');
+  btn.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMobileMenu(); });
+
+// ════════════════════════════════════════════════════════════════════
+// FAQ ACCORDION
+// ════════════════════════════════════════════════════════════════════
+function toggleFaq(questionEl) {
+  var item = questionEl.closest('.faq-item');
+  var isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function(i) { i.classList.remove('open'); });
+  if (!isOpen) item.classList.add('open');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// SCROLL REVEAL
+// ════════════════════════════════════════════════════════════════════
+(function() {
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+})();
+
+// ════════════════════════════════════════════════════════════════════
+// COOKIE BANNER
+// ════════════════════════════════════════════════════════════════════
+function acceptCookies() {
+  localStorage.setItem('npc_cookie_consent', 'accepted');
+  document.getElementById('cookie-banner').style.display = 'none';
+}
+
+(function() {
+  if (localStorage.getItem('npc_cookie_consent') === 'accepted') return;
+  setTimeout(function() {
+    var banner = document.getElementById('cookie-banner');
+    if (banner) banner.style.display = 'flex';
+  }, 1200);
+})();
+
+// ════════════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════════════
+document.getElementById('copy-year').textContent = new Date().getFullYear();
+setLang(currentLang);
+</script>
+</body>
+</html>

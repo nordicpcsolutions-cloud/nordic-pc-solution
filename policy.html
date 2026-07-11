@@ -69,10 +69,14 @@ nav.scrolled{background:rgba(8,12,24,0.97);border-bottom-color:rgba(26,79,255,0.
 /* ── FOOTER ── */
 footer{background:var(--dark2);padding:3.5rem 5vw 2rem;position:relative;}
 footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(26,79,255,0.55) 30%,rgba(0,212,255,0.4) 70%,transparent);box-shadow:0 0 24px rgba(26,79,255,0.18);}
-.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2.5rem;}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:1.8rem;margin-bottom:2.5rem;}
 .footer-brand .logo{font-size:1.1rem;display:block;margin-bottom:0.75rem;}
 .footer-brand p{font-size:0.84rem;color:var(--gray);line-height:1.68;max-width:230px;}
 .footer-col h4{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);margin-bottom:1.1rem;}
+.footer-google-rating{display:inline-flex;align-items:center;gap:0.45rem;margin-top:0.9rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:0.32rem 0.8rem;text-decoration:none;transition:border-color 0.2s;}
+.footer-google-rating:hover{border-color:rgba(245,197,66,0.4);}
+.fgr-stars{color:#f5c542;font-size:0.76rem;letter-spacing:0.06em;}
+.fgr-text{font-size:0.75rem;color:var(--gray-light);font-weight:600;}
 .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.65rem;}
 .footer-col ul a{color:var(--gray-light);text-decoration:none;font-size:0.87rem;transition:color 0.2s;}
 .footer-col ul a:hover{color:var(--cyan);}
@@ -84,13 +88,13 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 @media(max-width:960px){
   .nav-center{display:none;}
   .hamburger-btn{display:flex;}
-  .footer-top{grid-template-columns:1fr 1fr;}
+  .footer-top{grid-template-columns:repeat(3,1fr);}
 }
 @media(max-width:600px){
   .logo-full{display:none;}
   .logo-abbr{display:inline;}
   .nav-right>.lang-toggle,.nav-right>.nav-cta{display:none;}
-  .footer-top{grid-template-columns:1fr 1fr;}
+  .footer-top{grid-template-columns:repeat(3,1fr);}
   .footer-brand{grid-column:1/-1;}
   .footer-social-link{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;}
   .policy-section h2{font-size:1.1rem;}
@@ -112,9 +116,10 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   <a href="index.html" class="logo"><span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span><span class="logo-abbr">N<span class="lpc">P</span>S</span></a>
   <div class="nav-center">
     <a href="index.html#services" data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</a>
-    <a href="index.html#pricing" data-sv="Priser" data-en="Pricing">Priser</a>
-    <a href="index.html#gallery" data-sv="Galleri" data-en="Gallery">Galleri</a>
-    <a href="index.html#testimonials" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
+    <a href="index.html#pricing"  data-sv="Priser"     data-en="Pricing">Priser</a>
+    <a href="pc-analysis.html"    data-sv="PC-analys"  data-en="PC Analysis">PC-analys</a>
+    <a href="blogg.html"          data-sv="Resurser"   data-en="Resources">Resurser</a>
+    <a href="foretag.html"        data-sv="F&#246;retag"  data-en="Business">F&#246;retag</a>
   </div>
   <div class="nav-right">
     <div class="lang-toggle">
@@ -131,9 +136,10 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   <div class="mobile-menu-inner">
     <nav class="mobile-menu-nav">
       <a href="index.html#services" onclick="closeMobileMenu()" data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</a>
-      <a href="index.html#pricing" onclick="closeMobileMenu()" data-sv="Priser" data-en="Pricing">Priser</a>
-      <a href="index.html#gallery" onclick="closeMobileMenu()" data-sv="Galleri" data-en="Gallery">Galleri</a>
-      <a href="index.html#testimonials" onclick="closeMobileMenu()" data-sv="Recensioner" data-en="Reviews">Recensioner</a>
+      <a href="index.html#pricing"  onclick="closeMobileMenu()" data-sv="Priser"     data-en="Pricing">Priser</a>
+      <a href="pc-analysis.html"    onclick="closeMobileMenu()" data-sv="PC-analys"  data-en="PC Analysis">PC-analys</a>
+      <a href="blogg.html"          onclick="closeMobileMenu()" data-sv="Resurser"   data-en="Resources">Resurser</a>
+      <a href="foretag.html"        onclick="closeMobileMenu()" data-sv="F&#246;retag"  data-en="Business">F&#246;retag</a>
       <a href="index.html#contact" class="mobile-menu-cta" onclick="closeMobileMenu()" data-sv="Boka Nu" data-en="Book Now">Boka Nu</a>
     </nav>
     <div class="mobile-menu-lang">
@@ -263,35 +269,51 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   <div class="footer-top">
     <div class="footer-brand">
       <a href="index.html" class="logo"><span class="logo-full">Nordic <span class="lpc">PC</span> Solutions</span><span class="logo-abbr">N<span class="lpc">P</span>S</span></a>
-      <p data-sv="Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete." data-en="Professional PC builds, repairs and upgrades in Gothenburg. Honest pricing, dedicated work.">Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete.</p>
+      <p data-sv="Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete." data-en="Professional PC builds, repairs and upgrades in Gothenburg. Honest pricing, dedicated work.">Professionella PC-byggen, reparationer och uppgraderingar i G&#246;teborg. &#196;rliga priser, engagerat arbete.</p>      <!-- NOTE: Replace this URL with the real Google Business Profile URL once
+           the Nordic PC Solutions Google listing is verified and live.
+           Current URL is a generic search — not a verified business listing link. -->
+      <a href="https://www.google.com/search?q=Nordic+PC+Solutions+G%C3%B6teborg" target="_blank" rel="noopener noreferrer" class="footer-google-rating">
+        <span class="fgr-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="fgr-text" data-sv="4.8 p&#229; Google" data-en="4.8 on Google">4.8 p&#229; Google</span>
+      </a>
     </div>
     <div class="footer-col">
       <h4 data-sv="Tj&#228;nster" data-en="Services">Tj&#228;nster</h4>
       <ul>
-        <li><a href="index.html#services" data-sv="Skr&#228;ddarsydda Byggen" data-en="Custom PC Builds">Skr&#228;ddarsydda Byggen</a></li>
+        <li><a href="index.html#services" data-sv="Skr&#228;ddarsydda datorer" data-en="Custom PCs">Skr&#228;ddarsydda datorer</a></li>
         <li><a href="index.html#services" data-sv="Uppgraderingar" data-en="Upgrades">Uppgraderingar</a></li>
-        <li><a href="index.html#services" data-sv="Reng&#246;ring &amp; Optimering" data-en="Cleaning &amp; Optimisation">Reng&#246;ring &amp; Optimering</a></li>
-        <li><a href="index.html#services" data-sv="Fels&#246;kning &amp; Reparation" data-en="Diagnostics &amp; Repair">Fels&#246;kning &amp; Reparation</a></li>
+        <li><a href="index.html#services" data-sv="Reparationer" data-en="Repairs">Reparationer</a></li>
+        <li><a href="pc-analysis.html" data-sv="PC-analys" data-en="PC Analysis">PC-analys</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Resurser" data-en="Resources">Resurser</h4>
+      <ul>
+        <li><a href="blogg.html" data-sv="Alla artiklar" data-en="All articles">Alla artiklar</a></li>
+        <li><a href="blogg.html" data-sv="Kategorier" data-en="Categories">Kategorier</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-sv="Portfolio" data-en="Portfolio">Portfolio</h4>
+      <ul>
+        <li><a href="index.html#gallery" data-sv="Senaste projekten" data-en="Recent projects">Senaste projekten</a></li>
+        <!-- portfolio.html is a planned future page — the full Portfolio module
+             (database-backed projects, before/after sliders, YouTube embeds, component lists)
+             has not been built yet. This link will 404 until that page exists. -->
+        <li><a href="portfolio.html" data-sv="Se hela portfolion" data-en="Full portfolio">Se hela portfolion</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4 data-sv="F&#246;retaget" data-en="Company">F&#246;retaget</h4>
       <ul>
-        <li><a href="index.html#about" data-sv="Om oss" data-en="About Us">Om oss</a></li>
-        <li><a href="index.html#gallery" data-sv="Galleri" data-en="Gallery">Galleri</a></li>
-        <li><a href="index.html#testimonials" data-sv="Recensioner" data-en="Reviews">Recensioner</a></li>
-        <li><a href="index.html#pricing" data-sv="Priser" data-en="Pricing">Priser</a></li>
-        <li><a href="faq.html" data-sv="Vanliga fr&#229;gor" data-en="FAQ">Vanliga fr&#229;gor</a></li>
+        <li><a href="foretag.html" data-sv="F&#246;retagsl&#246;sningar" data-en="Business solutions">F&#246;retagsl&#246;sningar</a></li>
+        <li><a href="about.html" data-sv="Om oss" data-en="About Us">Om oss</a></li>
+        <li><a href="index.html#contact" data-sv="Kontakt" data-en="Contact">Kontakt</a></li>
         <li><a href="policy.html" data-sv="Integritetspolicy" data-en="Privacy Policy">Integritetspolicy</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4 data-sv="Kontakt" data-en="Contact">Kontakt</h4>
-      <ul>
-        <li><a href="mailto:nordicpcsolutions@gmail.com">nordicpcsolutions@gmail.com</a></li>
-        <li><a href="index.html#contact" data-sv="G&#246;teborg, Sverige" data-en="Gothenburg, Sweden">G&#246;teborg, Sverige</a></li>
+        <li><a href="policy.html" data-sv="Cookiepolicy" data-en="Cookie Policy">Cookiepolicy</a></li>
+        <li><a href="mailto:nordicpcsolutions@gmail.com" class="footer-social-link">nordicpcsolutions@gmail.com</a></li>
         <li><a href="https://www.instagram.com/nordicpcsolutions" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Instagram</a></li>
-        <li><a href="https://www.facebook.com/profile.php?id=61584118142766&sk=about" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> Facebook</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61584118142766&amp;sk=about" target="_blank" rel="noopener noreferrer" class="footer-social-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> Facebook</a></li>
       </ul>
     </div>
   </div>
