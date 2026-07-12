@@ -15,6 +15,11 @@
   var _SB_URL = 'https://pflehgaffylcfmgltzlr.supabase.co';
   var _SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmbGVoZ2FmZnlsY2ZtZ2x0emxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5ODcxMjQsImV4cCI6MjA5NjU2MzEyNH0.9Hh4n-9IvsCBnwEbcKBhGan2LskY3lKhoeRcA2lxXac';
 
+  // Fallback email template when a form definition has no emailjs_template_id set.
+  // Reuses the existing booking notification template as a temporary default —
+  // ideally this should be replaced with a purpose-built generic form template later.
+  const GENERIC_FORM_EMAIL_TEMPLATE = 'template_2u6to6n';
+
   // ── CLIENT ──────────────────────────────────────────────────────────
   function _client() {
     if (_sb) return _sb;
@@ -314,6 +319,27 @@
       _showErr('Något gick fel. Försök igen eller kontakta oss direkt via e-post.');
       if (btn) { btn.disabled = false; btn.textContent = def.submit_button_text || 'Skicka'; }
       return;
+    }
+
+    // ── EMAIL NOTIFICATION ───────────────────────────────────────────────
+    // Fired after a confirmed DB insert. A failed email send is logged but
+    // does NOT block the user-facing success message — the submission is already saved.
+    var templateIdToUse = def.emailjs_template_id || GENERIC_FORM_EMAIL_TEMPLATE;
+    var emailParams = {
+      name:          data.name          || 'Ej angivet',
+      email:         data.email         || 'Ej angivet',
+      phone:         data.phone         || 'Ej angivet',
+      use_case:      data.use_case      || '',
+      current_specs: data.current_specs || '',
+      budget_range:  data.budget_range  || '',
+      problem:       data.problem       || '',
+      wishes:        data.wishes        || '',
+      form_title:    def.modal_title    || def.key
+    };
+    try {
+      await emailjs.send('service_asyd1jf', templateIdToUse, emailParams);
+    } catch (emailErr) {
+      console.log('Email notification failed (submission saved):', emailErr);
     }
 
     _renderSuccess();
