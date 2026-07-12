@@ -79,7 +79,8 @@ nav.scrolled{background:rgba(8,12,24,0.97);border-bottom-color:rgba(26,79,255,0.
 .policy-select option{background:var(--dark2);color:var(--gray-light);}
 
 /* ── TWO-COLUMN LAYOUT ── */
-.pl-wrap{display:flex;gap:3rem;align-items:flex-start;}
+.pl-wrap{display:flex!important;gap:3rem!important;align-items:flex-start!important;}
+#pl-wrap-main{display:flex!important;gap:3rem!important;align-items:flex-start!important;}
 
 /* ── SIDEBAR ── */
 .pl-nav{flex:0 0 240px;width:240px;align-self:flex-start;position:sticky;top:82px;}
@@ -235,7 +236,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     </div>
   </div>
 
-  <div class="pl-wrap" style="display:flex !important; gap:3rem; align-items:flex-start;">
+  <div class="pl-wrap" id="pl-wrap-main" style="display:flex!important;gap:3rem;align-items:flex-start;">
 
     <!-- SIDEBAR (desktop sticky nav) -->
     <aside class="pl-nav">
