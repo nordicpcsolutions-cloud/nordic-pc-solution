@@ -73,6 +73,7 @@
       <label>L&#246;senord</label>
       <input type="password" id="login-pass" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" autocomplete="current-password">
     </div>
+    <div id="idle-notice" style="display:none;background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.35);border-radius:6px;padding:0.65rem 1rem;font-size:0.84rem;color:#f5c96a;margin-bottom:1rem;">Du loggades ut automatiskt efter en tids inaktivitet.</div>
     <div id="login-error">Fel e-postadress eller l&#246;senord.</div>
     <button class="login-btn" onclick="doLogin()">Logga in</button>
   </div>
@@ -110,6 +111,10 @@
         <div class="s-num" id="dash-stat-pub">—</div>
         <div class="s-label">Publicerade</div>
       </div>
+      <div class="stat-card c-all">
+        <div class="s-num" id="dash-stat-analysis">—</div>
+        <div class="s-label">Nya PC-analyser</div>
+      </div>
     </div>
 
     <!-- Recent bookings -->
@@ -135,6 +140,29 @@
       </div>
     </div>
 
+    <!-- Recent PC-analysis submissions -->
+    <div class="dash-section">
+      <div class="dash-section-hd">
+        <h2>Senaste PC-analyser</h2>
+        <a href="form-admin.html?key=pc_analysis" class="dash-view-all">Visa alla &#8594;</a>
+      </div>
+      <div class="bookings-wrap">
+        <table class="bookings-table">
+          <thead>
+            <tr>
+              <th>Namn</th>
+              <th class="hide-mobile">E-post</th>
+              <th class="hide-mobile">Datum</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="dash-analysis-body">
+            <tr class="loading-row"><td colspan="4">Laddar&#8230;</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- Quick actions -->
     <div class="dash-section">
       <div class="dash-section-hd">
@@ -148,7 +176,7 @@
           <div class="dash-quick-desc">Hantera inkommande f&#246;rfr&#229;gningar och uppdatera status.</div>
         </a>
 
-        <a href="analysis-admin.html" class="dash-quick-card">
+        <a href="form-admin.html?key=pc_analysis" class="dash-quick-card">
           <div class="dash-quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
           <div class="dash-quick-name">PC-analys</div>
           <div class="dash-quick-desc">Hantera datoranalyser och f&#246;rdjiupade rapporter.</div>
@@ -217,6 +245,10 @@ async function doLogin() {
   document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 });
 
+if (new URLSearchParams(window.location.search).get('reason') === 'idle') {
+  document.getElementById('idle-notice').style.display = 'block';
+}
+
 (async function checkExistingSession() {
   const { data: { session } } = await supabaseClient.auth.getSession();
   if (session) showDashboard(session.user.email);
@@ -259,6 +291,24 @@ async function loadDashboard() {
     renderRecentBookings([]);
   }
 
+  // PC-analysis submissions — recent list + new count
+  try {
+    const { data: analyses, error: aErr } = await supabaseClient
+      .from('form_submissions')
+      .select('*')
+      .eq('form_key', 'pc_analysis')
+      .order('created_at', { ascending: false })
+      .limit(5);
+    if (aErr) throw aErr;
+
+    const analysisNewCount = analyses.filter(s => s.status === 'new' || !s.status).length;
+    document.getElementById('dash-stat-analysis').textContent = analysisNewCount;
+    renderRecentAnalysis(analyses);
+  } catch(e) {
+    document.getElementById('dash-stat-analysis').textContent = '!';
+    renderRecentAnalysis([]);
+  }
+
   // Blog stats — zero-state until blog module is built; graceful 0 if table missing
   try {
     const { count: draftCount } = await supabaseClient
@@ -292,6 +342,33 @@ function renderRecentBookings(bookings) {
       <td><span class="booking-service">${escH(b.service||'—')}</span></td>
       <td class="hide-mobile"><span class="booking-date">${dateStr}</span></td>
       <td>${statusBadge[b.status] || escH(b.status)}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderRecentAnalysis(subs) {
+  const statusBadge = {
+    new:      '<span class="status-badge s-new">Ny</span>',
+    progress: '<span class="status-badge s-progress">P&#229;g&#229;ende</span>',
+    finished: '<span class="status-badge s-finished">Avslutad</span>',
+  };
+  const tbody = document.getElementById('dash-analysis-body');
+  if (!subs.length) {
+    tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><p>Inga PC-analyser &#228;nnu.</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = subs.map(s => {
+    const d       = s.data || {};
+    const name    = d.name  || '—';
+    const email   = d.email || '—';
+    const dateStr = s.created_at ? new Date(s.created_at).toLocaleDateString('sv-SE') : '—';
+    const status  = s.status || 'new';
+    const badge   = statusBadge[status] || escH(status);
+    return `<tr>
+      <td><span class="booking-name">${escH(name)}</span></td>
+      <td class="hide-mobile"><span class="booking-service">${escH(email)}</span></td>
+      <td class="hide-mobile"><span class="booking-date">${dateStr}</span></td>
+      <td>${badge}</td>
     </tr>`;
   }).join('');
 }

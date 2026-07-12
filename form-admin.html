@@ -248,6 +248,22 @@ var currentSubId   = null; // submission id shown in detail modal
   document.getElementById('sidebar-user-email').textContent = session.user.email;
   document.getElementById('app').style.display = 'flex';
   await Promise.all([loadDefs(), loadSubmissions()]);
+
+  // ?key=pc_analysis (or any form_key) pre-filters the Submissions tab on load.
+  // Setting the value must happen after both loads so populateFormKeyFilter() has
+  // already built the <select> options, making sel.value assignment take effect.
+  var keyParam = new URLSearchParams(window.location.search).get('key');
+  if (keyParam) {
+    var sel = document.getElementById('filter-form-key');
+    if (sel) sel.value = keyParam;
+    switchTab('subs');
+    renderSubsTable();
+    // Update the page heading to show the specific form's name instead of the generic "Formulär"
+    var def = allDefs.find(function(d) { return d.key === keyParam; });
+    if (def && def.modal_title) {
+      document.querySelector('.page-hd h1').textContent = def.modal_title;
+    }
+  }
 })();
 
 // ════════════════════════════════════════════════════════════════════

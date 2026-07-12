@@ -107,7 +107,7 @@ const ADMIN_NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard',     href: 'employe.html',         icon: 'grid'     },
   { id: 'bookings',  label: 'Bokningar',      href: 'bookings-admin.html',  icon: 'inbox'    },
   { id: 'sale',      label: 'Rea & Priser',  href: 'sale-admin.html',      icon: 'tag'      },
-  { id: 'analysis',  label: 'PC-analys',      href: 'form-admin.html',      icon: 'chart'    },
+  { id: 'analysis',  label: 'PC-analys',      href: 'form-admin.html?key=pc_analysis', icon: 'chart'    },
   { id: 'blog',      label: 'Blogg',          href: 'blog-admin.html',      icon: 'edit'     },
   { id: 'portfolio', label: 'Portfolio',      href: 'portfolio-admin.html', icon: 'image'    },
   { id: 'prebuilt',  label: 'Prebyggda PC',   href: 'prebuilt-admin.html',  icon: 'monitor'   },
